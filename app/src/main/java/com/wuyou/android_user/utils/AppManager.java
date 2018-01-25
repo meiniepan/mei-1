@@ -1,0 +1,72 @@
+package com.wuyou.android_user.utils;
+
+import android.app.Activity;
+
+import java.util.Iterator;
+import java.util.Stack;
+
+/**
+ * Created by admin on 2016/11/1.
+ */
+public class AppManager {
+    private static Stack<Activity> activityStack;
+    private static AppManager instance;
+
+    private AppManager() {
+    }
+
+    public static AppManager getAppManager() {
+        if (instance == null) {
+            instance = new AppManager();
+        }
+        return instance;
+    }
+
+    public void addActivity(Activity activity) {
+        if (activityStack == null) {
+            activityStack = new Stack<Activity>();
+        }
+        activityStack.add(activity);
+    }
+
+    public Activity currentActivity() {
+        Activity activity = activityStack.lastElement();
+        return activity;
+    }
+
+    public void finishActivity() {
+        Activity activity = activityStack.lastElement();
+        finishActivity(activity);
+    }
+
+    public void finishActivity(Activity activity) {
+        if (activity != null) {
+            activityStack.remove(activity);
+            activity.finish();
+            activity = null;
+        }
+    }
+
+    public void finishActivity(Class<?> cls) {
+        Iterator<Activity> iterator = activityStack.iterator();
+        while (iterator.hasNext()){
+            Activity next = iterator.next();
+            if (next.getClass().equals(cls)){
+                iterator.remove();
+                next.finish();
+                next = null;
+            }
+        }
+    }
+
+    public void finishAllActivityAndExit() {
+        if (null != activityStack) {
+            for (int i = 0, size = activityStack.size(); i < size; i++) {
+                if (null != activityStack.get(i)) {
+                    activityStack.get(i).finish();
+                }
+            }
+            activityStack.clear();
+        }
+    }
+}
