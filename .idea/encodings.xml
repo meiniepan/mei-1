@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/android_user/CarefreeApplication.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/android_user/utils/AppManager.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/android_user/utils/CommonUtils.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/android_user/utils/DataCleanManager.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/android_user/utils/DensityUtils.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/android_user/utils/FileUtils.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/android_user/utils/QMUIDeviceHelper.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/android_user/utils/QMUIStatusBarHelper.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/android_user/utils/SharePreferenceManager.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/android_user/utils/SystemBarTintManager.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/android_user/utils/ToastUtils.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/android_user/utils/TribeCrashCollector.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/android_user/utils/TribeDateUtils.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/user/CarefreeApplication.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/user/util/AppManager.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/user/util/CommonUtil.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/user/util/DataCleanManager.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/user/util/DensityUtils.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/user/util/FileUtils.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/user/util/QMUIDeviceHelper.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/user/util/QMUIStatusBarHelper.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/user/util/SharePreferenceManager.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/user/util/SystemBarTintManager.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/user/util/ToastUtils.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/user/util/TribeCrashCollector.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/wuyou/user/util/TribeDateUtils.java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

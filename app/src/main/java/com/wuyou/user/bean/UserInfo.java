@@ -1,0 +1,26 @@
+package com.wuyou.user.bean;
+
+/**
+ * Created by Administrator on 2018\1\25 0025.
+ */
+
+public class UserInfo {
+    private String id;
+    private String token;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+}

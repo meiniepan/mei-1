@@ -3,4 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="common_dark">#2a2a2a</color>
+    <color name="common_gray">#999999</color>
+    <dimen name="dimens_14sp">14sp</dimen>
+
+    <color name="main_tab">#707070</color>
+    <color name="custom_color_shallow">#80d0dc</color>
+    <color name="custom_color">#97abea</color>
+    <color name="white">#fafafa</color>
+    <color name="divide_gray">#9a9a9a</color>
 </resources>
