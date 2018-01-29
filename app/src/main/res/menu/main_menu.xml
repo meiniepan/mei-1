@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/i_music"
+        android:checked="true"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/main_home" />
+
+    <item
+        android:id="@+id/i_backup"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/main_help" />
+
+    <item
+        android:id="@+id/i_friends"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/main_order" />
+    <item
+        android:id="@+id/i_favor"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/main_mine" />
+</menu>

@@ -67,11 +67,6 @@ public class CompaniesActivity extends BaseActivity<CompaniesContract.View, Comp
 
 
 //    @Override
-//    public void setPresenter(@NonNull CompaniesContract.Presenter presenter) {
-//        this.presenter = presenter;
-//    }
-//
-//    @Override
 //    public void showGetCompaniesError() {
 //        Snackbar.make(recyclerView, R.string.something_wrong, Snackbar.LENGTH_SHORT).show();
 //    }
