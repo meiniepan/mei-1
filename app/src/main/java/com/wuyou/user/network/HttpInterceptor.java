@@ -23,7 +23,7 @@ public class HttpInterceptor implements Interceptor {
             builder.addHeader("Authorization", CarefreeApplication.getInstance().getUserInfo().getToken());
             if (url.encodedPath().contains("wallets") || url.encodedPath().contains("recharge")||url.encodedPath().contains("conference_rooms")) {
                 HttpUrl.Builder newBuilder = url.newBuilder();
-                newBuilder.addQueryParameter("me", CarefreeApplication.getInstance().getUserInfo().getId());
+                newBuilder.addQueryParameter("me", CarefreeApplication.getInstance().getUserInfo().getId()+"");
                 url = newBuilder.build();
             }
         }

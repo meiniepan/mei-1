@@ -5,5 +5,5 @@ package com.wuyou.user;
  */
 
 public class Constant {
-    public static final String BASE_URL = "";
+    public static final String BASE_URL = "http://host/customer";
 }

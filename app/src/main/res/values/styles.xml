@@ -24,7 +24,7 @@
     </style>
 
     <style name="AppSplash" parent="AppTheme">
-        <!--<item name="android:windowBackground">@mipmap/app_start</item>-->
+        <item name="android:windowBackground">@mipmap/app_start</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>

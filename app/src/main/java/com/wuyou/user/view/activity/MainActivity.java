@@ -1,9 +1,7 @@
 package com.wuyou.user.view.activity;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.wuyou.user.R;
@@ -26,14 +24,15 @@ public class MainActivity extends BaseActivity {
     ViewPager viewPager;
 
     List<BaseFragment> fragments = new ArrayList<>();
+
     @Override
     protected void bindView(Bundle savedInstanceState) {
         fragments.add(new HomeFragment());
         fragments.add(new HelpFragment());
         fragments.add(new OrderFragment());
         fragments.add(new MineFragment());
-        viewPager.setAdapter(new MainPagerAdapter(getSupportFragmentManager(),fragments));
-        bottomView.setupWithViewPager(viewPager,false);
+        viewPager.setAdapter(new MainPagerAdapter(getSupportFragmentManager(), fragments));
+        bottomView.setupWithViewPager(viewPager, false);
         bottomView.setIconVisibility(false);
         bottomView.enableShiftingMode(false);
     }
