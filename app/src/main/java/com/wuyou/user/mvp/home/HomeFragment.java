@@ -11,17 +11,16 @@ import com.wuyou.user.view.fragment.BaseFragment;
 
 public class HomeFragment extends BaseFragment {
     @Override
-    public void showError(int res) {
-
-    }
-
-    @Override
     protected int getContentLayout() {
         return R.layout.fragment_home;
     }
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+    }
+
+    @Override
+    public void showError(String message, int res) {
 
     }
 }

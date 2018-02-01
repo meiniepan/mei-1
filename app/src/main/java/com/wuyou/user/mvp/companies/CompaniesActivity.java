@@ -54,7 +54,7 @@ public class CompaniesActivity extends BaseActivity<CompaniesContract.View, Comp
     }
 
     @Override
-    public void showError(int res) {
+    public void showError(String message, int res) {
 
     }
 //    @Nullable

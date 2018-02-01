@@ -4,4 +4,16 @@
     android:layout_height="match_parent"
     android:background="@color/divide_gray">
 
+    <Button
+        android:id="@+id/button"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_height"
+        android:text="请求"/>
+    <Button
+        android:id="@+id/button2"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_height"
+        android:text="请求2"/>
 </LinearLayout>

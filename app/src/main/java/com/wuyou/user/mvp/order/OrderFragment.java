@@ -1,12 +1,9 @@
 package com.wuyou.user.mvp.order;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.wuyou.user.R;
@@ -18,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
@@ -27,10 +23,9 @@ import butterknife.Unbinder;
 
 public class OrderFragment extends BaseFragment {
     @BindView(R.id.order_tab)
-    CommonTabLayout orderTab;
+    TabLayout orderTab;
     @BindView(R.id.order_pager)
     ViewPager orderPager;
-    Unbinder unbinder;
 
     private int[] mIconUnselectIds = {
             R.mipmap.ic_launcher, R.mipmap.ic_launcher,
@@ -54,32 +49,11 @@ public class OrderFragment extends BaseFragment {
         OrderFragmentAdapter adapter =
                 new OrderFragmentAdapter(getActivity().getSupportFragmentManager(), Arrays.asList(titles));
         orderPager.setAdapter(adapter);
-        orderTab.setTabData(mTabEntities);
-        orderTab.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelect(int position) {
-                orderPager.setCurrentItem(position);
-//                if (position == 2)
-//                    readMessage();
-            }
-
-            @Override
-            public void onTabReselect(int position) {
-//                if (position == 0) {
-//                    tabLayout.hideMsg(0);
-//                }
-            }
-        });
+        orderTab.setupWithViewPager(orderPager);
     }
 
     @Override
-    public void showError(int res) {
+    public void showError(String message, int res) {
 
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 }

@@ -17,6 +17,7 @@ public class AppStartActivity extends BaseActivity {
             @Override
             public void run() {
                 startActivity(new Intent(getCtx(), MainActivity.class));
+                finish();
             }
         }, 1000);
     }

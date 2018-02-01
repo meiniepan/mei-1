@@ -17,6 +17,7 @@ import com.wuyou.user.mvp.IBaseView;
 import com.wuyou.user.mvp.login.LoginActivity;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by admin on 2016/11/1.
@@ -26,6 +27,7 @@ public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<
     protected View mRootView;
     protected Context mCtx;
     protected P mPresenter;
+    private Unbinder bind;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<
 
     public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getContentLayout(), container, false);
-        ButterKnife.bind(this, view);
+        bind = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -100,6 +102,9 @@ public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<
 
     @Override
     public void onDestroy() {
+        if (bind != null) {
+            bind.unbind();
+        }
         mCtx = null;
         if (mPresenter != null) {
             mPresenter.detachView();

@@ -11,17 +11,17 @@ import com.wuyou.user.view.fragment.BaseFragment;
 
 public class HelpFragment extends BaseFragment {
     @Override
-    public void showError(int res) {
-
-    }
-
-    @Override
     protected int getContentLayout() {
         return R.layout.fragment_help;
     }
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void showError(String message, int res) {
 
     }
 }

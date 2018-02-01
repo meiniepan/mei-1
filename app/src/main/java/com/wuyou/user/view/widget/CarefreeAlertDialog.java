@@ -15,10 +15,10 @@ import android.widget.TextView;
 import com.wuyou.user.R;
 
 
-public class CustomAlertDialog extends Dialog {
+public class CarefreeAlertDialog extends Dialog {
 
 
-    public CustomAlertDialog(Context context) {
+    public CarefreeAlertDialog(Context context) {
         super(context, R.style.sheet_dialog);
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
@@ -102,9 +102,9 @@ public class CustomAlertDialog extends Dialog {
             return this;
         }
 
-        public CustomAlertDialog create() {
+        public CarefreeAlertDialog create() {
 
-            final CustomAlertDialog dialog = new CustomAlertDialog(context);
+            final CarefreeAlertDialog dialog = new CarefreeAlertDialog(context);
 
             LayoutInflater inflater = LayoutInflater.from(context);
             View layout = inflater.inflate(R.layout.dialog_normal_layout, null);

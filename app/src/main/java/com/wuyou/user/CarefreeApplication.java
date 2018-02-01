@@ -24,7 +24,7 @@ public class CarefreeApplication extends BaseApplication {
     }
 
     private void initDB() {
-        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(getApplicationContext(), "carefree.db", null);
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(this, "carefree.db", null);
         DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDb());
         DaoSession daoSession = daoMaster.newSession();
         userInfoDao = daoSession.getUserInfoDao();
@@ -53,7 +53,13 @@ public class CarefreeApplication extends BaseApplication {
     }
 
     public void setUserInfo(UserInfo userInfo) {
+        CarefreeApplication.getInstance().getUserInfoDao().insert(userInfo);
         this.userInfo = userInfo;
+    }
+
+    public void clearUserInfo(){
+        userInfoDao.deleteAll();
+        userInfo=null;
     }
 
     public UserInfoDao getUserInfoDao() {

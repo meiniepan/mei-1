@@ -7,14 +7,14 @@ import com.wuyou.user.mvp.IBaseView;
  * Created by Administrator on 2018\1\29 0029.
  */
 
-public interface LoginConstract {
+public interface LoginContract {
     interface View extends IBaseView {
         void loginSuccess();
+        void getVerifySuccess();
     }
 
     abstract class Presenter extends BasePresenter<View> {
-        abstract void doLogin();
-
-        abstract void getUserInfo();
+        abstract void doLogin(String phone,String captcha);
+        abstract void getVerifyCode(String phone);
     }
 }

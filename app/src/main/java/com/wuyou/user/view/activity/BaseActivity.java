@@ -30,16 +30,18 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.lang.reflect.ParameterizedType;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 /**
  * Created by admin on 2016/11/1.
  */
-public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<V>> extends AppCompatActivity {
+public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<V>> extends AppCompatActivity implements IBaseView {
     View mRoot;
     protected P mPresenter;
     protected Toolbar mToolbar;
     private int color = R.color.titlebar_background;
+    private Unbinder bind;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,12 +49,20 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         init();
         AppManager.getAppManager().addActivity(this);
         setExplode();//new Slide()  new Fade()
+        mPresenter = getPresenter();
+        if (mPresenter != null) {
+            mPresenter.attach((V) this);
+        }
         mRoot = createView();
         setContentView(mRoot);
         mToolbar = findViewById(getToolBarId());
-        setSupportActionBar(mToolbar);
+//        setSupportActionBar(mToolbar);
         bindView(savedInstanceState);
-        initSystemBar(this);
+//        initSystemBar(this);
+        View backView = findViewById(R.id.back);
+        if (backView != null) {
+            backView.setOnClickListener(view -> finish());
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -69,12 +79,15 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
 
     private View createView() {
         View view = LayoutInflater.from(this).inflate(getContentLayout(), null);
-        ButterKnife.bind(this, view);
+        bind = ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     protected void onDestroy() {
+        if (bind != null) {
+            bind.unbind();
+        }
         AppManager.getAppManager().finishActivity(this);
         if (mPresenter != null) {
             mPresenter.detachView();
@@ -148,7 +161,12 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         return null;
     }
 
-//    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    @Override
+    public void showError(String message, int res) {
+
+    }
+
+    //    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
 //    public void onUpdate(UpdateEvent event) {
 //        UpdatePanel updatePanel = new UpdatePanel(AppManager.getAppManager().currentActivity(), event);
 //        updatePanel.setCancelable(event.supported);

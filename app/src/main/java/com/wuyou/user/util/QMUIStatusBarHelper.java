@@ -82,15 +82,15 @@ public class QMUIStatusBarHelper {
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                 window.setStatusBarColor(colorOn5x);
             }
-//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            // android4.4的默认是从上到下黑到透明，我们的背景是白色，很难看，因此只做魅族和小米的
-//        } else if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR1){
-//            // 如果app 为白色，�?要更改状态栏颜色，因此不能让19�?下支持�?�明状�?�栏
-//            Window window = activity.getWindow();
-//            Integer transparentValue = getStatusBarAPITransparentValue(activity);
-//            if(transparentValue != null) {
-//                window.getDecorView().setSystemUiVisibility(transparentValue);
-//            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // android4.4的默认是从上到下黑到透明，我们的背景是白色，很难看，因此只做魅族和小米的
+        } else if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR1){
+            // 如果app 为白色，�?要更改状态栏颜色，因此不能让19�?下支持�?�明状�?�栏
+            Window window = activity.getWindow();
+            Integer transparentValue = getStatusBarAPITransparentValue(activity);
+            if(transparentValue != null) {
+                window.getDecorView().setSystemUiVisibility(transparentValue);
+            }
         }
     }
 
@@ -117,11 +117,11 @@ public class QMUIStatusBarHelper {
                 mStatuBarType = STATUSBAR_TYPE_FLYME;
                 return true;
             }
-//            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                Android6SetStatusBarLightMode(activity.getWindow(), false);
-//                mStatuBarType = STATUSBAR_TYPE_ANDROID6;
-//                return true;
-//            }
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Android6SetStatusBarLightMode(activity.getWindow(), false);
+                mStatuBarType = STATUSBAR_TYPE_ANDROID6;
+                return true;
+            }
         }
         return false;
     }

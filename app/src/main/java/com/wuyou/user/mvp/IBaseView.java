@@ -21,5 +21,5 @@ package com.wuyou.user.mvp;
  */
 
 public interface IBaseView {
-    void showError(int res);
+    void showError(String message,int res);
 }
