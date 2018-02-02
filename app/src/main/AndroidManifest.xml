@@ -35,7 +35,9 @@
             android:launchMode="singleTask" />
         <activity android:name=".view.activity.SettingActivity" />
         <activity android:name=".mvp.login.LoginActivity" />
-        <activity android:name=".mvp.login.InputPhoneActivity" />
+        <activity android:name=".mvp.login.PhoneInputActivity" />
+        <activity android:name=".mvp.login.CompletingInfoActivity" />
+        <activity android:name=".mvp.login.CaptchaInputActivity" />
     </application>
 
 </manifest>

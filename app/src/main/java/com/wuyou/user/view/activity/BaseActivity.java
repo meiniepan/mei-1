@@ -40,7 +40,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
     View mRoot;
     protected P mPresenter;
     protected Toolbar mToolbar;
-    private int color = R.color.titlebar_background;
+    private int color = R.color.night_blue_bg;
     private Unbinder bind;
 
     @Override
@@ -54,11 +54,13 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
             mPresenter.attach((V) this);
         }
         mRoot = createView();
+        mRoot.setBackgroundColor(getResources().getColor(R.color.custom_bg));
         setContentView(mRoot);
         mToolbar = findViewById(getToolBarId());
+
 //        setSupportActionBar(mToolbar);
         bindView(savedInstanceState);
-//        initSystemBar(this);
+        initSystemBar(this);
         View backView = findViewById(R.id.back);
         if (backView != null) {
             backView.setOnClickListener(view -> finish());

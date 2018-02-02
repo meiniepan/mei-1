@@ -2,21 +2,16 @@ package com.wuyou.user.mvp.order;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.R;
-import com.wuyou.user.mvp.login.LoginActivity;
+import com.wuyou.user.mvp.login.PhoneInputActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by Administrator on 2018\1\29 0029.
@@ -41,7 +36,7 @@ public class OrderStatusFragment extends BaseFragment {
                     if (CarefreeApplication.getInstance().getUserInfo() != null) {
                         ToastUtils.ToastMessage(getContext(), "login already");
                     } else {
-                        Intent view = new Intent(mCtx, LoginActivity.class);
+                        Intent view = new Intent(mCtx, PhoneInputActivity.class);
                         startActivity(view);
                     }
                 }

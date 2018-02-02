@@ -26,4 +26,7 @@
     <string name="send_captcha">发送验证码</string>
     <string name="input_phone">输入手机号</string>
     <string name="next">下一步</string>
+    <string name="input_captcha">输入手机验证码</string>
+    <string name="re_send_captcha">重新发送验证码</string>
+    <string name="completing_info">完善账户信息</string>
 </resources>

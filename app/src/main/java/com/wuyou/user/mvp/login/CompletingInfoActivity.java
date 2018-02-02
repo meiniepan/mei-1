@@ -9,7 +9,7 @@ import com.wuyou.user.view.activity.BaseActivity;
  * Created by hjn91 on 2018/2/2.
  */
 
-public class InputPhoneActivity extends BaseActivity {
+public class CompletingInfoActivity extends BaseActivity{
     @Override
     protected void bindView(Bundle savedInstanceState) {
 
@@ -17,6 +17,6 @@ public class InputPhoneActivity extends BaseActivity {
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_input_phone;
+        return R.layout.activity_completing_info;
     }
 }
