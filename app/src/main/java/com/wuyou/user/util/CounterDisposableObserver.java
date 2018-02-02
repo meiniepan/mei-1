@@ -1,6 +1,8 @@
 package com.wuyou.user.util;
 
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.wuyou.user.R;
 
@@ -12,7 +14,7 @@ import io.reactivex.observers.DisposableObserver;
  */
 
 public class CounterDisposableObserver extends DisposableObserver<Integer>{
-    Button button;
+    TextView button;
     public CounterDisposableObserver(Button button) {
        this.button = button;
     }

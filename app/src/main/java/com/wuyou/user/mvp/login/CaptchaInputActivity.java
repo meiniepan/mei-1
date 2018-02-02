@@ -13,7 +13,6 @@ import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import butterknife.BindView;
-import io.reactivex.observers.DisposableObserver;
 
 /**
  * Created by hjn91 on 2018/2/2.
@@ -24,7 +23,7 @@ public class CaptchaInputActivity extends BaseActivity<LoginContract.View, Login
     CaptchaEditText inputCaptchaEdit;
     @BindView(R.id.input_captcha_re_send)
     Button reSendCaptcha;
-    private DisposableObserver<Integer> observer;
+    private CounterDisposableObserver observer;
     private String phone;
 
     @Override
@@ -32,7 +31,7 @@ public class CaptchaInputActivity extends BaseActivity<LoginContract.View, Login
         phone = getIntent().getStringExtra(Constant.PHONE);
         int flag = getIntent().getIntExtra(Constant.INPUT_PHONE_FLAG, 0);
         reSendCaptcha.setEnabled(false);
-        initCounter();
+        observer = new CounterDisposableObserver(reSendCaptcha);
         RxUtil.countdown(59).subscribe(observer);
         inputCaptchaEdit.showKeyBoard();
         inputCaptchaEdit.setInputCompleteListener(() -> {
@@ -42,10 +41,6 @@ public class CaptchaInputActivity extends BaseActivity<LoginContract.View, Login
                 doLogin(inputCaptchaEdit.getStrPassword());
             }
         });
-    }
-
-    private void initCounter() {
-        observer = new CounterDisposableObserver(reSendCaptcha);
     }
 
     private void jumpToReset(String captcha) {
@@ -72,8 +67,8 @@ public class CaptchaInputActivity extends BaseActivity<LoginContract.View, Login
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         if (observer != null) {
             observer.dispose();
         }
