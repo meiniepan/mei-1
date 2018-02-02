@@ -35,6 +35,7 @@
             android:launchMode="singleTask" />
         <activity android:name=".view.activity.SettingActivity" />
         <activity android:name=".mvp.login.LoginActivity" />
+        <activity android:name=".mvp.login.InputPhoneActivity" />
     </application>
 
 </manifest>

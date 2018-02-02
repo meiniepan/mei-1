@@ -46,8 +46,7 @@ public class OrderFragment extends BaseFragment {
         for (int i = 0; i < titles.length; i++) {
             mTabEntities.add(new TabEntity(titles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
-        OrderFragmentAdapter adapter =
-                new OrderFragmentAdapter(getActivity().getSupportFragmentManager(), Arrays.asList(titles));
+        OrderFragmentAdapter adapter = new OrderFragmentAdapter(getActivity().getSupportFragmentManager(), Arrays.asList(titles));
         orderPager.setAdapter(adapter);
         orderTab.setupWithViewPager(orderPager);
     }

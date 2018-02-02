@@ -2,10 +2,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/login_bg"
     android:clipToPadding="true"
     android:fitsSystemWindows="true">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/night_blue">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/setting"
+            android:textSize="@dimen/title_size"
+            android:textColor="@color/white"/>
+
+        <include
+            android:id="@+id/back"
+            layout="@layout/back_black" />
+    </RelativeLayout>
+
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/login_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,6 +90,10 @@
             android:textColor="#fff"
             android:textSize="@dimen/dimens_16sp" />
 
+
+        <com.wuyou.user.view.widget.Captcha4TextView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -105,6 +134,5 @@
         android:layout_above="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp" />
-
 
 </RelativeLayout>

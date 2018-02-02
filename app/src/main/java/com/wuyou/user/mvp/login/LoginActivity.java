@@ -28,6 +28,7 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
     EditText loginVerify;
     @BindView(R.id.login_send_verify)
     Button sendCaptcha;
+    private DisposableObserver<Integer> observer;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
 
     @Override
     public void getVerifySuccess() {
-        RxUtil.countdown(60).subscribe(new DisposableObserver<Integer>() {
+        observer = new DisposableObserver<Integer>() {
             @Override
             public void onNext(Integer value) {
                 sendCaptcha.setText(value + "秒");
@@ -81,14 +82,20 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
 
             @Override
             public void onError(Throwable e) {
-
             }
 
             @Override
             public void onComplete() {
                 sendCaptcha.setText(R.string.send_captcha);
             }
-        });
+        };
+        RxUtil.countdown(60).subscribe(observer);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (observer != null) observer.dispose();
     }
 
     @Override
