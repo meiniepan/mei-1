@@ -29,6 +29,10 @@
     <string name="input_captcha">输入手机验证码</string>
     <string name="re_send_captcha">重新发送验证码</string>
     <string name="completing_info">完善账户信息</string>
+    <string name="login_now">立即登录</string>
+    <string name="edit_psw">请输入密码</string>
+    <string name="show_psw">显示密码</string>
+    <string name="new_regist">新用户注册</string>
     <string name="set_nickname">设置账户昵称</string>
     <string name="talk_later">以后再说</string>
     <string name="input_pwd">设置登录密码(不少于6位)</string>

@@ -7,6 +7,7 @@ import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.R;
+import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.login.PhoneInputActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
@@ -36,7 +37,7 @@ public class OrderStatusFragment extends BaseFragment {
                     if (CarefreeApplication.getInstance().getUserInfo() != null) {
                         ToastUtils.ToastMessage(getContext(), "login already");
                     } else {
-                        Intent view = new Intent(mCtx, PhoneInputActivity.class);
+                        Intent view = new Intent(mCtx, LoginActivity.class);
                         startActivity(view);
                     }
                 }

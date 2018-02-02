@@ -31,6 +31,7 @@ public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        mPresenter = getPresenter();
         if (mPresenter != null) {
             mPresenter.attach((V) this);
         }

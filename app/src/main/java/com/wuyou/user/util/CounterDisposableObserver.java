@@ -20,6 +20,11 @@ public class CounterDisposableObserver extends DisposableObserver<Integer>{
     }
 
     @Override
+    protected void onStart() {
+        button.setEnabled(false);
+    }
+
+    @Override
     public void onNext(Integer value) {
         button.setText(value + "秒后重发");
     }

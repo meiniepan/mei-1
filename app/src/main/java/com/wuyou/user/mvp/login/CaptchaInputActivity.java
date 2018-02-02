@@ -30,7 +30,6 @@ public class CaptchaInputActivity extends BaseActivity<LoginContract.View, Login
     protected void bindView(Bundle savedInstanceState) {
         phone = getIntent().getStringExtra(Constant.PHONE);
         int flag = getIntent().getIntExtra(Constant.INPUT_PHONE_FLAG, 0);
-        reSendCaptcha.setEnabled(false);
         observer = new CounterDisposableObserver(reSendCaptcha);
         RxUtil.countdown(59).subscribe(observer);
         inputCaptchaEdit.showKeyBoard();
