@@ -14,6 +14,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import butterknife.BindView;
@@ -29,17 +30,16 @@ public class PhoneInputActivity extends BaseActivity {
     TextView inputPhoneTitle;
     @BindView(R.id.input_phone)
     EditText inputPhone;
-    private int flag;
+    private int flag = 1;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        flag = getIntent().getIntExtra(Constant.INPUT_PHONE_FLAG, 0);
+        flag = getIntent().getIntExtra(Constant.INPUT_PHONE_FLAG, 1);
         if (flag == 0) { //reset password
             inputPhoneTitle.setText("请输入手机号，重新设置密码");
         } else if (flag == 1) {//register
             inputPhoneTitle.setText("请输入手机号，创建账号");
         }
-
     }
 
     @Override
@@ -49,15 +49,19 @@ public class PhoneInputActivity extends BaseActivity {
 
 
     public void sendCaptcha(View view) {
+        String phone = inputPhone.getText().toString().trim();
+        if (!CommonUtil.checkPhone("", phone, this)) return;
+        showLoadingDialog();
         CarefreeRetrofit.getInstance().createApi(UserApis.class)
-                .getVerifyCode(QueryMapBuilder.getIns().put("phone", inputPhone.getText().toString().trim()).buildGet())
+                .getVerifyCode(QueryMapBuilder.getIns().put("phone", phone).buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<UserInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<UserInfo> userInfoBaseResponse) {
                         Intent view = new Intent(getCtx(), CaptchaInputActivity.class);
-                        view.putExtra(Constant.INPUT_PHONE_FLAG,flag);
+                        view.putExtra(Constant.INPUT_PHONE_FLAG, flag);
+                        view.putExtra(Constant.PHONE, phone);
                         startActivity(view);
                     }
                 });

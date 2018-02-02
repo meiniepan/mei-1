@@ -54,7 +54,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
             mPresenter.attach((V) this);
         }
         mRoot = createView();
-        mRoot.setBackgroundColor(getResources().getColor(R.color.custom_bg));
+        mRoot.setBackgroundColor(getResources().getColor(R.color.common_bg));
         setContentView(mRoot);
         mToolbar = findViewById(getToolBarId());
 
@@ -95,6 +95,12 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
             mPresenter.detachView();
         }
         super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        LoadingDialog.getInstance().dismissDialog();
+        super.onStop();
     }
 
     public View getRootView() {

@@ -39,6 +39,7 @@ public class CaptchaInputActivity extends BaseActivity {
     protected void bindView(Bundle savedInstanceState) {
         phone = getIntent().getStringExtra(Constant.PHONE);
         int flag = getIntent().getIntExtra(Constant.INPUT_PHONE_FLAG, 0);
+        reSendCaptcha.setEnabled(false);
         observer = new DisposableObserver<Integer>() {
             @Override
             public void onNext(Integer value) {
@@ -47,32 +48,43 @@ public class CaptchaInputActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable e) {
-
+                reSendCaptcha.setEnabled(true);
+                reSendCaptcha.setText(getString(R.string.send_captcha));
             }
 
             @Override
             public void onComplete() {
                 reSendCaptcha.setText(getString(R.string.send_captcha));
+                reSendCaptcha.setEnabled(true);
             }
         };
         RxUtil.countdown(59).subscribe(observer);
-
+        inputCaptchaEdit.showKeyBoard();
         inputCaptchaEdit.setInputCompleteListener(() -> {
-            if (flag==0){ //reset password
-                jump(inputCaptchaEdit.getStrPassword());
-            }else { //register
+            if (flag == 0) { //reset password
+                jumpToReset(inputCaptchaEdit.getStrPassword());
+            } else { //register
                 doLogin(inputCaptchaEdit.getStrPassword());
             }
         });
     }
 
-    private void jump(String inputCaptcha) {
-        Intent view = new Intent(getCtx(),CompletingInfoActivity.class);
+    private void jumpToReset(String captcha) {
+        inputCaptchaEdit.clear();
+        Intent view = new Intent(getCtx(), ResetPwdActivity.class);
+        view.putExtra(Constant.CAPTCHA, captcha);
         startActivity(view);
-        
+    }
+
+    private void jump(String inputCaptcha) {
+        inputCaptchaEdit.clear();
+        Intent view = new Intent(getCtx(), CompletingInfoActivity.class);
+        view.putExtra(Constant.CAPTCHA, inputCaptcha);
+        startActivity(view);
     }
 
     private void doLogin(String inputCaptcha) {
+        showLoadingDialog();
         CarefreeRetrofit.getInstance().createApi(UserApis.class)
                 .doLogin(QueryMapBuilder.getIns().put("mobile", phone).put("captcha", inputCaptcha).buildPost())
                 .subscribeOn(Schedulers.io())
@@ -82,12 +94,16 @@ public class CaptchaInputActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<UserInfo>>() {
                     @Override
-                    public void onSuccess(BaseResponse<UserInfo> userInfoBaseResponse){
-                    Intent view = new Intent(getCtx(), CompletingInfoActivity.class);
-                    startActivity(view);
-                }
-    });
-}
+                    public void onSuccess(BaseResponse<UserInfo> userInfoBaseResponse) {
+                        jump(inputCaptcha);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        jump(inputCaptcha);
+                    }
+                });
+    }
 
     @Override
     protected int getContentLayout() {
@@ -95,6 +111,7 @@ public class CaptchaInputActivity extends BaseActivity {
     }
 
     public void re_send(View view) {
+        showLoadingDialog();
         CarefreeRetrofit.getInstance().createApi(UserApis.class)
                 .getVerifyCode(QueryMapBuilder.getIns().put("phone", phone).buildGet())
                 .subscribeOn(Schedulers.io())

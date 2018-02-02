@@ -32,12 +32,18 @@
         <activity android:name=".mvp.companies.CompaniesActivity" />
         <activity
             android:name=".view.activity.MainActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".view.activity.SettingActivity" />
         <activity android:name=".mvp.login.LoginActivity" />
-        <activity android:name=".mvp.login.PhoneInputActivity" />
+        <activity
+            android:name=".mvp.login.PhoneInputActivity"
+            android:windowSoftInputMode="stateVisible" />
         <activity android:name=".mvp.login.CompletingInfoActivity" />
         <activity android:name=".mvp.login.CaptchaInputActivity" />
+        <activity
+            android:name=".mvp.login.ResetPwdActivity"
+            android:windowSoftInputMode="stateVisible" />
     </application>
 
 </manifest>

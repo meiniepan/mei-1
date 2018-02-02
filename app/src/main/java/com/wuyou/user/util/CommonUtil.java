@@ -48,7 +48,7 @@ import java.util.regex.Pattern;
 public class CommonUtil {
     public static boolean checkPhone(String area, String phone, Context context) {
         if (TextUtils.isEmpty(phone)) {
-            ToastUtils.ToastMessage(context, "手机号不能为�?!");
+            ToastUtils.ToastMessage(context, "手机号不能为空!");
             return false;
         }
         Pattern p;
@@ -74,7 +74,7 @@ public class CommonUtil {
         Matcher m = p.matcher(phone);
 
         if (!m.matches() || phone.length() != 11) {
-            ToastUtils.ToastMessage(context, "请输入正确的手机�?!");
+            ToastUtils.ToastMessage(context, "请输入正确的手机号!");
             return false;
         }
         return true;

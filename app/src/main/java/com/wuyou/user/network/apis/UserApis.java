@@ -36,4 +36,15 @@ public interface UserApis {
     @PUT("user/login/{uid}")
     Observable<BaseResponse> doLogout(
             @Path("uid")String uid,@FieldMap SortedTreeMap<String, String> map);
+
+    @FormUrlEncoded
+    @PUT("user/profile/{uid}")
+    Observable<BaseResponse> updateUserInfo(
+            @Path("uid")String uid,@FieldMap SortedTreeMap<String, String> map);
+
+    @FormUrlEncoded
+    @PUT("user/password/edit/{uid}")
+    Observable<BaseResponse> updatePwd(
+            @Path("uid")String uid,@FieldMap SortedTreeMap<String, String> map);
+
 }

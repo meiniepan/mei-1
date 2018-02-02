@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/completing_info"
+            android:text="@string/reset_pwd"
             android:textColor="@color/white"
             android:textSize="@dimen/title_size" />
 
@@ -24,14 +24,20 @@
             layout="@layout/back_black" />
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:text="请为账户设置一个新密码"
+        android:textColor="@color/common_gray" />
+
     <EditText
-        android:id="@+id/complete_info_nickname"
+        android:id="@+id/reset_pwd"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
-        android:layout_marginTop="20dp"
         android:background="@color/white"
         android:singleLine="true"
-        android:hint="@string/set_nickname"
+        android:hint="@string/input_pwd"
         android:textColorHint="@color/common_dark"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingStart="@dimen/activity_horizontal_margin" />
@@ -39,19 +45,7 @@
     <include layout="@layout/split_line_margin" />
 
     <EditText
-        android:id="@+id/complete_info_pwd"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/common_height"
-        android:background="@color/white"
-        android:singleLine="true"
-        android:hint="@string/input_pwd"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin" />
-
-    <include layout="@layout/split_line_margin" />
-
-    <EditText
-        android:id="@+id/complete_info_pwd_again"
+        android:id="@+id/reset_pwd_again"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
         android:background="@color/white"
@@ -61,18 +55,8 @@
         android:paddingStart="@dimen/activity_horizontal_margin" />
 
     <include layout="@layout/shadow_line" />
-
     <Button
         style="@style/button_style"
-        android:onClick="setPwdInfo"
+        android:onClick="resetPwd"
         android:text="@string/yes" />
-
-    <TextView
-        android:id="@+id/talk_later"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:text="@string/talk_later"
-        android:textColor="@color/night_blue" />
 </LinearLayout>

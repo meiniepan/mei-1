@@ -22,16 +22,19 @@ public class UserInfo {
     private String head_image;
     @Property(nameInDb = "TOKEN")
     private String token;
+    @Property(nameInDb = "PWD")
+    private String password;
 
-    @Generated(hash = 2063345110)
+    @Generated(hash = 1397380642)
     public UserInfo(long mid, String name, String phone, String uid,
-                    String head_image, String token) {
+            String head_image, String token, String password) {
         this.mid = mid;
         this.name = name;
         this.phone = phone;
         this.uid = uid;
         this.head_image = head_image;
         this.token = token;
+        this.password = password;
     }
 
     @Generated(hash = 1279772520)
@@ -82,7 +85,16 @@ public class UserInfo {
         return this.mid;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setMid(long mid) {
+
         this.mid = mid;
     }
 }

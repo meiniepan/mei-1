@@ -105,7 +105,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private void logout() {
         CarefreeApplication.getInstance().clearUserInfo();
         Intent intent = new Intent();
-        intent.setClass(getCtx(), LoginActivity.class);
+        intent.setClass(getCtx(), MainActivity.class);
         startActivity(intent);
         finish();
 //        CarefreeRetrofit.getInstance().createApi(UserApis.class).
