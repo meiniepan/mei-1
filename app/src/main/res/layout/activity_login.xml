@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clipToPadding="true"
-    android:fitsSystemWindows="true">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
         android:background="@color/night_blue">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/login"
-            android:textSize="@dimen/title_size"
-            android:textColor="@color/white"/>
 
         <include
             android:id="@+id/back"
@@ -24,13 +19,18 @@
     </RelativeLayout>
 
     <android.support.design.widget.TabLayout
+        android:id="@+id/tl_login_tab"
         android:layout_width="match_parent"
+        android:background="#fff"
+        app:tabIndicatorColor="@color/night_blue"
+
         android:layout_height="@dimen/title_height"/>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/login_pager"
+        android:id="@+id/vp_login_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -135,4 +135,4 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp" />
 
-</RelativeLayout>
+</LinearLayout>
