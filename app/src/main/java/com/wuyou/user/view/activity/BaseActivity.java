@@ -15,7 +15,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.gs.buluo.common.utils.AppManager;
-import com.gs.buluo.common.UpdateEvent;
 import com.gs.buluo.common.utils.SystemBarTintManager;
 import com.gs.buluo.common.widget.LoadingDialog;
 import com.wuyou.user.CarefreeApplication;
@@ -23,11 +22,6 @@ import com.wuyou.user.R;
 import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.mvp.IBaseView;
 import com.wuyou.user.mvp.login.LoginActivity;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.lang.reflect.ParameterizedType;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -54,7 +48,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
             mPresenter.attach((V) this);
         }
         mRoot = createView();
-        mRoot.setBackgroundColor(getResources().getColor(R.color.common_bg));
+        mRoot.setBackgroundColor(getResources().getColor(R.color.white));
         setContentView(mRoot);
         mToolbar = findViewById(getToolBarId());
 

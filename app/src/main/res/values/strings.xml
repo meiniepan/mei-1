@@ -12,7 +12,7 @@
     <string name="main_mine">我的</string>
     <string name="all">全部</string>
     <string name="wait_pay">待支付</string>
-    <string name="wait_comment">待评论</string>
+    <string name="wait_comment">待评价</string>
     <string name="complete">已完成</string>
     <string name="login">登录</string>
     <string name="edit_verify">请输入验证码</string>
@@ -35,4 +35,22 @@
     <string name="input_pwd_again">再次输入密码</string>
     <string name="reset_pwd">设置新密码</string>
     <string name="reset_pwd_success">设置密码成功</string>
+    <string name="wait_confirm">待确认</string>
+    <string name="wait_serve">待服务</string>
+    <string name="comment">评价</string>
+    <string name="finished">已完成</string>
+    <string name="pay">支付</string>
+    <string name="cancel_order">取消订单</string>
+    <string name="delivered">已派单</string>
+    <string name="order_accepted">订单已受理</string>
+    <string name="order_detail">订单详情</string>
+    <string name="contact_store">联系商家</string>
+    <string name="cancel_success">取消成功</string>
+    <string name="fast_order">快速下单</string>
+    <string name="confirm_order">确认下单</string>
+    <string name="address">地址</string>
+    <string name="name">姓名</string>
+    <string name="phone">电话</string>
+    <string name="serve_time">服务时间</string>
+    <string name="remarks">备注</string>
 </resources>

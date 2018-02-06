@@ -13,10 +13,16 @@ import io.reactivex.observers.DisposableObserver;
  * 发送验证码
  */
 
-public class CounterDisposableObserver extends DisposableObserver<Integer>{
-    TextView button;
+public class CounterDisposableObserver extends DisposableObserver<Integer> {
+    private TextView button;
+
     public CounterDisposableObserver(Button button) {
-       this.button = button;
+        this.button = button;
+    }
+
+    @Override
+    protected void onStart() {
+        button.setEnabled(false);
     }
 
     @Override
