@@ -5,7 +5,7 @@ package com.wuyou.user;
  */
 
 public class Constant {
-    public static final String BASE_URL = "http://60.205.171.52:8081/customer/";
+    public static final String BASE_URL = "http://stage.api.iwantmei.com/customer/";
     public static final String INPUT_PHONE_FLAG = "input_phone_sign";
     public static final String PHONE = "phone";
     public static final String CAPTCHA = "captcha";

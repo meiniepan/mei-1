@@ -102,7 +102,6 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-
     @Override
     protected int getContentLayout() {
         return R.layout.activity_login;
