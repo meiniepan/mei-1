@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.R;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 
 import java.util.ArrayList;
 
@@ -26,11 +27,25 @@ public class ServeCategoryListActivity extends BaseActivity {
     RecyclerView serveList;
     @BindView(R.id.serve_category_status)
     StatusLayout serveCategoryStatus;
+    private ServeListAdapter adapter;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
         ArrayList list = new ArrayList();
-        serveList.setAdapter(new ServeListAdapter(R.layout.item_serve_list));
+        list.add("");
+        list.add("");
+        list.add("");
+        list.add("");
+        list.add("");
+        list.add("");
+        list.add("");
+        adapter = new ServeListAdapter(R.layout.item_serve_list);
+        serveList.setAdapter(adapter);
+        adapter.setOnItemClickListener((adapter, view, position) -> {
+            Intent intent = new Intent(getCtx(), ServeDetailActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     @Override
@@ -39,6 +54,7 @@ public class ServeCategoryListActivity extends BaseActivity {
     }
 
     public void fastCreate(View view) {
+        if (!checkUser(this))return;
         Intent intent = new Intent(getCtx(), FastCreateActivity.class);
         startActivity(intent);
     }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/tint_bg"
-    android:orientation="vertical"
+    android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:clipToPadding="true">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,7 +14,6 @@
         android:background="@color/night_blue">
 
         <TextView
-            android:id="@+id/serve_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -37,93 +37,81 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
-            android:background="@drawable/white_border_background"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            app:cardCornerRadius="4dp"
+            app:cardElevation="1dp">
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:background="@drawable/radio_selector"/>
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/radio_selector"
+                android:text="优选技师"
+                android:textColor="@color/common_dark"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="优选技师" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="120dp"
                 android:text="68-88/小时" />
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-        <include layout="@layout/shadow_line" />
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
             android:layout_marginTop="10dp"
-            android:background="@drawable/white_border_background"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            app:cardCornerRadius="4dp"
+            app:cardElevation="1dp">
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/radio_selector"/>
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/radio_selector"
+                android:text="资深技师"
+                android:textColor="@color/common_dark"/>
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="资深技师" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="120dp"
                 android:text="48-68/小时" />
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-        <include layout="@layout/shadow_line" />
-
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
             android:layout_marginTop="10dp"
-            android:background="@drawable/white_border_background"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            app:cardCornerRadius="4dp"
+            app:cardElevation="1dp">
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/radio_selector"/>
+                android:layout_gravity="center_vertical"
+                android:text="高级技师"
+                android:textColor="@color/common_dark"
+                android:shadowColor="@color/night_blue"/>
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="高级技师" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="120dp"
                 android:text="28-48/小时" />
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-        <include layout="@layout/shadow_line" />
     </com.wuyou.user.view.widget.CustomNestRadioGroup>
 
     <Button
         style="@style/button_style"
         android:onClick="createOrder"
-        android:text="立即下单"/>
+        android:text="立即下单" />
 </LinearLayout>

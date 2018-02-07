@@ -3,6 +3,7 @@ package com.wuyou.user.network.apis;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
 import com.wuyou.user.bean.OrderBeanDetail;
+import com.wuyou.user.bean.ServeDetailBean;
 import com.wuyou.user.bean.response.OrderListResponse;
 
 import io.reactivex.Observable;
@@ -24,6 +25,9 @@ public interface ServeApis {
 
     @GET("category/list/{category_id}")
     Observable<BaseResponse<OrderListResponse>> getServeList(@Path("category_id") String id, @QueryMap SortedTreeMap<String, String> map);
+
+    @GET("service/{service_id}")
+    Observable<BaseResponse<ServeDetailBean>> getServeDetail(@Path("service_id") String id, @QueryMap SortedTreeMap<String, String> map);
 
 
     @FormUrlEncoded

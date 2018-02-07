@@ -4,7 +4,6 @@ import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
 import com.wuyou.user.bean.UserInfo;
 
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -25,26 +24,26 @@ public interface UserApis {
 
     @GET("profile/{uid}")
     Observable<BaseResponse<UserInfo>> getUserInfo(
-            @Path("uid")String uid,@QueryMap SortedTreeMap<String, String> map);
+            @Path("uid") String uid, @QueryMap SortedTreeMap<String, String> map);
 
-        @FormUrlEncoded
-        @POST("login")
-        Observable<BaseResponse<UserInfo>> doLogin(
-                @FieldMap SortedTreeMap<String, String> map);
+    @FormUrlEncoded
+    @POST("login")
+    Observable<BaseResponse<UserInfo>> doLogin(
+            @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
     @PUT("login/{uid}")
     Observable<BaseResponse> doLogout(
-            @Path("uid")String uid,@FieldMap SortedTreeMap<String, String> map);
+            @Path("uid") String uid, @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
     @PUT("profile/{uid}")
     Observable<BaseResponse> updateUserInfo(
-            @Path("uid")String uid,@FieldMap SortedTreeMap<String, String> map);
+            @Path("uid") String uid, @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
     @PUT("password/edit/{uid}")
     Observable<BaseResponse> updatePwd(
-            @Path("uid")String uid,@FieldMap SortedTreeMap<String, String> map);
+            @Path("uid") String uid, @FieldMap SortedTreeMap<String, String> map);
 
 }
