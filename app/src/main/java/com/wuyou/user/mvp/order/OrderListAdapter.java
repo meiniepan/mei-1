@@ -46,7 +46,7 @@ class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
                 tvStatus.setTextColor(0xffff904b);
                 tvAct.setText(R.string.pay);
                 tvAct.setTextColor(0xffffffff);
-                tvAct.setBackgroundResource(R.drawable.cancel_order_background);
+                tvAct.setBackgroundResource(R.drawable.pay_selector);
                 break;
             case "待评价":
                 tvStatus.setText(R.string.finished);

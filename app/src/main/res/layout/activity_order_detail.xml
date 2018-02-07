@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -67,10 +70,9 @@
                     android:text="123131" />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:rotation="180"
-                    android:src="@mipmap/back_black" />
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@mipmap/arrow_gray" />
             </LinearLayout>
 
             <include layout="@layout/split_line" />
@@ -92,7 +94,8 @@
                 android:id="@+id/order_detail_store"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/common_height"
-                android:drawableEnd="@mipmap/back_black"
+                android:drawableEnd="@mipmap/arrow_gray"
+                android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/activity_horizontal_margin"
                 android:text="便民修理店" />
@@ -131,7 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="99"
-                    android:textColor="@color/pay_color"
+                    android:textColor="@color/common_orange"
                     android:textSize="@dimen/dimens_16sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -161,7 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10"
-                    android:textColor="@color/pay_color"
+                    android:textColor="@color/common_orange"
                     android:textSize="@dimen/dimens_16sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -210,6 +213,10 @@
                 android:orientation="horizontal"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:paddingStart="@dimen/activity_horizontal_margin">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/location"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -236,6 +243,10 @@
                 android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:paddingStart="@dimen/activity_horizontal_margin">
 
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/person"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -261,6 +272,10 @@
                 android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:paddingStart="@dimen/activity_horizontal_margin">
 
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/phone"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -288,6 +303,11 @@
                 android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:paddingStart="@dimen/activity_horizontal_margin">
 
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/serve_time"/>
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -305,6 +325,7 @@
                     android:id="@+id/order_detail_recent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:text="14:30" />
             </LinearLayout>
 
@@ -443,25 +464,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:background="@color/night_blue"
-                android:gravity="end"
+                android:gravity="end|center_vertical"
                 android:orientation="horizontal"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:paddingStart="@dimen/activity_horizontal_margin">
 
                 <TextView
                     android:id="@+id/order_detail_contact_store"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/white_border_background"
+                    android:layout_width="@dimen/short_button_width"
+                    android:layout_height="@dimen/short_button_height"
+                    android:background="@drawable/white_border"
+                    android:gravity="center"
                     android:text="@string/contact_store"
                     android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/order_detail_cancel"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/short_button_width"
+                    android:layout_height="@dimen/short_button_height"
                     android:layout_marginStart="12dp"
-                    android:background="@drawable/white_border_background"
+                    android:gravity="center"
+                    android:background="@drawable/white_border"
                     android:text="@string/cancel_order"
                     android:textColor="@color/white" />
 

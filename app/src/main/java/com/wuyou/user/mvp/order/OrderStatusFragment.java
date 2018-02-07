@@ -2,13 +2,16 @@ package com.wuyou.user.mvp.order;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.StatusLayout;
+import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBean;
 import com.wuyou.user.bean.OrderBeanDetail;
+import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
 
@@ -40,7 +43,6 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
         adapter = new OrderListAdapter(R.layout.item_order_list, list);
         orderList.setAdapter(adapter);
         orderListLayout.showProgressView();
-        mPresenter.getOrder(type);
         orderList.setRefreshAction(() -> {
             mPresenter.getOrder(type);
         });
@@ -53,6 +55,20 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
             intent.putExtra(Constant.ORDER_ID, bean.id);
             startActivity(intent);
         });
+        orderListLayout.setEmptyAction(v -> {
+            Intent intent = new Intent(mCtx, LoginActivity.class);
+            startActivity(intent);
+        });
+        if (CarefreeApplication.getInstance().getUserInfo() == null) {
+            orderListLayout.showEmptyView("请先登录");
+            return;
+        }
+        mPresenter.getOrder(type);
+    }
+
+    @Override
+    public void fetchData() {
+
     }
 
     public void setType(int type) {

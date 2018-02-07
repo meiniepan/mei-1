@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/i_music"
+        android:id="@+id/main_home"
         android:checked="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/serve_selector"
         android:title="@string/main_home" />
 
     <item
-        android:id="@+id/i_backup"
-        android:icon="@mipmap/ic_launcher"
+        android:id="@+id/main_help"
+        android:icon="@drawable/help_selector"
         android:title="@string/main_help" />
 
     <item
-        android:id="@+id/i_friends"
-        android:icon="@mipmap/ic_launcher"
+        android:id="@+id/main_order"
+        android:icon="@drawable/order_selector"
         android:title="@string/main_order" />
     <item
-        android:id="@+id/i_favor"
-        android:icon="@mipmap/ic_launcher"
+        android:id="@+id/main_profile"
+        android:icon="@drawable/profile_selector"
         android:title="@string/main_mine" />
 </menu>

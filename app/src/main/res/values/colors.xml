@@ -8,10 +8,13 @@
     <color name="common_gray">#40000000</color>
     <color name="common_bg">#f5f5f5</color>
     <color name="night_blue">#627db9</color>
-    <color name="night_blue_bg">#70627db9</color>
     <color name="common_green">#4fc891</color>
-    <color name="pay_color">#ff904b</color>
+    <color name="common_orange">#ff904b</color>
+    <color name="common_orange_press">#b26434</color>
+    <color name="common_orange_negative">#c9d2e4</color>
     <color name="cancel_color">#627db9</color>
+    <color name="tint_bg">#f5f5f5</color>
+
 
     <color name="login_normal">#627db9</color>
     <color name="login_unuse">#30627db9</color>

@@ -23,7 +23,7 @@ public interface UserApis {
     Observable<BaseResponse<UserInfo>> getVerifyCode(
             @QueryMap SortedTreeMap<String, String> map);
 
-    @GET("user/profile/{uid}")
+    @GET("profile/{uid}")
     Observable<BaseResponse<UserInfo>> getUserInfo(
             @Path("uid")String uid,@QueryMap SortedTreeMap<String, String> map);
 
@@ -38,12 +38,12 @@ public interface UserApis {
             @Path("uid")String uid,@FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @PUT("user/profile/{uid}")
+    @PUT("profile/{uid}")
     Observable<BaseResponse> updateUserInfo(
             @Path("uid")String uid,@FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @PUT("user/password/edit/{uid}")
+    @PUT("password/edit/{uid}")
     Observable<BaseResponse> updatePwd(
             @Path("uid")String uid,@FieldMap SortedTreeMap<String, String> map);
 

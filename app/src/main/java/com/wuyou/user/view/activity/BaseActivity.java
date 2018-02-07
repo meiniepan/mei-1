@@ -34,7 +34,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
     View mRoot;
     protected P mPresenter;
     protected Toolbar mToolbar;
-    private int color = R.color.night_blue_bg;
+    private int color = R.color.login_press;
     private Unbinder bind;
 
     @Override

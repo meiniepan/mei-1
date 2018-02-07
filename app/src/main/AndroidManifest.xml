@@ -48,6 +48,7 @@
         <activity android:name=".mvp.serve.ServeCategoryListActivity" />
         <activity android:name=".mvp.serve.FastCreateActivity" />
         <activity android:name=".mvp.serve.NewOrderActivity" />
+        <activity android:name=".mvp.serve.ServeDetailActivity" />
     </application>
 
 </manifest>

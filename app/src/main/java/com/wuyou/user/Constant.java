@@ -10,5 +10,6 @@ public class Constant {
     public static final String PHONE = "phone";
     public static final String CAPTCHA = "captcha";
     public static final String ORDER_ID = "order_id";
+    public static final String BASE_IMG_URL = "";
 //    public static final String BASE_URL = "https://app-services.buluo-gs.com/tribalc/v1.0/";
 }

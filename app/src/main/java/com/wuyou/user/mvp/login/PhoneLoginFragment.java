@@ -75,14 +75,14 @@ public class PhoneLoginFragment extends BaseFragment<LoginContract.View, LoginCo
         switch (view.getId()) {
             case R.id.login_send_verify:
                 String phone = loginPhone.getText().toString().trim();
-//                if (!CommonUtil.checkPhone("", phone, this)) return;
+                if (!CommonUtil.checkPhone("", phone, mCtx)) return;
                 mPresenter.getVerifyCode(phone);
                 break;
             case R.id.login:
-//                String phone = loginPhone.getText().toString().trim();
-//                if (!CommonUtil.checkPhone("", phone, getActivity())) return;
+                String phone2 = loginPhone.getText().toString().trim();
+                if (!CommonUtil.checkPhone("", phone2, mCtx)) return;
                 showLoadingDialog();
-                mPresenter.doLogin(loginPhone.getText().toString().trim(), loginVerify.getText().toString().trim());
+                mPresenter.doLogin(phone2, loginVerify.getText().toString().trim());
                 break;
         }
     }

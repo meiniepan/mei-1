@@ -25,10 +25,6 @@ public class CounterDisposableObserver extends DisposableObserver<Integer> {
         button.setEnabled(false);
     }
 
-    @Override
-    protected void onStart() {
-        button.setEnabled(false);
-    }
 
     @Override
     public void onNext(Integer value) {
