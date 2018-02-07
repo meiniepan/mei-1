@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clipToPadding="true"
-    android:orientation="vertical"
     android:fitsSystemWindows="true"
-    >
+    android:background="@color/tint_bg"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,121 +18,23 @@
             layout="@layout/back_black" />
     </RelativeLayout>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tl_login_tab"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:background="#fff"
-        app:tabIndicatorColor="@color/night_blue"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/white"
+        android:weightSum="1">
 
-        android:layout_height="@dimen/title_height"/>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tl_login_tab"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/title_height"
+            android:layout_weight=".7"
+            app:tabIndicatorColor="@color/night_blue" />
+    </LinearLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_login_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin"
-        android:paddingTop="20dp">
-
-        <EditText
-            android:id="@+id/login_phone"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_height"
-            android:drawablePadding="6dp"
-            android:hint="@string/edit_phone"
-            android:inputType="phone"
-            android:paddingStart="6dp"
-            android:textColor="#fff"
-            android:textColorHint="#fff"
-            android:textSize="@dimen/dimens_14sp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/login_verify"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_height"
-                android:layout_marginTop="20dp"
-                android:drawablePadding="6dp"
-                android:hint="@string/edit_verify"
-                android:inputType="number"
-                android:paddingStart="6dp"
-                android:textColor="#fff"
-                android:textColorHint="#fff"
-                android:textSize="@dimen/dimens_14sp" />
-
-            <include
-                android:id="@+id/login_send_verify"
-                layout="@layout/send_verify"
-                android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:layout_alignEnd="@+id/login_verify"
-                android:layout_alignTop="@+id/login_verify"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp" />
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/login_selector"
-            android:text="@string/login"
-            android:textColor="#fff"
-            android:textSize="@dimen/dimens_16sp" />
-
-
-        <com.wuyou.user.view.widget.Captcha4TextView
-            android:layout_width="match_parent"
-            android:layout_height="80dp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="注册即视为同意"
-                android:textColor="#c0c0c1"
-                android:textSize="@dimen/dimens_16sp" />
-
-            <TextView
-                android:id="@+id/login_protocol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="无游链注册协议"
-                android:textSize="@dimen/dimens_16sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:text="其他方式登陆"
-        android:textColor="#fff"
-        android:textSize="@dimen/dimens_16sp" />
-
-    <ImageView
-        android:id="@+id/wx_login"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_above="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp" />
-
+        android:layout_height="match_parent" />
 </LinearLayout>
