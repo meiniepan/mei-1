@@ -70,6 +70,8 @@ public class NewRefreshRecyclerView extends FrameLayout {
         mAdapter.setEnableLoadMore(true);
         mAdapter.clearData();
     }
-
+    public void setRefreshEnable(boolean enable){
+        mSwipeRefreshLayout.setRefreshing(enable);
+    }
 
 }

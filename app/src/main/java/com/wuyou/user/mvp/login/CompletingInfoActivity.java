@@ -67,7 +67,7 @@ public class CompletingInfoActivity extends BaseActivity {
         UserInfo userInfo = CarefreeApplication.getInstance().getUserInfo();
         CarefreeRetrofit.getInstance().createApi(UserApis.class)
                 .updatePwd(userInfo.getUid(),
-                        QueryMapBuilder.getIns().put("password", CommonUtil.getMD5Str(pwd)).put("confirm_password", pwdAgain).buildPost())
+                        QueryMapBuilder.getIns().put("password", CommonUtil.getMD5Str(pwd)).put("confirm_password", CommonUtil.getMD5Str(pwdAgain)).buildPost())
                 .subscribeOn(Schedulers.io())
                 .doOnNext(baseResponse -> {
                     userInfo.setPassword(pwd);

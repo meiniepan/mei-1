@@ -42,7 +42,7 @@ public interface UserApis {
             @Path("uid") String uid, @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @PUT("password/edit/{uid}")
+    @PUT("profile/edit/{uid}")
     Observable<BaseResponse> updatePwd(
             @Path("uid") String uid, @FieldMap SortedTreeMap<String, String> map);
 

@@ -48,7 +48,6 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
             mPresenter.attach((V) this);
         }
         mRoot = createView();
-        mRoot.setBackgroundColor(getResources().getColor(R.color.white));
         setContentView(mRoot);
         mToolbar = findViewById(getToolBarId());
 

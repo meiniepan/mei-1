@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/divide_gray"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,13 +11,12 @@
         android:background="@color/night_blue"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingEnd="4dp"
-        android:paddingStart="10dp">
+        android:paddingEnd="4dp">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@mipmap/home_location" />
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@mipmap/main_location" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,92 +49,15 @@
 
     <com.youth.banner.Banner
         android:layout_width="match_parent"
-        android:layout_height="180dp" />
+        android:layout_height="180dp"
+        android:layout_marginBottom="10dp" />
 
+    <include layout="@layout/split_line" />
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/main_serve_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/v1"
-            android:layout_width="84dp"
-            android:layout_height="84dp"
-            android:src="@mipmap/main_ver_icon" />
-
-        <TextView
-            android:id="@+id/h1"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/orange_border"
-            android:gravity="center"
-            android:text="小饭桌"
-            app:layout_constraintLeft_toRightOf="@+id/v1" />
-
-        <TextView
-            android:id="@+id/h2"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="12dp"
-            android:background="@drawable/orange_border"
-            android:gravity="center"
-            android:text="小饭桌"
-            app:layout_constraintLeft_toRightOf="@+id/h1" />
-
-        <TextView
-            android:id="@+id/h3"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="12dp"
-            android:background="@drawable/orange_border"
-            android:gravity="center"
-            android:text="小饭桌"
-            app:layout_constraintLeft_toRightOf="@+id/h2" />
-
-        <TextView
-            android:id="@+id/h4"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/orange_border"
-            android:gravity="center"
-            android:text="小饭桌"
-            app:layout_constraintLeft_toRightOf="@+id/v1"
-            app:layout_constraintTop_toBottomOf="@+id/h1" />
-
-        <TextView
-            android:id="@+id/h5"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="12dp"
-            android:background="@drawable/orange_border"
-            android:gravity="center"
-            android:text="小饭桌"
-            app:layout_constraintLeft_toRightOf="@+id/h4"
-            app:layout_constraintTop_toTopOf="@+id/h4" />
-
-        <TextView
-            android:id="@+id/h6"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="12dp"
-            android:background="@drawable/orange_border"
-            android:gravity="center"
-            android:text="小饭桌"
-            app:layout_constraintLeft_toRightOf="@+id/h5"
-            app:layout_constraintTop_toTopOf="@+id/h4" />
-
-        <ImageView
-            android:id="@+id/v2"
-            android:layout_width="84dp"
-            android:layout_height="84dp"
-            android:src="@mipmap/main_ver_icon"
-            app:layout_constraintTop_toBottomOf="@+id/v1" />
-
-        <ImageView
-            android:layout_width="84dp"
-            android:layout_height="84dp"
-            android:src="@mipmap/main_ver_icon"
-            app:layout_constraintTop_toBottomOf="@+id/v2" />
-    </android.support.constraint.ConstraintLayout>
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="@color/white" />
 </LinearLayout>

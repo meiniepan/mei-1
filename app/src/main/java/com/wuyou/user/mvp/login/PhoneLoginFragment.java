@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.gs.buluo.common.utils.ToastUtils;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.CounterDisposableObserver;
@@ -49,19 +50,21 @@ public class PhoneLoginFragment extends BaseFragment<LoginContract.View, LoginCo
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        observer = new CounterDisposableObserver(reSendCaptcha);
+
 
     }
 
     @Override
     public void loginSuccess() {
-        ToastUtils.ToastMessage(getContext(), "login success");
+        ToastUtils.ToastMessage(getContext(), "登录成功");
         Intent view = new Intent(getActivity(), MainActivity.class);
+        view.putExtra(Constant.MAIN_FLAG, 1);
         startActivity(view);
     }
 
     @Override
     public void getVerifySuccess() {
+        observer = new CounterDisposableObserver(reSendCaptcha);
         RxUtil.countdown(59).subscribe(observer);
     }
 
@@ -76,7 +79,9 @@ public class PhoneLoginFragment extends BaseFragment<LoginContract.View, LoginCo
             case R.id.login_send_verify:
                 String phone = loginPhone.getText().toString().trim();
                 if (!CommonUtil.checkPhone("", phone, mCtx)) return;
+                showLoadingDialog();
                 mPresenter.getVerifyCode(phone);
+                loginVerify.requestFocus();
                 break;
             case R.id.login:
                 String phone2 = loginPhone.getText().toString().trim();

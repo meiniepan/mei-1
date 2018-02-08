@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_serve_name"
+    android:orientation="vertical"
+    android:layout_width="70dp"
+    android:layout_height="50dp"
+    android:background="@drawable/orange_border"
+    android:gravity="center"
+    tools:text="小饭桌">
+</TextView>

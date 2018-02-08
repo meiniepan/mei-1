@@ -18,16 +18,21 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class OrderPresenter extends OrderContract.Presenter {
+
+    private String startId;
+
     @Override
     void getOrder(int type) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .getOrderList(CarefreeApplication.getInstance().getUserInfo().getUid(), type, QueryMapBuilder.getIns().buildGet())
+                .getOrderList(CarefreeApplication.getInstance().getUserInfo().getUid(), type, 0 + "", 1, QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
                     @Override
                     public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
-                        mView.getOrderSuccess(orderListResponseBaseResponse.data.list);
+                        OrderListResponse r = orderListResponseBaseResponse.data;
+                        mView.getOrderSuccess(r);
+                        if (r.list.size() > 0) startId = r.list.get(0).id;
                     }
 
                     @Override
@@ -39,7 +44,23 @@ public class OrderPresenter extends OrderContract.Presenter {
 
     @Override
     void getOrderMore(int type) {
+        CarefreeRetrofit.getInstance().createApi(OrderApis.class)
+                .getOrderList(CarefreeApplication.getInstance().getUserInfo().getUid(), type, startId + "", 2, QueryMapBuilder.getIns().buildGet())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
+                        OrderListResponse data = orderListResponseBaseResponse.data;
+                        mView.loadMore(data);
+                        if (data.list.size() > 0) startId = data.list.get(0).id;
+                    }
 
+                    @Override
+                    protected void onFail(ApiException e) {
+                        mView.loadMoreFail(e.getDisplayMessage(), e.getCode());
+                    }
+                });
     }
 
     @Override

@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    android:clipToPadding="true">
+    android:clipToPadding="true"
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -52,10 +53,9 @@
                 android:text="服务商" />
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:rotation="-90"
-                android:src="@mipmap/back_black" />
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/arrow_black_down" />
         </LinearLayout>
 
         <LinearLayout
@@ -71,10 +71,9 @@
                 android:text="维修类型" />
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:rotation="-90"
-                android:src="@mipmap/back_black" />
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/arrow_black_down" />
         </LinearLayout>
 
         <LinearLayout
@@ -90,10 +89,9 @@
                 android:text="排序" />
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:rotation="-90"
-                android:src="@mipmap/back_black" />
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/arrow_black_down" />
         </LinearLayout>
 
     </LinearLayout>
@@ -119,5 +117,6 @@
         android:layout_height="@dimen/button_height"
         android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
         android:text="@string/fast_order" />
 </LinearLayout>

@@ -35,11 +35,13 @@ public class CounterDisposableObserver extends DisposableObserver<Integer> {
     public void onError(Throwable e) {
         button.setEnabled(true);
         button.setText("发送验证码");
+        dispose();
     }
 
     @Override
     public void onComplete() {
         button.setEnabled(true);
         button.setText("发送验证码");
+        dispose();
     }
 }

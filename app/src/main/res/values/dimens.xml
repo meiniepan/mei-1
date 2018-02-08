@@ -20,6 +20,7 @@
     <dimen name="dimens_14sp">14sp</dimen>
     <dimen name="short_button_width">84dp</dimen>
     <dimen name="short_button_height">30dp</dimen>
+    <dimen name="dimens_28sp">28sp</dimen>
 
 
 </resources>

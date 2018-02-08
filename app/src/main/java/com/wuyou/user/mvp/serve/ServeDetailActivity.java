@@ -12,6 +12,7 @@ import com.gs.buluo.common.network.QueryMapBuilder;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.ServeDetailBean;
+import com.wuyou.user.bean.response.ServeDetailResponse;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.GlideUtils;
@@ -56,9 +57,9 @@ public class ServeDetailActivity extends BaseActivity {
                 .getServeDetail(id, QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse<ServeDetailBean>>() {
+                .subscribe(new BaseSubscriber<BaseResponse<ServeDetailResponse>>() {
                     @Override
-                    public void onSuccess(BaseResponse<ServeDetailBean> serveDetailBeanBaseResponse) {
+                    public void onSuccess(BaseResponse<ServeDetailResponse> serveDetailBeanBaseResponse) {
                         setData(serveDetailBeanBaseResponse.data);
                     }
                 });
@@ -74,7 +75,7 @@ public class ServeDetailActivity extends BaseActivity {
 
     }
 
-    public void setData(ServeDetailBean data) {
-        GlideUtils.loadImage(this, data.image, serveDetailPicture);
+    public void setData(ServeDetailResponse data) {
+        GlideUtils.loadImageNoHolder(this, data.service_detail.image, serveDetailPicture);
     }
 }

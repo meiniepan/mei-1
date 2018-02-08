@@ -19,9 +19,9 @@ import retrofit2.http.QueryMap;
  */
 
 public interface OrderApis {
-    @GET("order/list/{uid}/{status}")
+    @GET("orders/{uid}/{status}/{start_id}/{flag}")
     Observable<BaseResponse<OrderListResponse>> getOrderList(@Path("uid") String uid, @Path("status") int status
-            , @QueryMap SortedTreeMap<String, String> map);
+            , @Path("start_id") String startId, @Path("flag") int flag, @QueryMap SortedTreeMap<String, String> map);
 
     @GET("order/list/order/{orderId}")
     Observable<BaseResponse<OrderBeanDetail>> getOrderDetail(@Path("orderId") String id, @QueryMap SortedTreeMap<String, String> map);
@@ -32,8 +32,8 @@ public interface OrderApis {
             @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @DELETE("order/{orderId}}")
-    Observable<BaseResponse> cancelOrder(@Path("ordeId") String id,
+    @DELETE("order/{order_id}}")
+    Observable<BaseResponse> cancelOrder(@Path("order_id") String id,
                                          @FieldMap SortedTreeMap<String, String> map);
 
 }

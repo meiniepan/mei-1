@@ -1,11 +1,9 @@
 package com.wuyou.user.mvp.order;
 
-import com.wuyou.user.bean.OrderBean;
 import com.wuyou.user.bean.OrderBeanDetail;
+import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.mvp.IBaseView;
-
-import java.util.List;
 
 /**
  * Created by Administrator on 2018\1\29 0029.
@@ -13,13 +11,15 @@ import java.util.List;
 
 public interface OrderContract {
     interface View extends IBaseView {
-        void getOrderSuccess(List<OrderBean> list);
+        void getOrderSuccess(OrderListResponse list);
 
-        void loadMore();
+        void loadMore(OrderListResponse data);
 
         void cancelSuccess(int position);
 
         void getOrderDetailSuccess(OrderBeanDetail bean);
+
+        void loadMoreFail(String displayMessage, int code);
     }
 
     abstract class Presenter extends BasePresenter<View> {

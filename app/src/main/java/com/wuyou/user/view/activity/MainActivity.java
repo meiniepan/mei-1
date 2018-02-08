@@ -1,5 +1,6 @@
 package com.wuyou.user.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
@@ -7,13 +8,18 @@ import android.widget.Toast;
 
 import com.gs.buluo.common.utils.DensityUtils;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.wuyou.user.CarefreeApplication;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.MainPagerAdapter;
+import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.help.HelpFragment;
 import com.wuyou.user.mvp.home.HomeFragment;
 import com.wuyou.user.mvp.mine.MineFragment;
 import com.wuyou.user.mvp.order.OrderFragment;
 import com.wuyou.user.view.fragment.BaseFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +35,18 @@ public class MainActivity extends BaseActivity {
     List<BaseFragment> fragments = new ArrayList<>();
 
     private long mKeyTime = 0;
+    private OrderFragment orderFragment;
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int intExtra = intent.getIntExtra(Constant.MAIN_FLAG, 0);
+        switch (intExtra){
+            case 1: //登录跳转
+                EventBus.getDefault().post(new LoginEvent());
+                break;
+        }
+    }
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -36,7 +54,8 @@ public class MainActivity extends BaseActivity {
 //        QMUIStatusBarHelper.setStatusBarLightMode(this);
         fragments.add(new HomeFragment());
         fragments.add(new HelpFragment());
-        fragments.add(new OrderFragment());
+        orderFragment = new OrderFragment();
+        fragments.add(orderFragment);
         fragments.add(new MineFragment());
         viewPager.setAdapter(new MainPagerAdapter(getSupportFragmentManager(), fragments));
         viewPager.setOffscreenPageLimit(3);

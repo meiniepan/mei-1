@@ -5,4 +5,7 @@ package com.wuyou.user.bean;
  */
 
 public class StoreBean {
+    public String id;
+    public String name;
+    public String high_praise_proportion;
 }

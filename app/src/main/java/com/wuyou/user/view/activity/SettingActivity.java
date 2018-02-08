@@ -3,31 +3,20 @@ package com.wuyou.user.view.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.gs.buluo.common.network.BaseResponse;
-import com.gs.buluo.common.network.BaseSubscriber;
-import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.DataCleanManager;
 import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.CarefreeApplication;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.mvp.login.LoginActivity;
-import com.wuyou.user.network.CarefreeRetrofit;
-import com.wuyou.user.network.apis.UserApis;
+import com.wuyou.user.event.LoginEvent;
 
 import org.greenrobot.eventbus.EventBus;
-import org.reactivestreams.Publisher;
 
 import butterknife.BindView;
-import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by hjn on 2016/11/7.
@@ -104,8 +93,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private void logout() {
         CarefreeApplication.getInstance().clearUserInfo();
-        Intent intent = new Intent();
-        intent.setClass(getCtx(), MainActivity.class);
+        EventBus.getDefault().post(new LoginEvent());
+        Intent intent = new Intent(getCtx(), MainActivity.class);
+        intent.putExtra(Constant.MAIN_FLAG, 1);
         startActivity(intent);
         finish();
 //        CarefreeRetrofit.getInstance().createApi(UserApis.class).

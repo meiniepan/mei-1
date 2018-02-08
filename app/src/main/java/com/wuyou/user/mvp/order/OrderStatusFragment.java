@@ -2,21 +2,25 @@ package com.wuyou.user.mvp.order;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 
-import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBean;
 import com.wuyou.user.bean.OrderBeanDetail;
+import com.wuyou.user.bean.response.OrderListResponse;
+import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -39,36 +43,48 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
         ArrayList<OrderBean> list = new ArrayList<>();
         adapter = new OrderListAdapter(R.layout.item_order_list, list);
         orderList.setAdapter(adapter);
         orderListLayout.showProgressView();
-        orderList.setRefreshAction(() -> {
-            mPresenter.getOrder(type);
-        });
-        adapter.setOnItemChildClickListener((adapter, view, position) -> {
-            dealWithClick(position, (OrderBean) adapter.getData().get(position));
-        });
+        orderList.setRefreshAction(() -> mPresenter.getOrder(type));
+        adapter.setOnItemChildClickListener((adapter, view, position) -> dealWithClick(position, (OrderBean) adapter.getData().get(position)));
         adapter.setOnItemClickListener((adapter, view, position) -> {
             OrderBean bean = (OrderBean) adapter.getData().get(position);
             Intent intent = new Intent(mCtx, OrderDetailActivity.class);
             intent.putExtra(Constant.ORDER_ID, bean.id);
             startActivity(intent);
         });
+        adapter.setOnLoadMoreListener(() -> mPresenter.getOrderMore(type), orderList.getRecyclerView());
         orderListLayout.setEmptyAction(v -> {
-            Intent intent = new Intent(mCtx, LoginActivity.class);
-            startActivity(intent);
+            if (CarefreeApplication.getInstance().getUserInfo() == null) {
+                Intent intent = new Intent(mCtx, LoginActivity.class);
+                startActivity(intent);
+            }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void loginEvent(LoginEvent event) {
         if (CarefreeApplication.getInstance().getUserInfo() == null) {
             orderListLayout.showEmptyView("请先登录");
-            return;
+            orderList.setRefreshEnable(false);
+        } else {
+            mPresenter.getOrder(type);
+            orderList.setRefreshEnable(true);
         }
-        mPresenter.getOrder(type);
     }
 
     @Override
     public void fetchData() {
-
+        Log.e("Test", "fetchData:!!!!!!!!!!!!!!!!!!!!!! " + type);
+        if (CarefreeApplication.getInstance().getUserInfo() == null) {
+            orderListLayout.showEmptyView("请先登录");
+            return;
+        }
+        orderListLayout.showProgressView();
+        mPresenter.getOrder(type);
     }
 
     public void setType(int type) {
@@ -77,7 +93,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
 
     @Override
     public void showError(String message, int res) {
-        ToastUtils.ToastMessage(mCtx, message);
+        orderListLayout.showErrorView(message);
     }
 
     @Override
@@ -86,14 +102,22 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     }
 
     @Override
-    public void getOrderSuccess(List<OrderBean> list) {
+    public void getOrderSuccess(OrderListResponse response) {
+        orderListLayout.showContentView();
+        orderList.setRefreshFinished();
         adapter.clearData();
-        adapter.setNewData(list);
+        adapter.setNewData(response.list);
+        if (adapter.getData().size() == 0) {
+            orderListLayout.showEmptyView("当前尚无订单");
+        }
     }
 
     @Override
-    public void loadMore() {
-
+    public void loadMore(OrderListResponse data) {
+        adapter.addData(data.list);
+        if (data.has_more == 0) {
+            adapter.loadMoreEnd();
+        }
     }
 
     @Override
@@ -105,6 +129,11 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     //详情接口回调，忽略
     @Override
     public void getOrderDetailSuccess(OrderBeanDetail bean) {
+    }
+
+    @Override
+    public void loadMoreFail(String displayMessage, int code) {
+        adapter.loadMoreFail();
     }
 
     private void dealWithClick(int position, OrderBean orderBean) {

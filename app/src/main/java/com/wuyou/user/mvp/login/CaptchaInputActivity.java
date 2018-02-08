@@ -86,6 +86,7 @@ public class CaptchaInputActivity extends BaseActivity<LoginContract.View, Login
 
     @Override
     public void getVerifySuccess() {
+        observer = new CounterDisposableObserver(reSendCaptcha);
         RxUtil.countdown(59).subscribe(observer);
     }
 }

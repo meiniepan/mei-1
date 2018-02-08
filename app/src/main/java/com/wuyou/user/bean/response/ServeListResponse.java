@@ -1,14 +1,15 @@
 package com.wuyou.user.bean.response;
 
 import com.wuyou.user.bean.OrderBean;
+import com.wuyou.user.bean.ServeBean;
 
 import java.util.List;
 
 /**
- * Created by hjn on 2018/2/6.
+ * Created by hjn on 2018/2/8.
  */
 
-public class OrderListResponse {
+public class ServeListResponse {
     public int has_more;
-    public List<OrderBean> list;
+    public List<ServeBean> list;
 }

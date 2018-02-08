@@ -1,7 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="137dp">
 
+    <ImageView
+        android:id="@+id/serve_item_picture"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/default_pic"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/serve_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toRightOf="@+id/serve_item_picture"
+        app:layout_constraintTop_toTopOf="parent"
+        tool:text="孔盖家电维修" />
+
+    <io.techery.properratingbar.ProperRatingBar
+        android:id="@+id/serve_item_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="@+id/serve_item_name"
+        app:layout_constraintTop_toBottomOf="@+id/serve_item_name"
+        app:prb_tickNormalDrawable="@mipmap/star_normal"
+        app:prb_tickSelectedDrawable="@mipmap/start_yellow" />
+
+    <TextView
+        android:id="@+id/serve_item_rate_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/common_gray"
+        app:layout_constraintLeft_toRightOf="@+id/serve_item_rate"
+        app:layout_constraintTop_toTopOf="@+id/serve_item_rate"
+        tool:text="5..0" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:text="已售"
+        android:textColor="@color/common_gray"
+        app:layout_constraintLeft_toRightOf="@+id/serve_item_rate_number"
+        app:layout_constraintTop_toTopOf="@+id/serve_item_rate" />
+
+    <TextView
+        android:id="@+id/serve_item_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/common_gray"
+        app:layout_constraintLeft_toRightOf="@+id/text"
+        app:layout_constraintTop_toTopOf="@+id/serve_item_rate"
+        tool:text="123" />
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="好评"
+        android:textColor="@color/common_gray"
+        app:layout_constraintLeft_toRightOf="@+id/serve_item_count"
+        app:layout_constraintTop_toTopOf="@+id/serve_item_rate" />
+
+    <TextView
+        android:id="@+id/serve_item_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/common_gray"
+        app:layout_constraintLeft_toRightOf="@+id/text1"
+        app:layout_constraintTop_toTopOf="@+id/serve_item_rate"
+        tool:text="12" />
+
+    <TextView
+        android:id="@+id/serve_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/common_red"
+        app:layout_constraintLeft_toLeftOf="@+id/serve_item_name"
+        app:layout_constraintTop_toBottomOf="@+id/serve_item_rate"
+        tool:text="12/小时" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/divide_gray"
+        app:layout_constraintLeft_toRightOf="@+id/serve_item_picture"
+        app:layout_constraintTop_toBottomOf="@+id/serve_item_price" />
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/serve_item"
+        app:layout_constraintStart_toStartOf="@id/serve_item_name"
+        app:layout_constraintTop_toBottomOf="@+id/line" />
+
+    <TextView
+        android:id="@+id/serve_item_store"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/common_gray"
+        app:layout_constraintLeft_toRightOf="@+id/icon"
+        app:layout_constraintTop_toTopOf="@+id/icon"
+        android:text="商家名称 " />
+
+    <TextView
+        android:id="@+id/serve_item_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/serve_item_point"
+        app:layout_constraintTop_toTopOf="@+id/serve_item_store"
+        tool:text="3.2km" />
 
 </android.support.constraint.ConstraintLayout>

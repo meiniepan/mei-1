@@ -9,11 +9,9 @@ import android.widget.TextView;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.OrderBean;
 import com.wuyou.user.bean.OrderBeanDetail;
+import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.view.activity.BaseActivity;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -80,11 +78,13 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     }
 
     @Override
-    public void getOrderSuccess(List<OrderBean> list) {
+    public void getOrderSuccess(OrderListResponse list) {
     }
-
     @Override
-    public void loadMore() {
+    public void loadMore(OrderListResponse data) {
+    }
+    @Override
+    public void loadMoreFail(String displayMessage, int code) {
     }
 
     @Override

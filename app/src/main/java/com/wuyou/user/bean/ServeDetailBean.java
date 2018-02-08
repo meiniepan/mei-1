@@ -8,13 +8,14 @@ import java.util.List;
 
 public class ServeDetailBean {
     public String id;
+    public String category_name;
     public String image;
     public String price;
     public String total_sell;
     public String time;
     public String description;
-    public List<String> notice;
-    public String securities; //保障????
+//    public List<String> notice;
+//    public String securities; //保障????
     public String name;
-    public StoreBean shop ;
+
 }

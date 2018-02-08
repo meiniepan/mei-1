@@ -1,9 +1,9 @@
 package com.wuyou.user.bean;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Property;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by Administrator on 2018\1\25 0025.
@@ -15,7 +15,7 @@ public class UserInfo {
     @Property(nameInDb = "USERNAME")
     private String name;
     @Property(nameInDb = "PHONE")
-    private String phone;
+    private String mobile;
     @Property(nameInDb = "UID")
     private String uid;
     @Property(nameInDb = "HEAD")
@@ -24,21 +24,32 @@ public class UserInfo {
     private String token;
     @Property(nameInDb = "PWD")
     private String password;
+    @Property(nameInDb = "GENDER")
+    private String gender;
 
-    @Generated(hash = 1397380642)
-    public UserInfo(long mid, String name, String phone, String uid,
-            String head_image, String token, String password) {
+    @Generated(hash = 874816226)
+    public UserInfo(long mid, String name, String mobile, String uid,
+            String head_image, String token, String password, String gender) {
         this.mid = mid;
         this.name = name;
-        this.phone = phone;
+        this.mobile = mobile;
         this.uid = uid;
         this.head_image = head_image;
         this.token = token;
         this.password = password;
+        this.gender = gender;
     }
 
     @Generated(hash = 1279772520)
     public UserInfo() {
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getToken() {
@@ -74,11 +85,11 @@ public class UserInfo {
     }
 
     public String getPhone() {
-        return this.phone;
+        return this.mobile;
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.mobile = phone;
     }
 
     public long getMid() {
@@ -96,5 +107,13 @@ public class UserInfo {
     public void setMid(long mid) {
 
         this.mid = mid;
+    }
+
+    public String getMobile() {
+        return this.mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

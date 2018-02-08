@@ -3,7 +3,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    android:clipToPadding="true">
+    android:clipToPadding="true"
+    android:background="@color/tint_bg">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
@@ -27,6 +28,7 @@
         android:layout_height="80dp"
         android:text="请在框内输入手机验证码"
         android:textColor="@color/common_gray"
+        android:background="@color/white"
         android:gravity="center"/>
 
     <com.gs.buluo.common.widget.CaptchaEditText

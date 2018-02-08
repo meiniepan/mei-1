@@ -2,21 +2,18 @@ package com.wuyou.user.mvp.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.MainActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * Created by solang on 2018/2/2.
@@ -53,20 +50,17 @@ public class AccountLoginFragment extends BaseFragment<LoginContract.View, Login
 
     @Override
     public void getVerifySuccess() {
-
     }
-
 
     @OnClick({R.id.login, R.id.tv_forget, R.id.btn_new_regist})
     public void onViewClicked(View view) {
         Intent intent;
         switch (view.getId()) {
-
             case R.id.login:
-                //                String phone = loginPhone.getText().toString().trim();
-//                if (!CommonUtil.checkPhone("", phone, getActivity())) return;
+                String phone = loginPhone.getText().toString().trim();
+                if (!CommonUtil.checkPhone("", phone, getActivity())) return;
                 showLoadingDialog();
-                mPresenter.doLogin(loginPhone.getText().toString().trim(), loginPsw.getText().toString().trim());
+                mPresenter.doLogin(phone, loginPsw.getText().toString().trim());
                 break;
             case R.id.tv_forget:
                 intent = new Intent(getActivity(), PhoneInputActivity.class);
@@ -79,5 +73,10 @@ public class AccountLoginFragment extends BaseFragment<LoginContract.View, Login
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    protected LoginContract.Presenter getPresenter() {
+        return new LoginPresenter();
     }
 }
