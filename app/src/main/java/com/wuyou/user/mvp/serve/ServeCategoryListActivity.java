@@ -33,7 +33,9 @@ public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, 
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        String serveId = getIntent().getStringExtra(Constant.CATEGORY_ID);
+        Intent i = getIntent();
+        String serveId = i.getStringExtra(Constant.CATEGORY_ID);
+        serveCategory.setText(i.getStringExtra(Constant.CATEGORY_NAME));
         serveList.setLayoutManager(new LinearLayoutManager(getCtx()));
         serveList.addItemDecoration(new RecycleViewDivider(
                 getCtx(), LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(this,8), getResources().getColor(R.color.tint_bg)));

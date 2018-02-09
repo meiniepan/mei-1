@@ -16,4 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.gs.buluo.common.widget.StatusLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/tint_bg"/>
 </LinearLayout>

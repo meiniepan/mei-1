@@ -1,12 +1,8 @@
 package com.wuyou.user.mvp.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
@@ -14,7 +10,6 @@ import com.gs.buluo.common.network.QueryMapBuilder;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.response.CategoryListResponse;
 import com.wuyou.user.bean.response.CategoryParent;
-import com.wuyou.user.mvp.serve.ServeCategoryListActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.view.fragment.BaseFragment;
@@ -22,8 +17,6 @@ import com.wuyou.user.view.fragment.BaseFragment;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -62,6 +55,6 @@ public class HomeFragment extends BaseFragment {
 
     public void setData(List<CategoryParent> data) {
         mainServeList.setLayoutManager(new LinearLayoutManager(mCtx));
-        mainServeList.setAdapter(new MainServeAdapter(R.layout.item_main_serve,data,mCtx));
+        mainServeList.setAdapter(new MainServeAdapter(R.layout.item_main_serve, data, mCtx));
     }
 }

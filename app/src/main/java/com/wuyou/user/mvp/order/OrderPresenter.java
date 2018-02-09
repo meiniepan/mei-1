@@ -32,7 +32,7 @@ public class OrderPresenter extends OrderContract.Presenter {
                     public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
                         OrderListResponse r = orderListResponseBaseResponse.data;
                         mView.getOrderSuccess(r);
-                        if (r.list.size() > 0) startId = r.list.get(0).id;
+                        if (r.list.size() > 0) startId = r.list.get(r.list.size()-1).id;
                     }
 
                     @Override
@@ -53,7 +53,7 @@ public class OrderPresenter extends OrderContract.Presenter {
                     public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
                         OrderListResponse data = orderListResponseBaseResponse.data;
                         mView.loadMore(data);
-                        if (data.list.size() > 0) startId = data.list.get(0).id;
+                        if (data.list.size() > 0) startId = data.list.get(data.list.size()-1).id;
                     }
 
                     @Override

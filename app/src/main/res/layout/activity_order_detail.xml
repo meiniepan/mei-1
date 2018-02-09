@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
-    >
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -127,6 +128,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/common_orange"
                     android:text="￥" />
 
                 <TextView
@@ -149,6 +151,7 @@
                 android:paddingStart="@dimen/activity_horizontal_margin">
 
                 <TextView
+                    android:id="@+id/order_detail_discount_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -157,13 +160,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/common_orange"
                     android:text="-￥ " />
 
                 <TextView
                     android:id="@+id/order_detail_discount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10"
+                    android:text="0"
                     android:textColor="@color/common_orange"
                     android:textSize="@dimen/dimens_16sp"
                     android:textStyle="bold" />
@@ -188,7 +192,7 @@
                     android:id="@+id/order_detail_price_final"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="66" />
+                    tool:text="66" />
             </LinearLayout>
 
             <include layout="@layout/shadow_line" />
@@ -210,12 +214,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_height"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin">
+                android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:src="@mipmap/location"/>
 
                 <TextView
@@ -239,13 +241,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_height"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin">
+                android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:src="@mipmap/person"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -268,13 +268,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_height"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin">
+                android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:src="@mipmap/phone"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -299,13 +297,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_height"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin">
+                android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:src="@mipmap/serve_time"/>
 
                 <TextView
@@ -348,6 +344,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:orientation="horizontal">
 
                 <TextView
@@ -368,6 +366,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:orientation="horizontal">
 
                 <TextView
@@ -388,6 +388,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:orientation="horizontal">
 
                 <TextView
@@ -414,6 +416,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:orientation="horizontal">
 
                 <TextView
@@ -436,6 +440,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:orientation="horizontal">
 
                 <TextView

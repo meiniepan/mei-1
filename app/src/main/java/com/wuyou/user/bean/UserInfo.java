@@ -84,14 +84,6 @@ public class UserInfo {
         this.head_image = head_image;
     }
 
-    public String getPhone() {
-        return this.mobile;
-    }
-
-    public void setPhone(String phone) {
-        this.mobile = phone;
-    }
-
     public long getMid() {
         return this.mid;
     }

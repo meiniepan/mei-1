@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.Constant;
@@ -14,6 +15,7 @@ import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
+import com.wuyou.user.view.widget.panel.PayPanel;
 import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -138,12 +140,22 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
 
     private void dealWithClick(int position, OrderBean orderBean) {
         switch (orderBean.status) {
-            case "待确认":
-            case "待服务":
-                mPresenter.cancelOrder(position, orderBean.id);
-                break;
-            case "待支付":
+            case "待付款":
+                PayPanel payPanel = new PayPanel(mCtx, new PayPanel.OnPayFinishListener() {
+                    @Override
+                    public void onPaySuccess() {
 
+                    }
+
+                    @Override
+                    public void onPayFail(ApiException e) {
+
+                    }
+                });
+                payPanel.show();
+                break;
+            case "进行中":
+                mPresenter.cancelOrder(position, orderBean.id);
                 break;
             case "待评价":
 

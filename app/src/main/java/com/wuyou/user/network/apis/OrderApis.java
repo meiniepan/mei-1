@@ -3,6 +3,7 @@ package com.wuyou.user.network.apis;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
 import com.wuyou.user.bean.OrderBeanDetail;
+import com.wuyou.user.bean.OrderIdBean;
 import com.wuyou.user.bean.response.OrderListResponse;
 
 import io.reactivex.Observable;
@@ -23,12 +24,12 @@ public interface OrderApis {
     Observable<BaseResponse<OrderListResponse>> getOrderList(@Path("uid") String uid, @Path("status") int status
             , @Path("start_id") String startId, @Path("flag") int flag, @QueryMap SortedTreeMap<String, String> map);
 
-    @GET("order/list/order/{orderId}")
+    @GET("order/{orderId}")
     Observable<BaseResponse<OrderBeanDetail>> getOrderDetail(@Path("orderId") String id, @QueryMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
     @POST("order")
-    Observable<BaseResponse<String>> createOrder(
+    Observable<BaseResponse<OrderIdBean>> createOrder(
             @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded

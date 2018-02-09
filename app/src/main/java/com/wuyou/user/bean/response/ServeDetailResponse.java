@@ -1,6 +1,5 @@
 package com.wuyou.user.bean.response;
 
-import com.wuyou.user.bean.ServeBean;
 import com.wuyou.user.bean.ServeDetailBean;
 import com.wuyou.user.bean.StoreBean;
 
@@ -10,6 +9,6 @@ import com.wuyou.user.bean.StoreBean;
 
 public class ServeDetailResponse {
     public ServeDetailBean service_detail;
-    public StoreBean shop ;
+    public StoreBean shop;
     public CommentResponse comments;
 }

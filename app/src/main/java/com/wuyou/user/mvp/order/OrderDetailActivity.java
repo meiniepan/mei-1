@@ -7,11 +7,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.gs.buluo.common.utils.ToastUtils;
+import com.gs.buluo.common.utils.TribeDateUtils;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBeanDetail;
+import com.wuyou.user.bean.OrderPreferentialBean;
 import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.view.activity.BaseActivity;
+
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -33,6 +37,8 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     TextView orderDetailCount;
     @BindView(R.id.order_detail_price)
     TextView orderDetailPrice;
+    @BindView(R.id.order_detail_discount_name)
+    TextView orderDetailDiscountName;
     @BindView(R.id.order_detail_discount)
     TextView orderDetailDiscount;
     @BindView(R.id.order_detail_price_final)
@@ -57,8 +63,8 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     TextView orderDetailBillStatus;
     @BindView(R.id.order_detail_cancel)
     TextView orderDetailCancel;
-    private String contactTel;
     private String orderId;
+    private String shopTel;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -80,9 +86,11 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     @Override
     public void getOrderSuccess(OrderListResponse list) {
     }
+
     @Override
     public void loadMore(OrderListResponse data) {
     }
+
     @Override
     public void loadMoreFail(String displayMessage, int code) {
     }
@@ -99,30 +107,36 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     }
 
     public void setData(OrderBeanDetail data) {
-        contactTel = data.contact_tel;
         orderDetailStatus.setText(data.status);
-        orderDetailDate.setText(data.updated_time);
+        orderDetailDate.setText(TribeDateUtils.dateFormat(new Date(data.updated_at * 1000)));
         orderDetailAddress.setText(data.contact_address);
         orderDetailStore.setText(data.shop_name);
-        orderDetailTitle.setText(data.category_name);
+        orderDetailTitle.setText(data.category);
         orderDetailCount.setText(data.nums);
         orderDetailPrice.setText(data.price);
-//        orderDetailDiscount.setText(data.);
+        if (data.preferentials != null && data.preferentials.size() > 0) {
+            OrderPreferentialBean orderPreferentialBean = data.preferentials.get(0);
+            orderDetailDiscountName.setText(orderPreferentialBean.preferential_name);
+            orderDetailDiscount.setText(orderPreferentialBean.preferential_price);
+        }
         orderDetailPriceFinal.setText(data.payment);
         orderDetailName.setText(data.contact_name);
         orderDetailRecent.setText(data.service_time);
-        orderDetailCreateTime.setText(data.updated_time);
+        orderDetailCreateTime.setText(TribeDateUtils.dateFormat(new Date(data.created_at * 1000)));
         orderDetailNumber.setText(data.order_no);
         orderDetailAmount.setText(data.payment);
-        orderDetailBillStatus.setText(data.pay_status == 1 ? "待支付" : "已支付");
+        orderDetailBillStatus.setText(data.pay_status);
+        orderDetailPayMethod.setText(data.pay_type);
         orderDetailPhone.setText(data.contact_tel);
+
+        shopTel = data.shop_tel;
     }
 
     @OnClick({R.id.order_detail_cancel, R.id.order_detail_contact_store})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.order_detail_contact_store:
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + contactTel));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + shopTel));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;

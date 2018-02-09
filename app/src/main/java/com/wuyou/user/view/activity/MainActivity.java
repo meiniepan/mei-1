@@ -17,6 +17,7 @@ import com.wuyou.user.mvp.help.HelpFragment;
 import com.wuyou.user.mvp.home.HomeFragment;
 import com.wuyou.user.mvp.mine.MineFragment;
 import com.wuyou.user.mvp.order.OrderFragment;
+import com.wuyou.user.util.QMUIStatusBarHelper;
 import com.wuyou.user.view.fragment.BaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,7 +51,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-//        QMUIStatusBarHelper.translucent(this,R.color.custom_color);
+//        QMUIStatusBarHelper.translucent(this,getResources().getColor(R.color.night_blue));
 //        QMUIStatusBarHelper.setStatusBarLightMode(this);
         fragments.add(new HomeFragment());
         fragments.add(new HelpFragment());

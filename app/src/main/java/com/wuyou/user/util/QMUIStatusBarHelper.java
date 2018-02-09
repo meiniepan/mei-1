@@ -50,10 +50,10 @@ public class QMUIStatusBarHelper {
     @TargetApi(19)
     public static void translucent(Activity activity, @ColorInt int colorOn5x) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            // 版本小于4.4，绝对不考虑沉浸�?
+            // 版本小于4.4，绝对不考虑沉浸
             return;
         }
-        // 小米和魅�?4.4 以上版本支持沉浸�?
+        // 小米和魅�?4.4 以上版本支持沉浸
         if (QMUIDeviceHelper.isMeizu() || QMUIDeviceHelper.isMIUI()) {
             Window window = activity.getWindow();
             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,

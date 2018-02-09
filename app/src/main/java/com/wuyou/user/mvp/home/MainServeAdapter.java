@@ -44,6 +44,7 @@ public class MainServeAdapter extends BaseQuickAdapter<CategoryParent, BaseHolde
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             Intent intent = new Intent(context, ServeCategoryListActivity.class);
             intent.putExtra(Constant.CATEGORY_ID, item.sub.get(position).id);
+            intent.putExtra(Constant.CATEGORY_NAME, item.sub.get(position).name);
             context.startActivity(intent);
         });
     }

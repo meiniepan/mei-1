@@ -14,5 +14,7 @@ public class Constant {
     public static final String SERVE_ID = "serve_id";
     public static final String CATEGORY_ID = "category_id";
     public static final String MAIN_FLAG = "main_flag";
+    public static final String SERVE_BEAN = "serve_bean";
+    public static final String CATEGORY_NAME = "category";
 //    public static final String BASE_URL = "https://app-services.buluo-gs.com/tribalc/v1.0/";
 }

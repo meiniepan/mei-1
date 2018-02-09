@@ -10,10 +10,13 @@ import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
+import com.gs.buluo.common.utils.AppManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.bean.OrderIdBean;
+import com.wuyou.user.bean.ServeDetailBean;
 import com.wuyou.user.mvp.order.OrderDetailActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.OrderApis;
@@ -28,8 +31,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class NewOrderActivity extends BaseActivity {
-    @BindView(R.id.serve_category)
-    TextView serveCategory;
     @BindView(R.id.create_order_address)
     TextView createOrderAddress;
     @BindView(R.id.create_order_owner)
@@ -44,10 +45,17 @@ public class NewOrderActivity extends BaseActivity {
     TextView createOrderFee;
     @BindView(R.id.create_order_door_fee)
     TextView createOrderDoorFee;
+    private ServeDetailBean bean;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        bean = getIntent().getParcelableExtra(Constant.SERVE_BEAN);
+        if (bean != null) {
+            createOrderFee.setText(bean.price);
+            createOrderServeTime.setText(bean.time);
+        }
 
+        createOrderPhone.setText(CarefreeApplication.getInstance().getUserInfo().getMobile());
     }
 
     @Override
@@ -57,11 +65,11 @@ public class NewOrderActivity extends BaseActivity {
 
     public void doCreateOrder(View view) {
         if (createOrderAddress.length() == 0) {
-            ToastUtils.ToastMessage(getCtx(), "");
+            ToastUtils.ToastMessage(getCtx(), "请选择地址");
             return;
         }
         if (createOrderOwner.length() == 0) {
-            ToastUtils.ToastMessage(getCtx(), "");
+            ToastUtils.ToastMessage(getCtx(), "请输入姓名");
             return;
         }
 
@@ -70,23 +78,23 @@ public class NewOrderActivity extends BaseActivity {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
                 .createOrder(QueryMapBuilder.getIns().put("address", createOrderAddress.getText().toString().trim())
                         .put("username", createOrderOwner.getText().toString().trim())
-                        .put("mobile", CarefreeApplication.getInstance().getUserInfo().getPhone())
-//                        .put("service_time",0+"")
+                        .put("mobile", CarefreeApplication.getInstance().getUserInfo().getMobile())
+                        .put("service_time", bean.time)
                         .put("remark", createOrderComment.getText().toString().trim())
                         .put("service_price", fee)
-                        .put("orther_price", otherFee)
+                        .put("orther_price", 0 + "")
                         .put("total_price", Float.parseFloat(fee) + Float.parseFloat(otherFee) + "")
                         .put("user_id", CarefreeApplication.getInstance().getUserInfo().getUid())
-//                        .put("shop_id",???)//TODO
-//                        .put("service_id,????")
-//                        .put("nums",????)
+                        .put("shop_id", bean.shop_id)
+                        .put("service_id", bean.id)
+                        .put("nums", 1 + "")
                         .buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse<String>>() {
+                .subscribe(new BaseSubscriber<BaseResponse<OrderIdBean>>() {
                     @Override
-                    public void onSuccess(BaseResponse<String> baseResponse) {
-                        createSuccess(baseResponse.data);
+                    public void onSuccess(BaseResponse<OrderIdBean> baseResponse) {
+                        createSuccess(baseResponse.data.order_id);
                     }
 
                     @Override
@@ -100,5 +108,9 @@ public class NewOrderActivity extends BaseActivity {
         Intent intent = new Intent(getCtx(), OrderDetailActivity.class);
         intent.putExtra(Constant.ORDER_ID, orderId);
         startActivity(intent);
+        finish();
+        AppManager.getAppManager().finishActivity(ServeDetailActivity.class);
+        AppManager.getAppManager().finishActivity(FastCreateActivity.class);
+        AppManager.getAppManager().finishActivity(ServeCategoryListActivity.class);
     }
 }

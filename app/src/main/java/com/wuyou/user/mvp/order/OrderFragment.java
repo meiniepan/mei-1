@@ -42,7 +42,7 @@ public class OrderFragment extends BaseFragment {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        String[] titles = new String[]{getString(R.string.wait_confirm),getString(R.string.wait_serve), getString(R.string.wait_pay), getString(R.string.wait_comment),getString(R.string.all)};
+        String[] titles = new String[]{getString(R.string.wait_pay),getString(R.string.serving), getString(R.string.complete), getString(R.string.wait_comment),getString(R.string.all)};
         for (int i = 0; i < titles.length; i++) {
             mTabEntities.add(new TabEntity(titles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }

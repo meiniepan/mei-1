@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -41,11 +42,12 @@
                 android:layout_height="180dp" />
 
             <TextView
+                android:id="@+id/serve_detail_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:text="商家名称"
+                android:text="服务名称"
                 android:textSize="@dimen/dimens_18sp"
                 android:textStyle="bold" />
 
@@ -66,9 +68,10 @@
                     android:textSize="@dimen/dimens_16sp" />
 
                 <TextView
+                    android:id="@+id/serve_detail_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="99"
+                    tool:text="99"
                     android:textColor="@color/common_red"
                     android:textSize="@dimen/dimens_16sp" />
 
@@ -91,6 +94,7 @@
                     android:id="@+id/serve_detail_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:minWidth="24dp"
                     android:text="12"
                     android:textColor="@color/common_gray"
                     android:textSize="@dimen/dimens_16sp" />
@@ -148,7 +152,7 @@
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="16dp"
                 android:lineSpacingMultiplier="1.3"
-                android:text="这是介绍啊这是介绍啊这是介绍啊这是介绍啊这是介绍啊这是介绍啊这是介绍啊这是介绍啊这是介绍啊这是介绍啊"
+                tool:text="这是介绍啊这是介绍啊这是介绍啊这是介绍啊这是介绍啊这是介绍啊这是介绍啊这是介绍啊这是介绍啊这是介绍啊"
                 android:textColor="@color/common_gray" />
 
             <include layout="@layout/split_line_margin" />
@@ -172,6 +176,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="商家"
+                    android:maxLength="10"
+                    android:ellipsize="end"
                     android:textColor="@color/common_orange" />
 
                 <TextView
@@ -205,6 +211,7 @@
             <include layout="@layout/split_area" />
 
             <LinearLayout
+                android:id="@+id/serve_detail_comment_area"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_height"
                 android:gravity="center_vertical"
@@ -265,6 +272,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/serve_detail_comment_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingMultiplier="1.2"
@@ -274,6 +282,7 @@
                 android:textColor="@color/common_gray" />
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/serve_detail_comment_pictures"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"

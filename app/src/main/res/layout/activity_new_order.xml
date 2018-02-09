@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:clipToPadding="true">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,7 +13,6 @@
         android:background="@color/night_blue">
 
         <TextView
-            android:id="@+id/serve_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -37,7 +37,8 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@mipmap/location"/>
+            android:src="@mipmap/location" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_weight="1"
-            android:text="北京市某小区家属楼" />
+            android:text="北京宣武门" />
 
         <ImageView
             android:layout_width="20dp"
@@ -69,19 +70,20 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@mipmap/person"/>
+            android:src="@mipmap/person" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/name" />
 
-        <TextView
+        <EditText
             android:id="@+id/create_order_owner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_weight="1"
+            android:background="@null"
             android:text="北京" />
     </LinearLayout>
 
@@ -97,20 +99,21 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@mipmap/phone"/>
+            android:src="@mipmap/phone" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/phone" />
 
-        <TextView
+        <EditText
             android:id="@+id/create_order_phone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_weight="1"
-            android:text="137290980980" />
+            android:background="@null"
+            tool:text="137290980980" />
     </LinearLayout>
 
     <include layout="@layout/shadow_line" />
@@ -128,7 +131,8 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@mipmap/serve_time"/>
+            android:src="@mipmap/serve_time" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -144,8 +148,8 @@
             android:id="@+id/create_order_serve_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="6dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:text="今天 12：30" />
 
         <ImageView
@@ -203,7 +207,7 @@
             android:id="@+id/create_order_fee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="80.00" />
+            tool:text="80.00" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -9,5 +9,5 @@ public class CommentBean {
     public String content;
     public String author_id;
     public String author;
-    public String star;
+    public int star;
 }

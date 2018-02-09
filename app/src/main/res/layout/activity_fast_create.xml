@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/tint_bg"
@@ -31,87 +30,205 @@
     <include layout="@layout/split_area" />
 
     <com.wuyou.user.view.widget.CustomNestRadioGroup
+        android:id="@+id/fast_create_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:orientation="vertical">
 
-        <android.support.v7.widget.CardView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="1dp">
+            android:layout_height="92dp">
 
             <RadioButton
+                android:id="@+id/fast_radio_low"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="25dp"
+                android:background="@drawable/btn_radio"
+                android:button="@null"
+                android:checked="true" />
+
+            <TextView
+                android:id="@+id/fast_low"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/radio_selector"
-                android:text="优选技师"
-                android:textColor="@color/common_dark"/>
+                android:layout_marginStart="124dp"
+                android:layout_marginTop="10dp"
+                android:text="快捷服务"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimens_16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="120dp"
-                android:text="68-88/小时" />
-        </android.support.v7.widget.CardView>
+                android:layout_alignStart="@+id/fast_low"
+                android:layout_below="@+id/fast_low"
+                android:layout_marginTop="5dp"
+                android:text="快捷服务,物美价廉"
+                android:textColor="@color/shallow_white" />
 
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="1dp">
-
-            <RadioButton
+            <TextView
+                android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/radio_selector"
-                android:text="资深技师"
-                android:textColor="@color/common_dark"/>
-
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="/小时"
+                android:textSize="@dimen/dimens_16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/text"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="120dp"
-                android:text="48-68/小时" />
-        </android.support.v7.widget.CardView>
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/text"
+                android:text="99"
+                android:textSize="@dimen/dimens_20sp" />
+        </RelativeLayout>
 
-        <android.support.v7.widget.CardView
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="1dp">
+            android:layout_height="92dp"
+            android:layout_marginTop="20dp">
 
             <RadioButton
+                android:id="@+id/fast_radio_middle"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="25dp"
+                android:background="@drawable/btn_radio"
+                android:button="@null"
+                android:checked="false" />
+
+            <TextView
+                android:id="@+id/fast_middle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="高级技师"
-                android:textColor="@color/common_dark"
-                android:shadowColor="@color/night_blue"/>
-
+                android:layout_marginStart="124dp"
+                android:layout_marginTop="10dp"
+                android:text="优选服务"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimens_16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/fast_middle"
+                android:layout_below="@+id/fast_middle"
+                android:layout_marginTop="5dp"
+                android:text="快捷服务,物美价廉"
+                android:textColor="@color/shallow_white" />
+
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="120dp"
-                android:text="28-48/小时" />
-        </android.support.v7.widget.CardView>
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="/小时"
+                android:textSize="@dimen/dimens_16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/text1"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/text1"
+                android:text="199"
+                android:textSize="@dimen/dimens_20sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:layout_marginTop="20dp">
+
+            <RadioButton
+                android:id="@+id/fast_radio_high"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="25dp"
+                android:background="@drawable/btn_radio"
+                android:button="@null"
+                android:checked="false" />
+
+            <TextView
+                android:id="@+id/fast_high"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="124dp"
+                android:layout_marginTop="10dp"
+                android:text="钻石服务"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimens_16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/fast_high"
+                android:layout_below="@+id/fast_high"
+                android:layout_marginTop="5dp"
+                android:text="快捷服务,物美价廉"
+                android:textColor="@color/shallow_white" />
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="/小时"
+                android:textSize="@dimen/dimens_16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/text2"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/text2"
+                android:text="299"
+                android:textSize="@dimen/dimens_20sp" />
+        </RelativeLayout>
 
     </com.wuyou.user.view.widget.CustomNestRadioGroup>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
     <Button
         style="@style/button_style"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
         android:onClick="createOrder"
-        android:text="立即下单" />
+        android:text="一键下单" />
 </LinearLayout>
