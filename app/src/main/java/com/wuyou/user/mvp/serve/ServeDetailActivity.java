@@ -16,6 +16,7 @@ import com.wuyou.user.bean.CommentBean;
 import com.wuyou.user.bean.ServeDetailBean;
 import com.wuyou.user.bean.response.CommentResponse;
 import com.wuyou.user.bean.response.ServeDetailResponse;
+import com.wuyou.user.mvp.store.StoreDetailActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.GlideUtils;
@@ -77,6 +78,14 @@ public class ServeDetailActivity extends BaseActivity {
         findViewById(R.id.serve_detail_comment_area).setOnClickListener(v -> {
             //jump to comment
         });
+        findViewById(R.id.serve_detail_store_area).setOnClickListener(v -> {
+            if (serviceDetail==null)return;
+            Intent intent = new Intent(getCtx(), StoreDetailActivity.class);
+            intent.putExtra(Constant.STORE_ID, serviceDetail.shop_id);
+            startActivity(intent);
+        });
+
+
     }
 
     @Override

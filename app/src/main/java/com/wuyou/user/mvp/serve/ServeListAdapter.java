@@ -13,7 +13,7 @@ import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
  * Created by hjn on 2018/2/6.
  */
 
-class ServeListAdapter extends BaseQuickAdapter<ServeBean, BaseHolder> {
+public class ServeListAdapter extends BaseQuickAdapter<ServeBean, BaseHolder> {
     Context context;
 
     public ServeListAdapter(Context ctx, int layoutResId) {

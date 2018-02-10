@@ -28,6 +28,7 @@ public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<
     protected Context mCtx;
     protected P mPresenter;
     private Unbinder bind;
+    private String title;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,5 +133,13 @@ public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<
 
     protected P getPresenter() {
         return null;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

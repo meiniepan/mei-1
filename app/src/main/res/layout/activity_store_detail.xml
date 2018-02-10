@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/night_blue"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/back"
+            layout="@layout/back_black" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_bg"
+            android:drawableStart="@mipmap/search_small"
+            android:gravity="center_vertical"
+            android:hint="搜索本店服务项目" />
+
+        <ImageView
+            android:id="@+id/store_menu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:src="@mipmap/mine_setting" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="#454b5e">
+
+        <TextView
+            android:id="@+id/store_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimens_24sp"
+            tool:text="便民便利店" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/store_title"
+            android:layout_below="@+id/store_title"
+            android:layout_marginTop="4dp"
+            android:text="已接"
+            android:textColor="@color/shallow_white" />
+
+        <TextView
+            android:id="@+id/store_accepted_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView2"
+            android:layout_alignBottom="@+id/textView2"
+            android:layout_toEndOf="@+id/textView2"
+            android:text="0"
+            android:textColor="@color/shallow_white" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/store_accepted_number"
+            android:layout_alignBottom="@+id/store_accepted_number"
+            android:layout_toEndOf="@+id/store_accepted_number"
+            android:text="单"
+            android:textColor="@color/shallow_white" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView3"
+            android:layout_alignBottom="@+id/textView3"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@+id/textView3"
+            android:text="成交"
+            android:textColor="@color/shallow_white" />
+
+        <TextView
+            android:id="@+id/store_finish_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView4"
+            android:layout_alignBottom="@+id/textView4"
+            android:layout_toEndOf="@+id/textView4"
+            android:text="88%"
+            android:textColor="@color/shallow_white" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/store_finish_percent"
+            android:layout_alignBottom="@+id/store_finish_percent"
+            android:layout_marginStart="26dp"
+            android:layout_toEndOf="@+id/store_finish_percent"
+            android:text="好评"
+            android:textColor="@color/shallow_white" />
+
+        <TextView
+            android:id="@+id/store_good_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView7"
+            android:layout_alignBottom="@+id/textView7"
+            android:layout_toEndOf="@+id/textView7"
+            android:text="100%"
+            android:textColor="@color/shallow_white" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView2"
+            android:layout_below="@+id/textView2"
+            android:layout_marginTop="4dp"
+            android:text="服务时间:"
+            android:textColor="@color/shallow_white" />
+
+        <TextView
+            android:id="@+id/store_serve_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView8"
+            android:layout_alignBottom="@+id/textView8"
+            android:layout_toEndOf="@+id/textView8"
+            android:textColor="@color/shallow_white" />
+    </RelativeLayout>
+
+    <include layout="@layout/split_area" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/store_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        app:tabIndicatorColor="@color/night_blue"
+        app:tabSelectedTextColor="@color/common_dark"
+        app:tabTextColor="@color/common_gray" />
+
+    <include layout="@layout/split_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="推荐" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="分类" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="价格" />
+    </LinearLayout>
+
+    <include layout="@layout/split_area" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/store_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

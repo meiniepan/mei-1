@@ -3,7 +3,6 @@ apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.0"
-
     defaultConfig {
         applicationId "com.wuyou.android_user"
         minSdkVersion 17
@@ -17,7 +16,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     greendao {
         schemaVersion 1
         targetGenDir 'src/main/java'
@@ -25,6 +23,18 @@ android {
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
+    }
+
+    aaptOptions { cruncherEnabled = false }
+
+
+    signingConfigs {
+        release {
+            keyAlias 'key'
+            keyPassword '555555'
+            storeFile file('D:/Android Project/release.jks')
+            storePassword '555555'
+        }
     }
 }
 
@@ -41,7 +51,7 @@ ext {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.github.ngreedy:tribe_lib:2.8.0'
     compile 'com.jakewharton:butterknife:8.8.1'
@@ -52,7 +62,7 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.9'
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     compile 'org.greenrobot:greendao:3.2.2'
-//    compile "io.reactivex.rxjava2:rxjava:2.1.9"
+    //    compile "io.reactivex.rxjava2:rxjava:2.1.9"
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.techery:properratingbar:0.0.5'
 }
