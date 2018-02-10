@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.gs.buluo.common.network.ApiException;
+import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.Constant;
@@ -49,8 +50,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
         ArrayList<OrderBean> list = new ArrayList<>();
         adapter = new OrderListAdapter(R.layout.item_order_list, list);
         orderList.setAdapter(adapter);
-        orderListLayout.showProgressView();
-        orderList.setRefreshAction(() -> mPresenter.getOrder(type));
+        orderList.setRefreshAction(this::refreshData);
         adapter.setOnItemChildClickListener((adapter, view, position) -> dealWithClick(position, (OrderBean) adapter.getData().get(position)));
         adapter.setOnItemClickListener((adapter, view, position) -> {
             OrderBean bean = (OrderBean) adapter.getData().get(position);
@@ -65,6 +65,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
                 startActivity(intent);
             }
         });
+        adapter.disableLoadMoreIfNotFullPage();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -93,9 +94,18 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
         this.type = type;
     }
 
+    private void refreshData() {
+        orderListLayout.showProgressView();
+        mPresenter.getOrder(type);
+    }
+
     @Override
     public void showError(String message, int res) {
-        orderListLayout.showErrorView(message);
+        if (res == 100) {
+            ToastUtils.ToastMessage(mCtx, message);
+        } else {
+            orderListLayout.showErrorView(message);
+        }
     }
 
     @Override
@@ -112,6 +122,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
         if (adapter.getData().size() == 0) {
             orderListLayout.showEmptyView("当前尚无订单");
         }
+        if (response.has_more == 0) adapter.loadMoreEnd(true);
     }
 
     @Override
@@ -138,13 +149,23 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
         adapter.loadMoreFail();
     }
 
+    @Override
+    public void paySuccess() {
+        refreshData();
+    }
+
+    @Override
+    public void finishOrderSuccess() {
+        refreshData();
+    }
+
     private void dealWithClick(int position, OrderBean orderBean) {
         switch (orderBean.status) {
             case "待付款":
                 PayPanel payPanel = new PayPanel(mCtx, new PayPanel.OnPayFinishListener() {
                     @Override
                     public void onPaySuccess() {
-
+                        mPresenter.payOrder(orderBean.id);
                     }
 
                     @Override
@@ -155,7 +176,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
                 payPanel.show();
                 break;
             case "进行中":
-                mPresenter.cancelOrder(position, orderBean.id);
+                mPresenter.finishOrder(orderBean.id);
                 break;
             case "待评价":
 

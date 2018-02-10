@@ -3,17 +3,16 @@ package com.wuyou.user.mvp.home;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.widget.ImageView;
 
-import com.gs.buluo.common.utils.DensityUtils;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.response.CategoryParent;
 import com.wuyou.user.mvp.serve.ServeCategoryListActivity;
 import com.wuyou.user.util.GlideUtils;
-import com.wuyou.user.view.widget.GridSpacingItemDecoration;
 import com.wuyou.user.view.widget.recyclerHelper.BaseHolder;
 import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 
@@ -34,13 +33,12 @@ public class MainServeAdapter extends BaseQuickAdapter<CategoryParent, BaseHolde
     @Override
     protected void convert(BaseHolder helper, CategoryParent item) {
         RecyclerView recyclerView = helper.getView(R.id.main_serve_children);
-        recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, DensityUtils.dip2px(context, 6), false));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.HORIZONTAL));
         MainServeChildrenAdapter adapter = new MainServeChildrenAdapter(R.layout.item_main_serve_child, item.sub);
         recyclerView.setAdapter(adapter);
         helper.setText(R.id.main_serve_parent, item.name);
         ImageView imageView = helper.getView(R.id.main_serve_parent_picture);
-//        GlideUtils.loadImage(context, item.icon, imageView);
+        GlideUtils.loadImage(context, item.icon, imageView);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             Intent intent = new Intent(context, ServeCategoryListActivity.class);
             intent.putExtra(Constant.CATEGORY_ID, item.sub.get(position).id);
@@ -48,6 +46,4 @@ public class MainServeAdapter extends BaseQuickAdapter<CategoryParent, BaseHolde
             context.startActivity(intent);
         });
     }
-
-
 }

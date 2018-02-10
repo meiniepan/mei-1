@@ -43,19 +43,22 @@ public class NewOrderActivity extends BaseActivity {
     EditText createOrderComment;
     @BindView(R.id.create_order_fee)
     TextView createOrderFee;
-    @BindView(R.id.create_order_door_fee)
+    @BindView(R.id.create_order_other_fee)
     TextView createOrderDoorFee;
     private ServeDetailBean bean;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        bean = getIntent().getParcelableExtra(Constant.SERVE_BEAN);
+        Intent intent = getIntent();
+        bean = intent.getParcelableExtra(Constant.SERVE_BEAN);
         if (bean != null) {
             createOrderFee.setText(bean.price);
-            createOrderServeTime.setText(bean.time);
+            createOrderServeTime.setText(bean.service_time);
+            createOrderFee.setText(bean.price);
+            createOrderDoorFee.setText(bean.other_price);
         }
-
         createOrderPhone.setText(CarefreeApplication.getInstance().getUserInfo().getMobile());
+        createOrderComment.requestFocus();
     }
 
     @Override
@@ -72,22 +75,24 @@ public class NewOrderActivity extends BaseActivity {
             ToastUtils.ToastMessage(getCtx(), "请输入姓名");
             return;
         }
+        normalCreateOrder();
+    }
 
-        String fee = createOrderFee.getText().toString().trim();
-        String otherFee = createOrderDoorFee.getText().toString().trim();
+    private void normalCreateOrder() {
+        if (bean.service_id != null) bean.id = bean.service_id;
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
                 .createOrder(QueryMapBuilder.getIns().put("address", createOrderAddress.getText().toString().trim())
                         .put("username", createOrderOwner.getText().toString().trim())
                         .put("mobile", CarefreeApplication.getInstance().getUserInfo().getMobile())
-                        .put("service_time", bean.time)
+                        .put("service_time", bean.service_time)
                         .put("remark", createOrderComment.getText().toString().trim())
-                        .put("service_price", fee)
-                        .put("orther_price", 0 + "")
-                        .put("total_price", Float.parseFloat(fee) + Float.parseFloat(otherFee) + "")
+                        .put("service_price", bean.price)
+                        .put("other_price", bean.other_price)
+                        .put("total_price", Float.parseFloat(bean.price) + Float.parseFloat(bean.other_price) + "")
                         .put("user_id", CarefreeApplication.getInstance().getUserInfo().getUid())
                         .put("shop_id", bean.shop_id)
                         .put("service_id", bean.id)
-                        .put("nums", 1 + "")
+                        .put("num", 1 + "")
                         .buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -20,6 +20,10 @@ public interface OrderContract {
         void getOrderDetailSuccess(OrderBeanDetail bean);
 
         void loadMoreFail(String displayMessage, int code);
+
+        void paySuccess();
+
+        void finishOrderSuccess();
     }
 
     abstract class Presenter extends BasePresenter<View> {
@@ -29,7 +33,10 @@ public interface OrderContract {
 
         abstract void cancelOrder(int position, String orderId);
 
-        void getOrderDetail(String orderId) {
-        }
+        abstract void getOrderDetail(String orderId);
+
+        abstract void payOrder(String orderId);
+
+        abstract void finishOrder(String orderId);
     }
 }

@@ -30,26 +30,27 @@ public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, 
     @BindView(R.id.serve_category_status)
     StatusLayout serveCategoryStatus;
     private ServeListAdapter adapter;
+    private String categoryId;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
         Intent i = getIntent();
-        String serveId = i.getStringExtra(Constant.CATEGORY_ID);
+        categoryId = i.getStringExtra(Constant.CATEGORY_ID);
         serveCategory.setText(i.getStringExtra(Constant.CATEGORY_NAME));
         serveList.setLayoutManager(new LinearLayoutManager(getCtx()));
         serveList.addItemDecoration(new RecycleViewDivider(
-                getCtx(), LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(this,8), getResources().getColor(R.color.tint_bg)));
-        adapter = new ServeListAdapter(getCtx(),R.layout.item_serve_list);
+                getCtx(), LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(this, 8), getResources().getColor(R.color.tint_bg)));
+        adapter = new ServeListAdapter(getCtx(), R.layout.item_serve_list);
         serveList.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(getCtx(), ServeDetailActivity.class);
             ServeBean bean = (ServeBean) adapter.getData().get(position);
-            intent.putExtra(Constant.SERVE_ID,bean.id);
+            intent.putExtra(Constant.SERVE_ID, bean.id);
             startActivity(intent);
         });
         adapter.setOnLoadMoreListener(() -> mPresenter.getServeMore(), serveList);
         serveCategoryStatus.showProgressView();
-        mPresenter.getServe(serveId);
+        mPresenter.getServe(categoryId);
     }
 
     @Override
@@ -65,13 +66,19 @@ public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, 
     public void fastCreate(View view) {
         if (!checkUser(this)) return;
         Intent intent = new Intent(getCtx(), FastCreateActivity.class);
+        intent.putExtra(Constant.CATEGORY_ID, categoryId);
         startActivity(intent);
     }
 
     @Override
-    public void getServeSuccess(ServeListResponse list) {
+    public void getServeSuccess(ServeListResponse response) {
         serveCategoryStatus.showContentView();
-        adapter.setNewData(list.list);
+        adapter.setNewData(response.list);
+        if (adapter.getData().size() == 0) {
+            serveCategoryStatus.showEmptyView("尚无当前种类服务");
+            return;
+        }
+        if (response.has_more == 0) adapter.loadMoreEnd(true);
     }
 
     @Override

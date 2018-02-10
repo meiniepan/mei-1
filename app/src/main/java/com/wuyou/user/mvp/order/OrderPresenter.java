@@ -32,7 +32,7 @@ public class OrderPresenter extends OrderContract.Presenter {
                     public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
                         OrderListResponse r = orderListResponseBaseResponse.data;
                         mView.getOrderSuccess(r);
-                        if (r.list.size() > 0) startId = r.list.get(r.list.size()-1).id;
+                        if (r.list.size() > 0) startId = r.list.get(r.list.size() - 1).id;
                     }
 
                     @Override
@@ -53,7 +53,7 @@ public class OrderPresenter extends OrderContract.Presenter {
                     public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
                         OrderListResponse data = orderListResponseBaseResponse.data;
                         mView.loadMore(data);
-                        if (data.list.size() > 0) startId = data.list.get(data.list.size()-1).id;
+                        if (data.list.size() > 0) startId = data.list.get(data.list.size() - 1).id;
                     }
 
                     @Override
@@ -101,4 +101,44 @@ public class OrderPresenter extends OrderContract.Presenter {
                 });
 
     }
+
+    @Override
+    void payOrder(String orderId) {
+        CarefreeRetrofit.getInstance().createApi(OrderApis.class)
+                .payOrder(orderId, QueryMapBuilder.getIns().buildPost())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse baseResponse) {
+                        mView.paySuccess();
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        mView.showError(e.getDisplayMessage(), 100);
+                    }
+                });
+    }
+
+    @Override
+    void finishOrder(String orderId) {
+        CarefreeRetrofit.getInstance().createApi(OrderApis.class)
+                .finishOrder(CarefreeApplication.getInstance().getUserInfo().getUid(), orderId, QueryMapBuilder.getIns().buildPost())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse baseResponse) {
+                        mView.finishOrderSuccess();
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        mView.showError(e.getDisplayMessage(), 100);
+                    }
+                });
+    }
+
+
 }

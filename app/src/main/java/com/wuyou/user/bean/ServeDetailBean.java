@@ -15,12 +15,16 @@ public class ServeDetailBean implements Parcelable {
     public String image;
     public String price;
     public String total_sell;
-    public String time;
+    public String service_time;
     public String description;
 //    public List<String> notice;
 //    public String securities; //保障????
     public String name;
     public String shop_id;
+    public String other_price;
+    public String level;
+    public String service_id;
+    public boolean selected;
 
     public ServeDetailBean() {
     }
@@ -37,10 +41,14 @@ public class ServeDetailBean implements Parcelable {
         dest.writeString(this.image);
         dest.writeString(this.price);
         dest.writeString(this.total_sell);
-        dest.writeString(this.time);
+        dest.writeString(this.service_time);
         dest.writeString(this.description);
         dest.writeString(this.name);
         dest.writeString(this.shop_id);
+        dest.writeString(this.other_price);
+        dest.writeString(this.level);
+        dest.writeString(this.service_id);
+        dest.writeByte(this.selected ? (byte) 1 : (byte) 0);
     }
 
     protected ServeDetailBean(Parcel in) {
@@ -49,10 +57,14 @@ public class ServeDetailBean implements Parcelable {
         this.image = in.readString();
         this.price = in.readString();
         this.total_sell = in.readString();
-        this.time = in.readString();
+        this.service_time = in.readString();
         this.description = in.readString();
         this.name = in.readString();
         this.shop_id = in.readString();
+        this.other_price = in.readString();
+        this.level = in.readString();
+        this.service_id = in.readString();
+        this.selected = in.readByte() != 0;
     }
 
     public static final Creator<ServeDetailBean> CREATOR = new Creator<ServeDetailBean>() {

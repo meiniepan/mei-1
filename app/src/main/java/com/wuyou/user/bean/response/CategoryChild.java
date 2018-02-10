@@ -7,4 +7,5 @@ package com.wuyou.user.bean.response;
 public class CategoryChild {
     public String id;
     public String name;
+    public int position;
 }

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.utils.TribeDateUtils;
+import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBeanDetail;
@@ -96,6 +97,16 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     }
 
     @Override
+    public void paySuccess() {
+
+    }
+
+    @Override
+    public void finishOrderSuccess() {
+
+    }
+
+    @Override
     public void cancelSuccess(int position) {
         ToastUtils.ToastMessage(getCtx(), R.string.cancel_success);
         finish();
@@ -108,6 +119,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
 
     public void setData(OrderBeanDetail data) {
         orderDetailStatus.setText(data.status);
+        if (data.updated_at == 0) data.updated_at = data.created_at;
         orderDetailDate.setText(TribeDateUtils.dateFormat(new Date(data.updated_at * 1000)));
         orderDetailAddress.setText(data.contact_address);
         orderDetailStore.setText(data.shop_name);
@@ -141,7 +153,10 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                 startActivity(intent);
                 break;
             case R.id.order_detail_cancel:
-                mPresenter.cancelOrder(0, orderId);
+                new CustomAlertDialog.Builder(getCtx()).setTitle(R.string.prompt).setMessage(getCtx().getString(R.string.complete))
+                        .setPositiveButton(getCtx().getString(R.string.complete), (dialog, which) -> {
+                            mPresenter.cancelOrder(0, orderId);
+                        }).setNegativeButton(getCtx().getResources().getString(R.string.cancel), null).create().show();
                 break;
         }
     }

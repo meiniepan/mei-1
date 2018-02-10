@@ -4,6 +4,7 @@ import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
 import com.wuyou.user.bean.ServeDetailBean;
 import com.wuyou.user.bean.response.CategoryListResponse;
+import com.wuyou.user.bean.response.FastLevelResponse;
 import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.bean.response.ServeDetailResponse;
 import com.wuyou.user.bean.response.ServeListResponse;
@@ -33,9 +34,15 @@ public interface ServeApis {
     Observable<BaseResponse<ServeDetailResponse>> getServeDetail(@Path("service_id") String id, @QueryMap SortedTreeMap<String, String> map);
 
 
+    @GET("service/levels/{category_id}")
+    Observable<BaseResponse<FastLevelResponse>> getFastServeLevel(@Path("category_id") String id, @QueryMap SortedTreeMap<String, String> map);
+
+
     @FormUrlEncoded
     @POST("order")
     Observable<BaseResponse<String>> createOrder(
             @FieldMap SortedTreeMap<String, String> map);
+
+
 
 }

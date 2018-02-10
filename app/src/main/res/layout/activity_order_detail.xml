@@ -99,7 +99,7 @@
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/activity_horizontal_margin"
-                android:text="便民修理店" />
+                android:text="服务名称" />
 
             <include layout="@layout/split_line_margin" />
 
@@ -297,7 +297,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_height"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/activity_horizontal_margin">
 
                 <ImageView
                     android:layout_width="44dp"
@@ -358,8 +359,7 @@
                     android:id="@+id/order_detail_create_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:text="2132121" />
+                    android:layout_marginStart="30dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -380,8 +380,7 @@
                     android:id="@+id/order_detail_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:text="21321223123131" />
+                    android:layout_marginStart="30dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -402,8 +401,7 @@
                     android:id="@+id/order_detail_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:text="33" />
+                    android:layout_marginStart="30dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -431,7 +429,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
-                    android:text="微信支付"
                     android:textColor="@color/common_gray" />
             </LinearLayout>
 
@@ -455,7 +452,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
-                    android:text="已支付"
                     android:textColor="@color/common_gray" />
             </LinearLayout>
 

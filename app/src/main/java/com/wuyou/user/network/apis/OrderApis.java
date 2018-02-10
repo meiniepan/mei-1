@@ -7,6 +7,7 @@ import com.wuyou.user.bean.OrderIdBean;
 import com.wuyou.user.bean.response.OrderListResponse;
 
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -32,9 +33,17 @@ public interface OrderApis {
     Observable<BaseResponse<OrderIdBean>> createOrder(
             @FieldMap SortedTreeMap<String, String> map);
 
-    @FormUrlEncoded
     @DELETE("order/{order_id}}")
     Observable<BaseResponse> cancelOrder(@Path("order_id") String id,
-                                         @FieldMap SortedTreeMap<String, String> map);
+                                         @Body SortedTreeMap<String, String> map);
 
+    @FormUrlEncoded
+    @POST("order/pay/{order_id}}")
+    Observable<BaseResponse> payOrder(@Path("order_id") String id,
+                                      @FieldMap SortedTreeMap<String, String> map);
+
+    @FormUrlEncoded
+    @POST("order/finish/{uid}/{order_id}}")
+    Observable<BaseResponse> finishOrder(@Path("uid") String uid, @Path("order_id") String id,
+                                      @FieldMap SortedTreeMap<String, String> map);
 }

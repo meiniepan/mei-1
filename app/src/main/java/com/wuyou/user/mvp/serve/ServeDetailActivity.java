@@ -97,7 +97,7 @@ public class ServeDetailActivity extends BaseActivity {
         serviceDetail.shop_id = data.shop.id;
         GlideUtils.loadImageNoHolder(this, serviceDetail.image, serveDetailPicture);
         serveDetailTitle.setText(serviceDetail.category_name);
-        serveDetailServeTime.setText(serviceDetail.time);
+        serveDetailServeTime.setText(serviceDetail.service_time);
         serveDetailCount.setText(serviceDetail.total_sell);
         serveDetailPrice.setText(serviceDetail.price);
         serveDetailDescription.setText(serviceDetail.description);

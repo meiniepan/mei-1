@@ -8,6 +8,7 @@ import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.wuyou.user.R;
+import com.wuyou.user.bean.response.CategoryChild;
 import com.wuyou.user.bean.response.CategoryListResponse;
 import com.wuyou.user.bean.response.CategoryParent;
 import com.wuyou.user.network.CarefreeRetrofit;
@@ -55,6 +56,11 @@ public class HomeFragment extends BaseFragment {
 
     public void setData(List<CategoryParent> data) {
         mainServeList.setLayoutManager(new LinearLayoutManager(mCtx));
+        for (int i = 0; i < data.size(); i++) {
+            for (CategoryChild categoryChild : data.get(i).sub) {
+                categoryChild.position = i;
+            }
+        }
         mainServeList.setAdapter(new MainServeAdapter(R.layout.item_main_serve, data, mCtx));
     }
 }
