@@ -19,6 +19,7 @@ import com.wuyou.user.mvp.mine.MineFragment;
 import com.wuyou.user.mvp.order.OrderFragment;
 import com.wuyou.user.util.QMUIStatusBarHelper;
 import com.wuyou.user.view.fragment.BaseFragment;
+import com.wuyou.user.view.widget.UnScrollViewPager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -31,7 +32,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.main_tab)
     BottomNavigationViewEx bottomView;
     @BindView(R.id.main_pager)
-    ViewPager viewPager;
+    UnScrollViewPager viewPager;
 
     List<BaseFragment> fragments = new ArrayList<>();
 
