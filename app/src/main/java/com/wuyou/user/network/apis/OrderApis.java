@@ -12,6 +12,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -34,7 +35,7 @@ public interface OrderApis {
     Observable<BaseResponse<OrderIdBean>> createOrder(
             @FieldMap SortedTreeMap<String, String> map);
 
-    @DELETE("order/{order_id}")
+    @HTTP(method = "DELETE", path = "order/{order_id}", hasBody = true)
     Observable<BaseResponse> cancelOrder(@Path("order_id") String id,
                                          @Body SortedTreeMap<String, String> map);
 

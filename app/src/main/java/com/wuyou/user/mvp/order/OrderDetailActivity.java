@@ -113,6 +113,11 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     }
 
     @Override
+    public void showError(String message, int res) {
+        ToastUtils.ToastMessage(getCtx(), message);
+    }
+
+    @Override
     public void getOrderDetailSuccess(OrderBeanDetail bean) {
         setData(bean);
     }
