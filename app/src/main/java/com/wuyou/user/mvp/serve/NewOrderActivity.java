@@ -83,7 +83,7 @@ public class NewOrderActivity extends BaseActivity {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
                 .createOrder(QueryMapBuilder.getIns().put("address", createOrderAddress.getText().toString().trim())
                         .put("username", createOrderOwner.getText().toString().trim())
-                        .put("mobile", CarefreeApplication.getInstance().getUserInfo().getMobile())
+                        .put("mobile", createOrderPhone.getText().toString().trim())
                         .put("service_time", bean.service_time)
                         .put("remark", createOrderComment.getText().toString().trim())
                         .put("service_price", bean.price)

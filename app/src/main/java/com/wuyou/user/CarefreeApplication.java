@@ -8,6 +8,8 @@ import com.wuyou.user.bean.DaoSession;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.UserInfoDao;
 
+import java.util.List;
+
 /**
  * Created by hjn on 2016/11/1.
  */
@@ -48,8 +50,14 @@ public class CarefreeApplication extends BaseApplication {
     public UserInfo getUserInfo() {
         if (userInfo != null)
             return userInfo;
-        else
-            return userInfoDao.loadByRowId(0);
+        else {
+            List<UserInfo> userInfos = userInfoDao.loadAll();
+            if (userInfos != null && userInfos.size() > 0) {
+                return userInfos.get(0);
+            } else {
+                return null;
+            }
+        }
     }
 
     public void setUserInfo(UserInfo userInfo) {
@@ -57,9 +65,9 @@ public class CarefreeApplication extends BaseApplication {
         this.userInfo = userInfo;
     }
 
-    public void clearUserInfo(){
+    public void clearUserInfo() {
         userInfoDao.deleteAll();
-        userInfo=null;
+        userInfo = null;
     }
 
     public UserInfoDao getUserInfoDao() {

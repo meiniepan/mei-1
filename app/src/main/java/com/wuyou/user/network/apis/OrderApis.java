@@ -13,6 +13,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
@@ -33,17 +34,17 @@ public interface OrderApis {
     Observable<BaseResponse<OrderIdBean>> createOrder(
             @FieldMap SortedTreeMap<String, String> map);
 
-    @DELETE("order/{order_id}}")
+    @DELETE("order/{order_id}")
     Observable<BaseResponse> cancelOrder(@Path("order_id") String id,
                                          @Body SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @POST("order/pay/{order_id}}")
+    @PUT("order/pay/{order_id}")
     Observable<BaseResponse> payOrder(@Path("order_id") String id,
                                       @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @POST("order/finish/{uid}/{order_id}}")
+    @PUT("order/finish/{uid}/{order_id}")
     Observable<BaseResponse> finishOrder(@Path("uid") String uid, @Path("order_id") String id,
                                       @FieldMap SortedTreeMap<String, String> map);
 }

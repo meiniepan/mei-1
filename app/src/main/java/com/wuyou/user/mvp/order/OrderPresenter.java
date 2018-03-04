@@ -31,13 +31,13 @@ public class OrderPresenter extends OrderContract.Presenter {
                     @Override
                     public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
                         OrderListResponse r = orderListResponseBaseResponse.data;
-                        mView.getOrderSuccess(r);
+                        if (isAttach()) mView.getOrderSuccess(r);
                         if (r.list.size() > 0) startId = r.list.get(r.list.size() - 1).id;
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
-                        mView.showError(e.getDisplayMessage(), e.getCode());
+                        if (isAttach()) mView.showError(e.getDisplayMessage(), e.getCode());
                     }
                 });
     }
@@ -105,7 +105,7 @@ public class OrderPresenter extends OrderContract.Presenter {
     @Override
     void payOrder(String orderId) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .payOrder(orderId, QueryMapBuilder.getIns().buildPost())
+                .payOrder(orderId, QueryMapBuilder.getIns().put("pay_type", "1").buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {

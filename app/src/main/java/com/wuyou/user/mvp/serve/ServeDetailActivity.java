@@ -3,6 +3,7 @@ package com.wuyou.user.mvp.serve;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,7 +44,7 @@ public class ServeDetailActivity extends BaseActivity {
     @BindView(R.id.serve_detail_serve_time)
     TextView serveDetailServeTime;
     @BindView(R.id.serve_detail_description)
-    TextView serveDetailDescription;
+    WebView serveDetailDescription;
     @BindView(R.id.serve_detail_store)
     TextView serveDetailStore;
     @BindView(R.id.create_order_serve_point)
@@ -109,7 +110,8 @@ public class ServeDetailActivity extends BaseActivity {
         serveDetailServeTime.setText(serviceDetail.service_time);
         serveDetailCount.setText(serviceDetail.total_sell);
         serveDetailPrice.setText(serviceDetail.price);
-        serveDetailDescription.setText(serviceDetail.description);
+//        serveDetailDescription.setText(serviceDetail.description);
+        serveDetailDescription.loadData(serviceDetail.description,"text/html","UTF-8");
         serveDetailStore.setText(data.shop.name);
         CommentResponse comments = data.comments;
         createOrderServeCommentCount.setText(comments.total_comments);
