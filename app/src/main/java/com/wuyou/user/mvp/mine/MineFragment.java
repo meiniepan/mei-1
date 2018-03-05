@@ -12,7 +12,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
-import com.wuyou.user.util.GlideUtils;
+import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.SettingActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 

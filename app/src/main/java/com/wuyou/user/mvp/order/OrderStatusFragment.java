@@ -60,7 +60,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
         });
         adapter.setOnLoadMoreListener(() -> mPresenter.getOrderMore(type), orderList.getRecyclerView());
         orderListLayout.setEmptyAction(v -> {
-            if (CarefreeApplication.getInstance().getUserInfo() == null) {
+            if (CarefreeApplication.getInstance().getUserId() == null) {
                 Intent intent = new Intent(mCtx, LoginActivity.class);
                 startActivity(intent);
             }
@@ -70,7 +70,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginEvent(LoginEvent event) {
-        if (CarefreeApplication.getInstance().getUserInfo() == null) {
+        if (CarefreeApplication.getInstance().getUserId() == null) {
             orderListLayout.showEmptyView("请先登录");
             orderList.setRefreshEnable(false);
         } else {
@@ -81,8 +81,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
 
     @Override
     public void fetchData() {
-        Log.e("Test", "fetchData:!!!!!!!!!!!!!!!!!!!!!! " + type);
-        if (CarefreeApplication.getInstance().getUserInfo() == null) {
+        if (CarefreeApplication.getInstance().getUserId() == null) {
             orderListLayout.showEmptyView("请先登录");
             return;
         }

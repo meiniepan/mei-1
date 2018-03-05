@@ -24,7 +24,7 @@ public class OrderPresenter extends OrderContract.Presenter {
     @Override
     void getOrder(int type) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .getOrderList(CarefreeApplication.getInstance().getUserInfo().getUid(), type, 0 + "", 1, QueryMapBuilder.getIns().buildGet())
+                .getOrderList(CarefreeApplication.getInstance().getUserId(), type, 0 + "", 1, QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
@@ -45,7 +45,7 @@ public class OrderPresenter extends OrderContract.Presenter {
     @Override
     void getOrderMore(int type) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .getOrderList(CarefreeApplication.getInstance().getUserInfo().getUid(), type, startId + "", 2, QueryMapBuilder.getIns().buildGet())
+                .getOrderList(CarefreeApplication.getInstance().getUserId(), type, startId + "", 2, QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
@@ -124,7 +124,7 @@ public class OrderPresenter extends OrderContract.Presenter {
     @Override
     void finishOrder(String orderId) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .finishOrder(CarefreeApplication.getInstance().getUserInfo().getUid(), orderId, QueryMapBuilder.getIns().buildPost())
+                .finishOrder(CarefreeApplication.getInstance().getUserId(), orderId, QueryMapBuilder.getIns().buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {

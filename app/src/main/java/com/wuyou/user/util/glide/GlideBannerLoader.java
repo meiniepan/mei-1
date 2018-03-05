@@ -1,4 +1,4 @@
-package com.wuyou.user.util;
+package com.wuyou.user.util.glide;
 
 import android.content.Context;
 import android.widget.ImageView;

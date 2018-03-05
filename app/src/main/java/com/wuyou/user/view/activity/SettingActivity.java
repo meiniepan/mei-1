@@ -99,7 +99,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         startActivity(intent);
         finish();
 //        CarefreeRetrofit.getInstance().createApi(UserApis.class).
-//                doLogout(CarefreeApplication.getInstance().getUserInfo().getUid(), com.wuyou.user.network.QueryMapBuilder.getIns().buildPost())
+//                doLogout(CarefreeApplication.getInstance().getUserId(), com.wuyou.user.network.QueryMapBuilder.getIns().buildPost())
 //                .subscribeOn(Schedulers.io())
 //                .flatMap(new Function<BaseResponse, ObservableSource<?>>() {
 //                    @Override

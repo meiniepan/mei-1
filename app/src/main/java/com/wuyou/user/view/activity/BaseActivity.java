@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
@@ -119,6 +120,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         tintManager.setStatusBarTintResource(color);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private static void setTranslucentStatus(Activity activity, boolean on) {
         Window win = activity.getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
@@ -150,7 +152,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
 
 
     protected boolean checkUser(Context context) {
-        if (CarefreeApplication.getInstance().getUserInfo() == null) {
+        if (CarefreeApplication.getInstance().getUserId() == null) {
             Intent intent = new Intent(context, LoginActivity.class);
             startActivity(intent);
             return false;

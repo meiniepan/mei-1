@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import com.wuyou.user.R;
 import com.wuyou.user.bean.ServeBean;
-import com.wuyou.user.util.GlideUtils;
+import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.widget.recyclerHelper.BaseHolder;
 import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 

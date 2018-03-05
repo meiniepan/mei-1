@@ -4,9 +4,10 @@ import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 
-import com.wuyou.user.util.GlideBannerLoader;
+import com.wuyou.user.util.glide.GlideBannerLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class BannerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return urls.size();
+        return 10000;
     }
 
     @Override
@@ -40,32 +41,27 @@ public class BannerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, final int position) {
-        container.addView(imageViews.get(position));
+    public Object instantiateItem(ViewGroup container, int position) {
+        position %= urls.size();
+        if (position < 0) {
+            position = urls.size() + position;
+        }
         View view = imageViews.get(position);
-//        if (listener != null) {
-//            view.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    listener.OnBannerClick(toRealPosition(position));
-//                }
-//            });
-//        }
+        ViewParent viewParent = view.getParent();
+        if (viewParent != null) {
+            ViewGroup parent = (ViewGroup) viewParent;
+            parent.removeView(view);
+        }
+        container.addView(view);
         return view;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((View) object);
     }
 
 
     private GlideBannerLoader imageLoader = new GlideBannerLoader();
-
-    public void setImages(List<String> imageUrls) {
-        this.urls = imageUrls;
-        this.count = imageUrls.size();
-    }
 
     private void setImageList(List<String> imagesUrl) {
         this.count = imagesUrl.size();

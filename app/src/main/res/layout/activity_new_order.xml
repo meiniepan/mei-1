@@ -113,7 +113,7 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_weight="1"
             android:background="@null"
-            tool:text="137290980980" />
+            android:inputType="phone"/>
     </LinearLayout>
 
     <include layout="@layout/shadow_line" />

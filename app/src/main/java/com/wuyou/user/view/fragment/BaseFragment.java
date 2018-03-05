@@ -115,7 +115,7 @@ public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<
     }
 
     protected boolean checkUser(Context context) {
-        if (CarefreeApplication.getInstance().getUserInfo() == null) {
+        if (CarefreeApplication.getInstance().getUserId() == null) {
             startActivity(new Intent(context, LoginActivity.class));
             return false;
         }

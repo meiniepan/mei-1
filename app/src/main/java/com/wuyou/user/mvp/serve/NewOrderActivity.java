@@ -57,6 +57,7 @@ public class NewOrderActivity extends BaseActivity {
             createOrderFee.setText(bean.price);
             createOrderDoorFee.setText(bean.other_price);
         }
+        if (!checkUser(this)) return;
         createOrderPhone.setText(CarefreeApplication.getInstance().getUserInfo().getMobile());
         createOrderComment.requestFocus();
     }
@@ -79,6 +80,18 @@ public class NewOrderActivity extends BaseActivity {
     }
 
     private void normalCreateOrder() {
+        if (createOrderPhone.length() == 0) {
+            ToastUtils.ToastMessage(getCtx(), "请输入手机号");
+            return;
+        }
+        if (createOrderAddress.length()==0){
+            ToastUtils.ToastMessage(getCtx(), "请输入手机号");
+            return;
+        }
+        if (createOrderAddress.length()==0){
+            ToastUtils.ToastMessage(getCtx(), "请输入手机号");
+            return;
+        }
         if (bean.service_id != null) bean.id = bean.service_id;
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
                 .createOrder(QueryMapBuilder.getIns().put("address", createOrderAddress.getText().toString().trim())
@@ -89,7 +102,7 @@ public class NewOrderActivity extends BaseActivity {
                         .put("service_price", bean.price)
                         .put("other_price", bean.other_price)
                         .put("total_price", Float.parseFloat(bean.price) + Float.parseFloat(bean.other_price) + "")
-                        .put("user_id", CarefreeApplication.getInstance().getUserInfo().getUid())
+                        .put("user_id", CarefreeApplication.getInstance().getUserId())
                         .put("shop_id", bean.shop_id)
                         .put("service_id", bean.id)
                         .put("num", 1 + "")

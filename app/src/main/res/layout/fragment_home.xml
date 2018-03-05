@@ -3,9 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:clipChildren="false"
-    android:layerType="software">
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/night_blue" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,18 +55,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
+        android:layout_margin="15dp"
         android:orientation="horizontal">
-        <ImageView
+
+        <com.wuyou.user.util.JZVideoPlayerFullscreen
+            android:id="@+id/main_video_1"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:src="@mipmap/default_pic"/>
-        <ImageView
+            android:layout_weight="1" />
+
+        <com.wuyou.user.util.JZVideoPlayerFullscreen
+            android:id="@+id/main_video_2"
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_marginStart="15dp"
             android:layout_height="match_parent"
-            android:src="@mipmap/default_pic"/>
+            android:layout_weight="1" />
     </LinearLayout>
+
     <include layout="@layout/split_line" />
 
     <android.support.v7.widget.RecyclerView

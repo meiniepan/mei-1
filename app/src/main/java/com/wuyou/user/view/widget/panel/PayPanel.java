@@ -54,7 +54,7 @@ public class PayPanel extends Dialog implements View.OnClickListener {
         super(context, R.style.my_dialog);
         mContext = context;
         this.onFinishListener = onDismissListener;
-        ownerId = CarefreeApplication.getInstance().getUserInfo().getUid();
+        ownerId = CarefreeApplication.getInstance().getUserId();
 //        EventBus.getDefault().register(this);
         initView();
     }

@@ -1,4 +1,4 @@
-package com.wuyou.user.util;
+package com.wuyou.user.util.glide;
 
 /**
  * Copyright (C) 2015 Wasabeef

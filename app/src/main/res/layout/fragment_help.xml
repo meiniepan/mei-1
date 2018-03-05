@@ -3,6 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/night_blue"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/night_blue"
+        android:gravity="center"
+        android:text="@string/main_help"
+        android:textColor="@color/white"
+        android:textSize="@dimen/title_size" />
 
     <Button
         android:layout_width="match_parent"

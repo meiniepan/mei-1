@@ -1,6 +1,7 @@
 package com.wuyou.user;
 
 import android.os.Environment;
+import android.text.TextUtils;
 
 import com.gs.buluo.common.BaseApplication;
 import com.wuyou.user.bean.DaoMaster;
@@ -15,7 +16,6 @@ import java.util.List;
  */
 public class CarefreeApplication extends BaseApplication {
     private static CarefreeApplication instance;
-    private UserInfo userInfo;
     private UserInfoDao userInfoDao;
 
     @Override
@@ -48,26 +48,30 @@ public class CarefreeApplication extends BaseApplication {
     }
 
     public UserInfo getUserInfo() {
-        if (userInfo != null)
-            return userInfo;
-        else {
+        List<UserInfo> userInfos = userInfoDao.loadAll();
+        if (userInfos == null || userInfos.size() == 0) return null;
+        return userInfos.get(0);
+    }
+
+    private String uid;
+
+    public String getUserId() {
+        if (TextUtils.isEmpty(uid)) {
             List<UserInfo> userInfos = userInfoDao.loadAll();
-            if (userInfos != null && userInfos.size() > 0) {
-                return userInfos.get(0);
-            } else {
-                return null;
-            }
+            if (userInfos == null || userInfos.size() == 0) return null;
+            uid = userInfos.get(0).getUid();
+            return uid;
+        } else {
+            return uid;
         }
     }
 
     public void setUserInfo(UserInfo userInfo) {
         CarefreeApplication.getInstance().getUserInfoDao().insert(userInfo);
-        this.userInfo = userInfo;
     }
 
     public void clearUserInfo() {
         userInfoDao.deleteAll();
-        userInfo = null;
     }
 
     public UserInfoDao getUserInfoDao() {

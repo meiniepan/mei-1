@@ -20,7 +20,7 @@ import com.wuyou.user.bean.response.ServeDetailResponse;
 import com.wuyou.user.mvp.store.StoreDetailActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.ServeApis;
-import com.wuyou.user.util.GlideUtils;
+import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import butterknife.BindView;

@@ -1,4 +1,4 @@
-package com.wuyou.user.util;
+package com.wuyou.user.util.glide;
 
 import android.content.Context;
 import android.widget.ImageView;
@@ -51,5 +51,11 @@ public class GlideUtils {
     public static void loadImage(Context context, String url, ImageView imageView, int width, int height) {
         if (url == null) return;
         Glide.with(context).load(url).placeholder(R.mipmap.default_pic).override(width, height).into(imageView);
+    }
+
+
+    public static void loadRoundCornerImage(Context context, String url, ImageView imageView, int dp) {
+        if (url == null) return;
+        Glide.with(context).load(url).bitmapTransform(new GlideRoundTransform(context, dp)).into(imageView);
     }
 }
