@@ -2,7 +2,6 @@ package com.wuyou.user.mvp.order;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.utils.ToastUtils;
@@ -63,6 +62,8 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
             if (CarefreeApplication.getInstance().getUserId() == null) {
                 Intent intent = new Intent(mCtx, LoginActivity.class);
                 startActivity(intent);
+            } else {
+                mPresenter.getOrder(type);
             }
         });
         adapter.disableLoadMoreIfNotFullPage();

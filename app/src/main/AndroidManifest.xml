@@ -54,6 +54,16 @@
         <activity android:name=".mvp.serve.NewOrderActivity" />
         <activity android:name=".mvp.serve.ServeDetailActivity" />
         <activity android:name=".mvp.store.StoreDetailActivity" />
+        <activity android:name=".mvp.address.AddressActivity" />
+        <activity android:name=".mvp.address.AddressManagerActivity" />
+        <activity android:name=".mvp.address.AddressLocationActivity" />
+        <activity android:name=".view.activity.HomeMapActivity" />
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="c23f912fdbbcb0d3c970a04e7ccb6386" />
+        <service android:name="com.amap.api.location.APSService"/>
+
     </application>
 
 </manifest>

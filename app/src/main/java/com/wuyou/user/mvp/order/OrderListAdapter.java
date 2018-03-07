@@ -17,7 +17,10 @@ import java.util.List;
  * Created by hjn on 2018/2/6.
  */
 
-class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
+public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
+
+    private boolean buttonGone =false;
+
     public OrderListAdapter(int layoutResId, @Nullable List<OrderBean> data) {
         super(layoutResId, data);
     }
@@ -60,5 +63,12 @@ class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
                 break;
         }
         helper.addOnClickListener(R.id.order_item_action);
+        if (buttonGone){
+            tvAct.setVisibility(View.GONE);
+        }
+    }
+
+    public void setButtonGone() {
+        buttonGone = true;
     }
 }

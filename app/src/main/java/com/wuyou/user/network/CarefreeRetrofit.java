@@ -1,7 +1,6 @@
 package com.wuyou.user.network;
 
 import com.gs.buluo.common.network.CustomGsonFactory;
-import com.gs.buluo.common.network.HttpInterceptor;
 import com.gs.buluo.common.network.LogInterceptor;
 import com.wuyou.user.Constant;
 
@@ -30,7 +29,7 @@ public class CarefreeRetrofit {
 
     private CarefreeRetrofit() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.interceptors().add(new HttpInterceptor());
+        builder.interceptors().add(new CarefreeHttpInterceptor());
         builder.interceptors().add(new LogInterceptor());
         builder.connectTimeout(10, TimeUnit.SECONDS);
         builder.readTimeout(20, TimeUnit.SECONDS);

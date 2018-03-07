@@ -31,7 +31,7 @@
             android:layout_toEndOf="@+id/mine_head"
             android:textColor="@color/white"
             android:textSize="@dimen/dimens_16sp"
-            tools:text="用户名" />
+            android:text="用户名" />
 
         <TextView
             android:id="@+id/mine_sex"
@@ -51,7 +51,7 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/mine_sex"
             android:textColor="@color/shallow_white"
-            tools:text="1332190283190" />
+            android:text="1332190283190" />
 
         <TextView
             android:id="@+id/mine_login"

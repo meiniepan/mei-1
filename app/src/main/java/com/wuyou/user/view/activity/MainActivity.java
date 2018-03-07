@@ -71,7 +71,7 @@ public class MainActivity extends BaseActivity {
         bottomView.enableShiftingMode(false);
         bottomView.enableItemShiftingMode(false);
         bottomView.setIconSize(1.0f * (DensityUtils.dip2px(getCtx(), 12)), 1.0f * (DensityUtils.dip2px(getCtx(), 12)));
-        bottomView.setIconsMarginTop(DensityUtils.dip2px(getCtx(), -2));
+        bottomView.setIconsMarginTop(DensityUtils.dip2px(getCtx(), 2));
     }
 
     @Override

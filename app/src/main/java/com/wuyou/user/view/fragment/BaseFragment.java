@@ -142,4 +142,8 @@ public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<
     public void setTitle(String title) {
         this.title = title;
     }
+
+    @Override
+    public void showError(String message, int res) {
+    }
 }

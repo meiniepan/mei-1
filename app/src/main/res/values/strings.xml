@@ -64,5 +64,8 @@
     <string name="order">订单</string>
     <string name="buy_now">立即购买</string>
     <string name="not_set_pwd">尚未设置支付密码</string>
+    <string name="video_loading_faild">加载失败</string>
+    <string name="click_to_restart">点击重试</string>
+    <string name="get_order_fail">获取订单失败</string>
 
 </resources>

@@ -159,7 +159,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                 break;
             case R.id.order_detail_cancel:
                 new CustomAlertDialog.Builder(getCtx()).setTitle(R.string.prompt).setMessage("确认取消?")
-                        .setPositiveButton(getCtx().getString(R.string.cancel), (dialog, which) -> {
+                        .setPositiveButton(getCtx().getString(R.string.yes), (dialog, which) -> {
                             mPresenter.cancelOrder(0, orderId);
                         }).setNegativeButton(getCtx().getResources().getString(R.string.cancel), null).create().show();
                 break;

@@ -18,23 +18,31 @@
         android:orientation="horizontal"
         android:paddingEnd="4dp">
 
-        <ImageView
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:src="@mipmap/main_location" />
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/home_location_area"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="北京"
-            android:textColor="@color/white"
-            android:textSize="@dimen/title_size" />
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/arrow_white" />
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:src="@mipmap/main_location" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="北京"
+                android:textColor="@color/white"
+                android:textSize="@dimen/title_size" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/arrow_white" />
+        </LinearLayout>
 
         <View
             android:layout_width="0dp"
@@ -47,36 +55,91 @@
             android:src="@mipmap/white_search" />
 
         <ImageView
+            android:id="@+id/home_map"
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:src="@mipmap/map" />
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_margin="15dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <com.wuyou.user.util.JZVideoPlayerFullscreen
-            android:id="@+id/main_video_1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <com.wuyou.user.util.JZVideoPlayerFullscreen
-            android:id="@+id/main_video_2"
-            android:layout_width="0dp"
-            android:layout_marginStart="15dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_margin="15dp"
+                android:orientation="horizontal">
 
-    <include layout="@layout/split_line" />
+                <com.wuyou.user.util.JZVideoPlayerFullscreen
+                    android:id="@+id/main_video_1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/main_serve_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white" />
+                <com.wuyou.user.util.JZVideoPlayerFullscreen
+                    android:id="@+id/main_video_2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/home_video_title_1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="视频标题" />
+
+                <TextView
+                    android:id="@+id/home_video_title_2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="视频标题" />
+            </LinearLayout>
+
+            <include layout="@layout/split_line" />
+
+            <TextView
+                android:id="@+id/home_current_location"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_height"
+                android:drawableLeft="@mipmap/home_location"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:text="宣武门社区，附近有 45 家服务商"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:textColor="@color/black" />
+
+            <include layout="@layout/split_line" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/home_order_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_serve_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="@color/white" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

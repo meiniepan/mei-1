@@ -70,7 +70,12 @@ public class CarefreeApplication extends BaseApplication {
         CarefreeApplication.getInstance().getUserInfoDao().insert(userInfo);
     }
 
+    public void updateUserInfo(UserInfo userInfo) {
+        CarefreeApplication.getInstance().getUserInfoDao().update(userInfo);
+    }
+
     public void clearUserInfo() {
+        uid = null;
         userInfoDao.deleteAll();
     }
 

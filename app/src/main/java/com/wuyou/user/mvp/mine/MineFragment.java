@@ -63,10 +63,10 @@ public class MineFragment extends BaseFragment {
         UserInfo userInfo = CarefreeApplication.getInstance().getUserInfo();
         if (userInfo != null) {
             mineLogin.setVisibility(View.GONE);
-            GlideUtils.loadImage(mCtx, userInfo.getHead_image(), mineHead,true);
-            minePhone.setText(userInfo.getMobile());
-            mineName.setText(userInfo.getName());
-            mineSex.setText(userInfo.getGender());
+//            GlideUtils.loadImage(mCtx, userInfo.getHead_image(), mineHead,true);
+//            minePhone.setText(userInfo.getMobile());
+//            mineName.setText(userInfo.getName());
+//            mineSex.setText(userInfo.getGender());
         } else {
             mineLogin.setVisibility(View.VISIBLE);
             mineHead.setImageResource(R.mipmap.default_pic);

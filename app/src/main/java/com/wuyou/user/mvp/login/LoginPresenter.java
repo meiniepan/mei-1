@@ -1,5 +1,7 @@
 package com.wuyou.user.mvp.login;
 
+import android.util.Log;
+
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
@@ -17,18 +19,29 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class LoginPresenter extends LoginContract.Presenter {
+    private String token ;
     @Override
     void doLogin(String phone, String captcha) {
         CarefreeRetrofit.getInstance().createApi(UserApis.class)
                 .doLogin(QueryMapBuilder.getIns().put("mobile", phone).put("captcha", captcha).buildPost())
                 .subscribeOn(Schedulers.io())
-                .flatMap(userInfoBaseResponse -> CarefreeRetrofit.getInstance().createApi(UserApis.class)
-                        .getUserInfo(userInfoBaseResponse.data.getUid(), QueryMapBuilder.getIns().buildGet()))
-                .doOnNext(userInfoBaseResponse -> CarefreeApplication.getInstance().setUserInfo(userInfoBaseResponse.data))
+                .flatMap(userInfoBaseResponse -> {
+                    token = userInfoBaseResponse.data.getToken();
+                    CarefreeApplication.getInstance().setUserInfo(userInfoBaseResponse.data);
+                    return CarefreeRetrofit.getInstance().createApi(UserApis.class)
+                            .getUserInfo(userInfoBaseResponse.data.getUid(), QueryMapBuilder.getIns().buildGet());
+                })
+                .doOnNext(userInfoBaseResponse -> {
+                    UserInfo data = userInfoBaseResponse.data;
+                    data.setMid(CarefreeApplication.getInstance().getUserInfo().getMid());
+                    data.setToken(token);
+                    CarefreeApplication.getInstance().updateUserInfo(data);
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<UserInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<UserInfo> userInfoBaseResponse) {
+                        Log.e("Test", "onSuccess: "+CarefreeApplication.getInstance().getUserInfo());
                         mView.loginSuccess();
                     }
 
