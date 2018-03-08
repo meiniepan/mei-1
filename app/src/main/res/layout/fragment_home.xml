@@ -26,21 +26,22 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
                 android:src="@mipmap/main_location" />
 
             <TextView
+                android:id="@+id/home_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:text="北京"
                 android:textColor="@color/white"
-                android:textSize="@dimen/title_size" />
+                android:textSize="@dimen/dimens_16sp"/>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:src="@mipmap/arrow_white" />
         </LinearLayout>
 
@@ -50,14 +51,14 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
             android:src="@mipmap/white_search" />
 
         <ImageView
             android:id="@+id/home_map"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
             android:src="@mipmap/map" />
     </LinearLayout>
 
@@ -68,7 +69,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -122,9 +125,9 @@
                 android:drawableLeft="@mipmap/home_location"
                 android:drawablePadding="4dp"
                 android:gravity="center_vertical"
-                android:text="宣武门社区，附近有 45 家服务商"
-                android:paddingStart="@dimen/activity_horizontal_margin"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:text="宣武门社区，附近有 45 家服务商"
                 android:textColor="@color/black" />
 
             <include layout="@layout/split_line" />

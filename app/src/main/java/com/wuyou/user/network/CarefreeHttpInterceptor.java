@@ -7,6 +7,7 @@ import com.gs.buluo.common.BaseApplication;
 import com.gs.buluo.common.network.EncryptUtil;
 import com.gs.buluo.common.utils.Utils;
 import com.wuyou.user.CarefreeApplication;
+import com.wuyou.user.CarefreeDaoSession;
 
 import java.io.IOException;
 
@@ -30,8 +31,8 @@ public class CarefreeHttpInterceptor implements Interceptor {
             newBuilder.addQueryParameter("sign", EncryptUtil.getSha1(Base64.encode(query.getBytes(), Base64.NO_WRAP)).toUpperCase());
             url = newBuilder.build();
         }
-        if (CarefreeApplication.getInstance().getUserInfo() != null) {
-            builder.addHeader("Authorization", CarefreeApplication.getInstance().getUserInfo().getToken());
+        if (CarefreeDaoSession.getInstance().getUserInfo() != null) {
+            builder.addHeader("Authorization", CarefreeDaoSession.getInstance().getUserInfo().getToken());
         }
         Request request = builder.addHeader("Accept", "application/json").url(url).addHeader("Content-Type", "application/json").
                 addHeader("User-Agent", Utils.getDeviceInfo(BaseApplication.getInstance().getApplicationContext())).build();

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wuyou.user.CarefreeApplication;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.event.LoginEvent;
@@ -60,7 +61,7 @@ public class MineFragment extends BaseFragment {
     }
 
     private void setLoginInfo() {
-        UserInfo userInfo = CarefreeApplication.getInstance().getUserInfo();
+        UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
         if (userInfo != null) {
             mineLogin.setVisibility(View.GONE);
 //            GlideUtils.loadImage(mCtx, userInfo.getHead_image(), mineHead,true);

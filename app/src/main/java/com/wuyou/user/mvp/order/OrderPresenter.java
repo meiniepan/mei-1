@@ -5,6 +5,7 @@ import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.wuyou.user.CarefreeApplication;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.bean.OrderBeanDetail;
 import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.network.CarefreeRetrofit;
@@ -24,7 +25,7 @@ public class OrderPresenter extends OrderContract.Presenter {
     @Override
     void getOrder(int type) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .getOrderList(CarefreeApplication.getInstance().getUserId(), type, 0 + "", 1, QueryMapBuilder.getIns().buildGet())
+                .getOrderList(CarefreeDaoSession.getInstance().getUserId(), type, 0 + "", 1, QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
@@ -45,7 +46,7 @@ public class OrderPresenter extends OrderContract.Presenter {
     @Override
     void getOrderMore(int type) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .getOrderList(CarefreeApplication.getInstance().getUserId(), type, startId + "", 2, QueryMapBuilder.getIns().buildGet())
+                .getOrderList(CarefreeDaoSession.getInstance().getUserId(), type, startId + "", 2, QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
@@ -124,7 +125,7 @@ public class OrderPresenter extends OrderContract.Presenter {
     @Override
     void finishOrder(String orderId) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .finishOrder(CarefreeApplication.getInstance().getUserId(), orderId, QueryMapBuilder.getIns().buildPost())
+                .finishOrder(CarefreeDaoSession.getInstance().getUserId(), orderId, QueryMapBuilder.getIns().buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {

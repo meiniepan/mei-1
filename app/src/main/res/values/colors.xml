@@ -27,6 +27,7 @@
     <color name="white">#fff</color>
     <color name="divide_gray">#15000000</color>
     <color name="shallow_white">#60ffffff</color>
+    <color name="captcha_unuse">#88a5aeb5</color>
 
 
 </resources>

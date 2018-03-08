@@ -22,8 +22,8 @@ import retrofit2.http.QueryMap;
  */
 
 public interface ServeApis {
-    @GET("category/list")
-    Observable<BaseResponse<CategoryListResponse>> getCategoryList(@QueryMap SortedTreeMap<String, String> map);
+    @GET("category/list/{community_id}")
+    Observable<BaseResponse<CategoryListResponse>> getCategoryList(@Path("community_id")String communityId,@QueryMap SortedTreeMap<String, String> map);
 
 
     @GET("shops/{category_id}/{start_id}/{flag}")

@@ -7,6 +7,7 @@ import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.CarefreeApplication;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBean;
@@ -59,7 +60,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
         });
         adapter.setOnLoadMoreListener(() -> mPresenter.getOrderMore(type), orderList.getRecyclerView());
         orderListLayout.setEmptyAction(v -> {
-            if (CarefreeApplication.getInstance().getUserId() == null) {
+            if (CarefreeDaoSession.getInstance().getUserId() == null) {
                 Intent intent = new Intent(mCtx, LoginActivity.class);
                 startActivity(intent);
             } else {
@@ -71,7 +72,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginEvent(LoginEvent event) {
-        if (CarefreeApplication.getInstance().getUserId() == null) {
+        if (CarefreeDaoSession.getInstance().getUserId() == null) {
             orderListLayout.showEmptyView("请先登录");
             orderList.setRefreshEnable(false);
         } else {
@@ -82,7 +83,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
 
     @Override
     public void fetchData() {
-        if (CarefreeApplication.getInstance().getUserId() == null) {
+        if (CarefreeDaoSession.getInstance().getUserId() == null) {
             orderListLayout.showEmptyView("请先登录");
             return;
         }

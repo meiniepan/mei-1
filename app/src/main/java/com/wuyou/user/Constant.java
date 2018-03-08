@@ -17,4 +17,12 @@ public class Constant {
     public static final String SERVE_BEAN = "serve_bean";
     public static final String CATEGORY_NAME = "category";
     public static final String STORE_ID = "store_id";
+    public static final String ADDRESS_EDIT_FLAG = "address_edit_flag";
+    public static final String ADDRESS_LOCATION_FLAG = "address_location_flag";
+    public static final String ADDRESS_RESULT = "address_result";
+    public static final String CATEGORY_CACHE = "category_cache";
+    public static final String CACHE_COMMUNITY = "cache_community";
+    public static final String CITY = "city_id";
+    public static final String ADDRESS_BEAN = "address_bean";
+    public static final String ADDRESS_LIST = "address_list";
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/address_location_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tool:text="撒大大萨达"
+        android:textSize="@dimen/dimens_16sp"/>
+    <TextView
+        android:id="@+id/address_location_district"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tool:text="asda撒大大萨达"
+        android:layout_marginTop="6dp"
+        android:layout_below="@+id/address_location_detail"
+        android:textColor="@color/common_gray"
+        android:textSize="@dimen/dimens_12sp"/>
+    <TextView
+        android:id="@+id/address_location_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="推荐"
+        android:visibility="gone"
+        android:gravity="center"
+        android:background="@drawable/orange_bg"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dimens_12sp"
+        android:layout_toEndOf="@+id/address_location_detail"
+        android:layout_alignTop="@+id/address_location_detail"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:layout_marginStart="10dp"/>
+
+</RelativeLayout>

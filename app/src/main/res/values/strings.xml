@@ -67,5 +67,8 @@
     <string name="video_loading_faild">加载失败</string>
     <string name="click_to_restart">点击重试</string>
     <string name="get_order_fail">获取订单失败</string>
+    <string name="save">保存</string>
+    <string name="add_address">新增地址</string>
+    <string name="edit_address">编辑地址</string>
 
 </resources>

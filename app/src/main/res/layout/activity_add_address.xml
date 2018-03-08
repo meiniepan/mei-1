@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/night_blue">
+
+        <TextView
+            android:id="@+id/address_edit_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="编辑地址"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_size" />
+
+        <TextView
+            android:id="@+id/address_edit_save"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:text="@string/save"
+            android:textColor="@color/white" />
+
+        <include
+            android:id="@+id/back"
+            layout="@layout/back_black" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/address_edit_city_click"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所在城市" />
+
+        <TextView
+            android:id="@+id/address_edit_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@mipmap/arrow_gray" />
+    </LinearLayout>
+
+    <include layout="@layout/split_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所在区域" />
+
+        <TextView
+            android:id="@+id/address_edit_area"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            tool:text="杯牛奶公司" />
+
+        <ImageView
+            android:id="@+id/address_edit_locate"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/address_locate" />
+    </LinearLayout>
+
+    <include layout="@layout/split_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="详细地址" />
+
+        <EditText
+            android:id="@+id/address_edit_detail"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:textColor="@color/common_dark"
+            tool:text="杯牛奶公司" />
+    </LinearLayout>
+
+    <include layout="@layout/split_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="联系人" />
+
+        <EditText
+            android:id="@+id/address_edit_receiver"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:textColor="@color/common_dark"
+            tool:text="杯牛奶公司" />
+    </LinearLayout>
+
+    <include layout="@layout/split_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="手机号码" />
+
+        <EditText
+            android:id="@+id/address_edit_phone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:inputType="phone"
+            android:textColor="@color/common_dark"
+            tool:text="杯牛奶公司" />
+    </LinearLayout>
+
+    <include layout="@layout/split_line" />
+
+    <Button
+        android:id="@+id/address_edit_delete"
+        style="@style/button_style"
+        android:background="@drawable/red_radius_button"
+        android:text="删除地址" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/tint_bg" />
+</LinearLayout>

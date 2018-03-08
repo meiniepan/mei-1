@@ -36,8 +36,13 @@ public interface OrderApis {
             @FieldMap SortedTreeMap<String, String> map);
 
     @HTTP(method = "DELETE", path = "order/{order_id}", hasBody = true)
-    Observable<BaseResponse> cancelOrder(@Path("order_id") String id,
+    Observable<BaseResponse> deletelOrder(@Path("order_id") String id,
                                          @Body SortedTreeMap<String, String> map);
+
+    @FormUrlEncoded
+    @PUT("order/{order_id}")
+    Observable<BaseResponse> cancelOrder(@Path("order_id") String id,
+                                         @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
     @PUT("order/pay/{order_id}")

@@ -4,17 +4,27 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.model.LatLng;
+import com.google.gson.GsonBuilder;
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
+import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.gs.buluo.common.utils.ToastUtils;
-import com.wuyou.user.CarefreeApplication;
+import com.gs.buluo.common.widget.CustomAlertDialog;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.bean.CommunityBean;
 import com.wuyou.user.bean.HomeVideoBean;
 import com.wuyou.user.bean.OrderBean;
 import com.wuyou.user.bean.response.CategoryChild;
@@ -22,6 +32,7 @@ import com.wuyou.user.bean.response.CategoryListResponse;
 import com.wuyou.user.bean.response.CategoryParent;
 import com.wuyou.user.bean.response.HomeVideoResponse;
 import com.wuyou.user.bean.response.OrderListResponse;
+import com.wuyou.user.event.AddressEvent;
 import com.wuyou.user.mvp.address.AddressActivity;
 import com.wuyou.user.mvp.order.OrderDetailActivity;
 import com.wuyou.user.mvp.order.OrderListAdapter;
@@ -35,6 +46,11 @@ import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.HomeMapActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,7 +59,6 @@ import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.http.QueryMap;
 
 import static cn.jzvd.JZVideoPlayer.FULLSCREEN_ORIENTATION;
 
@@ -66,6 +81,12 @@ public class HomeFragment extends BaseFragment {
     TextView homeCurrentLocation;
     @BindView(R.id.home_order_list)
     RecyclerView homeOrderList;
+    @BindView(R.id.home_address)
+    TextView homeAddress;
+
+
+    private String communityId = "0";
+    private CommunityBean cacheCommunityBean;
 
     @Override
     protected int getContentLayout() {
@@ -74,22 +95,68 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
+        setCacheData();
+        initLocation();
+        initVideo();
+        getOrderList();
+    }
+
+    private void setCacheData() {
+        String categoryCache = SharePreferenceManager.getInstance(mCtx).getStringValue(Constant.CATEGORY_CACHE);
+        if (!TextUtils.isEmpty(categoryCache)) {
+            CategoryListResponse categoryListResponse = new GsonBuilder().create().fromJson(categoryCache, CategoryListResponse.class);
+            setData(categoryListResponse.list);
+        }
+        String gson = SharePreferenceManager.getInstance(mCtx).getStringValue(Constant.CACHE_COMMUNITY);
+        if (!TextUtils.isEmpty(gson)) {
+            cacheCommunityBean = new GsonBuilder().create().fromJson(gson, CommunityBean.class);
+            communityId = cacheCommunityBean.community_id;
+            homeAddress.setText(cacheCommunityBean.address);
+        }
+    }
+
+    private void initVideo() {
         JZVideoPlayer.setVideoImageDisplayType(JZVideoPlayer.VIDEO_IMAGE_DISPLAY_TYPE_FILL_PARENT);
         FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
         JZVideoPlayer.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-        getCommunityList();
-        getServeList();
-        getOrderList();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAddressChanged(AddressEvent event) {
+        homeAddress.setText(event.poiItem.getTitle());
+    }
+
+
+    private AMapLocationClient mLocationClient = null;
+    private AMapLocation location;
+
+    private void initLocation() {
+        mLocationClient = new AMapLocationClient(mCtx);
+        AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
+        // 设置定位监听
+        mLocationClient.setLocationListener(aMapLocation -> {
+            if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
+                location = aMapLocation;
+                getCommunityList();
+            }
+        });
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mLocationOption.setOnceLocation(true);
+        mLocationClient.setLocationOption(mLocationOption);
+        mLocationClient.startLocation();
     }
 
     private void getServeList() {
         CarefreeRetrofit.getInstance().createApi(ServeApis.class)
-                .getCategoryList(QueryMapBuilder.getIns().buildGet())
+                .getCategoryList(communityId, QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<CategoryListResponse>>() {
                     @Override
                     public void onSuccess(BaseResponse<CategoryListResponse> orderListResponseBaseResponse) {
+                        String dataToJson = new GsonBuilder().create().toJson(orderListResponseBaseResponse.data);
+                        SharePreferenceManager.getInstance(mCtx).setValue(Constant.CATEGORY_CACHE, dataToJson);
                         setData(orderListResponseBaseResponse.data.list);
                     }
                 });
@@ -109,7 +176,9 @@ public class HomeFragment extends BaseFragment {
         CarefreeRetrofit.getInstance().createApi(HomeApis.class)
                 .getCommunitiesList(QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
-                .flatMap(communityListResponseBaseResponse -> CarefreeRetrofit.getInstance().createApi(HomeApis.class).getVideos(communityListResponseBaseResponse.data.list.get(0).community_id,QueryMapBuilder.getIns().buildGet()))
+                .flatMap(communityListResponseBaseResponse -> CarefreeRetrofit.getInstance().createApi(HomeApis.class).
+                        getVideos(getCurrentCommunityId(communityListResponseBaseResponse.data.list), QueryMapBuilder.getIns().buildGet()))
+                .doOnNext(homeVideoResponseBaseResponse -> getServeList())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<HomeVideoResponse>>() {
                     @Override
@@ -119,9 +188,61 @@ public class HomeFragment extends BaseFragment {
 
                     @Override
                     protected void onFail(ApiException e) {
-                        ToastUtils.ToastMessage(mCtx, "获取视频信息失败");
+                        ToastUtils.ToastMessage(mCtx, "获取首页信息失败");
+                        setVideoData(new ArrayList<>());
                     }
                 });
+    }
+
+    private String getCurrentCommunityId(List<CommunityBean> list) {
+        CommunityBean currentCommunity = findCurrentCommunity(list);
+        if (null == currentCommunity) { // 当前位置没有社区服务点
+            homeAddress.post(this::showNoMatchAlert);
+            if (null == cacheCommunityBean) {
+                homeAddress.post(() -> homeAddress.setText(location.getStreet() + location.getStreetNum()));
+            }
+            return communityId;
+        }
+        //有社区服务点之后逻辑
+        if (cacheCommunityBean == null) {       //没有缓存，直接存
+            saveNewCommunity(currentCommunity);
+        } else {                                //有缓存，比较之后再存
+            if (!TextUtils.equals(currentCommunity.community_id, cacheCommunityBean.community_id)) { //当前社区和缓存社区不同
+                homeAddress.post(() -> showLocationChangedAlert(currentCommunity, cacheCommunityBean));
+            }
+        }
+        return communityId;
+    }
+
+    private void showNoMatchAlert() {
+        new CustomAlertDialog.Builder(mCtx).setTitle("提示").setMessage("检测到您当前位置没有服务点").setPositiveButton("知道了", null).create().show();
+    }
+
+    private void showLocationChangedAlert(CommunityBean currentCommunity, CommunityBean cacheCommunityBean) {
+        new CustomAlertDialog.Builder(mCtx).setTitle("提示").setMessage("检查到您之前的位置是" + cacheCommunityBean.address + "，是否更换为" + currentCommunity.address)
+                .setPositiveButton("更换", (dialog, which) -> saveNewCommunity(currentCommunity))
+                .create().show();
+    }
+
+    private void saveNewCommunity(CommunityBean currentCommunity) {
+        currentCommunity.address = location.getStreet() + location.getStreetNum();
+        homeAddress.setText(currentCommunity.address);
+        SharePreferenceManager.getInstance(mCtx).setValue(Constant.CACHE_COMMUNITY, new GsonBuilder().create().toJson(currentCommunity));
+        communityId = currentCommunity.community_id;
+    }
+
+    //查找当前位置所在的社区
+    private CommunityBean findCurrentCommunity(List<CommunityBean> list) {
+        if (list == null) return null;
+        LatLng current = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng data;
+        for (CommunityBean bean : list) {
+            data = new LatLng(bean.lat, bean.lng);
+            if (AMapUtils.calculateLineDistance(current, data) < 2000) {    //如果当前位置和社区中心点坐标小于2000米，视为在社区里
+                return bean;
+            }
+        }
+        return null;
     }
 
     public void setVideoData(List<HomeVideoBean> videoData) {
@@ -129,7 +250,7 @@ public class HomeFragment extends BaseFragment {
         GlideUtils.loadRoundCornerImage(mCtx, "https://i0.hdslb.com/bfs/archive/646d2bfc4e1a323e4be028c5469cd4d874ecf9d5.jpg", video1.thumbImageView, 4);
         homeVideoTitle1.setText("我是标题1");
 
-        video2.setUp("http://aliqncdn.miaopai.com/stream/awPst5XIMQH2~Vg5cVLCzkuRXUyW8eMoIXlBPg___32.mp4?ssig=3371dbe5d8831fda9e94e8f301902f22&time_stamp=1520230718294&f=/awPst5XIMQH2~Vg5cVLCzkuRXUyW8eMoIXlBPg___32.mp4", JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "标题2");
+        video2.setUp("http://120.25.226.186:32812/resources/videos/minion_01.mp4", JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "标题2");
         GlideUtils.loadRoundCornerImage(mCtx, "http://p.qpic.cn/videoyun/0/2449_43b6f696980311e59ed467f22794e792_1/640", video2.thumbImageView, 4);
         homeVideoTitle2.setText("我是标题2");
 
@@ -148,9 +269,9 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void getOrderList() {
-        if (CarefreeApplication.getInstance().getUserInfo() == null) return;
+        if (CarefreeDaoSession.getInstance().getUserInfo() == null) return;
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .getOrderList(CarefreeApplication.getInstance().getUserId(), 2, 0 + "", 1, QueryMapBuilder.getIns().buildGet())
+                .getOrderList(CarefreeDaoSession.getInstance().getUserId(), 2, 0 + "", 1, QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
@@ -167,7 +288,6 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void setOrderData(List<OrderBean> orderData) {
-        orderData.clear();
         homeOrderList.setLayoutManager(new FullLinearLayoutManager(mCtx));
         OrderListAdapter adapter = new OrderListAdapter(R.layout.item_order_list, orderData);
         adapter.setButtonGone();

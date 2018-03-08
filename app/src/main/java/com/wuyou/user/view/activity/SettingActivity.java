@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.gs.buluo.common.utils.DataCleanManager;
 import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.CarefreeApplication;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.event.LoginEvent;
@@ -92,14 +93,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 //    }
 
     private void logout() {
-        CarefreeApplication.getInstance().clearUserInfo();
+        CarefreeDaoSession.getInstance().clearUserInfo();
         EventBus.getDefault().post(new LoginEvent());
         Intent intent = new Intent(getCtx(), MainActivity.class);
         intent.putExtra(Constant.MAIN_FLAG, 1);
         startActivity(intent);
         finish();
 //        CarefreeRetrofit.getInstance().createApi(UserApis.class).
-//                doLogout(CarefreeApplication.getInstance().getUserId(), com.wuyou.user.network.QueryMapBuilder.getIns().buildPost())
+//                doLogout(CarefreeDaoSession.getInstance().getUserId(), com.wuyou.user.network.QueryMapBuilder.getIns().buildPost())
 //                .subscribeOn(Schedulers.io())
 //                .flatMap(new Function<BaseResponse, ObservableSource<?>>() {
 //                    @Override

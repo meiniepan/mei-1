@@ -7,6 +7,7 @@ import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.wuyou.user.CarefreeApplication;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;
@@ -27,21 +28,21 @@ public class LoginPresenter extends LoginContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .flatMap(userInfoBaseResponse -> {
                     token = userInfoBaseResponse.data.getToken();
-                    CarefreeApplication.getInstance().setUserInfo(userInfoBaseResponse.data);
+                    CarefreeDaoSession.getInstance().setUserInfo(userInfoBaseResponse.data);
                     return CarefreeRetrofit.getInstance().createApi(UserApis.class)
                             .getUserInfo(userInfoBaseResponse.data.getUid(), QueryMapBuilder.getIns().buildGet());
                 })
                 .doOnNext(userInfoBaseResponse -> {
                     UserInfo data = userInfoBaseResponse.data;
-                    data.setMid(CarefreeApplication.getInstance().getUserInfo().getMid());
+                    data.setMid(CarefreeDaoSession.getInstance().getUserInfo().getMid());
                     data.setToken(token);
-                    CarefreeApplication.getInstance().updateUserInfo(data);
+                    CarefreeDaoSession.getInstance().updateUserInfo(data);
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<UserInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<UserInfo> userInfoBaseResponse) {
-                        Log.e("Test", "onSuccess: "+CarefreeApplication.getInstance().getUserInfo());
+                        Log.e("Test", "onSuccess: "+CarefreeDaoSession.getInstance().getUserInfo());
                         mView.loginSuccess();
                     }
 

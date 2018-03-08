@@ -1,7 +1,7 @@
 package com.wuyou.user.bean;
 
 /**
- * Created by DELL on 2018/3/7.
+ * Created by hjn on 2018/3/7.
  */
 
 public class HomeVideoBean {

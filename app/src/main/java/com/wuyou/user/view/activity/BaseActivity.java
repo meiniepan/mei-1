@@ -19,6 +19,7 @@ import com.gs.buluo.common.utils.AppManager;
 import com.gs.buluo.common.utils.SystemBarTintManager;
 import com.gs.buluo.common.widget.LoadingDialog;
 import com.wuyou.user.CarefreeApplication;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.mvp.IBaseView;
@@ -152,7 +153,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
 
 
     protected boolean checkUser(Context context) {
-        if (CarefreeApplication.getInstance().getUserId() == null) {
+        if (CarefreeDaoSession.getInstance().getUserId() == null) {
             Intent intent = new Intent(context, LoginActivity.class);
             startActivity(intent);
             return false;

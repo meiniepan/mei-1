@@ -1,13 +1,13 @@
 package com.wuyou.user.bean.response;
 
-import com.wuyou.user.bean.Community;
+import com.wuyou.user.bean.CommunityBean;
 
 import java.util.List;
 
 /**
- * Created by DELL on 2018/3/6.
+ * Created by hjn on 2018/3/6.
  */
 
 public class CommunityListResponse {
-    public List<Community> list;
+    public List<CommunityBean> list;
 }

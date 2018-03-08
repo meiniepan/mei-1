@@ -24,5 +24,9 @@
             layout="@layout/back_black" />
     </RelativeLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/address_location_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

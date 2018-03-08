@@ -13,8 +13,10 @@ import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.AppManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeApplication;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.bean.OrderBean;
 import com.wuyou.user.bean.OrderIdBean;
 import com.wuyou.user.bean.ServeDetailBean;
 import com.wuyou.user.mvp.order.OrderDetailActivity;
@@ -58,7 +60,7 @@ public class NewOrderActivity extends BaseActivity {
             createOrderDoorFee.setText(bean.other_price);
         }
         if (!checkUser(this)) return;
-        createOrderPhone.setText(CarefreeApplication.getInstance().getUserInfo().getMobile());
+        createOrderPhone.setText(CarefreeDaoSession.getInstance().getUserInfo().getMobile());
         createOrderComment.requestFocus();
     }
 
@@ -102,7 +104,7 @@ public class NewOrderActivity extends BaseActivity {
                         .put("service_price", bean.price)
                         .put("other_price", bean.other_price)
                         .put("total_price", Float.parseFloat(bean.price) + Float.parseFloat(bean.other_price) + "")
-                        .put("user_id", CarefreeApplication.getInstance().getUserId())
+                        .put("user_id", CarefreeDaoSession.getInstance().getUserId())
                         .put("shop_id", bean.shop_id)
                         .put("service_id", bean.id)
                         .put("num", 1 + "")

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="true"
@@ -16,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="北京"
+            android:text="地址列表"
             android:textColor="@color/white"
             android:textSize="@dimen/title_size" />
 
@@ -25,24 +26,59 @@
             android:layout_height="30dp"
             android:layout_centerInParent="true"
             android:layout_toEndOf="@+id/address_title"
-            android:src="@mipmap/arrow_white" />
+            android:src="@mipmap/arrow_white"
+            android:visibility="gone" />
 
         <include
             android:id="@+id/back"
             layout="@layout/back_black" />
     </RelativeLayout>
 
-    <com.gs.buluo.common.widget.StatusLayout
-        android:id="@+id/address_status"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView
-            android:id="@+id/address_list"
+        <com.gs.buluo.common.widget.StatusLayout
+            android:id="@+id/address_status"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </com.gs.buluo.common.widget.StatusLayout>
+            android:layout_height="match_parent"
+            android:background="@color/tint_bg"
+            app:emptyDrawable="@mipmap/empty_order"
+            app:errorDrawable="@mipmap/net_error">
+
+            <com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView
+                android:id="@+id/address_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" />
+        </com.gs.buluo.common.widget.StatusLayout>
+
+        <RelativeLayout
+            android:id="@+id/address_empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="您还没有确定地址" />
+
+            <TextView
+                android:layout_width="264dp"
+                android:layout_height="48dp"
+                android:layout_below="@+id/textView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/night_blue_border"
+                android:gravity="center"
+                android:text="@string/add_address"
+                android:textColor="@color/night_blue" />
+        </RelativeLayout>
+    </FrameLayout>
 
 
     <include layout="@layout/split_line" />
@@ -59,6 +95,13 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="地址管理" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/tint_bg" />
 
         <TextView
             android:id="@+id/address_current_location"

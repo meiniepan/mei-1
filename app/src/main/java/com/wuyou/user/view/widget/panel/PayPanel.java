@@ -18,6 +18,7 @@ import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.gs.buluo.common.widget.LoadingDialog;
 import com.wuyou.user.CarefreeApplication;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -54,7 +55,7 @@ public class PayPanel extends Dialog implements View.OnClickListener {
         super(context, R.style.my_dialog);
         mContext = context;
         this.onFinishListener = onDismissListener;
-        ownerId = CarefreeApplication.getInstance().getUserId();
+        ownerId = CarefreeDaoSession.getInstance().getUserId();
 //        EventBus.getDefault().register(this);
         initView();
     }

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.gs.buluo.common.widget.LoadingDialog;
 import com.wuyou.user.CarefreeApplication;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.mvp.IBaseView;
 import com.wuyou.user.mvp.login.LoginActivity;
@@ -115,7 +116,7 @@ public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<
     }
 
     protected boolean checkUser(Context context) {
-        if (CarefreeApplication.getInstance().getUserId() == null) {
+        if (CarefreeDaoSession.getInstance().getUserId() == null) {
             startActivity(new Intent(context, LoginActivity.class));
             return false;
         }

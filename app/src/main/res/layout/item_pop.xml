@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/main_item_delete"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:text="删除地址"
+        android:drawablePadding="16dp"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"/>
+
+    <!--<include layout="@layout/split_line"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/main_item_ignore"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:drawablePadding="16dp"-->
+        <!--android:paddingEnd="@dimen/activity_horizontal_margin"-->
+        <!--android:paddingStart="@dimen/activity_horizontal_margin"/>-->
+</LinearLayout>
