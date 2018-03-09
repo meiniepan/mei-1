@@ -60,6 +60,7 @@
         <activity android:name=".view.activity.HomeMapActivity" />
         <activity android:name=".mvp.address.AddressAddActivity" />
         <activity android:name=".mvp.address.CityChooseActivity" />
+        <activity android:name=".mvp.address.AddressSearchActivity" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"

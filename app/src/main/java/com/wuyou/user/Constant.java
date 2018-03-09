@@ -25,4 +25,7 @@ public class Constant {
     public static final String CITY = "city_id";
     public static final String ADDRESS_BEAN = "address_bean";
     public static final String ADDRESS_LIST = "address_list";
+    public static final String LATLNG = "latlog";
+    public static final String ADDRESS_SEARCH_FLAG = "address_search_flag";
+    public static final String POI_RESULT = "poi_result";
 }

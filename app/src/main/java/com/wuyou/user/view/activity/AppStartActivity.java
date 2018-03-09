@@ -13,6 +13,7 @@ import com.wuyou.user.R;
 public class AppStartActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setBarColor(R.color.transparent);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

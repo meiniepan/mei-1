@@ -69,12 +69,8 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
 
     private void showDeleteDialog(int pos, AddressBean bean) {
         new CustomAlertDialog.Builder(getCtx()).setTitle("提示").setMessage("您确定要删除该地址？")
-                .setPositiveButton("删除", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mPresenter.deleteAddress(pos, bean.id);
-                    }
-                }).setNegativeButton("取消", null).create().show();
+                .setPositiveButton("删除", (dialog, which) ->
+                        mPresenter.deleteAddress(pos, bean.id)).setNegativeButton("取消", null).create().show();
     }
 
     @Override

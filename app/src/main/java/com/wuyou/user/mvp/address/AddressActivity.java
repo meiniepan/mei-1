@@ -3,20 +3,40 @@ package com.wuyou.user.mvp.address;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.district.DistrictResult;
+import com.amap.api.services.district.DistrictSearch;
+import com.amap.api.services.district.DistrictSearchQuery;
+import com.amap.api.services.geocoder.GeocodeQuery;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeResult;
+import com.amap.api.services.poisearch.PoiResult;
+import com.amap.api.services.poisearch.PoiSearch;
 import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.widget.RecycleViewDivider;
 import com.gs.buluo.common.widget.StatusLayout;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.AddressListAdapter;
 import com.wuyou.user.bean.AddressBean;
 import com.wuyou.user.bean.response.AddressListResponse;
+import com.wuyou.user.event.AddressEvent;
+import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -50,6 +70,19 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
         adapter = new AddressListAdapter(R.layout.item_address_list);
         addressList.setAdapter(adapter);
         addressList.getRecyclerView().addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(this, 0.5f), getResources().getColor(R.color.tint_bg)));
+        adapter.setOnItemClickListener((adapter, view, position) -> {
+            AddressBean addressBean = (AddressBean) adapter.getData().get(position);
+            PoiItem item = new PoiItem("", new LatLonPoint(addressBean.lat, addressBean.lng), addressBean.area, addressBean.address);
+            EventBus.getDefault().post(new AddressEvent(item));
+            finish();
+        });
+        if (null == CarefreeDaoSession.getInstance().getUserInfo()) {
+            addressStatus.showEmptyView("您还未登录，请先登录");
+            addressStatus.setEmptyAction(v -> {
+                Intent intent = new Intent(getCtx(), LoginActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 
     @Override
@@ -63,7 +96,7 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
     }
 
 
-    @OnClick({R.id.address_manager, R.id.address_current_location})
+    @OnClick({R.id.address_manager, R.id.address_current_location,R.id.address_search})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -75,6 +108,11 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
                 break;
             case R.id.address_current_location:
                 intent.setClass(getCtx(), AddressLocationActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.address_search:
+                intent.setClass(getCtx(),AddressSearchActivity.class);
+                intent.putExtra(Constant.ADDRESS_SEARCH_FLAG,1);
                 startActivity(intent);
                 break;
         }
@@ -100,14 +138,11 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
 
     @Override
     public void updateSuccess(AddressBean data) {
-
     }
 
     @Override
     public void deleteSuccess(int position) {
-
     }
-
 
     @Override
     public void addSuccess(AddressBean bean) {

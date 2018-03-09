@@ -1,6 +1,5 @@
 package com.wuyou.user.mvp.address;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -52,7 +51,6 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
     private double lng;
     private String addressId;
     private String cityId;
-    private String cityName;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -70,7 +68,6 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
     public void setData(AddressBean data) {
         addressId = data.id;
         cityId = data.city_id;
-        cityName = data.city_name;
         addressEditCity.setText(data.city_name);
         addressEditArea.setText(data.area);
         addressEditDetail.setText(data.address);
@@ -87,8 +84,9 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
     }
 
 
-    @OnClick({R.id.address_edit_save, R.id.address_edit_locate, R.id.address_edit_delete, R.id.address_edit_city_click})
+    @OnClick({R.id.address_edit_save, R.id.address_edit_locate, R.id.address_edit_delete, R.id.address_edit_city_click, R.id.address_edit_area})
     public void onViewClicked(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.address_edit_save:
                 if (addressEditCity.length() == 0) {
@@ -111,14 +109,14 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
                     return;
                 AddressBean bean = new AddressBean();
                 bean.city_id = cityId;
-                bean.city_name = cityName;
+                bean.city_name = addressEditCity.getText().toString().trim();
                 bean.area = addressEditArea.getText().toString().trim();
                 bean.address = addressEditDetail.getText().toString().trim();
                 bean.name = addressEditReceiver.getText().toString().trim();
                 bean.mobile = addressEditPhone.getText().toString().trim();
                 bean.lat = lat;
                 bean.lng = lng;
-                LoadingDialog.getInstance().createLoadingDialog(this, "", true).show();
+                showLoadingDialog("");
                 if (flag == 0) {
                     mPresenter.addAddress(bean);
                 } else {
@@ -126,29 +124,32 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
                 }
                 break;
             case R.id.address_edit_locate:
-                Intent intent = new Intent(getCtx(), AddressLocationActivity.class);
+                intent.setClass(getCtx(), AddressLocationActivity.class);
                 intent.putExtra(Constant.ADDRESS_LOCATION_FLAG, 1);
                 startActivityForResult(intent, 201);
                 break;
             case R.id.address_edit_delete:
                 showDeleteAlert();
-//                mPresenter.deleteAddress(0, );
                 break;
             case R.id.address_edit_city_click:
-                Intent intent1 = new Intent(getCtx(), CityChooseActivity.class);
-                startActivityForResult(intent1, 202);
+                intent.setClass(getCtx(), CityChooseActivity.class);
+                startActivityForResult(intent, 202);
+                break;
+            case R.id.address_edit_area:
+                if (addressEditCity.length() == 0) {
+                    ToastUtils.ToastMessage(getCtx(), "请先选择城市");
+                    return;
+                }
+                intent.setClass(getCtx(), AddressSearchActivity.class);
+                startActivityForResult(intent, 203);
                 break;
         }
     }
 
     private void showDeleteAlert() {
         new CustomAlertDialog.Builder(this).setTitle("提示").setMessage("确定要删除本条地址？")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mPresenter.deleteAddress(0, addressId);
-                    }
-                }).setNegativeButton("取消", null).create().show();
+                .setPositiveButton("确定", (dialog, which) ->
+                        mPresenter.deleteAddress(0, addressId)).setNegativeButton("取消", null).create().show();
 
     }
 
@@ -165,6 +166,9 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
             CityBean cityBean = data.getParcelableExtra(Constant.CITY);
             cityId = cityBean.city_id;
             addressEditCity.setText(cityBean.city_name);
+        } else if (resultCode == RESULT_OK && requestCode == 203) {
+            PoiItem poiItem = data.getParcelableExtra(Constant.POI_RESULT);
+            addressEditArea.setText(poiItem.getAdName() + poiItem.getTitle());
         }
     }
 

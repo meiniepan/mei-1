@@ -36,6 +36,26 @@
 
     <FrameLayout
         android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/address_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="6dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="6dp"
+            android:background="@color/tint_bg"
+            android:drawableStart="@mipmap/search_small"
+            android:textColor="@color/common_dark" />
+    </FrameLayout>
+
+    <include layout="@layout/split_line" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
@@ -79,7 +99,6 @@
                 android:textColor="@color/night_blue" />
         </RelativeLayout>
     </FrameLayout>
-
 
     <include layout="@layout/split_line" />
 

@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +14,8 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
 import com.google.gson.GsonBuilder;
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
@@ -30,6 +33,7 @@ import com.wuyou.user.bean.OrderBean;
 import com.wuyou.user.bean.response.CategoryChild;
 import com.wuyou.user.bean.response.CategoryListResponse;
 import com.wuyou.user.bean.response.CategoryParent;
+import com.wuyou.user.bean.response.CommunityListResponse;
 import com.wuyou.user.bean.response.HomeVideoResponse;
 import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.event.AddressEvent;
@@ -87,6 +91,7 @@ public class HomeFragment extends BaseFragment {
 
     private String communityId = "0";
     private CommunityBean cacheCommunityBean;
+    private List<CommunityBean> communityBeans;
 
     @Override
     protected int getContentLayout() {
@@ -95,10 +100,11 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        mainServeList.setLayoutManager(new FullLinearLayoutManager(mCtx));
         if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
         setCacheData();
-        initLocation();
         initVideo();
+        initLocationAndGetData();
         getOrderList();
     }
 
@@ -112,7 +118,7 @@ public class HomeFragment extends BaseFragment {
         if (!TextUtils.isEmpty(gson)) {
             cacheCommunityBean = new GsonBuilder().create().fromJson(gson, CommunityBean.class);
             communityId = cacheCommunityBean.community_id;
-            homeAddress.setText(cacheCommunityBean.address);
+            homeAddress.setText(cacheCommunityBean.address + cacheCommunityBean.name);
         }
     }
 
@@ -124,14 +130,26 @@ public class HomeFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAddressChanged(AddressEvent event) {
-        homeAddress.setText(event.poiItem.getTitle());
+        PoiItem poiItem = event.poiItem;
+        location.setLatitude(poiItem.getLatLonPoint().getLatitude());
+        location.setLongitude(poiItem.getLatLonPoint().getLongitude());
+        location.setStreet(poiItem.getTitle());
+
+        String currentCommunityId = getCurrentCommunityId(communityBeans);
+        if (!TextUtils.equals(currentCommunityId, communityId)) {
+            Log.e("Test", "onAddressChanged: 社区更改！！！！！！！！！！");
+            getCommunityData(currentCommunityId);
+        } else {
+            Log.e("Test", "onAddressChanged: 社区没变！！！！！！！！！！");
+        }
     }
 
 
     private AMapLocationClient mLocationClient = null;
     private AMapLocation location;
 
-    private void initLocation() {
+    private void initLocationAndGetData() {
+        showLoadingDialog();
         mLocationClient = new AMapLocationClient(mCtx);
         AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
         // 设置定位监听
@@ -139,6 +157,9 @@ public class HomeFragment extends BaseFragment {
             if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
                 location = aMapLocation;
                 getCommunityList();
+            } else {
+                dismissDialog();
+                ToastUtils.ToastMessage(mCtx, R.string.connect_fail);
             }
         });
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
@@ -148,6 +169,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void getServeList() {
+        Log.e("Test", "getServeList: 获取服务信息");
         CarefreeRetrofit.getInstance().createApi(ServeApis.class)
                 .getCategoryList(communityId, QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
@@ -163,7 +185,6 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void setData(List<CategoryParent> data) {
-        mainServeList.setLayoutManager(new FullLinearLayoutManager(mCtx));
         for (int i = 0; i < data.size(); i++) {
             for (CategoryChild categoryChild : data.get(i).sub) {
                 categoryChild.position = i;
@@ -176,9 +197,21 @@ public class HomeFragment extends BaseFragment {
         CarefreeRetrofit.getInstance().createApi(HomeApis.class)
                 .getCommunitiesList(QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
-                .flatMap(communityListResponseBaseResponse -> CarefreeRetrofit.getInstance().createApi(HomeApis.class).
-                        getVideos(getCurrentCommunityId(communityListResponseBaseResponse.data.list), QueryMapBuilder.getIns().buildGet()))
-                .doOnNext(homeVideoResponseBaseResponse -> getServeList())
+                .observeOn(Schedulers.io())
+                .subscribe(new BaseSubscriber<BaseResponse<CommunityListResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<CommunityListResponse> communityListResponseBaseResponse) {
+                        communityBeans = communityListResponseBaseResponse.data.list;
+                        communityId = getCurrentCommunityId(communityBeans);
+                        getCommunityData(communityId);
+                    }
+                });
+    }
+
+    public void getCommunityData(String currentCommunityId) {
+        CarefreeRetrofit.getInstance().createApi(HomeApis.class).getVideos(currentCommunityId, QueryMapBuilder.getIns().buildGet())
+                .subscribeOn(Schedulers.io())
+                .doOnNext(response -> getServeList())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<HomeVideoResponse>>() {
                     @Override
@@ -192,23 +225,30 @@ public class HomeFragment extends BaseFragment {
                         setVideoData(new ArrayList<>());
                     }
                 });
+
     }
 
     private String getCurrentCommunityId(List<CommunityBean> list) {
         CommunityBean currentCommunity = findCurrentCommunity(list);
         if (null == currentCommunity) { // 当前位置没有社区服务点
+            Log.e("Test", "getCurrentCommunityId: 当前位置没有社区服务点!!!!!!");
             homeAddress.post(this::showNoMatchAlert);
             if (null == cacheCommunityBean) {
-                homeAddress.post(() -> homeAddress.setText(location.getStreet() + location.getStreetNum()));
+                homeAddress.post(() -> homeAddress.setText(location.getStreet() + currentCommunity.name));
             }
             return communityId;
         }
         //有社区服务点之后逻辑
         if (cacheCommunityBean == null) {       //没有缓存，直接存
+            Log.e("Test", "getCurrentCommunityId: 没有缓存，直接展示社区服务点信息");
             saveNewCommunity(currentCommunity);
         } else {                                //有缓存，比较之后再存
             if (!TextUtils.equals(currentCommunity.community_id, cacheCommunityBean.community_id)) { //当前社区和缓存社区不同
+                Log.e("Test", "getCurrentCommunityId: 有缓存，当前社区和缓存社区不同");
                 homeAddress.post(() -> showLocationChangedAlert(currentCommunity, cacheCommunityBean));
+            } else {
+                Log.e("Test", "getCurrentCommunityId: 有缓存，当前社区和缓存社区一样的！！！！！");
+                homeAddress.post(() -> homeAddress.setText(location.getStreet() + currentCommunity.name));
             }
         }
         return communityId;
@@ -225,10 +265,11 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void saveNewCommunity(CommunityBean currentCommunity) {
-        currentCommunity.address = location.getStreet() + location.getStreetNum();
-        homeAddress.setText(currentCommunity.address);
+        currentCommunity.address = location.getStreet();
         SharePreferenceManager.getInstance(mCtx).setValue(Constant.CACHE_COMMUNITY, new GsonBuilder().create().toJson(currentCommunity));
         communityId = currentCommunity.community_id;
+        cacheCommunityBean = currentCommunity;
+        homeAddress.post(() -> homeAddress.setText(location.getStreet() + currentCommunity.name));
     }
 
     //查找当前位置所在的社区
@@ -238,7 +279,8 @@ public class HomeFragment extends BaseFragment {
         LatLng data;
         for (CommunityBean bean : list) {
             data = new LatLng(bean.lat, bean.lng);
-            if (AMapUtils.calculateLineDistance(current, data) < 2000) {    //如果当前位置和社区中心点坐标小于2000米，视为在社区里
+            float lineDistance = AMapUtils.calculateLineDistance(current, data);
+            if (lineDistance < 15571323) {    //如果当前位置和社区中心点坐标小于2000米，视为在社区里
                 return bean;
             }
         }
@@ -302,6 +344,7 @@ public class HomeFragment extends BaseFragment {
 
     @OnClick({R.id.home_location_area, R.id.home_map})
     public void onViewClicked(View view) {
+        if (location == null) return;
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.home_location_area:
@@ -314,4 +357,6 @@ public class HomeFragment extends BaseFragment {
                 break;
         }
     }
+
+
 }

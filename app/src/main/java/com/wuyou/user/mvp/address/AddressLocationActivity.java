@@ -14,6 +14,7 @@ import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.gs.buluo.common.utils.AppManager;
 import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.widget.RecycleViewDivider;
 import com.wuyou.user.Constant;
@@ -109,6 +110,7 @@ public class AddressLocationActivity extends BaseActivity {
     private void setClickResult(PoiItem poiItem) {
         if (flag == 0) {
             EventBus.getDefault().post(new AddressEvent(poiItem));
+            AppManager.getAppManager().finishActivity(AddressActivity.class);
         } else {
             Intent intent = new Intent();
             intent.putExtra(Constant.ADDRESS_RESULT, poiItem);
