@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:clipToPadding="true">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="周边门店"
+            android:text="无忧社区"
             android:textColor="@color/white"
             android:textSize="@dimen/title_size" />
 
@@ -24,10 +24,81 @@
             layout="@layout/back_black" />
     </RelativeLayout>
 
-    <com.amap.api.maps.MapView
-        android:id="@+id/map_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"/>
+        android:layout_height="match_parent">
 
+        <com.amap.api.maps.MapView
+            android:id="@+id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
+        <RelativeLayout
+            android:id="@+id/map_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/map_around_spot"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"/>
+            <ImageButton
+                android:id="@+id/map_location"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/map_location_selector"
+                android:layout_above="@+id/map_around_spot"/>
+
+            <ImageButton
+                android:id="@+id/map_around"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_toEndOf="@+id/map_location"
+                android:background="@drawable/map_around_selector"
+                android:layout_above="@+id/map_around_spot"/>
+
+            <ImageButton
+                android:id="@+id/map_guide"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/map_guide_selector"
+                android:layout_above="@+id/map_around_spot"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/site_layout"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:paddingTop="16dp"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:background="@color/white">
+            <TextView
+                android:id="@+id/site_name"
+                android:textSize="@dimen/dimens_16sp"
+                android:layout_width="wrap_content"
+                android:text="天通苑"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/site_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/home_location"
+                android:drawablePadding="4dp"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/site_time"
+                android:textColor="@color/night_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@mipmap/serve_time_blue"
+                android:drawablePadding="4dp"
+                android:text="营业时间"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

@@ -17,6 +17,7 @@ import android.view.WindowManager;
 
 import com.gs.buluo.common.utils.AppManager;
 import com.gs.buluo.common.utils.SystemBarTintManager;
+import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.LoadingDialog;
 import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
@@ -171,7 +172,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
 
     @Override
     public void showError(String message, int res) {
-
+        ToastUtils.ToastMessage(getCtx(),R.string.connect_fail);
     }
 
     //    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)

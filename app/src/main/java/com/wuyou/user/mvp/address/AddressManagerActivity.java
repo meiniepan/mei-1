@@ -79,7 +79,7 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
     }
 
 
-    @OnClick(R.id.address_manager_add)
+    @OnClick({R.id.address_manager_add,R.id.address_empty_view})
     public void onViewClicked() {
         Intent intent = new Intent(getCtx(), AddressAddActivity.class);
         startActivityForResult(intent, 201);

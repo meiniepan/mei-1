@@ -3,25 +3,12 @@ package com.wuyou.user.mvp.address;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.amap.api.maps.model.LatLng;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
-import com.amap.api.services.district.DistrictResult;
-import com.amap.api.services.district.DistrictSearch;
-import com.amap.api.services.district.DistrictSearchQuery;
-import com.amap.api.services.geocoder.GeocodeQuery;
-import com.amap.api.services.geocoder.GeocodeResult;
-import com.amap.api.services.geocoder.GeocodeSearch;
-import com.amap.api.services.geocoder.RegeocodeResult;
-import com.amap.api.services.poisearch.PoiResult;
-import com.amap.api.services.poisearch.PoiSearch;
 import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.widget.RecycleViewDivider;
 import com.gs.buluo.common.widget.StatusLayout;
@@ -96,7 +83,7 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
     }
 
 
-    @OnClick({R.id.address_manager, R.id.address_current_location,R.id.address_search})
+    @OnClick({R.id.address_manager, R.id.address_current_location, R.id.address_search, R.id.address_empty_view})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -111,8 +98,12 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
                 startActivity(intent);
                 break;
             case R.id.address_search:
-                intent.setClass(getCtx(),AddressSearchActivity.class);
-                intent.putExtra(Constant.ADDRESS_SEARCH_FLAG,1);
+                intent.setClass(getCtx(), AddressSearchActivity.class);
+                intent.putExtra(Constant.ADDRESS_SEARCH_FLAG, 1);
+                startActivity(intent);
+                break;
+            case R.id.address_empty_view:
+                intent.setClass(getCtx(), AddressAddActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -133,6 +124,8 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
         adapter.setNewData(addressData);
         if (adapter.getData().size() == 0) {
             addressEmptyView.setVisibility(View.VISIBLE);
+        } else {
+            addressEmptyView.setVisibility(View.GONE);
         }
     }
 

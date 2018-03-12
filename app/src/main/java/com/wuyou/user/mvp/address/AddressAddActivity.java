@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.amap.api.services.core.PoiItem;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
-import com.gs.buluo.common.widget.LoadingDialog;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.AddressBean;
@@ -51,6 +50,7 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
     private double lng;
     private String addressId;
     private String cityId;
+    private String district;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -68,8 +68,9 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
     public void setData(AddressBean data) {
         addressId = data.id;
         cityId = data.city_id;
+        district = data.district;
         addressEditCity.setText(data.city_name);
-        addressEditArea.setText(data.area);
+        addressEditArea.setText(data.district + data.area);
         addressEditDetail.setText(data.address);
         addressEditPhone.setText(data.mobile);
         addressEditReceiver.setText(data.name);
@@ -108,9 +109,9 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
                 if (!CommonUtil.checkPhone("", addressEditPhone.getText().toString().trim(), getCtx()))
                     return;
                 AddressBean bean = new AddressBean();
-                bean.city_id = cityId;
                 bean.city_name = addressEditCity.getText().toString().trim();
-                bean.area = addressEditArea.getText().toString().trim();
+                bean.district = district;
+                bean.area = addressEditArea.getText().toString().trim().split(district)[1];
                 bean.address = addressEditDetail.getText().toString().trim();
                 bean.name = addressEditReceiver.getText().toString().trim();
                 bean.mobile = addressEditPhone.getText().toString().trim();
@@ -162,6 +163,7 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
             lng = poiItem.getLatLonPoint().getLongitude();
             addressEditCity.setText(poiItem.getCityName());
             addressEditArea.setText(poiItem.getAdName() + poiItem.getTitle());
+            district = poiItem.getAdName();
         } else if (resultCode == RESULT_OK && requestCode == 202) {
             CityBean cityBean = data.getParcelableExtra(Constant.CITY);
             cityId = cityBean.city_id;
@@ -169,6 +171,7 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
         } else if (resultCode == RESULT_OK && requestCode == 203) {
             PoiItem poiItem = data.getParcelableExtra(Constant.POI_RESULT);
             addressEditArea.setText(poiItem.getAdName() + poiItem.getTitle());
+            district = poiItem.getAdName();
         }
     }
 
@@ -204,5 +207,10 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
     @Override
     protected AddressConstract.Presenter getPresenter() {
         return new AddressPresenter();
+    }
+
+    @Override
+    public void showError(String message, int res) {
+        ToastUtils.ToastMessage(getCtx(), message);
     }
 }

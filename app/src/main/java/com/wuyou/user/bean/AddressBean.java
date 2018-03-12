@@ -17,6 +17,7 @@ public class AddressBean implements Parcelable {
     public Double lng;
     public String name;
     public String mobile;
+    public String district;
     public int is_default;
 
     public AddressBean() {
@@ -38,6 +39,7 @@ public class AddressBean implements Parcelable {
         dest.writeValue(this.lng);
         dest.writeString(this.name);
         dest.writeString(this.mobile);
+        dest.writeString(this.district);
         dest.writeInt(this.is_default);
     }
 
@@ -51,6 +53,7 @@ public class AddressBean implements Parcelable {
         this.lng = (Double) in.readValue(Double.class.getClassLoader());
         this.name = in.readString();
         this.mobile = in.readString();
+        this.district = in.readString();
         this.is_default = in.readInt();
     }
 

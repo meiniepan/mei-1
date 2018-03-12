@@ -18,6 +18,6 @@ public class AddressListAdapter extends BaseQuickAdapter<AddressBean, BaseHolder
     protected void convert(BaseHolder helper, AddressBean item) {
         helper.setText(R.id.address_item_name, item.name)
                 .setText(R.id.address_item_phone, item.mobile)
-                .setText(R.id.address_item_detail, item.city_name + item.area + item.address);
+                .setText(R.id.address_item_detail, item.city_name + item.district + item.area + item.address);
     }
 }

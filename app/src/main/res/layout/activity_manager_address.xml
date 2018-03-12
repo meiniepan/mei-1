@@ -42,30 +42,8 @@
             android:id="@+id/address_manager_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-        <RelativeLayout
+        <include layout="@layout/empty_address_layout"
             android:id="@+id/address_empty_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="您还没有确定地址" />
-
-            <TextView
-                android:layout_width="264dp"
-                android:layout_height="48dp"
-                android:layout_below="@+id/textView"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/night_blue_border"
-                android:gravity="center"
-                android:text="@string/add_address"
-                android:textColor="@color/night_blue" />
-        </RelativeLayout>
+            android:visibility="gone"/>
     </FrameLayout>
 </LinearLayout>

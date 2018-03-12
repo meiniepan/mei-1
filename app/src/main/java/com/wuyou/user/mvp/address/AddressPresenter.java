@@ -70,7 +70,8 @@ public class AddressPresenter extends AddressConstract.Presenter {
         addressBean.id = addressId;
         CarefreeRetrofit.getInstance().createApi(AddressApis.class)
                 .updateAddress(CarefreeDaoSession.getInstance().getUserId(), addressId, QueryMapBuilder.getIns()
-                        .put("city_id", addressBean.city_id)
+                        .put("city_name", addressBean.city_name)
+                        .put("district",addressBean.district)
                         .put("area", addressBean.area)
                         .put("address", addressBean.address)
                         .put("lat", addressBean.lat + "")
@@ -125,13 +126,14 @@ public class AddressPresenter extends AddressConstract.Presenter {
     void addAddress(AddressBean addressBean) {
         CarefreeRetrofit.getInstance().createApi(AddressApis.class)
                 .addAddress(CarefreeDaoSession.getInstance().getUserId(),
-                        QueryMapBuilder.getIns().put("city_id", addressBean.city_id)
+                        QueryMapBuilder.getIns().put("city_name", addressBean.city_name)
                                 .put("area", addressBean.area)
                                 .put("address", addressBean.address)
                                 .put("lat", addressBean.lat + "")
                                 .put("lng", addressBean.lng + "")
                                 .put("name", addressBean.name)
                                 .put("mobile", addressBean.mobile)
+                                .put("district",addressBean.district)
                                 .buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

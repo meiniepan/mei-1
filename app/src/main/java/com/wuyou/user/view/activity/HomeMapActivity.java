@@ -1,14 +1,19 @@
 package com.wuyou.user.view.activity;
 
+import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
@@ -18,12 +23,24 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
-import com.amap.api.services.core.LatLonPoint;
-import com.amap.api.services.geocoder.GeocodeSearch;
-import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.QueryMapBuilder;
+import com.gs.buluo.common.utils.DensityUtils;
+import com.gs.buluo.common.widget.RecycleViewDivider;
 import com.wuyou.user.R;
+import com.wuyou.user.adapter.ServeSitesAdapter;
+import com.wuyou.user.bean.ServeSites;
+import com.wuyou.user.network.CarefreeRetrofit;
+import com.wuyou.user.network.apis.HomeApis;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by hjn on 2018/3/7.
@@ -32,24 +49,74 @@ import butterknife.BindView;
 public class HomeMapActivity extends BaseActivity implements LocationSource, AMap.OnMapClickListener {
     @BindView(R.id.map_view)
     MapView mapView;
+    @BindView(R.id.map_location)
+    ImageButton mapLocation;
+    @BindView(R.id.map_around)
+    ImageButton mapAround;
+    @BindView(R.id.map_guide)
+    ImageButton mapGuide;
+    @BindView(R.id.map_around_spot)
+    RecyclerView mapAroundSpot;
+    @BindView(R.id.map_layout)
+    RelativeLayout mapControlLayout;
+    @BindView(R.id.site_layout)
+    View siteLayout;
+    @BindView(R.id.site_name)
+    TextView siteName;
+    @BindView(R.id.site_address)
+    TextView siteAddress;
+    @BindView(R.id.site_time)
+    TextView siteTime;
     private AMap mAMap;
 
     private MarkerOptions markerOption = null;
-    private BitmapDescriptor ICON_RED = BitmapDescriptorFactory
-            .defaultMarker(BitmapDescriptorFactory.HUE_RED);
-    private Marker centerMarker;
+    private BitmapDescriptor ICON_RED = BitmapDescriptorFactory.fromResource(R.mipmap.red_mark);
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        ObjectAnimator.ofFloat(mapControlLayout, "translationY", DensityUtils.dip2px(this, 200)).setDuration(0).start();
+        initMap(savedInstanceState);
+    }
+
+    private void initData() {
+        CarefreeRetrofit.getInstance().createApi(HomeApis.class)
+                .getServeSites(QueryMapBuilder.getIns().buildGet())
+                .subscribeOn(Schedulers.io())
+                .map(listResponseBaseResponse -> {
+                    List<ServeSites> serveSites = listResponseBaseResponse.data.list;
+                    serveSites.get(0).lat = 39.9d;
+                    serveSites.get(0).lng = 116.3654d;
+                    serveSites.get(1).lat = 39.9d;
+                    serveSites.get(1).lng = 116.4654d;
+
+                    Collections.sort(serveSites, (o1, o2) -> {
+                        LatLng latLng1 = new LatLng(o1.lat, o1.lng);
+                        LatLng latLng2 = new LatLng(o2.lat, o2.lng);
+                        o1.distance = AMapUtils.calculateLineDistance(latLng1, centerLatLng);
+                        o2.distance = AMapUtils.calculateLineDistance(latLng2, centerLatLng);
+                        if (o1.distance < o2.distance) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    });
+                    return serveSites;
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<ServeSites>>() {
+                    @Override
+                    public void onSuccess(List<ServeSites> serveSites) {
+                        setData(serveSites);
+                    }
+                });
+    }
+
+    private void initMap(Bundle savedInstanceState) {
         mapView.onCreate(savedInstanceState);
         mAMap = mapView.getMap();
         mAMap = mapView.getMap();
         mAMap.getUiSettings().setRotateGesturesEnabled(false);
-        mAMap.moveCamera(CameraUpdateFactory.zoomBy(6));
-
-        markerOption = new MarkerOptions().draggable(true);
-        markerOption.icon(ICON_RED);
-        centerMarker = mAMap.addMarker(markerOption);
+        mAMap.moveCamera(CameraUpdateFactory.zoomTo(17));
 
         setUpMap();
     }
@@ -57,24 +124,44 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
     private void setUpMap() {
         mAMap.setOnMapClickListener(this);
         mAMap.setLocationSource(this);// 设置定位监听
-        mAMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
+        mAMap.getUiSettings().setMyLocationButtonEnabled(false);// 设置默认定位按钮是否显示
+        mAMap.getUiSettings().setZoomControlsEnabled(false);
         // 自定义系统定位蓝点
         MyLocationStyle myLocationStyle = new MyLocationStyle();
         // 自定义定位蓝点图标
         myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.mipmap.gps_point));
         // 自定义精度范围的圆形边框颜色
-        myLocationStyle.strokeColor(Color.argb(255, 255, 0, 0));
+        myLocationStyle.strokeColor(Color.argb(255, 255, 255, 255));
         // 自定义精度范围的圆形边框宽度
         myLocationStyle.strokeWidth(3);
         // 设置圆形的填充颜色
-        myLocationStyle.radiusFillColor(0xff627db9);
+//        myLocationStyle.radiusFillColor(0xff627db9);
         myLocationStyle.showMyLocation(true);
         // 将自定义的 myLocationStyle 对象添加到地图上
         mAMap.setMyLocationStyle(myLocationStyle);
         mAMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         // 设置定位的类型为定位模式 ，可以由定位、跟随或地图根据面向方向旋转几种
         mAMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
+
+        mAMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                ServeSites serveSites = (ServeSites) marker.getObject();
+                showSiteInfo(serveSites);
+                return true;
+            }
+        });
     }
+
+    private void showSiteInfo(ServeSites serveSites) {
+        siteLayout.setVisibility(View.VISIBLE);
+        ObjectAnimator.ofFloat(mapControlLayout, "translationY", DensityUtils.dip2px(this, 80)).setDuration(0).start();
+        siteName.setText(serveSites.name);
+        siteAddress.setText(serveSites.address);
+        siteTime.setText("营业时间 " + serveSites.open_all_day);
+        mapAround.setBackgroundResource(R.mipmap.map_around_normal);
+    }
+
 
     @Override
     protected int getContentLayout() {
@@ -82,36 +169,23 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
     }
 
     public AMapLocationClient mLocationClient = null;
-    private LocationSource.OnLocationChangedListener mListener;
-    private GeocodeSearch geocodeSearch;
+    private OnLocationChangedListener mListener;
     private LatLng centerLatLng;
 
     @Override
-    public void activate(LocationSource.OnLocationChangedListener onLocationChangedListener) {
-//        mAMap.moveCamera(CameraUpdateFactory.changeLatLng(centerLatLng));
+    public void activate(OnLocationChangedListener onLocationChangedListener) {
         mListener = onLocationChangedListener;
         if (mLocationClient == null) {
             mLocationClient = new AMapLocationClient(this);
-
             AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
             // 设置定位监听
-            mLocationClient.setLocationListener(new AMapLocationListener() {
-                @Override
-                public void onLocationChanged(AMapLocation aMapLocation) {
-                    if (mListener != null && aMapLocation != null) {
-                        if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
-                            mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
-                            centerLatLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
-                            mAMap.moveCamera(CameraUpdateFactory.changeLatLng(centerLatLng));
-                            RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(aMapLocation.getLatitude(), aMapLocation.getLongitude()), 200, GeocodeSearch.AMAP);
-                            geocodeSearch.getFromLocationAsyn(query);
-
-
-                        } else {
-                            String errText = "定位失败," + aMapLocation.getErrorCode() + ": "
-                                    + aMapLocation.getErrorInfo();
-                            Log.e("AmapErr", errText);
-                        }
+            mLocationClient.setLocationListener(aMapLocation -> {
+                if (mListener != null && aMapLocation != null) {
+                    if (aMapLocation.getErrorCode() == 0) {
+                        mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
+                        centerLatLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
+                        mAMap.moveCamera(CameraUpdateFactory.changeLatLng(centerLatLng));
+                        initData();
                     }
                 }
             });
@@ -121,6 +195,7 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
             mLocationOption.setOnceLocation(true);
             // 设置定位参数
             mLocationClient.setLocationOption(mLocationOption);
+            showLoadingDialog();
             mLocationClient.startLocation();
         }
     }
@@ -132,7 +207,9 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
 
     @Override
     public void onMapClick(LatLng latLng) {
-
+        if (siteLayout.getVisibility()==View.GONE){
+            setSiteListGone();
+        }
     }
 
     @Override
@@ -170,5 +247,57 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
         if (null != mLocationClient) {
             mLocationClient.onDestroy();
         }
+    }
+
+    @OnClick({R.id.map_location, R.id.map_around, R.id.map_guide})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.map_location:
+                mAMap.moveCamera(CameraUpdateFactory.changeLatLng(centerLatLng));
+                mAMap.moveCamera(CameraUpdateFactory.zoomTo(17));
+                break;
+            case R.id.map_around:
+                setSitesListVisible();
+                break;
+            case R.id.map_guide:
+                break;
+        }
+    }
+
+    private void setSiteListGone() {
+        mapAround.setBackgroundResource(R.mipmap.map_around_normal);
+        ObjectAnimator.ofFloat(mapControlLayout, "translationY", DensityUtils.dip2px(this, 200)).setDuration(300).start();
+    }
+
+    private void setSitesListVisible() {
+        mapAround.setBackgroundResource(R.mipmap.map_around_pressed);
+        ObjectAnimator.ofFloat(mapControlLayout, "translationY", DensityUtils.dip2px(this, 0)).setDuration(300).start();
+        siteLayout.setVisibility(View.GONE);
+    }
+
+    public void setData(List<ServeSites> data) {
+        mapAroundSpot.setLayoutManager(new LinearLayoutManager(this));
+        ServeSitesAdapter adapter = new ServeSitesAdapter(R.layout.item_serve_site, data);
+        mapAroundSpot.setAdapter(adapter);
+        mapAroundSpot.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(this, 0.3f), getResources().getColor(R.color.tint_bg)));
+        ArrayList<MarkerOptions> list = new ArrayList<>();
+        for (ServeSites serveSites : data) {
+            markerOption = new MarkerOptions().draggable(false);
+            markerOption.icon(ICON_RED);
+            list.add(markerOption);
+        }
+        ArrayList<Marker> markers = mAMap.addMarkers(list, true);
+        Marker marker = markers.get(0);
+        marker.setPosition(new LatLng(39.9f, 116.365f));
+        marker.setObject(data.get(0));
+
+        Marker marker1 = markers.get(1);
+        marker1.setPosition(new LatLng(39.9f, 116.385f));
+        marker1.setObject(data.get(1));
+
+        adapter.setOnItemClickListener((adapter1, view, position) -> {
+            mAMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(data.get(position).lat, data.get(position).lng)));
+            mAMap.moveCamera(CameraUpdateFactory.zoomTo(17));
+        });
     }
 }
