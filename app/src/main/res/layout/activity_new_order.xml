@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,112 +27,175 @@
     </RelativeLayout>
 
     <include layout="@layout/split_area" />
-
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/create_order_address_area"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/common_height"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/activity_horizontal_margin">
+        android:layout_height="80dp">
+        <TextView
+            android:id="@+id/create_order_address_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="16dp"
+            android:text="张三"/>
+
+        <TextView
+            android:id="@+id/create_order_address_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/create_order_address_person"
+            android:layout_below="@+id/create_order_address_person"
+            android:layout_marginTop="10dp"
+            android:text="某小区"/>
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@mipmap/location" />
+            android:src="@mipmap/location"
+            android:layout_toLeftOf="@+id/create_order_address_detail"
+            android:layout_alignTop="@+id/create_order_address_person"
+            android:layout_marginTop="10dp"/>
 
         <TextView
+            android:id="@+id/create_order_address_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/address" />
-
-        <TextView
-            android:id="@+id/create_order_address"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
-            android:text="北京宣武门" />
-
+            android:layout_alignTop="@+id/create_order_address_person"
+            android:layout_alignParentEnd="true"
+            android:text="139466546546"
+            android:layout_marginEnd="60dp" />
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@mipmap/arrow_gray" />
-    </LinearLayout>
+            android:src="@mipmap/arrow_gray"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
 
-    <include layout="@layout/split_line_margin" />
+        <LinearLayout
+            android:id="@+id/create_order_address_add"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:background="@color/white">
 
-    <LinearLayout
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/add_address" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:text="新增收货地址"
+                android:textColor="@color/night_blue" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/arrow_gray" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <include layout="@layout/split_line" />
+
+    <TextView
+        android:id="@+id/create_order_site_name"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/common_height"
+        android:layout_height="40dp"
+        android:drawableLeft="@mipmap/create_order_state_icon"
+        android:drawablePadding="6dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/activity_horizontal_margin">
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:text="服务站名称" />
+
+    <include layout="@layout/split_line" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@mipmap/person" />
+            android:id="@+id/create_order_goods_picture"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_centerVertical="true" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/create_order_goods_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/name" />
-
-        <EditText
-            android:id="@+id/create_order_owner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
-            android:background="@null"
-            android:text="北京" />
-    </LinearLayout>
-
-    <include layout="@layout/split_line_margin" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/common_height"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/activity_horizontal_margin">
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@mipmap/phone" />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@+id/create_order_goods_picture"
+            android:ellipsize="end"
+            android:maxLines="2" />
 
         <TextView
+            android:id="@+id/create_order_goods_standard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/phone" />
+            android:layout_alignStart="@+id/create_order_goods_name"
+            android:layout_below="@+id/create_order_goods_name"
+            android:layout_marginTop="6dp"
+            android:text="规格显示" />
 
-        <EditText
-            android:id="@+id/create_order_phone"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/create_order_goods_number"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
-            android:background="@null"
-            android:inputType="phone"/>
-    </LinearLayout>
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/create_order_goods_standard"
+            android:text="数量 X 1" />
+    </RelativeLayout>
 
     <include layout="@layout/shadow_line" />
 
-    <include layout="@layout/split_area" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin">
 
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/serve_way" />
+
+
+        <TextView
+            android:id="@+id/create_order_serve_way"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:text="上门服务" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="16dp"
+            android:src="@mipmap/arrow_gray" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingEnd="@dimen/activity_horizontal_margin">
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@mipmap/serve_time" />
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin">
 
         <TextView
             android:layout_width="0dp"
@@ -150,7 +214,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="6dp"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:text="今天 12：30" />
+            android:text="今天 12：30"
+            android:textColor="@color/common_red" />
 
         <ImageView
             android:layout_width="20dp"
@@ -158,9 +223,6 @@
             android:src="@mipmap/arrow_gray" />
     </LinearLayout>
 
-    <include layout="@layout/shadow_line" />
-
-    <include layout="@layout/split_area" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -185,8 +247,6 @@
     </LinearLayout>
 
     <include layout="@layout/shadow_line" />
-
-    <include layout="@layout/split_area" />
 
     <LinearLayout
         android:layout_width="match_parent"

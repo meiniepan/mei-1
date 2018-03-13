@@ -14,7 +14,6 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.google.gson.GsonBuilder;
 import com.gs.buluo.common.network.ApiException;
@@ -44,7 +43,7 @@ import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.network.apis.ServeApis;
-import com.wuyou.user.util.FullLinearLayoutManager;
+import com.wuyou.user.util.layoutmanager.FullLinearLayoutManager;
 import com.wuyou.user.util.JZVideoPlayerFullscreen;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.HomeMapActivity;
@@ -222,7 +221,6 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     protected void onFail(ApiException e) {
                         ToastUtils.ToastMessage(mCtx, "获取首页信息失败");
-                        setVideoData(new ArrayList<>());
                     }
                 });
 
@@ -288,26 +286,18 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void setVideoData(List<HomeVideoBean> videoData) {
-        video1.setUp("http://2449.vod.myqcloud.com/2449_22ca37a6ea9011e5acaaf51d105342e3.f20.mp4", JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "标题1");
-        GlideUtils.loadRoundCornerImage(mCtx, "https://i0.hdslb.com/bfs/archive/646d2bfc4e1a323e4be028c5469cd4d874ecf9d5.jpg", video1.thumbImageView, 4);
-        homeVideoTitle1.setText("我是标题1");
-
-        video2.setUp("http://120.25.226.186:32812/resources/videos/minion_01.mp4", JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "标题2");
-        GlideUtils.loadRoundCornerImage(mCtx, "http://p.qpic.cn/videoyun/0/2449_43b6f696980311e59ed467f22794e792_1/640", video2.thumbImageView, 4);
-        homeVideoTitle2.setText("我是标题2");
-
-//        if (videoData != null && videoData.size() > 1) {
-//            HomeVideoBean homeVideoBean1 = videoData.get(0);
-//            video1.setUp(homeVideoBean1.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean1.title);
-//            homeVideoTitle1.setText(homeVideoBean1.title);
-//            GlideUtils.loadRoundCornerImage(mCtx, homeVideoBean1.preview, video1.thumbImageView, 4);
-//            HomeVideoBean homeVideoBean2 = videoData.get(1);
-//            video2.setUp(homeVideoBean2.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean2.title);
-//            homeVideoTitle2.setText(homeVideoBean2.title);
-//            GlideUtils.loadRoundCornerImage(mCtx, homeVideoBean2.preview, video2.thumbImageView, 4);
-//        } else {
-//            ToastUtils.ToastMessage(mCtx, "获取视频信息失败" + videoData);
-//        }
+        if (videoData != null && videoData.size() > 1) {
+            HomeVideoBean homeVideoBean1 = videoData.get(0);
+            video1.setUp(homeVideoBean1.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean1.title);
+            homeVideoTitle1.setText(homeVideoBean1.title);
+            GlideUtils.loadRoundCornerImage(mCtx, homeVideoBean1.preview, video1.thumbImageView, 4);
+            HomeVideoBean homeVideoBean2 = videoData.get(1);
+            video2.setUp(homeVideoBean2.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean2.title);
+            homeVideoTitle2.setText(homeVideoBean2.title);
+            GlideUtils.loadRoundCornerImage(mCtx, homeVideoBean2.preview, video2.thumbImageView, 4);
+        } else {
+            ToastUtils.ToastMessage(mCtx, "获取视频信息失败" + videoData);
+        }
     }
 
     public void getOrderList() {

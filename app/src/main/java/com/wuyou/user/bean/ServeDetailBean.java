@@ -25,6 +25,7 @@ public class ServeDetailBean implements Parcelable {
     public String level;
     public String service_id;
     public boolean selected;
+    public int repertory;
 
     public ServeDetailBean() {
     }

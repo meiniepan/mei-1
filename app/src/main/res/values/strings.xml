@@ -70,5 +70,7 @@
     <string name="save">保存</string>
     <string name="add_address">新增地址</string>
     <string name="edit_address">编辑地址</string>
+    <string name="not_enough_goods">库存不足</string>
+    <string name="serve_way">服务方式</string>
 
 </resources>

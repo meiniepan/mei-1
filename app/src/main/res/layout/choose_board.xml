@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/transparent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_below="@+id/transparent"
+            android:layout_marginTop="6dp"
+            android:background="@color/white"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:paddingStart="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:id="@+id/choose_board_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="130dp"
+                android:layout_marginTop="20dp"
+                android:maxLines="2"
+                android:text="商品标题" />
+
+            <TextView
+                android:id="@+id/choose_board_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/choose_board_title"
+                android:layout_below="@+id/choose_board_title"
+                android:layout_marginTop="10dp"
+                android:text="￥99/小时"
+                android:textColor="@color/common_red" />
+
+            <LinearLayout
+                android:id="@+id/goods_remain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/choose_board_price">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="剩余库存:"
+                    android:textColor="@color/common_gray" />
+
+                <TextView
+                    android:id="@+id/goods_board_choose_remain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="0"
+                    android:textColor="@color/common_gray" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/goods_choose_icon"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/goods_board_repertory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <include layout="@layout/split_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:paddingStart="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:id="@+id/goods_standard_type1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="规格1"
+                android:textSize="@dimen/dimens_16sp" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/goods_level1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp" />
+
+        <include layout="@layout/split_line" />
+
+        <LinearLayout
+            android:id="@+id/level2_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/goods_standard_type2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="10dp"
+                android:text="规格2"
+                android:textSize="@dimen/dimens_16sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/goods_level2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="50dp" />
+
+            <include layout="@layout/split_line" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="数量"
+            android:textColor="#000"
+            android:textSize="@dimen/dimens_16sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/goods_board_reduce"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/night_blue_border">
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="1dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/common_gray" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/goods_board_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="1"
+                android:textSize="@dimen/dimens_18sp" />
+
+            <RelativeLayout
+                android:id="@+id/goods_board_add"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/night_blue_border">
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="1dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/common_dark" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="16dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/common_dark" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/goods_board_finish"
+        style="@style/button_style"
+        android:text="@string/next"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"/>
+</LinearLayout>

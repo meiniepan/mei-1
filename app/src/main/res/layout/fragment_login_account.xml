@@ -71,7 +71,7 @@
             android:layout_marginEnd="@dimen/button_margin"
             android:layout_marginStart="@dimen/button_margin"
             android:layout_marginTop="20dp"
-            android:background="@drawable/login_selector"
+            android:background="@drawable/button_selector"
             android:text="@string/login_now"
             android:textColor="#fff"
             android:textSize="@dimen/dimens_16sp" />

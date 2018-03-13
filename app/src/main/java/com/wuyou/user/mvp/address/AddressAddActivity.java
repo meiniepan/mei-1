@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.amap.api.services.core.PoiItem;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.AddressBean;
@@ -63,6 +64,8 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
             AddressBean addressBean = getIntent().getParcelableExtra(Constant.ADDRESS_BEAN);
             setData(addressBean);
         }
+
+        addressEditPhone.setText(CarefreeDaoSession.getInstance().getUserInfo().getMobile());
     }
 
     public void setData(AddressBean data) {
@@ -119,6 +122,9 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
                 bean.lng = lng;
                 showLoadingDialog("");
                 if (flag == 0) {
+                    if (CarefreeDaoSession.getInstance().getUserInfo().getAddress() == null) { //新增 第一个是默认地址
+                        bean.is_default = 1;
+                    }
                     mPresenter.addAddress(bean);
                 } else {
                     mPresenter.updateAddress(addressId, bean);

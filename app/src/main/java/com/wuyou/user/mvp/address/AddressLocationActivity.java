@@ -111,7 +111,7 @@ public class AddressLocationActivity extends BaseActivity {
         if (flag == 0) {
             EventBus.getDefault().post(new AddressEvent(poiItem));
             AppManager.getAppManager().finishActivity(AddressActivity.class);
-        } else {
+        } else if (flag == 1) {
             Intent intent = new Intent();
             intent.putExtra(Constant.ADDRESS_RESULT, poiItem);
             poiItem.setProvinceName(province);

@@ -23,13 +23,25 @@
         android:layout_toEndOf="@+id/address_item_name"
         tool:text="1231231231" />
 
+    <RadioButton
+        android:id="@+id/address_item_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="默认地址"
+        android:textColor="@color/night_blue"
+        android:textSize="@dimen/dimens_12sp"
+        android:layout_below="@+id/address_item_name"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="10dp"/>
+
     <TextView
         android:id="@+id/address_item_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/address_item_name"
+        android:layout_toEndOf="@+id/address_item_default"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:textColor="@color/common_gray"
         tool:text="萨克大家爱看历史角度思考垃圾的" />

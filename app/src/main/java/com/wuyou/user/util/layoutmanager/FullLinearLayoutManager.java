@@ -1,4 +1,4 @@
-package com.wuyou.user.util;
+package com.wuyou.user.util.layoutmanager;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;

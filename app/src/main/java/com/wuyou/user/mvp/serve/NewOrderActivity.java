@@ -3,7 +3,10 @@ package com.wuyou.user.mvp.serve;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gs.buluo.common.network.ApiException;
@@ -12,19 +15,21 @@ import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.AppManager;
 import com.gs.buluo.common.utils.ToastUtils;
-import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.OrderBean;
+import com.wuyou.user.bean.AddressBean;
 import com.wuyou.user.bean.OrderIdBean;
 import com.wuyou.user.bean.ServeDetailBean;
+import com.wuyou.user.mvp.address.AddressAddActivity;
+import com.wuyou.user.mvp.order.OrderAddressActivity;
 import com.wuyou.user.mvp.order.OrderDetailActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -33,12 +38,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class NewOrderActivity extends BaseActivity {
-    @BindView(R.id.create_order_address)
-    TextView createOrderAddress;
-    @BindView(R.id.create_order_owner)
-    TextView createOrderOwner;
-    @BindView(R.id.create_order_phone)
-    TextView createOrderPhone;
     @BindView(R.id.create_order_serve_time)
     TextView createOrderServeTime;
     @BindView(R.id.create_order_comment)
@@ -47,21 +46,44 @@ public class NewOrderActivity extends BaseActivity {
     TextView createOrderFee;
     @BindView(R.id.create_order_other_fee)
     TextView createOrderDoorFee;
+    @BindView(R.id.back)
+    RelativeLayout back;
+    @BindView(R.id.create_order_address_person)
+    TextView createOrderAddressPerson;
+    @BindView(R.id.create_order_address_detail)
+    TextView createOrderAddressDetail;
+    @BindView(R.id.create_order_address_phone)
+    TextView createOrderAddressPhone;
+    @BindView(R.id.create_order_site_name)
+    TextView createOrderSiteName;
+    @BindView(R.id.create_order_goods_picture)
+    ImageView createOrderGoodsPicture;
+    @BindView(R.id.create_order_goods_name)
+    TextView createOrderGoodsName;
+    @BindView(R.id.create_order_goods_standard)
+    TextView createOrderGoodsStandard;
+    @BindView(R.id.create_order_goods_number)
+    TextView createOrderGoodsNumber;
+    @BindView(R.id.create_order_serve_way)
+    TextView createOrderServeWay;
+    @BindView(R.id.create_order_button)
+    Button createOrderButton;
     private ServeDetailBean bean;
+
+    private AddressBean defaultAddress;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        findViewById(R.id.create_order_address_area).requestFocus();
         Intent intent = getIntent();
         bean = intent.getParcelableExtra(Constant.SERVE_BEAN);
         if (bean != null) {
-            createOrderFee.setText(bean.price);
             createOrderServeTime.setText(bean.service_time);
             createOrderFee.setText(bean.price);
             createOrderDoorFee.setText(bean.other_price);
         }
-        if (!checkUser(this)) return;
-        createOrderPhone.setText(CarefreeDaoSession.getInstance().getUserInfo().getMobile());
-        createOrderComment.requestFocus();
+        defaultAddress = CarefreeDaoSession.getInstance().getDefaultAddress();
+        setAddressInfo();
     }
 
     @Override
@@ -70,35 +92,23 @@ public class NewOrderActivity extends BaseActivity {
     }
 
     public void doCreateOrder(View view) {
-        if (createOrderAddress.length() == 0) {
-            ToastUtils.ToastMessage(getCtx(), "请选择地址");
-            return;
-        }
-        if (createOrderOwner.length() == 0) {
-            ToastUtils.ToastMessage(getCtx(), "请输入姓名");
+        if (defaultAddress == null) {
+            ToastUtils.ToastMessage(getCtx(), "请确认地址");
             return;
         }
         normalCreateOrder();
     }
 
     private void normalCreateOrder() {
-        if (createOrderPhone.length() == 0) {
-            ToastUtils.ToastMessage(getCtx(), "请输入手机号");
-            return;
-        }
-        if (createOrderAddress.length()==0){
-            ToastUtils.ToastMessage(getCtx(), "请输入手机号");
-            return;
-        }
-        if (createOrderAddress.length()==0){
-            ToastUtils.ToastMessage(getCtx(), "请输入手机号");
+        if (defaultAddress == null) {
+            ToastUtils.ToastMessage(getCtx(), "请确认地址");
             return;
         }
         if (bean.service_id != null) bean.id = bean.service_id;
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .createOrder(QueryMapBuilder.getIns().put("address", createOrderAddress.getText().toString().trim())
-                        .put("username", createOrderOwner.getText().toString().trim())
-                        .put("mobile", createOrderPhone.getText().toString().trim())
+                .createOrder(QueryMapBuilder.getIns().put("address", defaultAddress.city_name + defaultAddress.district + defaultAddress.address)
+                        .put("username", defaultAddress.name)
+                        .put("mobile", defaultAddress.mobile)
                         .put("service_time", bean.service_time)
                         .put("remark", createOrderComment.getText().toString().trim())
                         .put("service_price", bean.price)
@@ -132,5 +142,38 @@ public class NewOrderActivity extends BaseActivity {
         AppManager.getAppManager().finishActivity(ServeDetailActivity.class);
         AppManager.getAppManager().finishActivity(FastCreateActivity.class);
         AppManager.getAppManager().finishActivity(ServeCategoryListActivity.class);
+    }
+
+    @OnClick({R.id.create_order_address_add, R.id.create_order_address_area})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.create_order_address_area:
+                Intent intent = new Intent(getCtx(), OrderAddressActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.create_order_address_add:
+                Intent intent1 = new Intent(getCtx(), AddressAddActivity.class);
+                startActivityForResult(intent1, 201);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 203) {
+            defaultAddress = data.getParcelableExtra(Constant.ADDRESS_BEAN);
+        } else if (resultCode == 204) {
+            defaultAddress = data.getParcelableExtra(Constant.ADDRESS_RESULT);
+        }
+        setAddressInfo();
+    }
+
+    public void setAddressInfo() {
+        if (defaultAddress == null) return;
+        findViewById(R.id.create_order_address_add).setVisibility(View.GONE);
+        createOrderAddressPerson.setText(defaultAddress.name);
+        createOrderAddressDetail.setText(defaultAddress.city_name + defaultAddress.district + defaultAddress.address);
+        createOrderAddressPhone.setText(defaultAddress.mobile);
     }
 }

@@ -1,6 +1,5 @@
 package com.wuyou.user.mvp.address;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -116,19 +115,9 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
             popupWindow.showAtLocation(v, Gravity.TOP, 0, i - DensityUtils.dip2px(getCtx(), 50));
         }
         CommonUtil.backgroundAlpha(this, 0.6f);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                CommonUtil.backgroundAlpha(AddressManagerActivity.this, 1f);
-            }
-        });
+        popupWindow.setOnDismissListener(() -> CommonUtil.backgroundAlpha(AddressManagerActivity.this, 1f));
 
-        view.findViewById(R.id.main_item_delete).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
+        view.findViewById(R.id.main_item_delete).setOnClickListener(v1 -> popupWindow.dismiss());
     }
 
 

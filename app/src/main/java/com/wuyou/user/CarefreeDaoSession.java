@@ -2,6 +2,7 @@ package com.wuyou.user;
 
 import android.text.TextUtils;
 
+import com.wuyou.user.bean.AddressBean;
 import com.wuyou.user.bean.DaoMaster;
 import com.wuyou.user.bean.DaoSession;
 import com.wuyou.user.bean.UserInfo;
@@ -63,5 +64,15 @@ public class CarefreeDaoSession {
         } else {
             return uid;
         }
+    }
+
+    public void saveAddress(AddressBean addressBean) {
+        UserInfo userInfo = getUserInfo();
+        userInfo.setAddress(addressBean);
+        getUserInfoDao().update(userInfo);
+    }
+
+    public AddressBean getDefaultAddress() {
+        return getUserInfo().getAddress();
     }
 }

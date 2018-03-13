@@ -1,5 +1,7 @@
 package com.wuyou.user.mvp.address;
 
+import android.text.TextUtils;
+
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
@@ -16,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -51,6 +54,11 @@ public class AddressPresenter extends AddressConstract.Presenter {
     void deleteAddress(int position, String addressId) {
         CarefreeRetrofit.getInstance().createApi(AddressApis.class).deleteAddress(CarefreeDaoSession.getInstance().getUserId(), addressId, QueryMapBuilder.getIns().buildPost())
                 .subscribeOn(Schedulers.io())
+                .doOnNext(baseResponse -> {
+                    if (TextUtils.equals(addressId, CarefreeDaoSession.getInstance().getDefaultAddress().id)) {
+                        CarefreeDaoSession.getInstance().saveAddress(null);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override
@@ -71,16 +79,23 @@ public class AddressPresenter extends AddressConstract.Presenter {
         CarefreeRetrofit.getInstance().createApi(AddressApis.class)
                 .updateAddress(CarefreeDaoSession.getInstance().getUserId(), addressId, QueryMapBuilder.getIns()
                         .put("city_name", addressBean.city_name)
-                        .put("district",addressBean.district)
+                        .put("district", addressBean.district)
                         .put("area", addressBean.area)
                         .put("address", addressBean.address)
                         .put("lat", addressBean.lat + "")
                         .put("lng", addressBean.lng + "")
                         .put("name", addressBean.name)
                         .put("mobile", addressBean.mobile)
-                        .put("is_default", 0 + "")
+                        .put("is_default", addressBean.is_default + "")
                         .buildPost())
                 .subscribeOn(Schedulers.io())
+                .doOnNext(new Consumer<BaseResponse>() {
+                    @Override
+                    public void accept(BaseResponse baseResponse) throws Exception {
+                        if (addressBean.is_default == 1)
+                            CarefreeDaoSession.getInstance().saveAddress(addressBean);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override
@@ -133,9 +148,15 @@ public class AddressPresenter extends AddressConstract.Presenter {
                                 .put("lng", addressBean.lng + "")
                                 .put("name", addressBean.name)
                                 .put("mobile", addressBean.mobile)
-                                .put("district",addressBean.district)
+                                .put("district", addressBean.district)
+                                .put("is_default", addressBean.is_default + "")
                                 .buildPost())
                 .subscribeOn(Schedulers.io())
+                .doOnNext(addressIdBaseResponse -> {
+                    if (CarefreeDaoSession.getInstance().getUserInfo().getAddress() == null) {
+                        CarefreeDaoSession.getInstance().saveAddress(addressBean);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<AddressId>>() {
                     @Override

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tool="http://schemas.android.com/tools"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -71,9 +71,9 @@
                     android:id="@+id/serve_detail_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tool:text="99"
                     android:textColor="@color/common_red"
-                    android:textSize="@dimen/dimens_16sp" />
+                    android:textSize="@dimen/dimens_16sp"
+                    tool:text="99" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -100,30 +100,47 @@
                     android:textSize="@dimen/dimens_16sp" />
             </LinearLayout>
 
-            <include layout="@layout/split_area" />
+            <include layout="@layout/split_line" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_height"
+                android:drawableLeft="@mipmap/safe_flag"
+                android:drawablePadding="4dp"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:text="商家已备案，可放心选购"
+                android:textColor="@color/night_blue"
+                android:gravity="center_vertical"/>
+
+            <include layout="@layout/split_line" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_height"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="@dimen/activity_horizontal_margin">
+                android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin">
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@mipmap/serve_time" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="星级评价: " />
+
+                <io.techery.properratingbar.ProperRatingBar
+                    android:id="@+id/serve_detail_comment_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:prb_defaultRating="4"
+                    app:prb_tickNormalDrawable="@mipmap/star_normal"
+                    app:prb_tickSelectedDrawable="@mipmap/start_yellow" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/serve_time" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="最近可约"
+                    android:text="4.9"
                     android:textColor="@color/common_gray" />
 
                 <TextView
@@ -132,16 +149,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
-                    android:text="今天 12：30"
-                    android:textColor="@color/common_red" />
+                    android:text="好评 98%"
+                    android:textColor="@color/common_gray" />
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="16dp"
-                    android:src="@mipmap/arrow_gray" />
+                    android:src="@mipmap/arrow_gray"
+                    android:visibility="gone" />
             </LinearLayout>
 
-            <include layout="@layout/split_area" />
+            <include layout="@layout/split_line" />
 
             <WebView
                 android:id="@+id/serve_detail_description"
@@ -173,9 +191,9 @@
                     android:id="@+id/serve_detail_store"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="商家"
-                    android:maxLength="10"
                     android:ellipsize="end"
+                    android:maxLength="10"
+                    android:text="商家"
                     android:textColor="@color/common_orange" />
 
                 <TextView
@@ -214,6 +232,7 @@
                 android:layout_height="@dimen/common_height"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:paddingStart="@dimen/activity_horizontal_margin">
 
@@ -246,30 +265,8 @@
 
             <include layout="@layout/split_line_margin" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="14dp"
-                android:layout_marginTop="14dp"
-                android:orientation="horizontal"
-                android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin">
-
-                <TextView
-                    android:id="@+id/serve_detail_comment_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/common_gray" />
-
-                <io.techery.properratingbar.ProperRatingBar
-                    android:id="@+id/serve_detail_comment_star"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    app:prb_tickNormalDrawable="@mipmap/star_normal"
-                    app:prb_tickSelectedDrawable="@mipmap/start_yellow" />
-            </LinearLayout>
-
             <TextView
+                android:visibility="gone"
                 android:id="@+id/serve_detail_comment_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -286,9 +283,8 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin" />
-
-            <include layout="@layout/split_area" />
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -296,7 +292,8 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin">
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0dp"
@@ -325,14 +322,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin" />
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
+
     <Button
-        android:text="@string/buy_now"
-        android:layout_marginStart="0dp"
+        style="@style/button_style"
         android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
         android:onClick="buyNow"
-        style="@style/button_style"/>
+        android:text="@string/buy_now" />
 </LinearLayout>

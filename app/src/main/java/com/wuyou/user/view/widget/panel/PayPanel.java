@@ -114,7 +114,7 @@ public class PayPanel extends Dialog implements View.OnClickListener {
     }
 
 //    private void showPasswordPanel(final String password) {
-//        NewPasswordPanel passwordPanel = new NewPasswordPanel(mContext, password, new NewPasswordPanel.OnPwdFinishListener() {
+//        NewPasswordPanel passwordPanel = new NewPasswordPanel(mCtx, password, new NewPasswordPanel.OnPwdFinishListener() {
 //            @Override
 //            public void onPwdFinishListener(String strPassword) {
 //                createPayment(strPassword);
@@ -126,7 +126,7 @@ public class PayPanel extends Dialog implements View.OnClickListener {
 //            }
 //        });
 //        passwordPanel.show();
-//        TranslateAnimation animation = new TranslateAnimation(0, -CommonUtils.getScreenWidth(mContext), 0, 0);
+//        TranslateAnimation animation = new TranslateAnimation(0, -CommonUtils.getScreenWidth(mCtx), 0, 0);
 //        animation.setDuration(500);
 //        animation.setFillAfter(true);
 //        animation.start();

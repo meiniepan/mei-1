@@ -63,7 +63,7 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
             EventBus.getDefault().post(new AddressEvent(item));
             finish();
         });
-        if (null == CarefreeDaoSession.getInstance().getUserInfo()) {
+        if (null == CarefreeDaoSession.getInstance().getUserId()) {
             addressStatus.showEmptyView("您还未登录，请先登录");
             addressStatus.setEmptyAction(v -> {
                 Intent intent = new Intent(getCtx(), LoginActivity.class);
@@ -112,6 +112,7 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
     @Override
     protected void onResume() {
         super.onResume();
+        if (null == CarefreeDaoSession.getInstance().getUserInfo()) return;
         addressStatus.showProgressView();
         mPresenter.getAddress();
     }

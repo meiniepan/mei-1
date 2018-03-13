@@ -22,6 +22,7 @@ import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.widget.panel.GoodsChoosePanel;
 
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -51,8 +52,6 @@ public class ServeDetailActivity extends BaseActivity {
     TextView createOrderServePoint;
     @BindView(R.id.create_order_serve_comment_count)
     TextView createOrderServeCommentCount;
-    @BindView(R.id.serve_detail_comment_phone)
-    TextView serveDetailCommentPhone;
     @BindView(R.id.serve_detail_comment_star)
     ProperRatingBar serveDetailCommentStar;
     @BindView(R.id.serve_detail_comment_content)
@@ -80,7 +79,7 @@ public class ServeDetailActivity extends BaseActivity {
             //jump to comment
         });
         findViewById(R.id.serve_detail_store_area).setOnClickListener(v -> {
-            if (serviceDetail==null)return;
+            if (serviceDetail == null) return;
             Intent intent = new Intent(getCtx(), StoreDetailActivity.class);
             intent.putExtra(Constant.STORE_ID, serviceDetail.shop_id);
             startActivity(intent);
@@ -96,9 +95,18 @@ public class ServeDetailActivity extends BaseActivity {
 
 
     public void buyNow(View view) {
-        Intent intent = new Intent(getCtx(), NewOrderActivity.class);
-        intent.putExtra(Constant.SERVE_BEAN, serviceDetail);
-        startActivity(intent);
+        if (!checkUser(this)) return;
+        GoodsChoosePanel panel = new GoodsChoosePanel(this, new GoodsChoosePanel.OnShowInDetail() {
+            @Override
+            public void onShow(ServeDetailBean goodsDetail, int num) {
+
+            }
+        });
+        panel.setData(serviceDetail);
+        panel.show();
+//        Intent intent = new Intent(getCtx(), NewOrderActivity.class);
+//        intent.putExtra(Constant.SERVE_BEAN, serviceDetail);
+//        startActivity(intent);
 
     }
 
@@ -111,13 +119,12 @@ public class ServeDetailActivity extends BaseActivity {
         serveDetailCount.setText(serviceDetail.total_sell);
         serveDetailPrice.setText(serviceDetail.price);
 //        serveDetailDescription.setText(serviceDetail.description);
-        serveDetailDescription.loadData(serviceDetail.description,"text/html","UTF-8");
+        serveDetailDescription.loadData(serviceDetail.description, "text/html", "UTF-8");
         serveDetailStore.setText(data.shop.name);
         CommentResponse comments = data.comments;
         createOrderServeCommentCount.setText(comments.total_comments);
         if (comments.list != null && comments.list.size() > 0) {
             CommentBean commentBean = comments.list.get(0);
-            serveDetailCommentPhone.setText(commentBean.author);
             serveDetailCommentStar.setRating(commentBean.star / 2);
             serveDetailCommentContent.setText(commentBean.content);
         }
