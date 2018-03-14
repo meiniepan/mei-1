@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tool="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true"
+    android:background="@color/white"
     android:clipToPadding="true"
-    android:background="@color/white">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -58,22 +58,18 @@
 
                 <TextView
                     android:id="@+id/order_detail_status"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="订单已提交" />
 
                 <TextView
-                    android:id="@+id/order_detail_date"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:text="123131" />
+                    android:text="请在2小时内支付，否则将自动关闭"
+                    android:textColor="@color/common_red"
+                    android:textSize="@dimen/dimens_12sp" />
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@mipmap/arrow_gray" />
             </LinearLayout>
 
             <include layout="@layout/split_line" />
@@ -128,15 +124,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/common_orange"
-                    android:text="￥" />
+                    android:text="￥"
+                    android:textColor="@color/common_red" />
 
                 <TextView
                     android:id="@+id/order_detail_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="99"
-                    android:textColor="@color/common_orange"
+                    android:textColor="@color/common_red"
                     android:textSize="@dimen/dimens_16sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -160,15 +156,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/common_orange"
-                    android:text="-￥ " />
+                    android:text="-￥ "
+                    android:textColor="@color/common_red" />
 
                 <TextView
                     android:id="@+id/order_detail_discount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textColor="@color/common_orange"
+                    android:textColor="@color/common_red"
                     android:textSize="@dimen/dimens_16sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -186,12 +182,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/common_red"
                     android:text="实付金额： ￥" />
 
                 <TextView
                     android:id="@+id/order_detail_price_final"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/common_red"
                     tool:text="66" />
             </LinearLayout>
 
@@ -215,10 +213,11 @@
                 android:layout_height="@dimen/common_height"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="44dp"
                     android:layout_height="44dp"
-                    android:src="@mipmap/location"/>
+                    android:src="@mipmap/location" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -246,7 +245,8 @@
                 <ImageView
                     android:layout_width="44dp"
                     android:layout_height="44dp"
-                    android:src="@mipmap/person"/>
+                    android:src="@mipmap/person" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -273,7 +273,8 @@
                 <ImageView
                     android:layout_width="44dp"
                     android:layout_height="44dp"
-                    android:src="@mipmap/phone"/>
+                    android:src="@mipmap/phone" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -287,43 +288,6 @@
                     android:layout_marginStart="20dp"
                     android:text="1383838838"
                     android:textColor="@color/common_gray" />
-            </LinearLayout>
-
-            <include layout="@layout/split_line" />
-
-            <include layout="@layout/split_area" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/common_height"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingEnd="@dimen/activity_horizontal_margin">
-
-                <ImageView
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:src="@mipmap/serve_time"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="服务时间"
-                    android:textColor="@color/common_gray" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="最近可约"
-                    android:textColor="@color/common_gray" />
-
-                <TextView
-                    android:id="@+id/order_detail_recent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="14:30" />
             </LinearLayout>
 
             <include layout="@layout/split_line" />
@@ -345,9 +309,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:orientation="horizontal"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:orientation="horizontal">
+                android:paddingStart="@dimen/activity_horizontal_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -366,9 +330,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:orientation="horizontal"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:orientation="horizontal">
+                android:paddingStart="@dimen/activity_horizontal_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -387,49 +351,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:orientation="horizontal"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:orientation="horizontal">
+                android:paddingStart="@dimen/activity_horizontal_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="订单金额"
+                    android:text="服务方式"
                     android:textColor="@color/common_gray" />
 
                 <TextView
-                    android:id="@+id/order_detail_amount"
+                    android:id="@+id/order_detail_serve_way"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
-                    android:text="元" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:orientation="horizontal"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:orientation="horizontal">
+                android:paddingStart="@dimen/activity_horizontal_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="支付方式"
+                    android:text="服务时间"
                     android:textColor="@color/common_gray" />
 
                 <TextView
-                    android:id="@+id/order_detail_pay_method"
+                    android:id="@+id/order_detail_serve_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:textColor="@color/common_gray" />
+                    android:layout_marginStart="30dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -437,25 +394,114 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:orientation="horizontal"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:orientation="horizontal">
+                android:paddingStart="@dimen/activity_horizontal_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="支付状态"
+                    android:text="订单备注"
                     android:textColor="@color/common_gray" />
 
                 <TextView
-                    android:id="@+id/order_detail_bill_status"
+                    android:id="@+id/order_detail_remark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:textColor="@color/common_gray" />
             </LinearLayout>
 
-            <include layout="@layout/split_line" />
+            <include layout="@layout/shadow_line" />
+
+            <include layout="@layout/split_area" />
+
+            <LinearLayout
+                android:id="@+id/order_detail_pay_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/common_height"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/activity_horizontal_margin"
+                    android:text="支付信息"
+                    android:textColor="@color/black" />
+
+                <include layout="@layout/split_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    android:paddingEnd="@dimen/activity_horizontal_margin"
+                    android:paddingStart="@dimen/activity_horizontal_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="支付方式"
+                        android:textColor="@color/common_gray" />
+
+                    <TextView
+                        android:id="@+id/order_detail_pay_method"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:textColor="@color/common_gray" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingEnd="@dimen/activity_horizontal_margin"
+                    android:paddingStart="@dimen/activity_horizontal_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="支付状态"
+                        android:textColor="@color/common_gray" />
+
+                    <TextView
+                        android:id="@+id/order_detail_pay_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:textColor="@color/common_gray" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingEnd="@dimen/activity_horizontal_margin"
+                    android:paddingStart="@dimen/activity_horizontal_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="支付时间"
+                        android:textColor="@color/common_gray" />
+
+                    <TextView
+                        android:id="@+id/order_detail_pay_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:textColor="@color/common_gray" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <include layout="@layout/shadow_line" />
 
             <View
                 android:layout_width="match_parent"
@@ -481,12 +527,12 @@
                     android:textColor="@color/white" />
 
                 <TextView
-                    android:id="@+id/order_detail_cancel"
+                    android:id="@+id/order_detail_action"
                     android:layout_width="@dimen/short_button_width"
                     android:layout_height="@dimen/short_button_height"
                     android:layout_marginStart="12dp"
-                    android:gravity="center"
                     android:background="@drawable/white_border"
+                    android:gravity="center"
                     android:text="@string/cancel_order"
                     android:textColor="@color/white" />
 

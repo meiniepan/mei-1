@@ -15,6 +15,7 @@ import com.wuyou.user.bean.OrderBeanDetail;
 import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
+import com.wuyou.user.view.activity.CommentActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.panel.PayPanel;
 import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
@@ -180,7 +181,9 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
                 mPresenter.finishOrder(orderBean.id);
                 break;
             case "待评价":
-
+                Intent intent = new Intent(mCtx, CommentActivity.class);
+                intent.putExtra(Constant.ORDER_BEAN,orderBean);
+                startActivity(intent);
                 break;
         }
     }

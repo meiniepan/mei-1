@@ -28,4 +28,5 @@ public class Constant {
     public static final String LATLNG = "latlog";
     public static final String ADDRESS_SEARCH_FLAG = "address_search_flag";
     public static final String POI_RESULT = "poi_result";
+    public static final String ORDER_BEAN = "order_bean";
 }

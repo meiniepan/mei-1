@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.gs.buluo.common.widget.RecycleViewDivider;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.AddressListAdapter;
@@ -20,6 +21,7 @@ import com.wuyou.user.bean.AddressBean;
 import com.wuyou.user.bean.response.AddressListResponse;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 
 import java.util.ArrayList;
 
@@ -52,18 +54,30 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
             showDeleteDialog(position, (AddressBean) adapter.getData().get(position));
             return false;
         });
+        addressManagerList.setAdapter(adapter);
+        adapter.setNewData(list);
         adapter.setOnItemClickListener((adapter, view, position) -> {
             updatePosition = position;
             Intent intent = new Intent(getCtx(), AddressAddActivity.class);
             intent.putExtra(Constant.ADDRESS_EDIT_FLAG, 1);
             intent.putExtra(Constant.ADDRESS_BEAN, (AddressBean) adapter.getData().get(position));
-            startActivityForResult(intent,201);
+            startActivityForResult(intent, 201);
         });
-        addressManagerList.setAdapter(adapter);
-        adapter.setNewData(list);
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                updateAddressAsDefault(list.get(position));
+            }
+        });
         if (list.size() == 0) {
             addressEmptyView.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void updateAddressAsDefault(AddressBean bean) {
+        showLoadingDialog();
+        bean.is_default = 1;
+        mPresenter.updateAddress(bean.id, bean);
     }
 
     private void showDeleteDialog(int pos, AddressBean bean) {
@@ -78,7 +92,7 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
     }
 
 
-    @OnClick({R.id.address_manager_add,R.id.address_empty_view})
+    @OnClick({R.id.address_manager_add, R.id.address_empty_view})
     public void onViewClicked() {
         Intent intent = new Intent(getCtx(), AddressAddActivity.class);
         startActivityForResult(intent, 201);
@@ -136,7 +150,8 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
 
     @Override
     public void updateSuccess(AddressBean data) {
-
+        CarefreeDaoSession.getInstance().saveDefaultAddress(data);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

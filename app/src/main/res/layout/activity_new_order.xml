@@ -3,10 +3,10 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,17 +27,19 @@
     </RelativeLayout>
 
     <include layout="@layout/split_area" />
+
     <RelativeLayout
         android:id="@+id/create_order_address_area"
         android:layout_width="match_parent"
         android:layout_height="80dp">
+
         <TextView
             android:id="@+id/create_order_address_person"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="45dp"
             android:layout_marginTop="16dp"
-            android:text="张三"/>
+            android:text="张三" />
 
         <TextView
             android:id="@+id/create_order_address_detail"
@@ -46,41 +48,42 @@
             android:layout_alignStart="@+id/create_order_address_person"
             android:layout_below="@+id/create_order_address_person"
             android:layout_marginTop="10dp"
-            android:text="某小区"/>
+            android:text="某小区" />
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@mipmap/location"
-            android:layout_toLeftOf="@+id/create_order_address_detail"
             android:layout_alignTop="@+id/create_order_address_person"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/create_order_address_detail"
+            android:src="@mipmap/location" />
 
         <TextView
             android:id="@+id/create_order_address_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/create_order_address_person"
-            android:layout_alignParentEnd="true"
-            android:text="139466546546"
-            android:layout_marginEnd="60dp" />
+            android:layout_marginEnd="60dp"
+            android:text="139466546546" />
+
         <ImageView
-            android:layout_width="20dp"
+            android:layout_width="10dp"
             android:layout_height="20dp"
-            android:src="@mipmap/arrow_gray"
-            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:src="@mipmap/arrow_gray" />
 
         <LinearLayout
             android:id="@+id/create_order_address_add"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/activity_horizontal_margin"
-            android:paddingStart="@dimen/activity_horizontal_margin"
-            android:background="@color/white">
+            android:paddingStart="@dimen/activity_horizontal_margin">
 
             <ImageView
                 android:layout_width="24dp"
@@ -96,20 +99,22 @@
                 android:textColor="@color/night_blue" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="10dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/arrow_gray" />
         </LinearLayout>
     </RelativeLayout>
 
-    <include layout="@layout/split_line" />
+    <include layout="@layout/shadow_line" />
+
+    <include layout="@layout/split_area" />
 
     <TextView
         android:id="@+id/create_order_site_name"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:drawableLeft="@mipmap/create_order_state_icon"
-        android:drawablePadding="6dp"
+        android:drawablePadding="12dp"
         android:gravity="center_vertical"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingStart="@dimen/activity_horizontal_margin"
@@ -146,14 +151,17 @@
             android:layout_alignStart="@+id/create_order_goods_name"
             android:layout_below="@+id/create_order_goods_name"
             android:layout_marginTop="6dp"
-            android:text="规格显示" />
+            android:text="规格显示"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/create_order_goods_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/create_order_goods_standard"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="20dp"
             android:text="数量 X 1" />
     </RelativeLayout>
 
@@ -213,7 +221,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="6dp"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="10dp"
             android:text="今天 12：30"
             android:textColor="@color/common_red" />
 
@@ -230,7 +238,9 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin">
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -248,10 +258,12 @@
 
     <include layout="@layout/shadow_line" />
 
+    <include layout="@layout/split_area" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="15dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/activity_horizontal_margin"
@@ -278,7 +290,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -311,15 +323,35 @@
         android:layout_weight="1"
         android:background="@color/tint_bg" />
 
-    <Button
-        android:id="@+id/create_order_button"
-        style="@style/button_style"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:onClick="doCreateOrder"
-        android:text="确认购买" />
+        android:layout_height="@dimen/common_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:text="合计：" />
+
+        <TextView
+            android:id="@+id/create_order_amount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="100.00"
+            android:textColor="@color/common_red" />
+
+        <Button
+            android:id="@+id/create_order_button"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/pay_selector"
+            android:gravity="center"
+            android:onClick="doCreateOrder"
+            android:text="支付"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.wuyou.user.adapter;
 
+import android.view.View;
 import android.widget.RadioButton;
 
 import com.wuyou.user.R;
@@ -30,5 +31,9 @@ public class AddressListAdapter extends BaseQuickAdapter<AddressBean, BaseHolder
 
         RadioButton radioButton = helper.getView(R.id.address_item_default);
         radioButton.setChecked(item.is_default == 1);
+        if (getOnItemChildClickListener() == null)
+            helper.getView(R.id.address_item_default_area).setVisibility(View.GONE);
+
+        helper.addOnClickListener(R.id.address_item_default_area);
     }
 }

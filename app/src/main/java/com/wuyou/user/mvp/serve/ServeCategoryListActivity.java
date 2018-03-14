@@ -50,6 +50,7 @@ public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, 
         });
         adapter.setOnLoadMoreListener(() -> mPresenter.getServeMore(), serveList);
         serveCategoryStatus.showProgressView();
+        serveCategoryStatus.setErrorAction(v -> mPresenter.getServe(categoryId));
         mPresenter.getServe(categoryId);
     }
 
@@ -92,5 +93,10 @@ public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, 
     @Override
     public void loadMoreFail(String displayMessage, int code) {
         adapter.loadMoreFail();
+    }
+
+    @Override
+    public void showError(String message, int res) {
+        serveCategoryStatus.showErrorView(message);
     }
 }

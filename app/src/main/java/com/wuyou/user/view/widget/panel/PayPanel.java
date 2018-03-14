@@ -9,23 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
-import com.gs.buluo.common.widget.LoadingDialog;
-import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
+import com.wuyou.user.bean.BankCard;
+import com.wuyou.user.bean.PayChannel;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,9 +28,9 @@ import butterknife.ButterKnife;
 /**
  * Created by hjn on 2016/12/7.
  */
-public class PayPanel extends Dialog implements View.OnClickListener {
+public class PayPanel extends Dialog implements View.OnClickListener, PayChoosePanel.onChooseFinish {
     private final OnPayFinishListener onFinishListener;
-    private Context mContext;
+    private Context mCtx;
     @BindView(R.id.pay_way)
     TextView tvWay;
     @BindView(R.id.pay_money)
@@ -51,9 +46,12 @@ public class PayPanel extends Dialog implements View.OnClickListener {
     private String paymentType;
     private String ownerId;
 
+    private PayChoosePanel payChoosePanel;
+
+
     public PayPanel(Context context, OnPayFinishListener onDismissListener) {
         super(context, R.style.my_dialog);
-        mContext = context;
+        mCtx = context;
         this.onFinishListener = onDismissListener;
         ownerId = CarefreeDaoSession.getInstance().getUserId();
 //        EventBus.getDefault().register(this);
@@ -63,7 +61,7 @@ public class PayPanel extends Dialog implements View.OnClickListener {
     @Override
     public void dismiss() {
         super.dismiss();
-        if (EventBus.getDefault().isRegistered(this))EventBus.getDefault().unregister(this);
+        if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this);
     }
 
     public void setData(String price, String targetId, String type) {
@@ -73,14 +71,15 @@ public class PayPanel extends Dialog implements View.OnClickListener {
         paymentType = type;
         getWalletInfo();
     }
+
     private void initView() {
-        rootView = LayoutInflater.from(mContext).inflate(R.layout.pay_board, null);
+        rootView = LayoutInflater.from(mCtx).inflate(R.layout.pay_board, null);
         setContentView(rootView);
         ButterKnife.bind(this);
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        params.height = DensityUtils.dip2px(mContext, 400);
+        params.height = DensityUtils.dip2px(mCtx, 400);
         params.gravity = Gravity.BOTTOM;
         window.setAttributes(params);
 
@@ -96,12 +95,12 @@ public class PayPanel extends Dialog implements View.OnClickListener {
 
 
     private void showNotEnough(final float balance) {
-        new CustomAlertDialog.Builder(mContext).setTitle(R.string.prompt).setMessage(mContext.getString(R.string.complete))
-                .setPositiveButton(mContext.getString(R.string.complete), new OnClickListener() {
+        new CustomAlertDialog.Builder(mCtx).setTitle(R.string.prompt).setMessage(mCtx.getString(R.string.complete))
+                .setPositiveButton(mCtx.getString(R.string.complete), new OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
-                }).setNegativeButton(mContext.getResources().getString(R.string.cancel), null).create().show();
+                }).setNegativeButton(mCtx.getResources().getString(R.string.cancel), null).create().show();
     }
 
     private void showAlert() {
@@ -110,7 +109,7 @@ public class PayPanel extends Dialog implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
-                }).setNegativeButton(mContext.getString(R.string.cancel), null).create().show();
+                }).setNegativeButton(mCtx.getString(R.string.cancel), null).create().show();
     }
 
 //    private void showPasswordPanel(final String password) {
@@ -148,8 +147,15 @@ public class PayPanel extends Dialog implements View.OnClickListener {
                 onFinishListener.onPaySuccess();
                 break;
             case R.id.pay_choose_area:
+                payChoosePanel = new PayChoosePanel(mCtx, 0, this);
+                payChoosePanel.show();
                 break;
         }
+    }
+
+    @Override
+    public void onChoose(PayChannel payChannel, BankCard bankCard, String bankName) {
+        tvWay.setText(payChannel.value);
     }
 
     public interface OnPayFinishListener {

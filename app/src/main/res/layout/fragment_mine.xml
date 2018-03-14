@@ -9,6 +9,7 @@
         android:layout_height="20dp"
         android:background="@color/mine_bg"/>
     <RelativeLayout
+        android:id="@+id/mine_info"
         android:layout_width="match_parent"
         android:layout_height="146dp"
         android:background="@color/mine_bg">
@@ -66,13 +67,13 @@
             android:textColor="@color/white"/>
 
         <ImageView
-            android:id="@+id/mine_setting"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:paddingEnd="@dimen/activity_horizontal_margin"
-            android:src="@mipmap/mine_setting" />
+            android:src="@mipmap/arrow_white"
+            android:rotation="-90"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -106,9 +107,98 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:text="充值"/>
     </LinearLayout>
-    <include layout="@layout/split_line" />
-    <Button
-        android:id="@+id/activity_record"
-        android:text="活动记录"
-        style="@style/button_style"/>
+    <include layout="@layout/shadow_line" />
+    <include layout="@layout/split_area"/>
+    <LinearLayout
+        android:id="@+id/mine_card"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:src="@mipmap/mine_card"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="我的银行卡"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="15dp"
+            android:src="@mipmap/arrow_gray"/>
+    </LinearLayout>
+    <include layout="@layout/split_line_margin"/>
+    <LinearLayout
+        android:id="@+id/mine_address"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:src="@mipmap/location"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="我的地址"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="15dp"
+            android:src="@mipmap/arrow_gray"/>
+    </LinearLayout>
+    <include layout="@layout/split_line_margin"/>
+    <LinearLayout
+        android:id="@+id/mine_activity"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:src="@mipmap/mine_activity"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="我的活动记录"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="15dp"
+            android:src="@mipmap/arrow_gray"/>
+    </LinearLayout>
+    <include layout="@layout/split_line_margin"/>
+    <LinearLayout
+        android:id="@+id/mine_setting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:src="@mipmap/mine_setting"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="设置"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="15dp"
+            android:src="@mipmap/arrow_gray"/>
+    </LinearLayout>
+    <include layout="@layout/split_line_margin"/>
 </LinearLayout>

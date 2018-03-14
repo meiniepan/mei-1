@@ -15,6 +15,7 @@ import com.wuyou.user.bean.OrderBeanDetail;
 import com.wuyou.user.bean.OrderPreferentialBean;
 import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.activity.CommentActivity;
 
 import java.util.Date;
 
@@ -28,8 +29,6 @@ import butterknife.OnClick;
 public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderContract.Presenter> implements OrderContract.View {
     @BindView(R.id.order_detail_status)
     TextView orderDetailStatus;
-    @BindView(R.id.order_detail_date)
-    TextView orderDetailDate;
     @BindView(R.id.order_detail_store)
     TextView orderDetailStore;
     @BindView(R.id.order_detail_title)
@@ -50,22 +49,19 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     TextView orderDetailName;
     @BindView(R.id.order_detail_phone)
     TextView orderDetailPhone;
-    @BindView(R.id.order_detail_recent)
-    TextView orderDetailRecent;
     @BindView(R.id.order_detail_create_time)
     TextView orderDetailCreateTime;
     @BindView(R.id.order_detail_number)
     TextView orderDetailNumber;
-    @BindView(R.id.order_detail_amount)
-    TextView orderDetailAmount;
     @BindView(R.id.order_detail_pay_method)
     TextView orderDetailPayMethod;
-    @BindView(R.id.order_detail_bill_status)
+    @BindView(R.id.order_detail_pay_status)
     TextView orderDetailBillStatus;
-    @BindView(R.id.order_detail_cancel)
-    TextView orderDetailCancel;
+    @BindView(R.id.order_detail_action)
+    TextView orderDetailAction;
     private String orderId;
     private String shopTel;
+    private String orderStatus;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -125,7 +121,6 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     public void setData(OrderBeanDetail data) {
         orderDetailStatus.setText(data.status);
         if (data.updated_at == 0) data.updated_at = data.created_at;
-        orderDetailDate.setText(TribeDateUtils.dateFormat(new Date(data.updated_at * 1000)));
         orderDetailAddress.setText(data.contact_address);
         orderDetailStore.setText(data.shop_name);
         orderDetailTitle.setText(data.category);
@@ -138,18 +133,19 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         }
         orderDetailPriceFinal.setText(data.payment);
         orderDetailName.setText(data.contact_name);
-        orderDetailRecent.setText(data.service_time);
         orderDetailCreateTime.setText(TribeDateUtils.dateFormat(new Date(data.created_at * 1000)));
         orderDetailNumber.setText(data.order_no);
-        orderDetailAmount.setText(data.payment);
         orderDetailBillStatus.setText(data.pay_status);
         orderDetailPayMethod.setText(data.pay_type);
         orderDetailPhone.setText(data.contact_tel);
 
         shopTel = data.shop_tel;
+
+        orderStatus = data.status;
+        setActionStatus();
     }
 
-    @OnClick({R.id.order_detail_cancel, R.id.order_detail_contact_store})
+    @OnClick({R.id.order_detail_action, R.id.order_detail_contact_store})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.order_detail_contact_store:
@@ -157,12 +153,36 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;
-            case R.id.order_detail_cancel:
-                new CustomAlertDialog.Builder(getCtx()).setTitle(R.string.prompt).setMessage("确认取消?")
-                        .setPositiveButton(getCtx().getString(R.string.yes), (dialog, which) -> {
-                            mPresenter.cancelOrder(0, orderId);
-                        }).setNegativeButton(getCtx().getResources().getString(R.string.cancel), null).create().show();
+            case R.id.order_detail_action:
+                switch (orderStatus) {
+                    case "待评价":
+                        Intent intent1 = new Intent(getCtx(), CommentActivity.class);
+                        startActivity(intent1);
+                        break;
+                    case "待付款":
+                        new CustomAlertDialog.Builder(getCtx()).setTitle(R.string.prompt).setMessage("确认取消?")
+                                .setPositiveButton(getCtx().getString(R.string.yes), (dialog, which) ->
+                                        mPresenter.cancelOrder(0, orderId)).setNegativeButton(getCtx().getResources().getString(R.string.cancel), null).create().show();
+                        break;
+                }
                 break;
         }
+    }
+
+    public void setActionStatus() {
+        switch (orderStatus) {
+            case "待付款":
+                orderDetailAction.setText(R.string.cancel);
+                findViewById(R.id.order_detail_pay_area).setVisibility(View.GONE);
+                break;
+            case "进行中":
+            case "已完成":
+                orderDetailAction.setVisibility(View.GONE);
+                break;
+            case "待评价":
+                orderDetailAction.setText(R.string.comment);
+                break;
+        }
+
     }
 }

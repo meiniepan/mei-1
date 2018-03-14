@@ -21,6 +21,7 @@ import com.wuyou.user.bean.response.AddressListResponse;
 import com.wuyou.user.event.AddressEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -70,6 +71,12 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
                 startActivity(intent);
             });
         }
+    }
+
+    private void updateAddressAsDefault(AddressBean bean) {
+        showLoadingDialog();
+        bean.is_default = 1;
+        mPresenter.updateAddress(bean.id, bean);
     }
 
     @Override

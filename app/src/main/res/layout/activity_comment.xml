@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/night_blue">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="评价"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_size" />
+
+        <include
+            android:id="@+id/back"
+            layout="@layout/back_black" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/serve_item"/>
+        <TextView
+            android:id="@+id/comment_"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="商家名称"
+            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:button="@null"
+            android:background="@drawable/btn_radio"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="匿名评价"
+            android:textColor="@color/night_blue"/>
+    </LinearLayout>
+
+    <include layout="@layout/shadow_line"/>
+
+    <include layout="@layout/split_area"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请您评价一下这次的服务吧"
+            android:layout_marginTop="36dp"/>
+
+
+        <io.techery.properratingbar.ProperRatingBar
+            android:id="@+id/comment_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:prb_defaultRating="5"
+            app:prb_tickNormalDrawable="@mipmap/big_star"
+            app:prb_tickSelectedDrawable="@mipmap/big_star_yellow"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="36dp"/>
+    </LinearLayout>
+    <include layout="@layout/shadow_line"/>
+    <Button
+        android:layout_marginTop="50dp"
+        style="@style/button_style"
+        android:text="提交评价"/>
+</LinearLayout>

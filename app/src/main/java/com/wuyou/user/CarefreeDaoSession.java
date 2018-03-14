@@ -66,7 +66,7 @@ public class CarefreeDaoSession {
         }
     }
 
-    public void saveAddress(AddressBean addressBean) {
+    public void saveDefaultAddress(AddressBean addressBean) {
         UserInfo userInfo = getUserInfo();
         userInfo.setAddress(addressBean);
         getUserInfoDao().update(userInfo);

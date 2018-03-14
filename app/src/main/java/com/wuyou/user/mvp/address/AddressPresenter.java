@@ -56,7 +56,7 @@ public class AddressPresenter extends AddressConstract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .doOnNext(baseResponse -> {
                     if (TextUtils.equals(addressId, CarefreeDaoSession.getInstance().getDefaultAddress().id)) {
-                        CarefreeDaoSession.getInstance().saveAddress(null);
+                        CarefreeDaoSession.getInstance().saveDefaultAddress(null);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -93,7 +93,7 @@ public class AddressPresenter extends AddressConstract.Presenter {
                     @Override
                     public void accept(BaseResponse baseResponse) throws Exception {
                         if (addressBean.is_default == 1)
-                            CarefreeDaoSession.getInstance().saveAddress(addressBean);
+                            CarefreeDaoSession.getInstance().saveDefaultAddress(addressBean);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -154,7 +154,7 @@ public class AddressPresenter extends AddressConstract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .doOnNext(addressIdBaseResponse -> {
                     if (CarefreeDaoSession.getInstance().getUserInfo().getAddress() == null) {
-                        CarefreeDaoSession.getInstance().saveAddress(addressBean);
+                        CarefreeDaoSession.getInstance().saveDefaultAddress(addressBean);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())

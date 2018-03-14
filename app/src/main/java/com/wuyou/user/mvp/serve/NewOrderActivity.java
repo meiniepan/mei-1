@@ -26,6 +26,7 @@ import com.wuyou.user.mvp.order.OrderAddressActivity;
 import com.wuyou.user.mvp.order.OrderDetailActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.OrderApis;
+import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import butterknife.BindView;
@@ -78,9 +79,11 @@ public class NewOrderActivity extends BaseActivity {
         Intent intent = getIntent();
         bean = intent.getParcelableExtra(Constant.SERVE_BEAN);
         if (bean != null) {
-            createOrderServeTime.setText(bean.service_time);
+            createOrderGoodsName.setText(bean.name);
+//            createOrderServeTime.setText(bean.service_time);
             createOrderFee.setText(bean.price);
             createOrderDoorFee.setText(bean.other_price);
+            GlideUtils.loadRoundCornerImage(this,bean.image,createOrderGoodsPicture,8);
         }
         defaultAddress = CarefreeDaoSession.getInstance().getDefaultAddress();
         setAddressInfo();

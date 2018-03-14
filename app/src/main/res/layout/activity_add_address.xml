@@ -137,7 +137,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="联系人" />
+            android:text="联系人    " />
 
         <EditText
             android:id="@+id/address_edit_receiver"
@@ -163,7 +163,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="手机号码" />
+            android:text="联系电话" />
 
         <EditText
             android:id="@+id/address_edit_phone"

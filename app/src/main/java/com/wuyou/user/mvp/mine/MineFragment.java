@@ -7,13 +7,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
-import com.wuyou.user.util.glide.GlideUtils;
+import com.wuyou.user.view.activity.InfoActivity;
 import com.wuyou.user.view.activity.SettingActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
@@ -38,14 +37,10 @@ public class MineFragment extends BaseFragment {
     TextView mineSex;
     @BindView(R.id.mine_phone)
     TextView minePhone;
-    @BindView(R.id.mine_setting)
-    ImageView mineSetting;
     @BindView(R.id.mine_balance)
     TextView mineBalance;
     @BindView(R.id.mine_recharge)
     TextView mineRecharge;
-    @BindView(R.id.activity_record)
-    Button rechargeRecord;
     @BindView(R.id.mine_login)
     TextView mineLogin;
 
@@ -85,23 +80,28 @@ public class MineFragment extends BaseFragment {
     }
 
 
-    @OnClick(R.id.mine_setting)
-    public void onViewClicked() {
-        Intent view = new Intent(getContext(), SettingActivity.class);
-        startActivity(view);
-    }
-
-    @OnClick({R.id.mine_setting, R.id.mine_recharge, R.id.activity_record, R.id.mine_login})
+    @OnClick({R.id.mine_setting, R.id.mine_recharge, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info})
     public void onViewClicked(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.mine_setting:
+                intent.setClass(mCtx, SettingActivity.class);
+                startActivity(intent);
                 break;
             case R.id.mine_recharge:
                 break;
-            case R.id.activity_record:
-                break;
             case R.id.mine_login:
-                Intent intent = new Intent(mCtx, LoginActivity.class);
+                intent.setClass(mCtx, LoginActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.mine_card:
+                break;
+            case R.id.mine_address:
+                break;
+            case R.id.mine_activity:
+                break;
+            case R.id.mine_info:
+                intent.setClass(mCtx,InfoActivity.class);
                 startActivity(intent);
                 break;
         }

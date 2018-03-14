@@ -50,7 +50,7 @@
     <string name="delivered">已派单</string>
     <string name="order_accepted">订单已受理</string>
     <string name="order_detail">订单详情</string>
-    <string name="contact_store">联系商家</string>
+    <string name="contact_store">联系客服</string>
     <string name="cancel_success">取消成功</string>
     <string name="fast_order">快速下单</string>
     <string name="confirm_order">确认下单</string>
@@ -72,5 +72,9 @@
     <string name="edit_address">编辑地址</string>
     <string name="not_enough_goods">库存不足</string>
     <string name="serve_way">服务方式</string>
+    <string name="pay_balance">无忧币支付</string>
+    <string name="pay_wechat">微信支付</string>
+    <string name="add_bank_card_pay">添加银行卡</string>
+    <string name="person_info">个人信息</string>
 
 </resources>

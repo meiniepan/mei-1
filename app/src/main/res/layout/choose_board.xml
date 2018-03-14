@@ -85,6 +85,7 @@
         <include layout="@layout/split_line" />
 
         <RelativeLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingEnd="@dimen/activity_horizontal_margin"
@@ -100,6 +101,7 @@
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
+            android:visibility="gone"
             android:id="@+id/goods_level1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -112,6 +114,7 @@
 
         <LinearLayout
             android:id="@+id/level2_view"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -139,7 +142,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         android:background="@color/white"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingStart="@dimen/activity_horizontal_margin">
