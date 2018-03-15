@@ -18,6 +18,5 @@ public class RxUtil {
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(aLong -> countTime - aLong.intValue())
                 .take(countTime + 1);
-
     }
 }

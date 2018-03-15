@@ -31,8 +31,8 @@ public interface OrderApis {
     Observable<BaseResponse<OrderBeanDetail>> getOrderDetail(@Path("orderId") String id, @QueryMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @POST("order")
-    Observable<BaseResponse<OrderIdBean>> createOrder(
+    @POST("order/{uid}")
+    Observable<BaseResponse<OrderIdBean>> createOrder(@Path("uid")String uid,
             @FieldMap SortedTreeMap<String, String> map);
 
     @HTTP(method = "DELETE", path = "order/{order_id}", hasBody = true)

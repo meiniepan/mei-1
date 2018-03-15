@@ -49,7 +49,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     protected void bindView(Bundle savedInstanceState) {
         if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
         ArrayList<OrderBean> list = new ArrayList<>();
-        adapter = new OrderListAdapter(R.layout.item_order_list, list);
+        adapter = new OrderListAdapter(mCtx,R.layout.item_order_list, list);
         orderList.setAdapter(adapter);
         orderList.setRefreshAction(this::refreshData);
         adapter.setOnItemChildClickListener((adapter, view, position) -> dealWithClick(position, (OrderBean) adapter.getData().get(position)));

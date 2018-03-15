@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
-import com.gs.buluo.common.widget.RecycleViewDivider;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -21,7 +20,6 @@ import com.wuyou.user.bean.AddressBean;
 import com.wuyou.user.bean.response.AddressListResponse;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 
 import java.util.ArrayList;
 
@@ -48,7 +46,7 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
     protected void bindView(Bundle savedInstanceState) {
         ArrayList<AddressBean> list = getIntent().getParcelableArrayListExtra(Constant.ADDRESS_LIST);
         addressManagerList.setLayoutManager(new LinearLayoutManager(this));
-        addressManagerList.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(this, 0.5f), getResources().getColor(R.color.tint_bg)));
+        addressManagerList.addItemDecoration(CommonUtil.getRecyclerDivider(this));
         adapter = new AddressListAdapter(R.layout.item_address_list);
         adapter.setOnItemLongClickListener((adapter, view, position) -> {
             showDeleteDialog(position, (AddressBean) adapter.getData().get(position));
@@ -57,21 +55,21 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
         addressManagerList.setAdapter(adapter);
         adapter.setNewData(list);
         adapter.setOnItemClickListener((adapter, view, position) -> {
+            showDeletePop(view, (AddressBean) adapter.getData().get(position));
             updatePosition = position;
             Intent intent = new Intent(getCtx(), AddressAddActivity.class);
             intent.putExtra(Constant.ADDRESS_EDIT_FLAG, 1);
             intent.putExtra(Constant.ADDRESS_BEAN, (AddressBean) adapter.getData().get(position));
             startActivityForResult(intent, 201);
         });
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                updateAddressAsDefault(list.get(position));
-            }
-        });
+        adapter.setOnItemChildClickListener((adapter, view, position) -> updateAddressAsDefault(list.get(position)));
         if (list.size() == 0) {
             addressEmptyView.setVisibility(View.VISIBLE);
         }
+    }
+
+
+    private void showDeletePop(View view, AddressBean bean) {
     }
 
     private void updateAddressAsDefault(AddressBean bean) {

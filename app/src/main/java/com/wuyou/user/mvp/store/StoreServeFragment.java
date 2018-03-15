@@ -14,6 +14,7 @@ import com.wuyou.user.mvp.serve.ServeContract;
 import com.wuyou.user.mvp.serve.ServeDetailActivity;
 import com.wuyou.user.mvp.serve.ServeListAdapter;
 import com.wuyou.user.mvp.serve.ServePresenter;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.fragment.BaseFragment;
 
 import java.util.ArrayList;
@@ -45,8 +46,7 @@ public class StoreServeFragment extends BaseFragment<ServeContract.View,ServeCon
     protected void bindView(Bundle savedInstanceState) {
         recyclerView.setLayoutManager(new LinearLayoutManager(mCtx));
         adapter = new ServeListAdapter(mCtx, R.layout.item_serve_list);
-        recyclerView.addItemDecoration(new RecycleViewDivider(
-                mCtx, LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(mCtx, 10), getResources().getColor(R.color.tint_bg)));
+        recyclerView.addItemDecoration(CommonUtil.getRecyclerDivider(mCtx));
         recyclerView.setAdapter(adapter);
         adapter.setNewData(serveBeanList);
         adapter.setOnItemClickListener((adapter, view, position) -> {

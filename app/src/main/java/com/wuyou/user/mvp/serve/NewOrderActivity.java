@@ -103,24 +103,16 @@ public class NewOrderActivity extends BaseActivity {
     }
 
     private void normalCreateOrder() {
-        if (defaultAddress == null) {
-            ToastUtils.ToastMessage(getCtx(), "请确认地址");
-            return;
-        }
         if (bean.service_id != null) bean.id = bean.service_id;
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .createOrder(QueryMapBuilder.getIns().put("address", defaultAddress.city_name + defaultAddress.district + defaultAddress.address)
-                        .put("username", defaultAddress.name)
-                        .put("mobile", defaultAddress.mobile)
-                        .put("service_time", bean.service_time)
+                .createOrder(CarefreeDaoSession.getInstance().getUserId(),QueryMapBuilder.getIns().put("address", defaultAddress.city_name + defaultAddress.district + defaultAddress.address)
                         .put("remark", createOrderComment.getText().toString().trim())
-                        .put("service_price", bean.price)
-                        .put("other_price", bean.other_price)
-                        .put("total_price", Float.parseFloat(bean.price) + Float.parseFloat(bean.other_price) + "")
-                        .put("user_id", CarefreeDaoSession.getInstance().getUserId())
-                        .put("shop_id", bean.shop_id)
                         .put("service_id", bean.id)
-                        .put("num", 1 + "")
+                        .put("address_id",defaultAddress.id)
+                        .put("service_time", bean.service_time)
+                        .put("service_mode",createOrderServeWay.getText().toString().trim())
+                        .put("number",createOrderGoodsNumber.getText().toString().trim())
+                        .put("total_amount", Float.parseFloat(bean.price) + Float.parseFloat(bean.other_price) + "")
                         .buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

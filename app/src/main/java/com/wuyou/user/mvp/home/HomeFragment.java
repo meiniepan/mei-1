@@ -321,7 +321,7 @@ public class HomeFragment extends BaseFragment {
 
     public void setOrderData(List<OrderBean> orderData) {
         homeOrderList.setLayoutManager(new FullLinearLayoutManager(mCtx));
-        OrderListAdapter adapter = new OrderListAdapter(R.layout.item_order_list, orderData);
+        OrderListAdapter adapter = new OrderListAdapter(mCtx,R.layout.item_order_list, orderData);
         adapter.setButtonGone();
         homeOrderList.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter1, view, position) -> {

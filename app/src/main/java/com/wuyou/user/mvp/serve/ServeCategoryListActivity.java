@@ -14,6 +14,7 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.ServeBean;
 import com.wuyou.user.bean.response.ServeListResponse;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import butterknife.BindView;
@@ -38,8 +39,7 @@ public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, 
         categoryId = i.getStringExtra(Constant.CATEGORY_ID);
         serveCategory.setText(i.getStringExtra(Constant.CATEGORY_NAME));
         serveList.setLayoutManager(new LinearLayoutManager(getCtx()));
-        serveList.addItemDecoration(new RecycleViewDivider(
-                getCtx(), LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(this, 8), getResources().getColor(R.color.tint_bg)));
+        serveList.addItemDecoration(CommonUtil.getRecyclerDivider(this));
         adapter = new ServeListAdapter(getCtx(), R.layout.item_serve_list);
         serveList.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter, view, position) -> {

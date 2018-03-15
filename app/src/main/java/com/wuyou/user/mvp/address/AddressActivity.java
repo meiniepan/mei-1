@@ -20,6 +20,7 @@ import com.wuyou.user.bean.AddressBean;
 import com.wuyou.user.bean.response.AddressListResponse;
 import com.wuyou.user.event.AddressEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
@@ -57,7 +58,7 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
         addressList.getRecyclerView().setLayoutManager(new LinearLayoutManager(this));
         adapter = new AddressListAdapter(R.layout.item_address_list);
         addressList.setAdapter(adapter);
-        addressList.getRecyclerView().addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(this, 0.5f), getResources().getColor(R.color.tint_bg)));
+        addressList.getRecyclerView().addItemDecoration(CommonUtil.getRecyclerDivider(this));
         adapter.setOnItemClickListener((adapter, view, position) -> {
             AddressBean addressBean = (AddressBean) adapter.getData().get(position);
             PoiItem item = new PoiItem("", new LatLonPoint(addressBean.lat, addressBean.lng), addressBean.area, addressBean.address);

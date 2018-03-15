@@ -26,6 +26,7 @@ public class ServeDetailBean implements Parcelable {
     public String service_id;
     public boolean selected;
     public int repertory;
+    public int number;
 
     public ServeDetailBean() {
     }
@@ -50,6 +51,8 @@ public class ServeDetailBean implements Parcelable {
         dest.writeString(this.level);
         dest.writeString(this.service_id);
         dest.writeByte(this.selected ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.repertory);
+        dest.writeInt(this.number);
     }
 
     protected ServeDetailBean(Parcel in) {
@@ -66,6 +69,8 @@ public class ServeDetailBean implements Parcelable {
         this.level = in.readString();
         this.service_id = in.readString();
         this.selected = in.readByte() != 0;
+        this.repertory = in.readInt();
+        this.number = in.readInt();
     }
 
     public static final Creator<ServeDetailBean> CREATOR = new Creator<ServeDetailBean>() {

@@ -21,6 +21,7 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.AddressLocationListAdapter;
 import com.wuyou.user.event.AddressEvent;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -100,8 +101,7 @@ public class AddressLocationActivity extends BaseActivity {
     public void setListData(List<PoiItem> listData) {
         dismissDialog();
         addressList.setLayoutManager(new LinearLayoutManager(this));
-        addressList.addItemDecoration(new RecycleViewDivider(
-                this, LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(this, 0.5f), getResources().getColor(R.color.tint_bg)));
+        addressList.addItemDecoration(CommonUtil.getRecyclerDivider(this));
         AddressLocationListAdapter adapter = new AddressLocationListAdapter(R.layout.item_address_location, listData);
         addressList.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter1, view, position) -> setClickResult(listData.get(position)));

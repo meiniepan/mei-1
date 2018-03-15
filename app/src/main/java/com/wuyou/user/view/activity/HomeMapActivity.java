@@ -32,6 +32,7 @@ import com.wuyou.user.adapter.ServeSitesAdapter;
 import com.wuyou.user.bean.ServeSites;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.HomeApis;
+import com.wuyou.user.util.CommonUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -279,7 +280,7 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
         mapAroundSpot.setLayoutManager(new LinearLayoutManager(this));
         ServeSitesAdapter adapter = new ServeSitesAdapter(R.layout.item_serve_site, data);
         mapAroundSpot.setAdapter(adapter);
-        mapAroundSpot.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(this, 0.3f), getResources().getColor(R.color.tint_bg)));
+        mapAroundSpot.addItemDecoration(CommonUtil.getRecyclerDivider(this));
         ArrayList<MarkerOptions> list = new ArrayList<>();
         for (ServeSites serveSites : data) {
             markerOption = new MarkerOptions().draggable(false);

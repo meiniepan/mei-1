@@ -1,98 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tool="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <include layout="@layout/split_area"/>
+    <include layout="@layout/split_area" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/common_height"
+        android:layout_height="40dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingStart="@dimen/activity_horizontal_margin">
 
         <TextView
-            android:id="@+id/order_item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订单编号： " />
+
+        <TextView
+            android:id="@+id/order_item_number"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            tool:text="13213131231"
-            android:textColor="@color/common_gray" />
+            android:textColor="@color/common_gray"
+            tool:text="13213131231" />
 
         <TextView
             android:id="@+id/order_item_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已完成"
+            android:text="待支付"
             android:textColor="@color/common_green" />
     </LinearLayout>
 
     <include layout="@layout/split_line" />
 
     <TextView
-        android:id="@+id/order_item_title"
+        android:id="@+id/order_item_spot_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_height="30dp"
+        android:drawableLeft="@mipmap/serve_item_white"
+        android:drawablePadding="6dp"
+        android:gravity="center_vertical"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingStart="@dimen/activity_horizontal_margin"
-        android:text="空调维修"
-        android:textSize="@dimen/dimens_16sp"
-        android:textStyle="bold" />
+        android:text="服务点名称"
+        android:textSize="@dimen/dimens_12sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin">
+
+        <ImageView
+            android:id="@+id/order_item_picture"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@mipmap/default_pic" />
+
+        <TextView
+            android:id="@+id/order_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="@dimen/dimens_16sp"
+            tool:text="这是艾德卡斯科拉大家阿卡丽" />
+    </LinearLayout>
+
+    <include layout="@layout/split_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:gravity="center_vertical"
-        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingStart="@dimen/activity_horizontal_margin">
 
         <TextView
-            android:id="@+id/order_item_address"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableLeft="@mipmap/home_location"
-            android:drawablePadding="4dp"
-            android:text="北京市北京" />
+            android:text="合计：" />
 
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:src="@mipmap/arrow_gray" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥"
+            android:textSize="@dimen/dimens_16sp"
+            android:textColor="@color/common_red" />
+        <TextView
+            android:id="@+id/order_item_price"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/dimens_16sp"
+            android:text="100"/>
+
+        <TextView
+            android:id="@+id/order_item_blue"
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_order"
+            android:background="@drawable/night_blue_border"/>
+
+        <TextView
+            android:id="@+id/order_item_orange"
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@drawable/pay_selector"
+            android:textColor="@color/white"
+            android:layout_marginStart="12dp"
+            android:visibility="gone"
+            android:text="付款"/>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/order_item_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="10dp"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin"
-        android:drawableLeft="@mipmap/serve_time_blue"
-        android:drawablePadding="4dp"
-        android:text="今天17:30"
-        android:textColor="@color/night_blue" />
-
-    <include layout="@layout/split_line" />
-
-    <TextView
-        android:id="@+id/order_item_action"
-        android:layout_width="75dp"
-        android:layout_height="30dp"
-        android:layout_gravity="end"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:background="@drawable/night_blue_border"
-        android:text="@string/comment" />
 
     <include layout="@layout/split_line" />
 </LinearLayout>

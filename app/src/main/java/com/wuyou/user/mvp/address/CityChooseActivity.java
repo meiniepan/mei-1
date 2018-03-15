@@ -17,6 +17,7 @@ import com.wuyou.user.bean.response.CityBean;
 import com.wuyou.user.bean.response.CityListResponse;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.AddressApis;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.recyclerHelper.BaseHolder;
 import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
@@ -56,7 +57,7 @@ public class CityChooseActivity extends BaseActivity {
 
     public void setData(List<CityBean> data) {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new RecycleViewDivider(getCtx(), LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(getCtx(), 0.75f), getResources().getColor(R.color.divide_gray)));
+        recyclerView.addItemDecoration(CommonUtil.getRecyclerDivider(this));
         BaseQuickAdapter adapter = new BaseQuickAdapter<CityBean, BaseHolder>(R.layout.item_city) {
             @Override
             protected void convert(BaseHolder helper, CityBean item) {
