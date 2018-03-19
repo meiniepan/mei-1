@@ -1,4 +1,4 @@
-package com.wuyou.user.bean.response;
+package com.wuyou.user.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

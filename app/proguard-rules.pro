@@ -19,3 +19,8 @@
 -keep public class android.support.design.internal.BottomNavigationMenuView { *; }
 -keep public class android.support.design.internal.BottomNavigationPresenter { *; }
 -keep public class android.support.design.internal.BottomNavigationItemView { *; }
+
+-keepattributes InnerClasses,Signature
+-keepattributes *Annotation*
+
+-keep class cn.addapp.pickers.entity.** { *;}

@@ -8,4 +8,5 @@ import java.util.List;
 
 public class ListResponse<T> {
     public List<T> list;
+    public int has_more;
 }

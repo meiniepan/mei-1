@@ -6,6 +6,7 @@ import android.widget.RadioButton;
 
 import com.wuyou.user.R;
 import com.wuyou.user.bean.ServeDetailBean;
+import com.wuyou.user.bean.ServeLevelBean;
 import com.wuyou.user.view.widget.recyclerHelper.BaseHolder;
 import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 
@@ -15,15 +16,15 @@ import java.util.List;
  * Created by hjn on 2018/2/10.
  */
 
-class FastServeAdapter extends BaseQuickAdapter<ServeDetailBean, BaseHolder> {
-    public FastServeAdapter(int layoutResId, @Nullable List<ServeDetailBean> data) {
+class FastServeAdapter extends BaseQuickAdapter<ServeLevelBean, BaseHolder> {
+    public FastServeAdapter(int layoutResId, @Nullable List<ServeLevelBean> data) {
         super(layoutResId, data);
     }
 
     private int checkPos = 0;
 
     @Override
-    protected void convert(BaseHolder helper, ServeDetailBean item) {
+    protected void convert(BaseHolder helper, ServeLevelBean item) {
         View view = helper.getView(R.id.fast_bg);
         if (item.level.contains("钻石")) {
             view.setBackgroundResource(R.mipmap.serve_high);

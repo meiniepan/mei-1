@@ -23,7 +23,7 @@ public class ServePresenter extends ServeContract.Presenter {
     void getServe(String serveId) {
         this.serveId = serveId;
         CarefreeRetrofit.getInstance().createApi(ServeApis.class)
-                .getServeList(serveId, 0 + "", 1, QueryMapBuilder.getIns().buildGet())
+                .getServeList(QueryMapBuilder.getIns().put("category_id", serveId).put("flag", 1 + "").put("start_id", 0 + "").put("size", 10 + "").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<ServeListResponse>>() {
@@ -31,7 +31,7 @@ public class ServePresenter extends ServeContract.Presenter {
                     public void onSuccess(BaseResponse<ServeListResponse> orderListResponseBaseResponse) {
                         ServeListResponse r = orderListResponseBaseResponse.data;
                         mView.getServeSuccess(r);
-                        if (r.list.size() > 0) startId = r.list.get(0).id;
+                        if (r.list.size() > 0) startId = r.list.get(0).service_id;
                     }
 
                     @Override
@@ -44,7 +44,7 @@ public class ServePresenter extends ServeContract.Presenter {
     @Override
     void getServeMore() {
         CarefreeRetrofit.getInstance().createApi(ServeApis.class)
-                .getServeList(serveId, startId + "", 2, QueryMapBuilder.getIns().buildGet())
+                .getServeList(QueryMapBuilder.getIns().put("category_id", serveId).put("flag", 2 + "").put("start_id", startId).put("size", 10 + "").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<ServeListResponse>>() {
@@ -52,7 +52,7 @@ public class ServePresenter extends ServeContract.Presenter {
                     public void onSuccess(BaseResponse<ServeListResponse> orderListResponseBaseResponse) {
                         ServeListResponse data = orderListResponseBaseResponse.data;
                         mView.loadMore(data);
-                        if (data.list.size() > 0) startId = data.list.get(0).id;
+                        if (data.list.size() > 0) startId = data.list.get(0).service_id;
                     }
 
                     @Override

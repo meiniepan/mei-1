@@ -149,7 +149,6 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
     @Override
     public void updateSuccess(AddressBean data) {
         CarefreeDaoSession.getInstance().saveDefaultAddress(data);
-        adapter.notifyDataSetChanged();
     }
 
     @Override

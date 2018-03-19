@@ -19,6 +19,7 @@ import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.BankCard;
 import com.wuyou.user.bean.PayChannel;
+import com.wuyou.user.bean.ServeDetailBean;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -142,9 +143,7 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
                 dismiss();
                 break;
             case R.id.pay_finish:
-                ToastUtils.ToastMessage(getContext(), "支付成功");
-                dismiss();
-                onFinishListener.onPaySuccess();
+                onFinishListener.onPaying();
                 break;
             case R.id.pay_choose_area:
                 payChoosePanel = new PayChoosePanel(mCtx, 0, this);
@@ -158,8 +157,14 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
         tvWay.setText(payChannel.value);
     }
 
+    ServeDetailBean serveDetailBean;
+
+    public void setData(ServeDetailBean serviceDetail) {
+        serveDetailBean = serviceDetail;
+    }
+
     public interface OnPayFinishListener {
-        void onPaySuccess();
+        void onPaying();
 
         void onPayFail(ApiException e);
     }
@@ -167,6 +172,6 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
 //    @Subscribe(threadMode = ThreadMode.MAIN)
 //    public void paySuccess(WXPayEvent event) {
 //        dismiss();
-//        if (onFinishListener != null) onFinishListener.onPaySuccess();
+//        if (onFinishListener != null) onFinishListener.onPaying();
 //    }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">无忧</string>
+    <string name="app_name">来到</string>
     <string name="yes">确定</string>
     <string name="cancel">取消</string>
     <string name="status_text_empty">当前暂无记录</string>
@@ -77,5 +77,6 @@
     <string name="add_bank_card_pay">添加银行卡</string>
     <string name="person_info">个人信息</string>
     <string name="ask_help">联系客服</string>
+    <string name="wx">微信</string>
 
 </resources>

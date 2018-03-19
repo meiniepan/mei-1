@@ -3,9 +3,6 @@ package com.wuyou.user.network.apis;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
 import com.wuyou.user.bean.StoreBean;
-import com.wuyou.user.bean.response.CategoryListResponse;
-import com.wuyou.user.bean.response.FastLevelResponse;
-import com.wuyou.user.bean.response.ServeDetailResponse;
 import com.wuyou.user.bean.response.ServeListResponse;
 
 import io.reactivex.Observable;
@@ -28,9 +25,6 @@ public interface StoreApis {
     @GET("shops/{category_id}/{start_id}/{flag}")
     Observable<BaseResponse<ServeListResponse>> getServeList(@Path("category_id") String id,
                                                              @Path("start_id") String startId, @Path("flag") int flag, @QueryMap SortedTreeMap<String, String> map);
-
-    @GET("service/levels/{category_id}")
-    Observable<BaseResponse<FastLevelResponse>> getFastServeLevel(@Path("category_id") String id, @QueryMap SortedTreeMap<String, String> map);
 
 
     @FormUrlEncoded

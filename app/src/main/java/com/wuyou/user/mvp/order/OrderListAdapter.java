@@ -31,13 +31,13 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
     @Override
     protected void convert(BaseHolder helper, OrderBean item) {
         helper.setText(R.id.order_item_status, item.status)
-                .setText(R.id.order_item_title, item.category_name)
-                .setText(R.id.order_item_spot_name, item.store_name)
-                .setText(R.id.order_item_number, item.number)
-                .setText(R.id.order_item_price, item.price);
+                .setText(R.id.order_item_title, item.service.service_name)
+                .setText(R.id.order_item_spot_name, item.shop.shop_name)
+                .setText(R.id.order_item_number, item.order_number)
+                .setText(R.id.order_item_price, item.amount + "");
 
         ImageView imageView = helper.getView(R.id.order_item_picture);
-        GlideUtils.loadImage(mCtx, item.image, imageView);
+        GlideUtils.loadImage(mCtx, item.service.photo, imageView);
 
         TextView tvStatus = helper.getView(R.id.order_item_status);
         TextView tvAct = helper.getView(R.id.order_item_orange);
@@ -45,14 +45,19 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
         switch (item.status) {
             case "待付款":
                 tvStatus.setText(R.string.wait_pay);
-                tvCancel.setText(R.string.cancel);
+                tvCancel.setText(R.string.cancel_order);
                 tvAct.setVisibility(View.VISIBLE);
                 tvCancel.setVisibility(View.VISIBLE);
                 break;
             case "进行中":
                 tvStatus.setText(R.string.serving);
                 tvCancel.setText(R.string.ask_help);
-                tvAct.setVisibility(View.GONE);
+                if (item.can_finish == 1) {
+                    tvAct.setVisibility(View.VISIBLE);
+                    tvAct.setText(R.string.finish);
+                } else {
+                    tvAct.setVisibility(View.GONE);
+                }
                 tvCancel.setVisibility(View.VISIBLE);
                 break;
             case "已完成":
@@ -68,6 +73,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
                 break;
         }
         helper.addOnClickListener(R.id.order_item_orange);
+        helper.addOnClickListener(R.id.order_item_blue);
         if (buttonGone) {
             tvAct.setVisibility(View.GONE);
         }

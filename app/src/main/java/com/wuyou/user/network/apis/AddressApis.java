@@ -23,25 +23,25 @@ import retrofit2.http.QueryMap;
  */
 
 public interface AddressApis {
-    @GET("v1/addresses/{uid}")
+    @GET("addresses/{uid}")
     Observable<BaseResponse<AddressListResponse>> getAddressList(
             @Path("uid") String uid,@QueryMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @POST("v1/address/{uid}")
+    @POST("address/{uid}")
     Observable<BaseResponse<AddressId>> addAddress(@Path("uid") String uid,
                                                    @FieldMap SortedTreeMap<String,String> map);
 
     @FormUrlEncoded
-    @PUT("v1/address/{uid}/{address_id}")
+    @PUT("address/{uid}/{address_id}")
     Observable<BaseResponse> updateAddress(@Path("uid") String uid, @Path("address_id") String addressId,
                                            @FieldMap SortedTreeMap<String,String> map);
 
-    @HTTP(method = "DELETE", path = "v1/address/{uid}/{address_id}", hasBody = true)
+    @HTTP(method = "DELETE", path = "address/{uid}/{address_id}", hasBody = true)
     Observable<BaseResponse> deleteAddress(@Path("uid") String uid, @Path("address_id") String id,
                                            @Body SortedTreeMap<String, String> map);
 
 
-    @GET("v1/client/cities")
+    @GET("client/cities")
     Observable<BaseResponse<CityListResponse>> getCityList(@QueryMap SortedTreeMap<String, String> map);
 }

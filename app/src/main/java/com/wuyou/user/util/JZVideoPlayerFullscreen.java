@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wuyou.user.R;
+import com.wuyou.user.view.widget.panel.ShareBottomBoard;
 
 import cn.jzvd.JZMediaManager;
 import cn.jzvd.JZUserAction;
@@ -29,7 +30,9 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
     private ImageView upvoteView;
     private TextView soundView;
     private TextView title;
-    private boolean quite = true;
+    private ImageView shareView;
+    private boolean quite = false;
+    private boolean liked = false;
 
     public JZVideoPlayerFullscreen(Context context) {
         super(context);
@@ -51,8 +54,11 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
         super.init(context);
         upvoteView = findViewById(R.id.player_upvote);
         soundView = findViewById(R.id.player_sound);
+        shareView = findViewById(R.id.player_share);
         title = findViewById(R.id.title);
         soundView.setOnClickListener(this);
+        shareView.setOnClickListener(this);
+        setLikeState();
     }
 
     @Override
@@ -121,7 +127,26 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
                 setVolume(0f);
                 quite = true;
             }
+        } else if (i == R.id.player_upvote) {
+            liked = !liked;
+            setLikeState();
+        } else if (i == R.id.player_share) {
+            doShare();
         }
+    }
+
+    private void doShare() {
+        ShareBottomBoard bottomBoard = new ShareBottomBoard(context);
+        bottomBoard.show();
+    }
+
+    private void setLikeState() {
+        if (liked) {
+//            upvoteView.setImageResource(R.mipmap.video_liked);
+        } else {
+//            upvoteView.setImageResource(R.mipmap.video_like);
+        }
+
     }
 
     @Override
@@ -188,6 +213,7 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
     private void setSmallState() {
         upvoteView.setVisibility(GONE);
         soundView.setVisibility(GONE);
+        shareView.setVisibility(GONE);
         title.setVisibility(GONE);
     }
 
@@ -195,5 +221,6 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
         upvoteView.setVisibility(VISIBLE);
         soundView.setVisibility(VISIBLE);
         title.setVisibility(VISIBLE);
+        shareView.setVisibility(VISIBLE);
     }
 }

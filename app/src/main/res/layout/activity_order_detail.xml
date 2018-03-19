@@ -64,7 +64,9 @@
                     android:text="订单已提交" />
 
                 <TextView
+                    android:id="@+id/order_detail_un_pay_warn"
                     android:layout_width="wrap_content"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:text="请在2小时内支付，否则将自动关闭"
                     android:textColor="@color/common_red"
@@ -91,7 +93,6 @@
                 android:id="@+id/order_detail_store"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/common_height"
-                android:drawableEnd="@mipmap/arrow_gray"
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/activity_horizontal_margin"
@@ -230,7 +231,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:text="北京市北京生北京"
                     android:textColor="@color/common_gray" />
             </LinearLayout>
 
@@ -258,7 +258,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:text="北"
                     android:textColor="@color/common_gray" />
             </LinearLayout>
 
@@ -286,7 +285,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:text="1383838838"
                     android:textColor="@color/common_gray" />
             </LinearLayout>
 

@@ -45,7 +45,7 @@ public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, 
         adapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(getCtx(), ServeDetailActivity.class);
             ServeBean bean = (ServeBean) adapter.getData().get(position);
-            intent.putExtra(Constant.SERVE_ID, bean.id);
+            intent.putExtra(Constant.SERVE_ID, bean.service_id);
             startActivity(intent);
         });
         adapter.setOnLoadMoreListener(() -> mPresenter.getServeMore(), serveList);

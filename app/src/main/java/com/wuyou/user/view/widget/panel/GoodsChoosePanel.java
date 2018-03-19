@@ -104,10 +104,10 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener, Di
         if (defaultEntity == null) return;
         originId = defaultEntity.id;
 
-        GlideUtils.loadRoundCornerImage(mCtx, defaultEntity.image, mIcon, 10);
-        boardTitle.setText(goodsDetail.category_name);
-        boardPrice.setText(Float.parseFloat(defaultEntity.price) == 0 ? "免费" : "¥ " + defaultEntity.price);
-        mRemainNumber.setText(defaultEntity.repertory + "");
+        GlideUtils.loadRoundCornerImage(mCtx, defaultEntity.photo, mIcon, 10);
+        boardTitle.setText(goodsDetail.title);
+        boardPrice.setText(defaultEntity.price == 0 ? "免费" : "¥ " + defaultEntity.price);
+        mRemainNumber.setText(defaultEntity.recorded + "");
     }
 
     private void setLevelOneData(GoodsStandard entity) {
@@ -229,7 +229,7 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener, Di
         switch (v.getId()) {
             case R.id.goods_board_add:
                 if (defaultEntity == null) return;
-                if (nowNum >= defaultEntity.repertory) {
+                if (nowNum >= defaultEntity.recorded) {
                     ToastUtils.ToastMessage(mCtx, mCtx.getString(R.string.not_enough_goods));
                     return;
                 }

@@ -13,10 +13,7 @@ import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.CommentBean;
 import com.wuyou.user.bean.ServeDetailBean;
-import com.wuyou.user.bean.response.CommentResponse;
-import com.wuyou.user.bean.response.ServeDetailResponse;
 import com.wuyou.user.mvp.store.StoreDetailActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.ServeApis;
@@ -41,8 +38,6 @@ public class ServeDetailActivity extends BaseActivity {
     TextView serveDetailCount;
     @BindView(R.id.serve_detail_price)
     TextView serveDetailPrice;
-    @BindView(R.id.serve_detail_serve_time)
-    TextView serveDetailServeTime;
     @BindView(R.id.serve_detail_description)
     WebView serveDetailDescription;
     @BindView(R.id.serve_detail_store)
@@ -53,6 +48,8 @@ public class ServeDetailActivity extends BaseActivity {
     TextView createOrderServeCommentCount;
     @BindView(R.id.serve_detail_comment_star)
     ProperRatingBar serveDetailCommentStar;
+    @BindView(R.id.serve_detail_comment_star_count)
+    TextView serveDetailCommentStarCount;
     @BindView(R.id.serve_detail_comment_content)
     TextView serveDetailCommentContent;
     @BindView(R.id.serve_detail_known)
@@ -67,9 +64,9 @@ public class ServeDetailActivity extends BaseActivity {
                 .getServeDetail(id, QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse<ServeDetailResponse>>() {
+                .subscribe(new BaseSubscriber<BaseResponse<ServeDetailBean>>() {
                     @Override
-                    public void onSuccess(BaseResponse<ServeDetailResponse> serveDetailBeanBaseResponse) {
+                    public void onSuccess(BaseResponse<ServeDetailBean> serveDetailBeanBaseResponse) {
                         setData(serveDetailBeanBaseResponse.data);
                     }
                 });
@@ -95,38 +92,21 @@ public class ServeDetailActivity extends BaseActivity {
 
     public void buyNow(View view) {
         if (!checkUser(this)) return;
-//        GoodsChoosePanel panel = new GoodsChoosePanel(this, new GoodsChoosePanel.OnShowInDetail() {
-//            @Override
-//            public void onShow(ServeDetailBean goodsDetail, int num) {
-//
-//            }
-//        });
-//        panel.setData(serviceDetail);
-//        panel.show();
         Intent intent = new Intent(getCtx(), NewOrderActivity.class);
         intent.putExtra(Constant.SERVE_BEAN, serviceDetail);
         startActivity(intent);
-
     }
 
-    public void setData(ServeDetailResponse data) {
-        serviceDetail = data.service_detail;
-        serviceDetail.shop_id = data.shop.id;
-        GlideUtils.loadImageNoHolder(this, serviceDetail.image, serveDetailPicture);
-        serveDetailTitle.setText(serviceDetail.category_name);
-        serveDetailServeTime.setText(serviceDetail.service_time);
-        serveDetailCount.setText(serviceDetail.total_sell);
-        serveDetailPrice.setText(serviceDetail.price);
-//        serveDetailDescription.setText(serviceDetail.description);
-        serveDetailDescription.loadData(serviceDetail.description, "text/html", "UTF-8");
-        serveDetailStore.setText(data.shop.name);
-        CommentResponse comments = data.comments;
-        createOrderServeCommentCount.setText(comments.total_comments);
-        if (comments.list != null && comments.list.size() > 0) {
-            CommentBean commentBean = comments.list.get(0);
-            serveDetailCommentStar.setRating(commentBean.star / 2);
-            serveDetailCommentContent.setText(commentBean.content);
-        }
-//        serveDetailKnown.setAdapter(new SimpleAdapter(this,serviceDetail.price));
+    public void setData(ServeDetailBean serviceDetail) {
+        this.serviceDetail = serviceDetail;
+        GlideUtils.loadImageNoHolder(this, serviceDetail.photo, serveDetailPicture);
+        serveDetailTitle.setText(serviceDetail.title);
+        serveDetailCount.setText(serviceDetail.recorded + "");
+        serveDetailPrice.setText(serviceDetail.price + "");
+        serveDetailDescription.loadData(serviceDetail.content, "text/html", "UTF-8");
+        serveDetailStore.setText(serviceDetail.shop_name);
+        createOrderServePoint.setText(serviceDetail.high_praise);
+        serveDetailCommentStar.setRating(serviceDetail.star);
+        serveDetailCommentStarCount.setText(serviceDetail.star + "");
     }
 }

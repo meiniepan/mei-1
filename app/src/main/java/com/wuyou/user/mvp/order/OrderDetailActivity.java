@@ -12,7 +12,6 @@ import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBeanDetail;
-import com.wuyou.user.bean.OrderPreferentialBean;
 import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.CommentActivity;
@@ -29,6 +28,8 @@ import butterknife.OnClick;
 public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderContract.Presenter> implements OrderContract.View {
     @BindView(R.id.order_detail_status)
     TextView orderDetailStatus;
+    @BindView(R.id.order_detail_un_pay_warn)
+    TextView orderDetailWarn;
     @BindView(R.id.order_detail_store)
     TextView orderDetailStore;
     @BindView(R.id.order_detail_title)
@@ -59,6 +60,16 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     TextView orderDetailBillStatus;
     @BindView(R.id.order_detail_action)
     TextView orderDetailAction;
+    @BindView(R.id.order_detail_serve_way)
+    TextView orderDetailServeWay;
+    @BindView(R.id.order_detail_serve_time)
+    TextView orderDetailServeTime;
+    @BindView(R.id.order_detail_remark)
+    TextView orderDetailRemark;
+    @BindView(R.id.order_detail_pay_time)
+    TextView orderDetailPayTime;
+    @BindView(R.id.order_detail_contact_store)
+    TextView orderDetailContactStore;
     private String orderId;
     private String shopTel;
     private String orderStatus;
@@ -119,27 +130,26 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     }
 
     public void setData(OrderBeanDetail data) {
+        if (data.status.contains("待付款")) orderDetailWarn.setVisibility(View.VISIBLE);
         orderDetailStatus.setText(data.status);
-        if (data.updated_at == 0) data.updated_at = data.created_at;
-        orderDetailAddress.setText(data.contact_address);
-        orderDetailStore.setText(data.shop_name);
-        orderDetailTitle.setText(data.category);
-        orderDetailCount.setText(data.nums);
-        orderDetailPrice.setText(data.price);
-        if (data.preferentials != null && data.preferentials.size() > 0) {
-            OrderPreferentialBean orderPreferentialBean = data.preferentials.get(0);
-            orderDetailDiscountName.setText(orderPreferentialBean.preferential_name);
-            orderDetailDiscount.setText(orderPreferentialBean.preferential_price);
-        }
-        orderDetailPriceFinal.setText(data.payment);
-        orderDetailName.setText(data.contact_name);
-        orderDetailCreateTime.setText(TribeDateUtils.dateFormat(new Date(data.created_at * 1000)));
-        orderDetailNumber.setText(data.order_no);
-        orderDetailBillStatus.setText(data.pay_status);
-        orderDetailPayMethod.setText(data.pay_type);
-        orderDetailPhone.setText(data.contact_tel);
+        orderDetailStore.setText(data.shop.shop_name);
+        orderDetailTitle.setText(data.service.service_name);
+        orderDetailCount.setText(data.number + "");
+        orderDetailPrice.setText(data.total_amount);
+        orderDetailPriceFinal.setText(data.total_amount);
+        orderDetailName.setText(data.address.name);
+        orderDetailAddress.setText(data.address.city_name + data.address.district + data.address.address);
+        orderDetailPhone.setText(data.address.mobile);
 
-        shopTel = data.shop_tel;
+        orderDetailCreateTime.setText(TribeDateUtils.dateFormat(new Date(data.created_at * 1000)));
+        orderDetailNumber.setText(data.order_number);
+        orderDetailServeWay.setText(data.service_mode);
+        orderDetailServeTime.setText(data.service_date + data.service_time);
+        orderDetailRemark.setText(data.remark);
+
+        orderDetailBillStatus.setText(data.status);
+        orderDetailPayMethod.setText(data.pay_type);
+        shopTel = data.shop.shop_tel;
 
         orderStatus = data.status;
         setActionStatus();
@@ -149,7 +159,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.order_detail_contact_store:
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + shopTel));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Constant.HELP_PHONE));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;

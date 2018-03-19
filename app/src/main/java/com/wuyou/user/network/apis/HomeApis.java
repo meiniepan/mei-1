@@ -17,14 +17,14 @@ import retrofit2.http.QueryMap;
  */
 
 public interface HomeApis {
-    @GET("v1/communities")
+    @GET("communities")
     Observable<BaseResponse<CommunityListResponse>> getCommunitiesList(@QueryMap SortedTreeMap<String, String> map);
 
-    @GET("v1/client/video/{community_id}")
+    @GET("client/video/{community_id}")
     Observable<BaseResponse<HomeVideoResponse>> getVideos(
             @Path("community_id") String communityId, @QueryMap SortedTreeMap<String, String> map);
 
 
-    @GET("v1/sites")
+    @GET("sites")
     Observable<BaseResponse<ListResponse<ServeSites>>> getServeSites(@QueryMap SortedTreeMap<String, String> map);
 }

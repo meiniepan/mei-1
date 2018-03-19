@@ -4,16 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
-import com.gs.buluo.common.utils.DensityUtils;
-import com.gs.buluo.common.widget.RecycleViewDivider;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.response.CityBean;
+import com.wuyou.user.bean.CityBean;
 import com.wuyou.user.bean.response.CityListResponse;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.AddressApis;

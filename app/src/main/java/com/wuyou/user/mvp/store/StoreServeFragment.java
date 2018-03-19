@@ -52,7 +52,7 @@ public class StoreServeFragment extends BaseFragment<ServeContract.View,ServeCon
         adapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(mCtx, ServeDetailActivity.class);
             ServeBean bean = (ServeBean) adapter.getData().get(position);
-            intent.putExtra(Constant.SERVE_ID, bean.id);
+            intent.putExtra(Constant.SERVE_ID, bean.service_id);
             startActivity(intent);
         });
     }

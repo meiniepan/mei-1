@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="待支付"
-            android:textColor="@color/common_green" />
+            android:textColor="@color/common_orange" />
     </LinearLayout>
 
     <include layout="@layout/split_line" />
@@ -41,7 +41,7 @@
     <TextView
         android:id="@+id/order_item_spot_name"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="36dp"
         android:drawableLeft="@mipmap/serve_item_white"
         android:drawablePadding="6dp"
         android:gravity="center_vertical"
@@ -69,6 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="2dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:textSize="@dimen/dimens_16sp"
@@ -102,6 +103,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="@dimen/dimens_16sp"
+            android:textColor="@color/common_red"
             android:text="100"/>
 
         <TextView

@@ -43,9 +43,9 @@ import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.network.apis.ServeApis;
-import com.wuyou.user.util.layoutmanager.FullLinearLayoutManager;
 import com.wuyou.user.util.JZVideoPlayerFullscreen;
 import com.wuyou.user.util.glide.GlideUtils;
+import com.wuyou.user.util.layoutmanager.FullLinearLayoutManager;
 import com.wuyou.user.view.activity.HomeMapActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
@@ -53,7 +53,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -303,7 +302,7 @@ public class HomeFragment extends BaseFragment {
     public void getOrderList() {
         if (CarefreeDaoSession.getInstance().getUserInfo() == null) return;
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .getOrderList(CarefreeDaoSession.getInstance().getUserId(), 2, 0 + "", 1, QueryMapBuilder.getIns().buildGet())
+                .getOrderList(QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).put("status", 2 + "").put("startId", 0 + "").put("flag", 1 + "").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
@@ -321,13 +320,13 @@ public class HomeFragment extends BaseFragment {
 
     public void setOrderData(List<OrderBean> orderData) {
         homeOrderList.setLayoutManager(new FullLinearLayoutManager(mCtx));
-        OrderListAdapter adapter = new OrderListAdapter(mCtx,R.layout.item_order_list, orderData);
+        OrderListAdapter adapter = new OrderListAdapter(mCtx, R.layout.item_order_list, orderData);
         adapter.setButtonGone();
         homeOrderList.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             OrderBean bean = (OrderBean) adapter1.getData().get(position);
             Intent intent = new Intent(mCtx, OrderDetailActivity.class);
-            intent.putExtra(Constant.ORDER_ID, bean.id);
+            intent.putExtra(Constant.ORDER_ID, bean.order_id);
             startActivity(intent);
         });
     }
@@ -347,6 +346,4 @@ public class HomeFragment extends BaseFragment {
                 break;
         }
     }
-
-
 }

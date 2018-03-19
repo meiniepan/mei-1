@@ -35,7 +35,7 @@ public interface OrderContract {
 
         abstract void getOrderDetail(String orderId);
 
-        abstract void payOrder(String orderId);
+        abstract void payOrder(String orderId,String serial);
 
         abstract void finishOrder(String orderId);
     }

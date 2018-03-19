@@ -69,7 +69,7 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="c23f912fdbbcb0d3c970a04e7ccb6386" />
+            android:value="0706e469a852b4fbbc6b2658814761e1" />
         <service android:name="com.amap.api.location.APSService"/>
         <service android:name=".service.HelpChatService" />
 

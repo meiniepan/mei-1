@@ -9,6 +9,8 @@ import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.widget.recyclerHelper.BaseHolder;
 import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 
+import io.techery.properratingbar.ProperRatingBar;
+
 /**
  * Created by hjn on 2018/2/6.
  */
@@ -25,10 +27,15 @@ public class ServeListAdapter extends BaseQuickAdapter<ServeBean, BaseHolder> {
     protected void convert(BaseHolder helper, ServeBean item) {
         ImageView imageView = helper.getView(R.id.serve_item_picture);
         GlideUtils.loadImage(context, item.image, imageView);
-        helper.setText(R.id.serve_item_name, item.name)
-                .setText(R.id.serve_item_count, item.sell_quantity)
+        helper.setText(R.id.serve_item_name, item.service_name)
+                .setText(R.id.serve_item_count, item.sold)
                 .setText(R.id.serve_item_price, "￥" + item.price + "/小时")
-                .setText(R.id.serve_item_point, item.high_praise_proportion)
-                .setText(R.id.serve_item_rate_number, item.star+".0");
+                .setText(R.id.serve_item_point, item.high_praise)
+                .setText(R.id.serve_item_rate_number, item.star + ".0")
+                .setText(R.id.serve_item_store, item.shop_name)
+                .setText(R.id.serve_item_rate_number, item.star + "");
+
+        ProperRatingBar ratingBar = helper.getView(R.id.serve_item_rate);
+        ratingBar.setRating(item.star);
     }
 }

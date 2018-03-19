@@ -100,10 +100,12 @@
             />
         <TextView
             android:id="@+id/mine_recharge"
-            android:layout_width="50dp"
+            android:layout_width="60dp"
             android:layout_height="30dp"
             android:gravity="center"
             android:background="@drawable/night_blue_border"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:text="充值"/>
     </LinearLayout>

@@ -39,6 +39,7 @@
         android:id="@+id/address_item_default_area"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
+        android:visibility="gone"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:layout_marginTop="4dp"

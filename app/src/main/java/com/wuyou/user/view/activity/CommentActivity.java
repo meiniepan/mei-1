@@ -23,7 +23,7 @@ public class CommentActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         OrderBean orderBean = getIntent().getParcelableExtra(Constant.ORDER_BEAN);
-        comment.setText(orderBean.category_name);
+        comment.setText(orderBean.service.service_name);
     }
 
     @Override

@@ -8,7 +8,6 @@ import com.wuyou.user.bean.response.OrderListResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -23,21 +22,20 @@ import retrofit2.http.QueryMap;
  */
 
 public interface OrderApis {
-    @GET("orders/{uid}/{status}/{start_id}/{flag}")
-    Observable<BaseResponse<OrderListResponse>> getOrderList(@Path("uid") String uid, @Path("status") int status
-            , @Path("start_id") String startId, @Path("flag") int flag, @QueryMap SortedTreeMap<String, String> map);
+    @GET("orders")
+    Observable<BaseResponse<OrderListResponse>> getOrderList(@QueryMap SortedTreeMap<String, String> map);
 
     @GET("order/{orderId}")
     Observable<BaseResponse<OrderBeanDetail>> getOrderDetail(@Path("orderId") String id, @QueryMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
     @POST("order/{uid}")
-    Observable<BaseResponse<OrderIdBean>> createOrder(@Path("uid")String uid,
-            @FieldMap SortedTreeMap<String, String> map);
+    Observable<BaseResponse<OrderIdBean>> createOrder(@Path("uid") String uid,
+                                                      @FieldMap SortedTreeMap<String, String> map);
 
     @HTTP(method = "DELETE", path = "order/{order_id}", hasBody = true)
     Observable<BaseResponse> deletelOrder(@Path("order_id") String id,
-                                         @Body SortedTreeMap<String, String> map);
+                                          @Body SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
     @PUT("order/{order_id}")
@@ -52,5 +50,5 @@ public interface OrderApis {
     @FormUrlEncoded
     @PUT("order/finish/{uid}/{order_id}")
     Observable<BaseResponse> finishOrder(@Path("uid") String uid, @Path("order_id") String id,
-                                      @FieldMap SortedTreeMap<String, String> map);
+                                         @FieldMap SortedTreeMap<String, String> map);
 }

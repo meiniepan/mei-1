@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
@@ -126,7 +127,6 @@
 
         <TextView
             android:id="@+id/title"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -140,26 +140,26 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="#ffffff"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/battery_time_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="14dp"
-            android:layout_marginRight="14dp"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/battery_level"
                 android:layout_width="23dp"
                 android:layout_height="10dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/jz_battery_level_10" />
+                android:background="@drawable/jz_battery_level_10"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/video_current_time"
@@ -169,7 +169,35 @@
                 android:gravity="center_vertical"
                 android:maxLines="1"
                 android:textColor="#ffffffff"
-                android:textSize="12.0sp" />
+                android:textSize="12.0sp"
+                android:visibility="gone" />
+
+            <com.sackcentury.shinebuttonlib.ShineButton
+                android:id="@+id/player_upvote"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="14dp"
+                android:src="@android:color/darker_gray"
+                app:allow_random_color="false"
+                app:big_shine_color="#FF6666"
+                app:btn_color="@android:color/darker_gray"
+                app:btn_fill_color="#FF6666"
+                app:click_animation_duration="200"
+                app:enable_flashing="false"
+                app:shine_animation_duration="1500"
+                app:shine_count="8"
+                android:visibility="gone"
+                app:shine_turn_angle="10"
+                app:siShape="@raw/like"
+                app:small_shine_color="#CC9999"
+                app:small_shine_offset_angle="20" />
+
+            <ImageView
+                android:id="@+id/player_share"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:visibility="gone"
+                android:src="@mipmap/video_share" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -223,9 +251,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/video_loading_faild"
-            android:visibility="gone"
             android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/retry_btn"
@@ -238,17 +266,15 @@
             android:paddingRight="9dp"
             android:paddingTop="4dp"
             android:text="@string/click_to_restart"
-            android:visibility="gone"
             android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/player_upvote"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_centerVertical="true"
-        android:src="@mipmap/upvote"
+        android:src="@mipmap/video_like"
         android:visibility="gone" />
 
     <TextView
@@ -256,8 +282,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/player_upvote"
         android:text="声音"
-        android:visibility="gone"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:visibility="gone" />
 </RelativeLayout>

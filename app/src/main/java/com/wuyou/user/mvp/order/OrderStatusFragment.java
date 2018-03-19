@@ -1,12 +1,14 @@
 package com.wuyou.user.mvp.order;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.utils.ToastUtils;
+import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.gs.buluo.common.widget.StatusLayout;
-import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -18,6 +20,7 @@ import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.view.activity.CommentActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.panel.PayPanel;
+import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,14 +52,23 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     protected void bindView(Bundle savedInstanceState) {
         if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
         ArrayList<OrderBean> list = new ArrayList<>();
-        adapter = new OrderListAdapter(mCtx,R.layout.item_order_list, list);
+        adapter = new OrderListAdapter(mCtx, R.layout.item_order_list, list);
         orderList.setAdapter(adapter);
         orderList.setRefreshAction(this::refreshData);
-        adapter.setOnItemChildClickListener((adapter, view, position) -> dealWithClick(position, (OrderBean) adapter.getData().get(position)));
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.order_item_orange) {
+                    dealWithOrangeButtonClick(position, (OrderBean) adapter.getData().get(position));
+                } else {
+                    dealWithBlueButtonClick(position, (OrderBean) adapter.getData().get(position));
+                }
+            }
+        });
         adapter.setOnItemClickListener((adapter, view, position) -> {
             OrderBean bean = (OrderBean) adapter.getData().get(position);
             Intent intent = new Intent(mCtx, OrderDetailActivity.class);
-            intent.putExtra(Constant.ORDER_ID, bean.id);
+            intent.putExtra(Constant.ORDER_ID, bean.order_id);
             startActivity(intent);
         });
         adapter.setOnLoadMoreListener(() -> mPresenter.getOrderMore(type), orderList.getRecyclerView());
@@ -65,6 +77,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
                 Intent intent = new Intent(mCtx, LoginActivity.class);
                 startActivity(intent);
             } else {
+                orderListLayout.showProgressView();
                 mPresenter.getOrder(type);
             }
         });
@@ -161,13 +174,14 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
         refreshData();
     }
 
-    private void dealWithClick(int position, OrderBean orderBean) {
+
+    private void dealWithOrangeButtonClick(int position, OrderBean orderBean) {
         switch (orderBean.status) {
             case "待付款":
                 PayPanel payPanel = new PayPanel(mCtx, new PayPanel.OnPayFinishListener() {
                     @Override
-                    public void onPaySuccess() {
-                        mPresenter.payOrder(orderBean.id);
+                    public void onPaying() {
+                        mPresenter.payOrder(orderBean.order_id, orderBean.serial);
                     }
 
                     @Override
@@ -178,12 +192,32 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
                 payPanel.show();
                 break;
             case "进行中":
-                mPresenter.finishOrder(orderBean.id);
+                mPresenter.finishOrder(orderBean.order_id);
                 break;
             case "待评价":
                 Intent intent = new Intent(mCtx, CommentActivity.class);
-                intent.putExtra(Constant.ORDER_BEAN,orderBean);
+                intent.putExtra(Constant.ORDER_BEAN, orderBean);
                 startActivity(intent);
+                break;
+        }
+    }
+
+    private void dealWithBlueButtonClick(int position, OrderBean orderBean) {
+        switch (orderBean.status) {
+            case "待付款":
+                new CustomAlertDialog.Builder(mCtx).setTitle(R.string.prompt).setMessage("确认取消?")
+                        .setPositiveButton(mCtx.getString(R.string.yes), (dialog, which) ->
+                                mPresenter.cancelOrder(0, orderBean.order_id)).setNegativeButton(mCtx.getResources().getString(R.string.cancel), null).create().show();
+                break;
+            case "进行中":
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Constant.HELP_PHONE));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                break;
+            case "待评价":
+                Intent intent1 = new Intent(mCtx, CommentActivity.class);
+                intent1.putExtra(Constant.ORDER_BEAN, orderBean);
+                startActivity(intent1);
                 break;
         }
     }

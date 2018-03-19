@@ -16,7 +16,7 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.AddressBean;
 import com.wuyou.user.bean.response.AddressListResponse;
-import com.wuyou.user.bean.response.CityBean;
+import com.wuyou.user.bean.CityBean;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
@@ -203,6 +203,7 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
 
     @Override
     public void addSuccess(AddressBean bean) {
+        CarefreeDaoSession.getInstance().saveDefaultAddress(bean);
         ToastUtils.ToastMessage(getCtx(), "地址添加成功");
         Intent intent = new Intent();
         intent.putExtra(Constant.ADDRESS_BEAN, bean);

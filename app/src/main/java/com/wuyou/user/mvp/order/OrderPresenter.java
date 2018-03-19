@@ -4,7 +4,6 @@ import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
-import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.bean.OrderBeanDetail;
 import com.wuyou.user.bean.response.OrderListResponse;
@@ -25,7 +24,7 @@ public class OrderPresenter extends OrderContract.Presenter {
     @Override
     void getOrder(int type) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .getOrderList(CarefreeDaoSession.getInstance().getUserId(), type, 0 + "", 1, QueryMapBuilder.getIns().buildGet())
+                .getOrderList(QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).put("status", type + "").put("startId", 0 + "").put("flag", 1 + "").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
@@ -33,7 +32,7 @@ public class OrderPresenter extends OrderContract.Presenter {
                     public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
                         OrderListResponse r = orderListResponseBaseResponse.data;
                         if (isAttach()) mView.getOrderSuccess(r);
-                        if (r.list.size() > 0) startId = r.list.get(r.list.size() - 1).id;
+                        if (r.list.size() > 0) startId = r.list.get(r.list.size() - 1).order_id;
                     }
 
                     @Override
@@ -46,7 +45,7 @@ public class OrderPresenter extends OrderContract.Presenter {
     @Override
     void getOrderMore(int type) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .getOrderList(CarefreeDaoSession.getInstance().getUserId(), type, startId + "", 2, QueryMapBuilder.getIns().buildGet())
+                .getOrderList(QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).put("status", type + "").put("startId", startId).put("flag", 2 + "").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
@@ -54,7 +53,7 @@ public class OrderPresenter extends OrderContract.Presenter {
                     public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
                         OrderListResponse data = orderListResponseBaseResponse.data;
                         mView.loadMore(data);
-                        if (data.list.size() > 0) startId = data.list.get(data.list.size() - 1).id;
+                        if (data.list.size() > 0) startId = data.list.get(data.list.size() - 1).order_id;
                     }
 
                     @Override
@@ -104,9 +103,9 @@ public class OrderPresenter extends OrderContract.Presenter {
     }
 
     @Override
-    void payOrder(String orderId) {
+    void payOrder(String orderId,String serial) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .payOrder(orderId, QueryMapBuilder.getIns().put("pay_type", "1").buildPost())
+                .payOrder(orderId, QueryMapBuilder.getIns().put("pay_type", "1").put("user_id",CarefreeDaoSession.getInstance().getUserId()).put("serial",serial).buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {

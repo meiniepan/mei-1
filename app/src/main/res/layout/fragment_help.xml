@@ -16,29 +16,43 @@
         android:textColor="@color/white"
         android:textSize="@dimen/title_size" />
 
+    
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="48dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/help_icon"/>
     <Button
+        android:id="@+id/help_dialog"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="56dp"
+        android:background="@drawable/night_blue_border"
         android:gravity="center"
-        android:text="电话" />
+        android:text="客服热线" />
 
     <Button
         android:id="@+id/help_chat"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="56dp"
+        android:background="@drawable/night_blue_border"
         android:gravity="center"
-        android:text="聊天" />
+        android:layout_marginTop="20dp"
+        android:text="在线客服" />
 
     <Button
         android:id="@+id/help_leave_msg"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="56dp"
+        android:background="@drawable/night_blue_border"
+        android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="留言" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="反馈" />
+        android:text="留言反馈" />
 </LinearLayout>
