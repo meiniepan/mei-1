@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -34,23 +35,31 @@
             layout="@layout/back_black" />
     </RelativeLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:background="@color/white">
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/gray_round_bg"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@mipmap/location_search" />
 
         <TextView
             android:id="@+id/address_search"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="6dp"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="6dp"
-            android:background="@color/tint_bg"
-            android:drawableStart="@mipmap/search_small"
-            android:textColor="@color/common_dark" />
-    </FrameLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:gravity="center"
+            android:text="搜索"
+            android:textColor="@color/common_gray" />
+    </LinearLayout>
 
     <include layout="@layout/split_line" />
 
@@ -63,20 +72,15 @@
             android:id="@+id/address_status"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/tint_bg"
-            app:emptyDrawable="@mipmap/empty_order"
-            app:errorDrawable="@mipmap/net_error">
+            app:emptyDrawable="@mipmap/img_housekeeping"
+            app:errorDrawable="@mipmap/net_error"
+            app:loginDrawable="@mipmap/login_status">
 
             <com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView
                 android:id="@+id/address_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white" />
+                android:layout_height="wrap_content" />
         </com.gs.buluo.common.widget.StatusLayout>
-
-        <include layout="@layout/empty_address_layout"
-            android:id="@+id/address_empty_view"
-            android:visibility="gone"/>
     </FrameLayout>
 
     <include layout="@layout/split_line" />
@@ -84,30 +88,55 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
+        android:background="@color/search_bg"
         android:orientation="horizontal">
 
-        <TextView
+        <LinearLayout
             android:id="@+id/address_manager"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="地址管理" />
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@mipmap/home_location" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:gravity="center"
+                android:text="地址管理" />
+        </LinearLayout>
+
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
-            android:background="@color/tint_bg" />
+            android:background="@color/white" />
 
-        <TextView
+        <LinearLayout
             android:id="@+id/address_current_location"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="定位当前位置" />
-    </LinearLayout>
+            android:gravity="center">
 
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@mipmap/location_current" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:gravity="center"
+                android:text="定位当前位置" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

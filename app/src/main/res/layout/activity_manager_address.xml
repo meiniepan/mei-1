@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -34,16 +35,14 @@
             layout="@layout/back_black" />
     </RelativeLayout>
 
-    <FrameLayout
+    <com.gs.buluo.common.widget.StatusLayout
+        android:id="@+id/address_manager_status"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/address_manager_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <include layout="@layout/empty_address_layout"
-            android:id="@+id/address_empty_view"
-            android:visibility="gone"/>
-    </FrameLayout>
+            android:layout_height="match_parent"/>
+    </com.gs.buluo.common.widget.StatusLayout>
 </LinearLayout>

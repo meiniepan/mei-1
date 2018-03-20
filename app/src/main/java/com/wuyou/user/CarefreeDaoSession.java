@@ -45,6 +45,7 @@ public class CarefreeDaoSession {
 
     public void clearUserInfo() {
         getUserInfoDao().deleteAll();
+        uid = null;
     }
 
     public UserInfo getUserInfo() {

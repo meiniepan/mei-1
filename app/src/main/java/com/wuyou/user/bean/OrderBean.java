@@ -12,7 +12,7 @@ public class OrderBean implements Parcelable {
     /**
      * order_id : 5
      * order_number : 201803190710581086238049
-     * status : 待付款
+     * status : 1. 待付款 2.进行中 3.待评价 4已完成
      * amount : 980
      * service : {"service_id":1,"service_name":"空调清洗","photo":"http://images4.5maiche.cn/2016-07-11_57833334133a7.jpg"}
      * shop : {"shop_id":2,"shop_name":"重庆鸡公煲"}
@@ -20,7 +20,7 @@ public class OrderBean implements Parcelable {
 
     public String order_id;
     public String order_number;
-    public String status;
+    public int status;
     public String serial;
     public float amount;
     public ServeBean service;
@@ -39,7 +39,7 @@ public class OrderBean implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.order_id);
         dest.writeString(this.order_number);
-        dest.writeString(this.status);
+        dest.writeInt(this.status);
         dest.writeString(this.serial);
         dest.writeFloat(this.amount);
         dest.writeParcelable(this.service, flags);
@@ -50,7 +50,7 @@ public class OrderBean implements Parcelable {
     protected OrderBean(Parcel in) {
         this.order_id = in.readString();
         this.order_number = in.readString();
-        this.status = in.readString();
+        this.status = in.readInt();
         this.serial = in.readString();
         this.amount = in.readFloat();
         this.service = in.readParcelable(ServeBean.class.getClassLoader());

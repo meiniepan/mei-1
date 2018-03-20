@@ -55,7 +55,7 @@ public class AddressPresenter extends AddressConstract.Presenter {
         CarefreeRetrofit.getInstance().createApi(AddressApis.class).deleteAddress(CarefreeDaoSession.getInstance().getUserId(), addressId, QueryMapBuilder.getIns().buildPost())
                 .subscribeOn(Schedulers.io())
                 .doOnNext(baseResponse -> {
-                    if (TextUtils.equals(addressId, CarefreeDaoSession.getInstance().getDefaultAddress().id)) {
+                    if (CarefreeDaoSession.getInstance().getDefaultAddress() == null || TextUtils.equals(addressId, CarefreeDaoSession.getInstance().getDefaultAddress().id)) {
                         CarefreeDaoSession.getInstance().saveDefaultAddress(null);
                     }
                 })

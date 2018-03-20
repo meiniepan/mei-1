@@ -8,8 +8,9 @@
         android:id="@+id/order_list_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:emptyDrawable="@mipmap/empty_order"
-        app:errorDrawable="@mipmap/net_error">
+        app:emptyDrawable="@mipmap/img_housekeeping"
+        app:errorDrawable="@mipmap/net_error"
+        app:loginDrawable="@mipmap/login_status">
 
         <com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView
             android:id="@+id/order_list"

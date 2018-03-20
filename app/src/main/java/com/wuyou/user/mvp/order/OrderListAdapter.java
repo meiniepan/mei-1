@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBean;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.widget.recyclerHelper.BaseHolder;
 import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
@@ -30,7 +31,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
 
     @Override
     protected void convert(BaseHolder helper, OrderBean item) {
-        helper.setText(R.id.order_item_status, item.status)
+        helper.setText(R.id.order_item_status, CommonUtil.getOrderStatusString(item.status))
                 .setText(R.id.order_item_title, item.service.service_name)
                 .setText(R.id.order_item_spot_name, item.shop.shop_name)
                 .setText(R.id.order_item_number, item.order_number)
@@ -43,13 +44,13 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
         TextView tvAct = helper.getView(R.id.order_item_orange);
         TextView tvCancel = helper.getView(R.id.order_item_blue);
         switch (item.status) {
-            case "待付款":
+            case 1:
                 tvStatus.setText(R.string.wait_pay);
                 tvCancel.setText(R.string.cancel_order);
                 tvAct.setVisibility(View.VISIBLE);
                 tvCancel.setVisibility(View.VISIBLE);
                 break;
-            case "进行中":
+            case 2:
                 tvStatus.setText(R.string.serving);
                 tvCancel.setText(R.string.ask_help);
                 if (item.can_finish == 1) {
@@ -60,12 +61,12 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
                 }
                 tvCancel.setVisibility(View.VISIBLE);
                 break;
-            case "已完成":
+            case 3:
                 tvStatus.setText(R.string.finished);
                 tvCancel.setVisibility(View.GONE);
                 tvAct.setVisibility(View.GONE);
                 break;
-            case "待评价":
+            case 4:
                 tvStatus.setText(R.string.wait_comment);
                 tvCancel.setText(R.string.comment);
                 tvCancel.setVisibility(View.VISIBLE);

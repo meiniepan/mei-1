@@ -200,7 +200,7 @@ public class NewOrderActivity extends BaseActivity {
                 secondData = new ArrayList<>();
                 List<ServeTimeBean> timeBeans = timeMap.get(firstData.get(firstIndex));
                 for (ServeTimeBean bean : timeBeans) {
-                    if (bean.status == 0) {
+                    if (bean.status == 1) {
                         secondData.add(bean.time + "(时间段已被选)");
                     } else {
                         secondData.add(bean.time);
@@ -265,7 +265,7 @@ public class NewOrderActivity extends BaseActivity {
 
     private HashMap<String, List<ServeTimeBean>> timeMap;
 
-    private void getServeTime(String service_id, String shop_id) {
+    private void getServeTime(String service_id, String shop_id) { //TODO
         CarefreeRetrofit.getInstance().createApi(ServeApis.class).getAvailableServeTime(QueryMapBuilder.getIns().put("service_id", "1").put("shop_id", "114").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

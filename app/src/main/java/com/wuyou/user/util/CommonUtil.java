@@ -50,6 +50,21 @@ import java.util.regex.Pattern;
  * Created by hjn on 2016/11/10.
  */
 public class CommonUtil {
+
+    public static String getOrderStatusString(int status) {
+        switch (status) {
+            case 1:
+                return "待付款";
+            case 2:
+                return "进行中";
+            case 3:
+                return "待评价";
+            case 4:
+                return "已完成";
+        }
+        return "";
+    }
+
     public static boolean checkPhone(String area, String phone, Context context) {
         if (TextUtils.isEmpty(phone)) {
             ToastUtils.ToastMessage(context, "手机号不能为空!");

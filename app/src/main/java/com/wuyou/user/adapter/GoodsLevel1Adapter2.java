@@ -49,7 +49,7 @@ public class GoodsLevel1Adapter2 extends RecyclerView.Adapter<GoodsLevel1Adapter
             holder.text.setBackgroundResource(R.drawable.button_not_choosealbe);
             holder.text.setTextColor(Color.WHITE);
         } else if (position == nowPos) {
-            holder.text.setBackgroundResource(R.drawable.button_normal);
+            holder.text.setBackgroundResource(R.drawable.button_normal_round);
             holder.text.setTextColor(Color.WHITE);
         } else {
             holder.text.setBackgroundResource(R.drawable.night_blue_border);

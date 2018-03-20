@@ -32,7 +32,7 @@ public class OrderBeanDetail {
     public String service_date;
     public String service_time;
     public String remark;
-    public String status;
+    public int status;
     public String pay_type;
     public String serial;
     public long pay_time;

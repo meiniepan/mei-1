@@ -7,11 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
+import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -35,8 +35,8 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
     RecyclerView addressManagerList;
     @BindView(R.id.address_manager_add)
     TextView addressManagerAdd;
-    @BindView(R.id.address_empty_view)
-    RelativeLayout addressEmptyView;
+    @BindView(R.id.address_manager_status)
+    StatusLayout addressManagerStatus;
 
     private AddressListAdapter adapter;
     private int updatePosition;
@@ -62,9 +62,8 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
             intent.putExtra(Constant.ADDRESS_BEAN, (AddressBean) adapter.getData().get(position));
             startActivityForResult(intent, 201);
         });
-        adapter.setOnItemChildClickListener((adapter, view, position) -> updateAddressAsDefault(list.get(position)));
         if (list.size() == 0) {
-            addressEmptyView.setVisibility(View.VISIBLE);
+            addressManagerStatus.showEmptyView(getString(R.string.no_address));
         }
     }
 
@@ -90,7 +89,7 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
     }
 
 
-    @OnClick({R.id.address_manager_add, R.id.address_empty_view})
+    @OnClick({R.id.address_manager_add})
     public void onViewClicked() {
         Intent intent = new Intent(getCtx(), AddressAddActivity.class);
         startActivityForResult(intent, 201);
@@ -102,12 +101,15 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
         if (resultCode == 203) {//添加地址成功
             AddressBean addressBean = data.getParcelableExtra(Constant.ADDRESS_BEAN);
             adapter.addData(0, addressBean);
-            addressEmptyView.setVisibility(View.GONE);
+            addressManagerStatus.showContentView();
         } else if (resultCode == 204) { //编辑地址成功
             AddressBean addressBean = data.getParcelableExtra(Constant.ADDRESS_BEAN);
             adapter.setData(updatePosition, addressBean);
         } else if (resultCode == 205) {// 删除成功
             adapter.remove(updatePosition);
+            if (adapter.getData().size() == 0) {
+                addressManagerStatus.showEmptyView(getString(R.string.no_address));
+            }
         }
     }
 
@@ -142,7 +144,7 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
     public void getAddressSuccess(AddressListResponse list) {
         adapter.setNewData(list.list);
         if (adapter.getData().size() == 0) {
-            addressEmptyView.setVisibility(View.VISIBLE);
+            addressManagerStatus.showEmptyView(getString(R.string.no_address));
         }
     }
 
@@ -154,10 +156,18 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
     @Override
     public void deleteSuccess(int position) {
         adapter.remove(position);
+        if (adapter.getData().size() == 0) {
+            addressManagerStatus.showEmptyView(getString(R.string.no_address));
+        }
     }
 
     @Override
     public void addSuccess(AddressBean bean) {
 
+    }
+
+    @Override
+    public void showError(String message, int res) {
+        addressManagerStatus.showErrorView(getString(R.string.connect_fail));
     }
 }

@@ -4,13 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
-import com.gs.buluo.common.utils.DensityUtils;
-import com.gs.buluo.common.widget.RecycleViewDivider;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
@@ -22,7 +19,6 @@ import com.wuyou.user.event.AddressEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -43,18 +39,12 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
     NewRefreshRecyclerView addressList;
     @BindView(R.id.address_status)
     StatusLayout addressStatus;
-    @BindView(R.id.address_manager)
-    TextView addressManager;
-    @BindView(R.id.address_current_location)
-    TextView addressCurrentLocation;
-    @BindView(R.id.address_empty_view)
-    RelativeLayout addressEmptyView;
-
     private AddressListAdapter adapter;
     private ArrayList<AddressBean> addressData;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setUpStatus();
         addressList.getRecyclerView().setLayoutManager(new LinearLayoutManager(this));
         adapter = new AddressListAdapter(R.layout.item_address_list);
         addressList.setAdapter(adapter);
@@ -65,13 +55,28 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
             EventBus.getDefault().post(new AddressEvent(item));
             finish();
         });
+
         if (null == CarefreeDaoSession.getInstance().getUserId()) {
-            addressStatus.showEmptyView("您还未登录，请先登录");
-            addressStatus.setEmptyAction(v -> {
-                Intent intent = new Intent(getCtx(), LoginActivity.class);
-                startActivity(intent);
-            });
+            addressStatus.showLoginView(getString(R.string.no_login));
         }
+    }
+
+    private void setUpStatus() {
+        addressStatus.getErrorActView().setText(getString(R.string.reload));
+        addressStatus.setErrorAction(v -> mPresenter.getAddress());
+
+        addressStatus.setLoginAction(v -> {
+            Intent intent = new Intent(getCtx(), LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
+        addressStatus.getLoginActView().setText(R.string.login_now);
+
+        addressStatus.getEmptyActView().setText(R.string.add_address);
+        addressStatus.setEmptyAction(v -> {
+            Intent intent = new Intent(getCtx(), AddressAddActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void updateAddressAsDefault(AddressBean bean) {
@@ -91,7 +96,7 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
     }
 
 
-    @OnClick({R.id.address_manager, R.id.address_current_location, R.id.address_search, R.id.address_empty_view})
+    @OnClick({R.id.address_manager, R.id.address_current_location, R.id.address_search})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -108,10 +113,6 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
             case R.id.address_search:
                 intent.setClass(getCtx(), AddressSearchActivity.class);
                 intent.putExtra(Constant.ADDRESS_SEARCH_FLAG, 1);
-                startActivity(intent);
-                break;
-            case R.id.address_empty_view:
-                intent.setClass(getCtx(), AddressAddActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -132,9 +133,7 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
         addressData.addAll(list.list);
         adapter.setNewData(addressData);
         if (adapter.getData().size() == 0) {
-            addressEmptyView.setVisibility(View.VISIBLE);
-        } else {
-            addressEmptyView.setVisibility(View.GONE);
+            addressStatus.showEmptyView(getString(R.string.no_address));
         }
     }
 

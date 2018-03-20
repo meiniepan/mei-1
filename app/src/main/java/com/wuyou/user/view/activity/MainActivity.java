@@ -80,11 +80,10 @@ public class MainActivity extends BaseActivity {
 //        Variable.AgentId = aid.getText().toString();
 //        String s = name.getText().toString().toLowerCase();
 //        String substring = s.substring( Variable.AgentId.length());
-        Bangwo8SdkManager.getInstance().login("11223344", "555555");
-        String s = "123456789789";
-        String substring = s.substring(Variable.AgentId.length());
-        Variable.loginUser = "u4_" + Variable.AgentId + substring;
         Variable.AgentId = "139971";
+        String s = "123456789789";
+        String substring = s.substring( Variable.AgentId.length());
+        Variable.loginUser = "u4_" + Variable.AgentId+substring;
     }
 
     private void startService() {

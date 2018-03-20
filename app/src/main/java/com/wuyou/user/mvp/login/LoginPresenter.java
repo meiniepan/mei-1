@@ -6,7 +6,6 @@ import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
-import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.network.CarefreeRetrofit;
@@ -20,7 +19,8 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class LoginPresenter extends LoginContract.Presenter {
-    private String token ;
+    private String token;
+
     @Override
     void doLogin(String phone, String captcha) {
         CarefreeRetrofit.getInstance().createApi(UserApis.class)
@@ -42,13 +42,19 @@ public class LoginPresenter extends LoginContract.Presenter {
                 .subscribe(new BaseSubscriber<BaseResponse<UserInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<UserInfo> userInfoBaseResponse) {
-                        Log.e("Test", "onSuccess: "+CarefreeDaoSession.getInstance().getUserInfo());
+                        Log.e("Test", "onSuccess: " + CarefreeDaoSession.getInstance().getUserInfo());
                         mView.loginSuccess();
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
                         mView.showError(e.getDisplayMessage(), e.getCode());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        CarefreeDaoSession.getInstance().clearUserInfo();
                     }
                 });
     }

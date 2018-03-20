@@ -13,6 +13,7 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBeanDetail;
 import com.wuyou.user.bean.response.OrderListResponse;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.CommentActivity;
 
@@ -72,7 +73,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     TextView orderDetailContactStore;
     private String orderId;
     private String shopTel;
-    private String orderStatus;
+    private int orderStatus;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -130,8 +131,8 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     }
 
     public void setData(OrderBeanDetail data) {
-        if (data.status.contains("待付款")) orderDetailWarn.setVisibility(View.VISIBLE);
-        orderDetailStatus.setText(data.status);
+        if (data.status == 1) orderDetailWarn.setVisibility(View.VISIBLE);
+        orderDetailStatus.setText(CommonUtil.getOrderStatusString(data.status));
         orderDetailStore.setText(data.shop.shop_name);
         orderDetailTitle.setText(data.service.service_name);
         orderDetailCount.setText(data.number + "");
@@ -147,7 +148,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailServeTime.setText(data.service_date + data.service_time);
         orderDetailRemark.setText(data.remark);
 
-        orderDetailBillStatus.setText(data.status);
+        orderDetailBillStatus.setText(CommonUtil.getOrderStatusString(data.status));
         orderDetailPayMethod.setText(data.pay_type);
         shopTel = data.shop.shop_tel;
 
@@ -165,11 +166,11 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                 break;
             case R.id.order_detail_action:
                 switch (orderStatus) {
-                    case "待评价":
+                    case 3:
                         Intent intent1 = new Intent(getCtx(), CommentActivity.class);
                         startActivity(intent1);
                         break;
-                    case "待付款":
+                    case 1:
                         new CustomAlertDialog.Builder(getCtx()).setTitle(R.string.prompt).setMessage("确认取消?")
                                 .setPositiveButton(getCtx().getString(R.string.yes), (dialog, which) ->
                                         mPresenter.cancelOrder(0, orderId)).setNegativeButton(getCtx().getResources().getString(R.string.cancel), null).create().show();
@@ -181,15 +182,15 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
 
     public void setActionStatus() {
         switch (orderStatus) {
-            case "待付款":
+            case 1:
                 orderDetailAction.setText(R.string.cancel);
                 findViewById(R.id.order_detail_pay_area).setVisibility(View.GONE);
                 break;
-            case "进行中":
-            case "已完成":
+            case 2:
+            case 4:
                 orderDetailAction.setVisibility(View.GONE);
                 break;
-            case "待评价":
+            case 3:
                 orderDetailAction.setText(R.string.comment);
                 break;
         }
