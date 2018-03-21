@@ -12,13 +12,11 @@ import com.wuyou.user.bean.AddressId;
 import com.wuyou.user.bean.response.AddressListResponse;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.AddressApis;
+import com.wuyou.user.util.CommonUtil;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -77,24 +75,11 @@ public class AddressPresenter extends AddressConstract.Presenter {
     void updateAddress(String addressId, AddressBean addressBean) {
         addressBean.id = addressId;
         CarefreeRetrofit.getInstance().createApi(AddressApis.class)
-                .updateAddress(CarefreeDaoSession.getInstance().getUserId(), addressId, QueryMapBuilder.getIns()
-                        .put("city_name", addressBean.city_name)
-                        .put("district", addressBean.district)
-                        .put("area", addressBean.area)
-                        .put("address", addressBean.address)
-                        .put("lat", addressBean.lat + "")
-                        .put("lng", addressBean.lng + "")
-                        .put("name", addressBean.name)
-                        .put("mobile", addressBean.mobile)
-                        .put("is_default", addressBean.is_default + "")
-                        .buildPost())
+                .updateAddress(CarefreeDaoSession.getInstance().getUserId(), addressId, QueryMapBuilder.getIns().putObject(addressBean).buildPost())
                 .subscribeOn(Schedulers.io())
-                .doOnNext(new Consumer<BaseResponse>() {
-                    @Override
-                    public void accept(BaseResponse baseResponse) throws Exception {
-                        if (addressBean.is_default == 1)
-                            CarefreeDaoSession.getInstance().saveDefaultAddress(addressBean);
-                    }
+                .doOnNext(baseResponse -> {
+                    if (addressBean.is_default == 1)
+                        CarefreeDaoSession.getInstance().saveDefaultAddress(addressBean);
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {
@@ -108,33 +93,6 @@ public class AddressPresenter extends AddressConstract.Presenter {
                         mView.showError(e.getDisplayMessage(), e.getCode());
                     }
                 });
-    }
-
-    public static Map getValue(Object thisObj) {
-        Map map = new HashMap();
-        Class c;
-        try {
-            c = Class.forName(thisObj.getClass().getName());
-            Method[] m = c.getMethods();
-            for (int i = 0; i < m.length; i++) {
-                String method = m[i].getName();
-                if (method.startsWith("get")) {
-                    try {
-                        Object value = m[i].invoke(thisObj);
-                        if (value != null) {
-                            String key = method.substring(3);
-                            key = key.substring(0, 1).toUpperCase() + key.substring(1);
-                            map.put(method, value);
-                        }
-                    } catch (Exception e) {
-                        System.out.println("error:" + method);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return map;
     }
 
     @Override

@@ -39,9 +39,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,6 +53,34 @@ import java.util.regex.Pattern;
  * Created by hjn on 2016/11/10.
  */
 public class CommonUtil {
+    public static Map<String, String> ConvertObjToMap(Object obj) {
+        Map<String, String> reMap = new HashMap<>();
+        if (obj == null)
+            return null;
+        Field[] fields = obj.getClass().getDeclaredFields();
+        try {
+            for (int i = 0; i < fields.length; i++) {
+                try {
+                    String fieldName = fields[i].getName();
+                    Field f = obj.getClass().getDeclaredField(fieldName);
+                    f.setAccessible(true);
+                    Object o = f.get(obj);
+                    if (o != null && !fieldName.contains("$") && !TextUtils.equals("CREATOR", fieldName) && !TextUtils.equals(fieldName, "serialVersionUID")) {
+                        reMap.put(fieldName, o.toString());
+                    }
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+        return reMap;
+    }
 
     public static String getOrderStatusString(int status) {
         switch (status) {

@@ -76,7 +76,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
         helper.addOnClickListener(R.id.order_item_orange);
         helper.addOnClickListener(R.id.order_item_blue);
         if (buttonGone) {
-            tvAct.setVisibility(View.GONE);
+            helper.getView(R.id.home_gone_view).setVisibility(View.GONE);
         }
     }
 
