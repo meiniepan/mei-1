@@ -34,7 +34,7 @@
             android:layout_height="20dp"
             android:src="@mipmap/serve_item"/>
         <TextView
-            android:id="@+id/comment_"
+            android:id="@+id/comment_store"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:text="商家名称"
@@ -42,6 +42,7 @@
             android:layout_height="wrap_content" />
 
         <RadioButton
+            android:id="@+id/comment_anonymous"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:button="@null"
@@ -82,6 +83,7 @@
     </LinearLayout>
     <include layout="@layout/shadow_line"/>
     <Button
+        android:onClick="submitComment"
         android:layout_marginTop="50dp"
         style="@style/button_style"
         android:text="提交评价"/>

@@ -1,13 +1,24 @@
 package com.wuyou.user.view.activity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.gs.buluo.common.network.BaseResponse;
+import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.QueryMapBuilder;
+import com.gs.buluo.common.utils.ToastUtils;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBean;
+import com.wuyou.user.network.CarefreeRetrofit;
+import com.wuyou.user.network.apis.OrderApis;
 
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import io.techery.properratingbar.ProperRatingBar;
 
 /**
@@ -15,19 +26,37 @@ import io.techery.properratingbar.ProperRatingBar;
  */
 
 public class CommentActivity extends BaseActivity {
-    @BindView(R.id.comment_)
+    @BindView(R.id.comment_store)
     TextView comment;
     @BindView(R.id.comment_star)
     ProperRatingBar commentStar;
+    @BindView(R.id.comment_anonymous)
+    RadioButton anonymousButton;
+    private OrderBean orderBean;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        OrderBean orderBean = getIntent().getParcelableExtra(Constant.ORDER_BEAN);
-        comment.setText(orderBean.service.service_name);
+        orderBean = getIntent().getParcelableExtra(Constant.ORDER_BEAN);
+        comment.setText(orderBean.shop.shop_name);
     }
 
     @Override
     protected int getContentLayout() {
         return R.layout.activity_comment;
+    }
+
+    public void submitComment(View view) {
+        CarefreeRetrofit.getInstance().createApi(OrderApis.class)
+                .createComment(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("order_id", orderBean.order_id).put("service_id", orderBean.service.service_id)
+                        .put("star", commentStar.getRating() + "").put("anonymous", anonymousButton.isChecked() ? "1" : "0").buildPost())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse baseResponse) {
+                        ToastUtils.ToastMessage(getCtx(), "评价成功");
+                        finish();
+                    }
+                });
     }
 }

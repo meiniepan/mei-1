@@ -51,4 +51,9 @@ public interface OrderApis {
     @PUT("order/finish/{uid}/{order_id}")
     Observable<BaseResponse> finishOrder(@Path("uid") String uid, @Path("order_id") String id,
                                          @FieldMap SortedTreeMap<String, String> map);
+
+    @FormUrlEncoded
+    @POST("order/{uid}")
+    Observable<BaseResponse> createComment(@Path("uid") String uid,
+                                                      @FieldMap SortedTreeMap<String, String> map);
 }

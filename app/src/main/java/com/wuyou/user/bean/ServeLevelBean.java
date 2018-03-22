@@ -23,12 +23,17 @@ public class ServeLevelBean implements Parcelable {
     public String shop_id;
     public String price;
     public String other_price;
-    public String service_time;
     public String level;
     public String service_id;
     public String description;
     public String background;
+    public String visiting_fee;
     public boolean selected;
+    public String start_at;
+    public String end_at;
+
+    public ServeLevelBean() {
+    }
 
     @Override
     public int describeContents() {
@@ -40,30 +45,31 @@ public class ServeLevelBean implements Parcelable {
         dest.writeString(this.shop_id);
         dest.writeString(this.price);
         dest.writeString(this.other_price);
-        dest.writeString(this.service_time);
         dest.writeString(this.level);
         dest.writeString(this.service_id);
         dest.writeString(this.description);
         dest.writeString(this.background);
+        dest.writeString(this.visiting_fee);
         dest.writeByte(this.selected ? (byte) 1 : (byte) 0);
-    }
-
-    public ServeLevelBean() {
+        dest.writeString(this.start_at);
+        dest.writeString(this.end_at);
     }
 
     protected ServeLevelBean(Parcel in) {
         this.shop_id = in.readString();
         this.price = in.readString();
         this.other_price = in.readString();
-        this.service_time = in.readString();
         this.level = in.readString();
         this.service_id = in.readString();
         this.description = in.readString();
         this.background = in.readString();
+        this.visiting_fee = in.readString();
         this.selected = in.readByte() != 0;
+        this.start_at = in.readString();
+        this.end_at = in.readString();
     }
 
-    public static final Parcelable.Creator<ServeLevelBean> CREATOR = new Parcelable.Creator<ServeLevelBean>() {
+    public static final Creator<ServeLevelBean> CREATOR = new Creator<ServeLevelBean>() {
         @Override
         public ServeLevelBean createFromParcel(Parcel source) {
             return new ServeLevelBean(source);
