@@ -1,5 +1,6 @@
 package com.wuyou.user.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
@@ -48,14 +49,15 @@ public class CommentActivity extends BaseActivity {
     public void submitComment(View view) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
                 .createComment(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("order_id", orderBean.order_id).put("service_id", orderBean.service.service_id)
-                        .put("star", commentStar.getRating() + "").put("anonymous", anonymousButton.isChecked() ? "1" : "0").buildPost())
+                        .put("star", commentStar.getRating() * 2 + "").put("anonymous", anonymousButton.isChecked() ? "1" : "0").buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
                         ToastUtils.ToastMessage(getCtx(), "评价成功");
-                        finish();
+                        Intent intent = new Intent(getCtx(), MainActivity.class);
+                        startActivity(intent);
                     }
                 });
     }

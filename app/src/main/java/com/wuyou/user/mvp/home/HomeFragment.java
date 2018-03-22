@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -23,31 +24,26 @@ import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
-import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.CommunityBean;
 import com.wuyou.user.bean.HomeVideoBean;
-import com.wuyou.user.bean.OrderBean;
 import com.wuyou.user.bean.response.CategoryChild;
 import com.wuyou.user.bean.response.CategoryListResponse;
 import com.wuyou.user.bean.response.CategoryParent;
 import com.wuyou.user.bean.response.CommunityListResponse;
 import com.wuyou.user.bean.response.HomeVideoResponse;
-import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.event.AddressEvent;
 import com.wuyou.user.mvp.address.AddressActivity;
-import com.wuyou.user.mvp.order.OrderDetailActivity;
-import com.wuyou.user.mvp.order.OrderListAdapter;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.HomeApis;
-import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.JZVideoPlayerFullscreen;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.util.layoutmanager.FullLinearLayoutManager;
 import com.wuyou.user.view.activity.HomeMapActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
+import com.wuyou.user.view.widget.MarqueeTextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -81,10 +77,10 @@ public class HomeFragment extends BaseFragment {
     TextView homeVideoTitle2;
     @BindView(R.id.home_current_location)
     TextView homeCurrentLocation;
-    @BindView(R.id.home_order_list)
-    RecyclerView homeOrderList;
     @BindView(R.id.home_address)
     TextView homeAddress;
+    @BindView(R.id.home_order_message)
+    MarqueeTextView homeOrderMessage;
 
 
     private String communityId = "0";
@@ -103,7 +99,7 @@ public class HomeFragment extends BaseFragment {
         setCacheData();
         initVideo();
         initLocationAndGetData();
-        getOrderList();
+        getOrderMessage();
     }
 
     private void setCacheData() {
@@ -299,37 +295,6 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
-    public void getOrderList() {
-        if (CarefreeDaoSession.getInstance().getUserInfo() == null) return;
-        CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .getOrderList(QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).put("status", 2 + "").put("startId", 0 + "").put("flag", 1 + "").buildGet())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
-                    @Override
-                    public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
-                        setOrderData(orderListResponseBaseResponse.data.list);
-                    }
-
-                    @Override
-                    protected void onFail(ApiException e) {
-                        ToastUtils.ToastMessage(mCtx, R.string.get_order_fail);
-                    }
-                });
-    }
-
-    public void setOrderData(List<OrderBean> orderData) {
-        homeOrderList.setLayoutManager(new FullLinearLayoutManager(mCtx));
-        OrderListAdapter adapter = new OrderListAdapter(mCtx, R.layout.item_order_list, orderData);
-        adapter.setButtonGone();
-        homeOrderList.setAdapter(adapter);
-        adapter.setOnItemClickListener((adapter1, view, position) -> {
-            OrderBean bean = (OrderBean) adapter1.getData().get(position);
-            Intent intent = new Intent(mCtx, OrderDetailActivity.class);
-            intent.putExtra(Constant.ORDER_ID, bean.order_id);
-            startActivity(intent);
-        });
-    }
 
     @OnClick({R.id.home_location_area, R.id.home_map})
     public void onViewClicked(View view) {
@@ -345,5 +310,9 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
                 break;
         }
+    }
+
+    public void getOrderMessage() {
+
     }
 }

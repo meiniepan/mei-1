@@ -38,7 +38,9 @@
     <com.gs.buluo.common.widget.StatusLayout
         android:id="@+id/address_manager_status"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:emptyDrawable="@mipmap/img_housekeeping"
+        app:errorDrawable="@mipmap/net_error">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/address_manager_list"

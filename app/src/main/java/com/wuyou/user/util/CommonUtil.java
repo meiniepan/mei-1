@@ -92,6 +92,8 @@ public class CommonUtil {
                 return "待评价";
             case 4:
                 return "已完成";
+            case 5:
+                return "已取消";
         }
         return "";
     }

@@ -33,6 +33,7 @@ import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.widget.panel.PayPanel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -78,6 +79,8 @@ public class NewOrderActivity extends BaseActivity {
     TextView createOrderGoodsNumber;
     @BindView(R.id.create_order_serve_way)
     TextView createOrderServeWay;
+    @BindView(R.id.create_order_amount)
+    TextView createOrderAmout;
     @BindView(R.id.create_order_button)
     Button createOrderButton;
     private ServeDetailBean bean;
@@ -91,8 +94,10 @@ public class NewOrderActivity extends BaseActivity {
         bean = intent.getParcelableExtra(Constant.SERVE_BEAN);
         if (bean != null) {
             createOrderGoodsName.setText(bean.title);
-            createOrderFee.setText(bean.price + "");
+            createOrderGoodsNumber.setText(bean.number + "");
+            createOrderFee.setText(bean.price * bean.number + "");
             createOrderDoorFee.setText(bean.visiting_fee + "");
+            createOrderAmout.setText(bean.price * bean.number + bean.visiting_fee + "");
             GlideUtils.loadRoundCornerImage(this, bean.photo, createOrderGoodsPicture, 8);
         }
         defaultAddress = CarefreeDaoSession.getInstance().getDefaultAddress();
@@ -127,8 +132,8 @@ public class NewOrderActivity extends BaseActivity {
                         .put("service_time", serveTime)
                         .put("service_date", serveDate)
                         .put("service_mode", 1 + "")          //TODO
-                        .put("number", createOrderGoodsNumber.getText().toString().trim())
-                        .put("total_amount", bean.price + bean.visiting_fee + "")
+                        .put("number", bean.number + "")
+                        .put("total_amount", bean.price * bean.number + bean.visiting_fee + "")
                         .buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -146,6 +151,35 @@ public class NewOrderActivity extends BaseActivity {
     }
 
     private void createSuccess(String orderId) {
+        PayPanel payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
+            @Override
+            public void onPaying() {
+                payOrder(orderId);
+            }
+
+            @Override
+            public void onPayFail(ApiException e) {
+                goOrderDetail(orderId);
+            }
+        });
+        payPanel.show();
+    }
+
+    private void payOrder(String orderId) {
+        showLoadingDialog();
+        CarefreeRetrofit.getInstance().createApi(OrderApis.class)
+                .payOrder(orderId, QueryMapBuilder.getIns().put("pay_type", "1").put("user_id", CarefreeDaoSession.getInstance().getUserId()).buildPost())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse baseResponse) {
+                        goOrderDetail(orderId);
+                    }
+                });
+    }
+
+    private void goOrderDetail(String orderId) {
         Intent intent = new Intent(getCtx(), OrderDetailActivity.class);
         intent.putExtra(Constant.ORDER_ID, orderId);
         startActivity(intent);

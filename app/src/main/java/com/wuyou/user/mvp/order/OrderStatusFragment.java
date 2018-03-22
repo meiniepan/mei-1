@@ -1,7 +1,6 @@
 package com.wuyou.user.mvp.order;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import com.gs.buluo.common.network.ApiException;
@@ -17,6 +16,7 @@ import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.view.activity.CommentActivity;
+import com.wuyou.user.view.activity.RobotActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.panel.PayPanel;
 import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
@@ -28,6 +28,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Administrator on 2018\1\29 0029.
@@ -194,12 +196,28 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
                 payPanel.show();
                 break;
             case 2:
-                mPresenter.finishOrder(orderBean.order_id);
+                if (orderBean.second_payment == 0) {
+                    mPresenter.finishOrder(orderBean.order_id);
+                } else {
+                    payPanel = new PayPanel(mCtx, new PayPanel.OnPayFinishListener() {
+                        @Override
+                        public void onPaying() {
+                            mPresenter.finishOrder(orderBean.order_id);
+                            payPanel.dismiss();
+                        }
+
+                        @Override
+                        public void onPayFail(ApiException e) {
+
+                        }
+                    });
+                }
+                payPanel.show();
                 break;
             case 3:
                 Intent intent = new Intent(mCtx, CommentActivity.class);
                 intent.putExtra(Constant.ORDER_BEAN, orderBean);
-                startActivity(intent);
+                startActivityForResult(intent, 201);
                 break;
         }
     }
@@ -212,8 +230,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
                                 mPresenter.cancelOrder(0, orderBean.order_id)).setNegativeButton(mCtx.getResources().getString(R.string.cancel), null).create().show();
                 break;
             case 2:
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Constant.HELP_PHONE));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(mCtx, RobotActivity.class);
                 startActivity(intent);
                 break;
             case 3:

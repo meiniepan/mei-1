@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.gnway.bangwoba.view.DensityUtils;
 import com.wuyou.user.R;
 
 /**
@@ -45,6 +46,13 @@ public class GlideUtils {
         if (url == null) return;
         RequestOptions options = new RequestOptions();
         options.optionalTransform(new GlideRoundTransform(context, dp, GlideRoundTransform.CornerType.ALL));
+        Glide.with(context).load(url).apply(options).into(imageView);
+    }
+
+    public static void loadRoundCornerImage(Context context, String url, ImageView imageView) {
+        if (url == null) return;
+        RequestOptions options = new RequestOptions();
+        options.optionalTransform(new GlideRoundTransform(context, DensityUtils.dp2px(context, 4), GlideRoundTransform.CornerType.ALL));
         Glide.with(context).load(url).apply(options).into(imageView);
     }
 }

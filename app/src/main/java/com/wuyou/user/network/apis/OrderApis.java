@@ -38,7 +38,7 @@ public interface OrderApis {
                                           @Body SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @PUT("order/{order_id}")
+    @PUT("order/cancel/{order_id}")
     Observable<BaseResponse> cancelOrder(@Path("order_id") String id,
                                          @FieldMap SortedTreeMap<String, String> map);
 
@@ -48,12 +48,12 @@ public interface OrderApis {
                                       @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @PUT("order/finish/{uid}/{order_id}")
-    Observable<BaseResponse> finishOrder(@Path("uid") String uid, @Path("order_id") String id,
+    @PUT("order/finish/{order_id}")
+    Observable<BaseResponse> finishOrder(@Path("order_id") String id,
                                          @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @POST("order/{uid}")
+    @POST("comment/{uid}")
     Observable<BaseResponse> createComment(@Path("uid") String uid,
                                                       @FieldMap SortedTreeMap<String, String> map);
 }

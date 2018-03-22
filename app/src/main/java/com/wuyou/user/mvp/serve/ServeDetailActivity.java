@@ -19,6 +19,7 @@ import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.widget.panel.GoodsChoosePanel;
 
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -92,9 +93,9 @@ public class ServeDetailActivity extends BaseActivity {
 
     public void buyNow(View view) {
         if (!checkUser(this)) return;
-        Intent intent = new Intent(getCtx(), NewOrderActivity.class);
-        intent.putExtra(Constant.SERVE_BEAN, serviceDetail);
-        startActivity(intent);
+        GoodsChoosePanel panel = new GoodsChoosePanel(this,null);
+        panel.setData(serviceDetail);
+        panel.show();
     }
 
     public void setData(ServeDetailBean serviceDetail) {

@@ -96,6 +96,10 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener, Di
 //        } else {  //两级
 //            setLevelTwoData(entity);
 //        }
+        GlideUtils.loadRoundCornerImage(mCtx, defaultEntity.photo, mIcon);
+        boardTitle.setText(defaultEntity.title);
+        boardPrice.setText(defaultEntity.price == 0 ? "免费" : "¥ " + defaultEntity.price);
+        mRemainNumber.setText(defaultEntity.recorded + "");
         setRepertoryGoodsData(entity);
     }
 
@@ -229,10 +233,10 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener, Di
         switch (v.getId()) {
             case R.id.goods_board_add:
                 if (defaultEntity == null) return;
-                if (nowNum >= defaultEntity.recorded) {
-                    ToastUtils.ToastMessage(mCtx, mCtx.getString(R.string.not_enough_goods));
-                    return;
-                }
+//                if (nowNum >= defaultEntity.recorded) {
+//                    ToastUtils.ToastMessage(mCtx, mCtx.getString(R.string.not_enough_goods));
+//                    return;
+//                }
                 nowNum += 1;
                 mNumber.setText(nowNum + "");
                 break;
@@ -294,6 +298,7 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener, Di
     }
 
     private void accountOrder() {
+        defaultEntity.number = nowNum;
         Intent intent = new Intent(getContext(), NewOrderActivity.class);
         intent.putExtra(Constant.SERVE_BEAN, defaultEntity);
         mCtx.startActivity(intent);

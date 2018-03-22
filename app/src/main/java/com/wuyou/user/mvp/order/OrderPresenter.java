@@ -53,7 +53,8 @@ public class OrderPresenter extends OrderContract.Presenter {
                     public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
                         OrderListResponse data = orderListResponseBaseResponse.data;
                         mView.loadMore(data);
-                        if (data.list.size() > 0) startId = data.list.get(data.list.size() - 1).order_id;
+                        if (data.list.size() > 0)
+                            startId = data.list.get(data.list.size() - 1).order_id;
                     }
 
                     @Override
@@ -66,7 +67,7 @@ public class OrderPresenter extends OrderContract.Presenter {
     @Override
     void cancelOrder(int position, String orderId) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .cancelOrder(orderId, QueryMapBuilder.getIns().buildPost())
+                .cancelOrder(orderId, QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {
@@ -103,9 +104,9 @@ public class OrderPresenter extends OrderContract.Presenter {
     }
 
     @Override
-    void payOrder(String orderId,String serial) {
+    void payOrder(String orderId, String serial) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .payOrder(orderId, QueryMapBuilder.getIns().put("pay_type", "1").put("user_id",CarefreeDaoSession.getInstance().getUserId()).put("serial",serial).buildPost())
+                .payOrder(orderId, QueryMapBuilder.getIns().put("pay_type", "1").put("user_id", CarefreeDaoSession.getInstance().getUserId()).buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {
@@ -124,7 +125,7 @@ public class OrderPresenter extends OrderContract.Presenter {
     @Override
     void finishOrder(String orderId) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .finishOrder(CarefreeDaoSession.getInstance().getUserId(), orderId, QueryMapBuilder.getIns().buildPost())
+                .finishOrder(orderId, QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {

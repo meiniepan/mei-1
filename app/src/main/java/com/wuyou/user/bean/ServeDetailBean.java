@@ -52,6 +52,8 @@ public class ServeDetailBean implements Parcelable {
     public int recorded;
     public String id;
 
+    public int number;
+
     public ServeDetailBean() {
     }
 
@@ -81,6 +83,7 @@ public class ServeDetailBean implements Parcelable {
         dest.writeString(this.shop_name);
         dest.writeInt(this.recorded);
         dest.writeString(this.id);
+        dest.writeInt(this.number);
     }
 
     protected ServeDetailBean(Parcel in) {
@@ -103,6 +106,7 @@ public class ServeDetailBean implements Parcelable {
         this.shop_name = in.readString();
         this.recorded = in.readInt();
         this.id = in.readString();
+        this.number = in.readInt();
     }
 
     public static final Creator<ServeDetailBean> CREATOR = new Creator<ServeDetailBean>() {

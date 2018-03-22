@@ -1,11 +1,12 @@
 package com.wuyou.user.mvp.order;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.utils.TribeDateUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
@@ -16,6 +17,8 @@ import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.CommentActivity;
+import com.wuyou.user.view.activity.RobotActivity;
+import com.wuyou.user.view.widget.panel.PayPanel;
 
 import java.util.Date;
 
@@ -72,8 +75,9 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     @BindView(R.id.order_detail_contact_store)
     TextView orderDetailContactStore;
     private String orderId;
+    private PayPanel payPanel;
+    private OrderBeanDetail beanDetail;
     private String shopTel;
-    private int orderStatus;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -111,7 +115,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
 
     @Override
     public void finishOrderSuccess() {
-
+        finish();
     }
 
     @Override
@@ -131,7 +135,8 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     }
 
     public void setData(OrderBeanDetail data) {
-        if (data.status == 1) orderDetailWarn.setVisibility(View.VISIBLE);
+        beanDetail = data;
+        if (beanDetail.status == 1) orderDetailWarn.setVisibility(View.VISIBLE);
         orderDetailStatus.setText(CommonUtil.getOrderStatusString(data.status));
         orderDetailStore.setText(data.shop.shop_name);
         orderDetailTitle.setText(data.service.service_name);
@@ -152,22 +157,23 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailPayMethod.setText(data.pay_type);
         shopTel = data.shop.shop_tel;
 
-        orderStatus = data.status;
         setActionStatus();
     }
 
+
     @OnClick({R.id.order_detail_action, R.id.order_detail_contact_store})
     public void onViewClicked(View view) {
+        if (TextUtils.isEmpty(orderId)) return;
         switch (view.getId()) {
             case R.id.order_detail_contact_store:
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Constant.HELP_PHONE));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(getCtx(), RobotActivity.class);
                 startActivity(intent);
                 break;
             case R.id.order_detail_action:
-                switch (orderStatus) {
+                switch (beanDetail.status) {
                     case 3:
                         Intent intent1 = new Intent(getCtx(), CommentActivity.class);
+                        intent1.putExtra(Constant.ORDER_BEAN, beanDetail);
                         startActivity(intent1);
                         break;
                     case 1:
@@ -175,23 +181,55 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                                 .setPositiveButton(getCtx().getString(R.string.yes), (dialog, which) ->
                                         mPresenter.cancelOrder(0, orderId)).setNegativeButton(getCtx().getResources().getString(R.string.cancel), null).create().show();
                         break;
+                    case 2:
+                        if (beanDetail.second_payment == 0) {
+                            mPresenter.finishOrder(orderId);
+                        } else {
+                            paySecond();
+                        }
+                        break;
                 }
                 break;
         }
     }
 
+    private void paySecond() {
+        payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
+            @Override
+            public void onPaying() {
+                mPresenter.finishOrder(orderId);
+                payPanel.dismiss();
+            }
+
+            @Override
+            public void onPayFail(ApiException e) {
+
+            }
+        });
+        payPanel.show();
+    }
+
     public void setActionStatus() {
-        switch (orderStatus) {
+        switch (beanDetail.status) {
             case 1:
                 orderDetailAction.setText(R.string.cancel);
                 findViewById(R.id.order_detail_pay_area).setVisibility(View.GONE);
                 break;
             case 2:
+                if (beanDetail.can_finish == 1) {
+                    orderDetailAction.setBackgroundResource(R.drawable.pay_selector);
+                    orderDetailAction.setVisibility(View.VISIBLE);
+                    orderDetailAction.setText(R.string.finish_serve);
+                } else {
+                    orderDetailAction.setVisibility(View.GONE);
+                }
+
+            case 3:
+                orderDetailAction.setBackgroundResource(R.drawable.pay_selector);
+                orderDetailAction.setText(R.string.comment);
+                break;
             case 4:
                 orderDetailAction.setVisibility(View.GONE);
-                break;
-            case 3:
-                orderDetailAction.setText(R.string.comment);
                 break;
         }
 

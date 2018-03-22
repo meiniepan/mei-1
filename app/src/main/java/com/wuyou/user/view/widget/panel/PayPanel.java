@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.utils.DensityUtils;
-import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
@@ -62,6 +61,7 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
     @Override
     public void dismiss() {
         super.dismiss();
+        onFinishListener.onPayFail(null);
         if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this);
     }
 
