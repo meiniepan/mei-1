@@ -41,24 +41,10 @@ public class MainActivity extends BaseActivity {
 
     private long mKeyTime = 0;
     private OrderFragment orderFragment;
-    private Intent serviceIntent;
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        int intExtra = intent.getIntExtra(Constant.MAIN_FLAG, 0);
-        switch (intExtra) {
-            case 1: //登录跳转
-                EventBus.getDefault().post(new LoginEvent());
-                break;
-        }
-    }
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
         setBarColor(R.color.transparent);
-        initHelpService();
-        startService();
 //        QMUIStatusBarHelper.translucent(this,getResources().getColor(R.color.night_blue));
 //        QMUIStatusBarHelper.setStatusBarLightMode(this);
         fragments.add(new HomeFragment());
@@ -72,23 +58,8 @@ public class MainActivity extends BaseActivity {
         bottomView.enableAnimation(true);
         bottomView.enableShiftingMode(false);
         bottomView.enableItemShiftingMode(false);
-        bottomView.setIconSize(1.0f * (DensityUtils.dip2px(getCtx(), 12)), 1.0f * (DensityUtils.dip2px(getCtx(), 12)));
-        bottomView.setIconsMarginTop(DensityUtils.dip2px(getCtx(), 2));
-    }
-
-    private void initHelpService() {
-//        Variable.AgentId = aid.getText().toString();
-//        String s = name.getText().toString().toLowerCase();
-//        String substring = s.substring( Variable.AgentId.length());
-        Variable.AgentId = "139971";
-        String s = "123456789789";
-        String substring = s.substring( Variable.AgentId.length());
-        Variable.loginUser = "u4_" + Variable.AgentId+substring;
-    }
-
-    private void startService() {
-        serviceIntent = new Intent(this, HelpChatService.class);
-        startService(serviceIntent);
+        bottomView.setIconSize(1.0f * (DensityUtils.dip2px(getCtx(), 14)), 1.0f * (DensityUtils.dip2px(getCtx(), 14)));
+        bottomView.setIconsMarginTop(DensityUtils.dip2px(getCtx(), 4));
     }
 
     @Override
@@ -124,11 +95,5 @@ public class MainActivity extends BaseActivity {
 
         }
         super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        stopService(serviceIntent);
     }
 }

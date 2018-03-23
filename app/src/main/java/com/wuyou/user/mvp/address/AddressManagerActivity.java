@@ -10,6 +10,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.gs.buluo.common.utils.DensityUtils;
+import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.CarefreeDaoSession;
@@ -44,6 +45,7 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setUpStatus();
         ArrayList<AddressBean> list = getIntent().getParcelableArrayListExtra(Constant.ADDRESS_LIST);
         addressManagerList.setLayoutManager(new LinearLayoutManager(this));
         addressManagerList.addItemDecoration(CommonUtil.getRecyclerDivider(this));
@@ -62,11 +64,18 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
             intent.putExtra(Constant.ADDRESS_BEAN, (AddressBean) adapter.getData().get(position));
             startActivityForResult(intent, 201);
         });
-        if (list.size() == 0) {
+        if (list == null || list.size() == 0) {
             addressManagerStatus.showEmptyView(getString(R.string.no_address));
         }
     }
 
+    private void setUpStatus() {
+        addressManagerStatus.getEmptyActView().setText(R.string.add_address);
+        addressManagerStatus.setEmptyAction(v -> {
+            Intent intent = new Intent(getCtx(), AddressAddActivity.class);
+            startActivityForResult(intent, 200);
+        });
+    }
 
     private void showDeletePop(View view, AddressBean bean) {
     }
@@ -91,6 +100,10 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
 
     @OnClick({R.id.address_manager_add})
     public void onViewClicked() {
+        if (adapter.getData().size() == 5) {
+            ToastUtils.ToastMessage(getCtx(), "保留地址最多为5条");
+            return;
+        }
         Intent intent = new Intent(getCtx(), AddressAddActivity.class);
         startActivityForResult(intent, 201);
     }

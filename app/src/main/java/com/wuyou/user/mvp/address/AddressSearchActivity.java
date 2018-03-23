@@ -46,7 +46,7 @@ public class AddressSearchActivity extends BaseActivity implements PoiSearch.OnP
 
     private void searchPoi() {
         String keyWord = addressSearch.getText().toString().trim();
-        PoiSearch.Query query = new PoiSearch.Query(keyWord, "小区", "北京");
+        PoiSearch.Query query = new PoiSearch.Query(keyWord, "商务住宅", "北京");
         query.setPageSize(30);// 设置每页最多返回多少条poiitem
         query.setPageNum(0);// 设置查第一页
         PoiSearch poiSearch = new PoiSearch(this, query);

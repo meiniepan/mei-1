@@ -17,7 +17,7 @@ import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.CommentActivity;
-import com.wuyou.user.view.activity.RobotActivity;
+import com.wuyou.user.view.activity.HelpRobotActivity;
 import com.wuyou.user.view.widget.panel.PayPanel;
 
 import java.util.Date;
@@ -60,8 +60,8 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     TextView orderDetailNumber;
     @BindView(R.id.order_detail_pay_method)
     TextView orderDetailPayMethod;
-    @BindView(R.id.order_detail_pay_status)
-    TextView orderDetailBillStatus;
+    @BindView(R.id.order_detail_pay_serial)
+    TextView orderDetailBillSerial;
     @BindView(R.id.order_detail_action)
     TextView orderDetailAction;
     @BindView(R.id.order_detail_serve_way)
@@ -110,7 +110,9 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
 
     @Override
     public void paySuccess() {
-
+        ToastUtils.ToastMessage(getCtx(), R.string.pay_success);
+        showLoadingDialog();
+        mPresenter.getOrderDetail(orderId);
     }
 
     @Override
@@ -140,21 +142,22 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailStatus.setText(CommonUtil.getOrderStatusString(data.status));
         orderDetailStore.setText(data.shop.shop_name);
         orderDetailTitle.setText(data.service.service_name);
-        orderDetailCount.setText(data.number + "");
+        orderDetailCount.setText("X " + data.number);
         orderDetailPrice.setText(data.total_amount);
         orderDetailPriceFinal.setText(data.total_amount);
         orderDetailName.setText(data.address.name);
-        orderDetailAddress.setText(data.address.city_name + data.address.district + data.address.address);
+        orderDetailAddress.setText(data.address.city_name + data.address.district + data.address.area + data.address.address);
         orderDetailPhone.setText(data.address.mobile);
 
         orderDetailCreateTime.setText(TribeDateUtils.dateFormat(new Date(data.created_at * 1000)));
         orderDetailNumber.setText(data.order_number);
         orderDetailServeWay.setText(data.service_mode);
-        orderDetailServeTime.setText(data.service_date + data.service_time);
+        orderDetailServeTime.setText(data.service_date + "  " + data.service_time);
         orderDetailRemark.setText(data.remark);
 
-        orderDetailBillStatus.setText(CommonUtil.getOrderStatusString(data.status));
+//        orderDetailBillSerial.setText(CommonUtil.getOrderStatusString(data.status));
         orderDetailPayMethod.setText(data.pay_type);
+        orderDetailPayTime.setText(TribeDateUtils.dateFormat(new Date(data.pay_time * 1000)));
         shopTel = data.shop.shop_tel;
 
         setActionStatus();
@@ -166,8 +169,12 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         if (TextUtils.isEmpty(orderId)) return;
         switch (view.getId()) {
             case R.id.order_detail_contact_store:
-                Intent intent = new Intent(getCtx(), RobotActivity.class);
-                startActivity(intent);
+                if (beanDetail.status == 1) {
+                    payOrder();
+                } else {
+                    Intent intent = new Intent(getCtx(), HelpRobotActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.order_detail_action:
                 switch (beanDetail.status) {
@@ -193,6 +200,23 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         }
     }
 
+    private void payOrder() {
+        payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
+            @Override
+            public void onPaying() {
+                mPresenter.payOrder(beanDetail.order_id, beanDetail.serial);
+                payPanel.dismiss();
+            }
+
+            @Override
+            public void onPayFail(ApiException e) {
+
+            }
+        });
+        payPanel.show();
+
+    }
+
     private void paySecond() {
         payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
             @Override
@@ -213,22 +237,27 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         switch (beanDetail.status) {
             case 1:
                 orderDetailAction.setText(R.string.cancel);
+                orderDetailContactStore.setText(R.string.pay);
                 findViewById(R.id.order_detail_pay_area).setVisibility(View.GONE);
                 break;
             case 2:
+                orderDetailContactStore.setVisibility(View.VISIBLE);
+                orderDetailContactStore.setText(R.string.contact_store);
+                findViewById(R.id.order_detail_pay_area).setVisibility(View.VISIBLE);
                 if (beanDetail.can_finish == 1) {
-                    orderDetailAction.setBackgroundResource(R.drawable.pay_selector);
                     orderDetailAction.setVisibility(View.VISIBLE);
                     orderDetailAction.setText(R.string.finish_serve);
                 } else {
                     orderDetailAction.setVisibility(View.GONE);
                 }
-
+                break;
             case 3:
-                orderDetailAction.setBackgroundResource(R.drawable.pay_selector);
+                orderDetailContactStore.setVisibility(View.GONE);
                 orderDetailAction.setText(R.string.comment);
                 break;
             case 4:
+            case 5:
+                orderDetailContactStore.setVisibility(View.GONE);
                 orderDetailAction.setVisibility(View.GONE);
                 break;
         }

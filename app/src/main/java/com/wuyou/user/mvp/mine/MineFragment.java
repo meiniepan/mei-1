@@ -3,7 +3,6 @@ package com.wuyou.user.mvp.mine;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +10,8 @@ import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.event.LoginEvent;
+import com.wuyou.user.mvp.address.AddressActivity;
+import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.view.activity.InfoActivity;
 import com.wuyou.user.view.activity.SettingActivity;
@@ -60,7 +61,7 @@ public class MineFragment extends BaseFragment {
         if (userInfo != null) {
             mineLogin.setVisibility(View.GONE);
 //            GlideUtils.loadImage(mCtx, userInfo.getHead_image(), mineHead,true);
-//            minePhone.setText(userInfo.getMobile());
+            minePhone.setText(userInfo.getMobile());
 //            mineName.setText(userInfo.getName());
 //            mineSex.setText(userInfo.getGender());
         } else {
@@ -97,11 +98,13 @@ public class MineFragment extends BaseFragment {
             case R.id.mine_card:
                 break;
             case R.id.mine_address:
+                intent.setClass(mCtx, AddressActivity.class);
+                startActivity(intent);
                 break;
             case R.id.mine_activity:
                 break;
             case R.id.mine_info:
-                intent.setClass(mCtx,InfoActivity.class);
+                intent.setClass(mCtx, InfoActivity.class);
                 startActivity(intent);
                 break;
         }

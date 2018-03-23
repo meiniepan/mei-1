@@ -16,7 +16,7 @@ import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.view.activity.CommentActivity;
-import com.wuyou.user.view.activity.RobotActivity;
+import com.wuyou.user.view.activity.HelpRobotActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.panel.PayPanel;
 import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
@@ -28,8 +28,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Administrator on 2018\1\29 0029.
@@ -230,7 +228,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
                                 mPresenter.cancelOrder(0, orderBean.order_id)).setNegativeButton(mCtx.getResources().getString(R.string.cancel), null).create().show();
                 break;
             case 2:
-                Intent intent = new Intent(mCtx, RobotActivity.class);
+                Intent intent = new Intent(mCtx, HelpRobotActivity.class);
                 startActivity(intent);
                 break;
             case 3:

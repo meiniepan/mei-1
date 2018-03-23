@@ -7,7 +7,6 @@ import android.widget.TextView;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.UserInfo;
-import com.wuyou.user.util.glide.GlideUtils;
 
 import butterknife.BindView;
 
@@ -24,7 +23,7 @@ public class InfoActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
-        GlideUtils.loadImage(this, userInfo.getHead_image(), infoHead, true);
+//        GlideUtils.loadImage(this, userInfo.getHead_image(), infoHead, true);
     }
 
     @Override

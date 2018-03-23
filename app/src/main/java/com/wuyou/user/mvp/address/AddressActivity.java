@@ -68,7 +68,6 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
         addressStatus.setLoginAction(v -> {
             Intent intent = new Intent(getCtx(), LoginActivity.class);
             startActivity(intent);
-            finish();
         });
         addressStatus.getLoginActView().setText(R.string.login_now);
 
@@ -134,6 +133,8 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
         adapter.setNewData(addressData);
         if (adapter.getData().size() == 0) {
             addressStatus.showEmptyView(getString(R.string.no_address));
+        } else {
+            CarefreeDaoSession.getInstance().saveDefaultAddress(list.list.get(0));
         }
     }
 

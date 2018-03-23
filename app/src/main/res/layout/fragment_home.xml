@@ -135,10 +135,12 @@
             <include layout="@layout/split_line" />
 
             <LinearLayout
+                android:id="@+id/home_order_area"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:paddingEnd="@dimen/activity_horizontal_margin_end"
                 android:paddingStart="@dimen/activity_horizontal_margin_end">
 
@@ -156,7 +158,6 @@
                     android:ellipsize="marquee"
                     android:focusable="true"
                     android:singleLine="true"
-                    android:text="您又一天新订单，订单编号：232312232132123321321"
                     android:textColor="@color/common_orange" />
             </LinearLayout>
 

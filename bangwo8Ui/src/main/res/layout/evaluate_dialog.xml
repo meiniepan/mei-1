@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#E9E8E8"
+    android:layout_height="350dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_evaluate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="请对我的服务做出评价"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/dimen_10"
+            android:layout_below="@id/text_evaluate"
+            android:orientation="horizontal"
+            android:id="@+id/evaluate_radio_group"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp30"
+            android:layout_marginRight="@dimen/dp30"
+            >
+            <LinearLayout
+                android:id="@+id/evaluate_normal"
+                android:paddingLeft="@dimen/dimen_5"
+                android:paddingRight="@dimen/dimen_5"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:background="@drawable/evaluate_select_shape"
+                >
+                <ImageView
+                    android:padding="@dimen/dimen_3"
+                    android:src="@drawable/low2"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:gravity="center"
+                    android:text="满意"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/evaluate_satisfy"
+                android:paddingLeft="@dimen/dimen_5"
+                android:paddingRight="@dimen/dimen_5"
+                android:layout_marginLeft="@dimen/dimen_10"
+                android:layout_marginRight="@dimen/dimen_10"
+                android:background="@drawable/evaluate_select_shape"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="35dp">
+                <ImageView
+                    android:padding="@dimen/dimen_3"
+                    android:src="@drawable/good2"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:text="一般"
+                    android:textSize="12sp"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/evaluate_unsatisfy"
+                android:paddingLeft="@dimen/dimen_5"
+                android:paddingRight="@dimen/dimen_5"
+                android:background="@drawable/evaluate_select_shape"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="35dp">
+                <ImageView
+                    android:padding="@dimen/dimen_3"
+                    android:src="@drawable/verygood2"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp" />
+                <TextView
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp"
+                    android:text="不满意"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp" />
+            </LinearLayout>
+        </LinearLayout>
+    <TextView
+        android:id="@+id/beizhu"
+        android:text="备注(选填)"
+        android:textColor="#7F7F7F"
+        android:textSize="17sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_below="@id/evaluate_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/evaluate_edit_text"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginRight="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:background="@drawable/evaluate_shape"
+        android:minLines="5"
+        android:gravity="top"
+        android:textColor="#000"
+        android:height="@dimen/dp100"
+        android:layout_below="@id/beizhu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp100" />
+
+    <Button
+        android:id="@+id/commit_evaluate"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/evaluate_edit_text"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffffff"
+        android:text="提交评价"
+        android:background="@drawable/evaluate_select_shape"
+        android:layout_width="100dp"
+        android:layout_height="35dp" />
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+
+</RelativeLayout>

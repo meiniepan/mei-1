@@ -1,6 +1,8 @@
 package com.wuyou.user;
 
+import android.content.Context;
 import android.os.Environment;
+import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
 import com.gs.buluo.common.BaseApplication;
@@ -33,5 +35,10 @@ public class CarefreeApplication extends BaseApplication {
     @Override
     public String getFilePath() {
         return Environment.getExternalStorageDirectory().toString() + "/carefree/";
+    }
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

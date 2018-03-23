@@ -5,7 +5,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -24,19 +23,24 @@ import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.CommunityBean;
 import com.wuyou.user.bean.HomeVideoBean;
+import com.wuyou.user.bean.OrderBean;
 import com.wuyou.user.bean.response.CategoryChild;
 import com.wuyou.user.bean.response.CategoryListResponse;
 import com.wuyou.user.bean.response.CategoryParent;
 import com.wuyou.user.bean.response.CommunityListResponse;
 import com.wuyou.user.bean.response.HomeVideoResponse;
+import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.event.AddressEvent;
+import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.HomeApis;
+import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.JZVideoPlayerFullscreen;
 import com.wuyou.user.util.glide.GlideUtils;
@@ -82,6 +86,8 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.home_order_message)
     MarqueeTextView homeOrderMessage;
 
+    @BindView(R.id.home_order_area)
+    View homeOrderArea;
 
     private String communityId = "0";
     private CommunityBean cacheCommunityBean;
@@ -136,6 +142,11 @@ public class HomeFragment extends BaseFragment {
         } else {
             Log.e("Test", "onAddressChanged: 社区没变！！！！！！！！！！");
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLogin(LoginEvent event) {
+        getOrderMessage();
     }
 
 
@@ -313,6 +324,26 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void getOrderMessage() {
+        if (CarefreeDaoSession.getInstance().getUserInfo() == null) return;
+        CarefreeRetrofit.getInstance().createApi(OrderApis.class).getOrderList(QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).put("status", "2").put("startId", "0").put("flag", "1").buildGet())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
+                        setOrderData(orderListResponseBaseResponse.data.list);
+                    }
+                });
+    }
 
+    public void setOrderData(List<OrderBean> orderData) {
+        if (orderData != null && orderData.size() > 0) {
+            homeOrderArea.setVisibility(View.VISIBLE);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (OrderBean orderBean : orderData) {
+                stringBuilder.append("  您有一条新订单，订单编号: ").append(orderBean.order_number);
+            }
+            homeOrderMessage.setText(stringBuilder.toString());
+        }
     }
 }

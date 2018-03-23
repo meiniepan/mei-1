@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="@dimen/dimen_5"
+    android:layout_marginTop="@dimen/dimen_5"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/audio_chat_time"
+        android:text="刚刚"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_chat_time_tag"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dimen_1"
+        android:paddingLeft="@dimen/dimen_4"
+        android:paddingRight="@dimen/dimen_4"
+        android:paddingTop="@dimen/dimen_1"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
+
+    <LinearLayout
+        android:id="@+id/audio_chat_left_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/audio_chat_left_avatar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ggggg"
+            android:layout_marginTop="@dimen/dimen_2"
+            android:focusable="false"
+            android:scaleType="centerCrop" />
+
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/dimen_5"
+            android:layout_marginTop="@dimen/dimen_2"
+            android:layout_toRightOf="@+id/iv_chat_left_avatar"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.gnway.bangwoba.view.BubbleLinearLayout
+                android:id="@+id/audio_item"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                app:arrowWidth="8dp"
+                app:angle="8dp"
+                app:arrowHeight="10dp"
+                app:arrowPosition="14dp"
+                app:arrowLocation="left"
+                app:bubbleColor="@color/white"
+                android:gravity="start"
+                android:clickable="true"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/audio_animal"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="@dimen/dimen_5"
+                    android:layout_marginBottom="@dimen/dimen_5"
+                    android:layout_marginLeft="13dp"
+                    android:background="@drawable/chatfrom_voice_playing" />
+            </com.gnway.bangwoba.view.BubbleLinearLayout>
+            <TextView
+                android:id="@+id/audio_recorder_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/audio_item"
+                android:layout_marginLeft="@dimen/dimen_5"
+                android:text="12"
+                android:textColor="#ff777777" />
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/audio_chat_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/audio_recorder_time"
+                android:layout_marginLeft="@dimen/dimen_5"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -9,13 +9,14 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
         }
     }
-    signingConfigs {
+    signingConfigs {p
         release {
             storeFile file(KEY_PATH)
             storePassword "555555"
@@ -76,4 +77,5 @@ dependencies {
     compile('com.github.gzu-liyujiang.AndroidPicker:WheelPicker:1.5.5') {
         exclude group: 'com.android.support'
     }
+    compile 'com.android.support:multidex:1.0.3'
 }

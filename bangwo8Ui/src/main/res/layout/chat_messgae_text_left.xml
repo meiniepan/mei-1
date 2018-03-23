@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="@dimen/dimen_5"
+    android:layout_marginTop="@dimen/dimen_5"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_chat_time"
+        android:text="刚刚"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_chat_time_tag"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dimen_1"
+        android:paddingLeft="@dimen/dimen_4"
+        android:paddingRight="@dimen/dimen_4"
+        android:paddingTop="@dimen/dimen_1"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
+
+    <LinearLayout
+        android:id="@+id/text_chat_left_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/text_chat_left_avatar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ggggg"
+            android:layout_marginTop="@dimen/dimen_2"
+            android:focusable="false"
+            android:scaleType="centerCrop" />
+
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/dimen_5"
+            android:layout_marginTop="@dimen/dimen_2"
+            android:layout_toRightOf="@+id/text_chat_left_avatar"
+            android:id="@+id/tv_chat_msg_content_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.gnway.bangwoba.view.BoundTextView
+                android:id="@+id/text_content"
+                android:clickable="true"
+                android:padding="10dp"
+                android:text="aaaaaaaaaa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:maxWidth="180dp"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                app:arrowWidth="8dp"
+                app:angle="8dp"
+                app:arrowHeight="10dp"
+                app:arrowPosition="14dp"
+                app:arrowLocation="left"
+                app:bubbleColor="@color/white"/>
+
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/text_chat_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/text_content"
+                android:layout_marginLeft="@dimen/dimen_5"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -463,14 +463,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="支付状态"
+                        android:text="支付流水"
                         android:textColor="@color/common_gray" />
 
                     <TextView
-                        android:id="@+id/order_detail_pay_status"
+                        android:id="@+id/order_detail_pay_serial"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="30dp"
+                        android:text="230932148648665465"
                         android:textColor="@color/common_gray" />
                 </LinearLayout>
 
@@ -496,6 +497,7 @@
                         android:layout_marginStart="30dp"
                         android:textColor="@color/common_gray" />
                 </LinearLayout>
+
 
             </LinearLayout>
 

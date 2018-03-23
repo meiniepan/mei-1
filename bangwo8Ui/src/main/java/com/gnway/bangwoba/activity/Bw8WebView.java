@@ -1,48 +1,43 @@
-package com.wuyou.user.view.activity;
+package com.gnway.bangwoba.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.gnway.bangwoba.activity.Bw8WebView;
-import com.gnway.bangwoba.activity.ChatActivity;
+import com.gnway.bangwoba.R;
 import com.gnway.bangwoba.global.Variable;
-import com.wuyou.user.R;
 
-/**
- * Created by DELL on 2018/3/22.
- */
-
-public class RobotActivity extends BaseActivity implements View.OnClickListener {
-    private WebView mwebView;
-    private String url = "http://www.bangwo8.com/client/smartRobot_phone_v1.php?VendorID=" + Variable.AgentId + "&companyName=公司名称(金万维)&uname=" + Variable.loginUser + "&from=sdk";
-
+public class Bw8WebView extends AppCompatActivity implements View.OnClickListener {
+    private android.webkit.WebView mwebView;
+    private String url="";
+    private View goback;
     @Override
-    protected void bindView(Bundle savedInstanceState) {
-        mwebView = findViewById(com.gnway.bangwoba.R.id.robot_webview);
-        findViewById(R.id.back).setOnClickListener(this);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_wbe_view);
+        url = getIntent().getStringExtra("url");
+        initView();
+    }
+    protected void initView() {
+        goback=findViewById(R.id.goback);
+        goback.setOnClickListener(this);
+        mwebView=(android.webkit.WebView)findViewById(R.id.webview);
         settingWebView();
         mwebView.loadUrl(url);
     }
-
-    @Override
-    protected int getContentLayout() {
-        return R.layout.activity_help_robot;
-    }
-
     @SuppressLint("NewApi")
     private void settingWebView() {
         try {
             //支持获取手势焦点，输入用户名、密码或其他
             mwebView.requestFocusFromTouch();
-            mwebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+            mwebView.setScrollBarStyle(android.webkit.WebView.SCROLLBARS_OUTSIDE_OVERLAY);
             mwebView.setScrollbarFadingEnabled(false);
             final WebSettings settings = mwebView.getSettings();
             settings.setJavaScriptEnabled(true);  //支持js
@@ -88,23 +83,13 @@ public class RobotActivity extends BaseActivity implements View.OnClickListener 
 
             mwebView.setWebViewClient(new WebViewClient() {
                 @Override
-                public void onPageFinished(WebView view, String url) {
+                public void onPageFinished(android.webkit.WebView view, String url) {
                     super.onPageFinished(view, url);
                 }
 
                 @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    if (url.contains("http://www.bangwo8.com/osp2016/chat/chat_phone_v1.php?")) {
-                        Intent intent = new Intent();
-                        intent.setClass(RobotActivity.this, ChatActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Intent intent = new Intent();
-                        intent.putExtra("url", url);
-                        intent.setClass(RobotActivity.this, Bw8WebView.class);
-                        startActivity(intent);
-                    }
+                public boolean shouldOverrideUrlLoading(android.webkit.WebView view, String url) {
+                        view.loadUrl(url);
                     return true;
                 }
             });
@@ -115,10 +100,10 @@ public class RobotActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == com.gnway.bangwoba.R.id.goback) {
-            if (mwebView.canGoBack()) {
+        if(v.getId()==R.id.goback){
+            if(mwebView.canGoBack()){
                 mwebView.goBack();
-            } else {
+            }else {
                 finish();
             }
         }
@@ -126,9 +111,9 @@ public class RobotActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onBackPressed() {
-        if (mwebView.canGoBack()) {
+        if(mwebView.canGoBack()){
             mwebView.goBack();
-        } else {
+        }else {
             super.onBackPressed();
         }
     }

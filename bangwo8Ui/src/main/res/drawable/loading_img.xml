@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:duration="150"
+        android:drawable="@drawable/round_1">
+    </item>
+    <item
+        android:duration="150"
+        android:drawable="@drawable/round_2">
+    </item>
+    <item
+        android:duration="150"
+        android:drawable="@drawable/round_3">
+    </item>
+    <item
+        android:duration="150"
+        android:drawable="@drawable/round_4">
+    </item>
+    <item
+        android:duration="150"
+        android:drawable="@drawable/round_5">
+    </item>
+    <item
+        android:duration="150"
+        android:drawable="@drawable/round_6">
+    </item>
+    <item
+        android:duration="150"
+        android:drawable="@drawable/round_7">
+    </item>
+    <item
+        android:duration="150"
+        android:drawable="@drawable/round_8">
+    </item>
+    <item
+        android:duration="150"
+        android:drawable="@drawable/round_9">
+    </item>
+    <item
+        android:duration="150"
+        android:drawable="@drawable/round_10">
+    </item>
+
+</animation-list>

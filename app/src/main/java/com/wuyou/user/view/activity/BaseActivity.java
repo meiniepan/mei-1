@@ -159,6 +159,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
 
     protected boolean checkUser(Context context) {
         if (CarefreeDaoSession.getInstance().getUserId() == null) {
+            ToastUtils.ToastMessage(context,R.string.please_login);
             Intent intent = new Intent(context, LoginActivity.class);
             startActivity(intent);
             return false;

@@ -78,6 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:prb_defaultRating="5"
+            app:prb_clickable="true"
             app:prb_tickNormalDrawable="@mipmap/big_star"
             app:prb_tickSelectedDrawable="@mipmap/big_star_yellow"
             android:layout_marginTop="30dp"

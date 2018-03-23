@@ -1,26 +1,22 @@
 package com.wuyou.user.mvp.login;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.gs.buluo.common.utils.ToastUtils;
-import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.CounterDisposableObserver;
 import com.wuyou.user.util.RxUtil;
-import com.wuyou.user.view.activity.MainActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * Created by solang on 2018/2/2.
@@ -50,16 +46,13 @@ public class PhoneLoginFragment extends BaseFragment<LoginContract.View, LoginCo
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-
-
     }
 
     @Override
     public void loginSuccess() {
+        EventBus.getDefault().post(new LoginEvent());
         ToastUtils.ToastMessage(getContext(), "登录成功");
-        Intent view = new Intent(getActivity(), MainActivity.class);
-        view.putExtra(Constant.MAIN_FLAG, 1);
-        startActivity(view);
+        getActivity().finish();
     }
 
     @Override

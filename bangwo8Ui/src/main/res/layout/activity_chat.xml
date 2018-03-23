@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.gnway.bangwoba.widgets.KeyboardDetectorRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_roots"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ChatActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/chat_back"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/dimen_10"
+                android:background="@drawable/back_selector" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dimen_10"
+                android:text="消息"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/connect_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FCA7A7"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="@dimen/dimen_5"
+            android:src="@drawable/file_load_fail" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dimen_3"
+            android:text="连接断开，请检查网络设置"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:srlHeaderHeight="50dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recylerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#EEEEEE"
+            android:overScrollMode="never"
+            android:scrollbars="vertical" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <FrameLayout
+        android:id="@+id/bottom_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</com.gnway.bangwoba.widgets.KeyboardDetectorRelativeLayout>
+
