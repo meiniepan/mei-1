@@ -213,6 +213,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
 
             }
         });
+        payPanel.setData(beanDetail.total_amount,"","");
         payPanel.show();
 
     }
@@ -230,6 +231,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
 
             }
         });
+        payPanel.setData(beanDetail.total_amount,"","");
         payPanel.show();
     }
 

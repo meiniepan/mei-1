@@ -99,7 +99,6 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener, Di
         GlideUtils.loadRoundCornerImage(mCtx, defaultEntity.photo, mIcon);
         boardTitle.setText(defaultEntity.title);
         boardPrice.setText(defaultEntity.price == 0 ? "免费" : "¥ " + defaultEntity.price);
-        mRemainNumber.setText(defaultEntity.recorded + "");
         setRepertoryGoodsData(entity);
     }
 

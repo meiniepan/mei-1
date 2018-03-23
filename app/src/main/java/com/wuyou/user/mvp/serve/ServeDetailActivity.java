@@ -93,7 +93,7 @@ public class ServeDetailActivity extends BaseActivity {
 
     public void buyNow(View view) {
         if (!checkUser(this)) return;
-        GoodsChoosePanel panel = new GoodsChoosePanel(this,null);
+        GoodsChoosePanel panel = new GoodsChoosePanel(this, null);
         panel.setData(serviceDetail);
         panel.show();
     }
@@ -102,7 +102,7 @@ public class ServeDetailActivity extends BaseActivity {
         this.serviceDetail = serviceDetail;
         GlideUtils.loadImageNoHolder(this, serviceDetail.photo, serveDetailPicture);
         serveDetailTitle.setText(serviceDetail.title);
-        serveDetailCount.setText(serviceDetail.recorded + "");
+        serveDetailCount.setText(serviceDetail.sold);
         serveDetailPrice.setText(serviceDetail.price + "");
         serveDetailDescription.loadData(serviceDetail.content, "text/html", "UTF-8");
         serveDetailStore.setText(serviceDetail.shop_name);

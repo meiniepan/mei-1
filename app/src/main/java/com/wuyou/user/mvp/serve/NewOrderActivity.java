@@ -162,6 +162,7 @@ public class NewOrderActivity extends BaseActivity {
                 goOrderDetail(orderId);
             }
         });
+        payPanel.setData(createOrderAmout.getText().toString().trim(),"","");
         payPanel.show();
     }
 

@@ -101,7 +101,7 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
     @OnClick({R.id.address_manager_add})
     public void onViewClicked() {
         if (adapter.getData().size() == 5) {
-            ToastUtils.ToastMessage(getCtx(), "保留地址最多为5条");
+            ToastUtils.ToastMessage(getCtx(), "您已添加5个地址，请先删除不常用的地址");
             return;
         }
         Intent intent = new Intent(getCtx(), AddressAddActivity.class);

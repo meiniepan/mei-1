@@ -188,9 +188,9 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
 
                     @Override
                     public void onPayFail(ApiException e) {
-                        payPanel.dismiss();
                     }
                 });
+                payPanel.setData(orderBean.amount+"","","");
                 payPanel.show();
                 break;
             case 2:
@@ -206,11 +206,11 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
 
                         @Override
                         public void onPayFail(ApiException e) {
-
                         }
                     });
+                    payPanel.setData(orderBean.second_payment+"","","");
+                    payPanel.show();
                 }
-                payPanel.show();
                 break;
             case 3:
                 Intent intent = new Intent(mCtx, CommentActivity.class);

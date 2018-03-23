@@ -50,7 +50,7 @@ public class OrderFragment extends BaseFragment {
     }
 
     @Override
-    public void showError(String message, int res) {
-
+    public void fetchData() {
+        orderPager.setCurrentItem(0);
     }
 }
