@@ -55,7 +55,11 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
                 tvCancel.setText(R.string.ask_help);
                 if (item.can_finish == 1) {
                     tvAct.setVisibility(View.VISIBLE);
-                    tvAct.setText(R.string.finish);
+                    if (item.second_payment == 0) {
+                        tvAct.setText(R.string.finish);
+                    } else {
+                        tvAct.setText(R.string.go_pay);
+                    }
                 } else {
                     tvAct.setVisibility(View.GONE);
                 }

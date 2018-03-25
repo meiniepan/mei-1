@@ -46,6 +46,7 @@
     <string name="finished">已完成</string>
     <string name="finish">完成</string>
     <string name="pay">付款</string>
+    <string name="go_pay">付款</string>
     <string name="cancel_order">取消订单</string>
     <string name="delivered">已派单</string>
     <string name="order_accepted">订单已受理</string>
@@ -86,5 +87,6 @@
     <string name="finish_serve">完成服务</string>
     <string name="please_login">请先登录</string>
     <string name="pay_success">支付成功</string>
+    <string name="wu_u_pay">无忧币支付</string>
 
 </resources>

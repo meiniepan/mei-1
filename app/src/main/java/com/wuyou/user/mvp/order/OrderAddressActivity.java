@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
@@ -39,6 +38,15 @@ public class OrderAddressActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         addressOrderList.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
+    }
+
+    private void getData() {
         showLoadingDialog();
         CarefreeRetrofit.getInstance().createApi(AddressApis.class)
                 .getAddressList(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
@@ -50,7 +58,6 @@ public class OrderAddressActivity extends BaseActivity {
                         setData(addressListResponseBaseResponse.data.list);
                     }
                 });
-
     }
 
     @Override

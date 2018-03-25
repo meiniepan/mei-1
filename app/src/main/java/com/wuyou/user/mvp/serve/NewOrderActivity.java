@@ -162,7 +162,7 @@ public class NewOrderActivity extends BaseActivity {
                 goOrderDetail(orderId);
             }
         });
-        payPanel.setData(createOrderAmout.getText().toString().trim(),"","");
+        payPanel.setData(createOrderAmout.getText().toString().trim(), "", "");
         payPanel.show();
     }
 
@@ -290,10 +290,11 @@ public class NewOrderActivity extends BaseActivity {
     }
 
     public void setAddressInfo() {
+
         if (defaultAddress == null) return;
         findViewById(R.id.create_order_address_add).setVisibility(View.GONE);
         createOrderAddressPerson.setText(defaultAddress.name);
-        createOrderAddressDetail.setText(defaultAddress.city_name + defaultAddress.district + defaultAddress.address);
+        createOrderAddressDetail.setText(defaultAddress.city_name + defaultAddress.district + defaultAddress.area + defaultAddress.address);
         createOrderAddressPhone.setText(defaultAddress.mobile);
     }
 

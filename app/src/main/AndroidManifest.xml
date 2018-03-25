@@ -38,40 +38,85 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".view.activity.SettingActivity" />
-        <activity android:name=".mvp.login.LoginActivity" />
+        <activity
+            android:name=".view.activity.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.login.LoginActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.login.PhoneInputActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible" />
-        <activity android:name=".mvp.login.CompletingInfoActivity" />
-        <activity android:name=".mvp.login.CaptchaInputActivity" />
+        <activity
+            android:name=".mvp.login.CompletingInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.login.CaptchaInputActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".mvp.login.ResetPwdActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible" />
 
-        <activity android:name=".mvp.order.OrderDetailActivity" />
-        <activity android:name=".mvp.serve.ServeCategoryListActivity" />
-        <activity android:name=".mvp.serve.FastCreateActivity" />
-        <activity android:name=".mvp.serve.NewOrderActivity" />
-        <activity android:name=".mvp.serve.ServeDetailActivity" />
-        <activity android:name=".mvp.store.StoreDetailActivity" />
-        <activity android:name=".mvp.address.AddressActivity" />
-        <activity android:name=".mvp.address.AddressManagerActivity" />
-        <activity android:name=".mvp.address.AddressLocationActivity" />
-        <activity android:name=".view.activity.HomeMapActivity" />
-        <activity android:name=".mvp.address.AddressAddActivity" />
-        <activity android:name=".mvp.address.CityChooseActivity" />
-        <activity android:name=".mvp.address.AddressSearchActivity" />
-        <activity android:name=".mvp.order.OrderAddressActivity" />
-        <activity android:name=".view.activity.CommentActivity" />
-        <activity android:name=".view.activity.InfoActivity" />
-        <activity android:name=".view.activity.HelpRobotActivity" />
+        <activity
+            android:name=".mvp.order.OrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.serve.ServeCategoryListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.serve.FastCreateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.serve.NewOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.serve.ServeDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.store.StoreDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.address.AddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.address.AddressManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.address.AddressLocationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.HomeMapActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.address.AddressAddActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.address.CityChooseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.address.AddressSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.order.OrderAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.CommentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.InfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.HelpRobotActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="0706e469a852b4fbbc6b2658814761e1" />
-        <service android:name="com.amap.api.location.APSService"/>
+
+        <service android:name="com.amap.api.location.APSService" />
         <service android:name=".service.HelpChatService" />
 
     </application>

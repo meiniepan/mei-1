@@ -58,7 +58,7 @@
                 android:id="@+id/pay_way"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="余额支付"
+                android:text="@string/wu_u_pay"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/pay_choose" />
         </RelativeLayout>
@@ -87,7 +87,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:text="100"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true" />
         </RelativeLayout>

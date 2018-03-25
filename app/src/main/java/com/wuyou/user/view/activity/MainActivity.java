@@ -48,9 +48,9 @@ public class MainActivity extends BaseActivity {
 //        QMUIStatusBarHelper.translucent(this,getResources().getColor(R.color.night_blue));
 //        QMUIStatusBarHelper.setStatusBarLightMode(this);
         fragments.add(new HomeFragment());
-        fragments.add(new HelpFragment());
         orderFragment = new OrderFragment();
         fragments.add(orderFragment);
+        fragments.add(new HelpFragment());
         fragments.add(new MineFragment());
         viewPager.setAdapter(new MainPagerAdapter(getSupportFragmentManager(), fragments));
         viewPager.setOffscreenPageLimit(3);
