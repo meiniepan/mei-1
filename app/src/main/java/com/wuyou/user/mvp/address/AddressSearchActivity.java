@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.poisearch.PoiResult;
@@ -67,18 +65,21 @@ public class AddressSearchActivity extends BaseActivity implements PoiSearch.OnP
         addressSearchStatus.showContentView();
         AddressLocationListAdapter adapter = new AddressLocationListAdapter(R.layout.item_address_location, poiResult.getPois());
         addressSearchList.setAdapter(adapter);
+        if (adapter.getData().size() == 0) {
+            addressSearchStatus.showEmptyView("未搜索到匹配地址");
+        }
         adapter.setOnItemClickListener((adapter1, view, position) -> {
-            setClickResult(poiResult.getPois().get(position),flag);
+            setClickResult(poiResult.getPois().get(position), flag);
         });
     }
 
     private void setClickResult(PoiItem poiItem, int flag) {
-        if (flag == 0){
+        if (flag == 0) {
             Intent intent = new Intent();
-            intent.putExtra(Constant.POI_RESULT,poiItem);
-            setResult(RESULT_OK,intent);
+            intent.putExtra(Constant.POI_RESULT, poiItem);
+            setResult(RESULT_OK, intent);
             finish();
-        }else {
+        } else {
             EventBus.getDefault().post(new AddressEvent(poiItem));
             finish();
             AppManager.getAppManager().finishActivity(AddressActivity.class);

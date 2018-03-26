@@ -1,30 +1,21 @@
 package com.wuyou.user.view.activity;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.gnway.bangwo8sdk.Bangwo8SdkManager;
-import com.gnway.bangwoba.global.Variable;
-import com.gs.buluo.common.utils.DensityUtils;
-import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
-import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.MainPagerAdapter;
-import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.help.HelpFragment;
 import com.wuyou.user.mvp.home.HomeFragment;
 import com.wuyou.user.mvp.mine.MineFragment;
 import com.wuyou.user.mvp.order.OrderFragment;
-import com.wuyou.user.service.HelpChatService;
 import com.wuyou.user.view.fragment.BaseFragment;
-import com.wuyou.user.view.widget.UnScrollViewPager;
-
-import org.greenrobot.eventbus.EventBus;
+import com.yinglan.alphatabs.AlphaTabsIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +25,9 @@ import cn.jzvd.JZVideoPlayer;
 
 public class MainActivity extends BaseActivity {
     @BindView(R.id.main_tab)
-    BottomNavigationViewEx bottomView;
+    AlphaTabsIndicator bottomView;
     @BindView(R.id.main_pager)
-    UnScrollViewPager viewPager;
+    ViewPager viewPager;
     List<BaseFragment> fragments = new ArrayList<>();
 
     private long mKeyTime = 0;
@@ -54,12 +45,7 @@ public class MainActivity extends BaseActivity {
         fragments.add(new MineFragment());
         viewPager.setAdapter(new MainPagerAdapter(getSupportFragmentManager(), fragments));
         viewPager.setOffscreenPageLimit(3);
-        bottomView.setupWithViewPager(viewPager, false);
-        bottomView.enableAnimation(true);
-        bottomView.enableShiftingMode(false);
-        bottomView.enableItemShiftingMode(false);
-        bottomView.setIconSize(1.0f * (DensityUtils.dip2px(getCtx(), 14)), 1.0f * (DensityUtils.dip2px(getCtx(), 14)));
-        bottomView.setIconsMarginTop(DensityUtils.dip2px(getCtx(), 4));
+        bottomView.setViewPager(viewPager);
     }
 
     @Override

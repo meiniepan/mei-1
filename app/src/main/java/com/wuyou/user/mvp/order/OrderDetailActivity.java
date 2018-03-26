@@ -74,6 +74,8 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     TextView orderDetailPayTime;
     @BindView(R.id.order_detail_contact_store)
     TextView orderDetailContactStore;
+    @BindView(R.id.order_detail_second_payment)
+    TextView orderDetailSecondPayment;
     private String orderId;
     private PayPanel payPanel;
     private OrderBeanDetail beanDetail;
@@ -137,12 +139,16 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     }
 
     public void setData(OrderBeanDetail data) {
+
         beanDetail = data;
         if (beanDetail.status == 1) orderDetailWarn.setVisibility(View.VISIBLE);
         orderDetailStatus.setText(CommonUtil.getOrderStatusString(data.status));
         orderDetailStore.setText(data.shop.shop_name);
         orderDetailTitle.setText(data.service.service_name);
         orderDetailCount.setText("X " + data.number);
+        orderDetailSecondPayment.setText(data.second_payment + "");
+        if (data.second_payment == 0)
+            findViewById(R.id.order_detail_second_payment_area).setVisibility(View.GONE);
         orderDetailPrice.setText(data.total_amount);
         orderDetailPriceFinal.setText(data.total_amount);
         orderDetailName.setText(data.address.name);
@@ -154,7 +160,6 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailServeWay.setText(data.service_mode);
         orderDetailServeTime.setText(data.service_date + "  " + data.service_time);
         orderDetailRemark.setText(data.remark);
-
 //        orderDetailBillSerial.setText(CommonUtil.getOrderStatusString(data.status));
         orderDetailPayMethod.setText(data.pay_type);
         orderDetailPayTime.setText(TribeDateUtils.dateFormat(new Date(data.pay_time * 1000)));
@@ -213,7 +218,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
 
             }
         });
-        payPanel.setData(beanDetail.total_amount,"","");
+        payPanel.setData(beanDetail.total_amount, "", "");
         payPanel.show();
 
     }
@@ -231,7 +236,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
 
             }
         });
-        payPanel.setData(beanDetail.total_amount,"","");
+        payPanel.setData(beanDetail.second_payment + "", "", "");
         payPanel.show();
     }
 
@@ -248,7 +253,11 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                 findViewById(R.id.order_detail_pay_area).setVisibility(View.VISIBLE);
                 if (beanDetail.can_finish == 1) {
                     orderDetailAction.setVisibility(View.VISIBLE);
-                    orderDetailAction.setText(R.string.finish_serve);
+                    if (beanDetail.second_payment == 0) {
+                        orderDetailAction.setText(R.string.finish_serve);
+                    } else {
+                        orderDetailAction.setText(R.string.go_pay);
+                    }
                 } else {
                     orderDetailAction.setVisibility(View.GONE);
                 }

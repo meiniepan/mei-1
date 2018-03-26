@@ -58,6 +58,7 @@
     <include layout="@layout/split_line_margin" />
 
     <LinearLayout
+        android:id="@+id/info_account_area"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
         android:gravity="center_vertical"
@@ -80,6 +81,7 @@
     <include layout="@layout/split_line_margin" />
 
     <LinearLayout
+        android:id="@+id/info_email_area"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
         android:gravity="center_vertical"
@@ -102,6 +104,7 @@
     <include layout="@layout/split_line_margin" />
 
     <LinearLayout
+        android:id="@+id/info_sex_area"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
         android:gravity="center_vertical"
@@ -124,6 +127,7 @@
     <include layout="@layout/split_line_margin" />
 
     <LinearLayout
+        android:id="@+id/info_birthday_area"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
         android:gravity="center_vertical"

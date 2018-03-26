@@ -8,6 +8,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.gs.buluo.common.utils.DataCleanManager;
+import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
@@ -56,7 +57,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
+            case R.id.setting_about:
             case R.id.setting_feedback:
+                ToastUtils.ToastMessage(getCtx(), R.string.no_function);
 //                intent.setClass(mCtx, FeedbackActivity.class);
 //                startActivity(intent);
                 break;
@@ -71,6 +74,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.setting_update:
 //                checkUpdate();
+                ToastUtils.ToastMessage(getCtx(), R.string.no_function);
                 break;
             case R.id.exit:
                 customAlertDialog = new CustomAlertDialog.Builder(this).setTitle(R.string.prompt).setMessage("您确定要退出登录吗?")

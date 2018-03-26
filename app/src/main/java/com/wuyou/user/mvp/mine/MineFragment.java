@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.UserInfo;
@@ -89,19 +90,18 @@ public class MineFragment extends BaseFragment {
                 intent.setClass(mCtx, SettingActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.mine_recharge:
-                break;
             case R.id.mine_login:
                 intent.setClass(mCtx, LoginActivity.class);
                 startActivity(intent);
-                break;
-            case R.id.mine_card:
                 break;
             case R.id.mine_address:
                 intent.setClass(mCtx, AddressActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.mine_card:
             case R.id.mine_activity:
+            case R.id.mine_recharge:
+                ToastUtils.ToastMessage(mCtx,R.string.no_function);
                 break;
             case R.id.mine_info:
                 intent.setClass(mCtx, InfoActivity.class);

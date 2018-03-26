@@ -5,17 +5,60 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
-    <com.wuyou.user.view.widget.UnScrollViewPager
+
+    <android.support.v4.view.ViewPager
         android:id="@+id/main_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
+    <com.yinglan.alphatabs.AlphaTabsIndicator
         android:id="@+id/main_tab"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_height"
-        app:itemIconTint="@color/main_tab_selector"
-        app:itemTextColor="@color/main_tab_selector"
-        app:menu="@menu/main_menu"/>
+        android:layout_height="55dp">
+
+        <com.yinglan.alphatabs.AlphaTabView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:tabIconNormal="@mipmap/home"
+            app:tabIconSelected="@mipmap/home_selected"
+            app:tabText="@string/main_home"
+            app:textColorNormal="@color/common_dark"
+            app:textColorSelected="@color/night_blue" />
+
+        <com.yinglan.alphatabs.AlphaTabView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:tabIconNormal="@mipmap/order"
+            app:tabIconSelected="@mipmap/order_selected"
+            app:tabText="@string/main_order"
+            app:textColorNormal="@color/common_dark"
+            app:textColorSelected="@color/night_blue" />
+
+        <com.yinglan.alphatabs.AlphaTabView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:tabIconNormal="@mipmap/help"
+            app:tabIconSelected="@mipmap/help_selected"
+            app:tabText="@string/main_help"
+            app:textColorNormal="@color/common_dark"
+            app:textColorSelected="@color/night_blue" />
+
+        <com.yinglan.alphatabs.AlphaTabView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:tabIconNormal="@mipmap/profile"
+            app:tabIconSelected="@mipmap/profile_selected"
+            app:tabText="@string/main_mine"
+            app:textColorNormal="@color/common_dark"
+            app:textColorSelected="@color/night_blue" />
+    </com.yinglan.alphatabs.AlphaTabsIndicator>
 </LinearLayout>

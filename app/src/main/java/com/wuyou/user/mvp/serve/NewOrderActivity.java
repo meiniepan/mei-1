@@ -24,11 +24,13 @@ import com.wuyou.user.R;
 import com.wuyou.user.bean.AddressBean;
 import com.wuyou.user.bean.OrderIdBean;
 import com.wuyou.user.bean.ServeDetailBean;
+import com.wuyou.user.bean.response.AddressListResponse;
 import com.wuyou.user.bean.response.ServeTimeBean;
 import com.wuyou.user.mvp.address.AddressAddActivity;
 import com.wuyou.user.mvp.order.OrderAddressActivity;
 import com.wuyou.user.mvp.order.OrderDetailActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
+import com.wuyou.user.network.apis.AddressApis;
 import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.glide.GlideUtils;
@@ -101,7 +103,11 @@ public class NewOrderActivity extends BaseActivity {
             GlideUtils.loadRoundCornerImage(this, bean.photo, createOrderGoodsPicture, 8);
         }
         defaultAddress = CarefreeDaoSession.getInstance().getDefaultAddress();
-        setAddressInfo();
+        if (defaultAddress == null) {
+            getAddressInfo();
+        } else {
+            setAddressInfo();
+        }
         getServeTime(bean.service_id, bean.shop_id);
     }
 
@@ -290,7 +296,6 @@ public class NewOrderActivity extends BaseActivity {
     }
 
     public void setAddressInfo() {
-
         if (defaultAddress == null) return;
         findViewById(R.id.create_order_address_add).setVisibility(View.GONE);
         createOrderAddressPerson.setText(defaultAddress.name);
@@ -309,6 +314,24 @@ public class NewOrderActivity extends BaseActivity {
                     @Override
                     public void onSuccess(BaseResponse<HashMap<String, List<ServeTimeBean>>> hashMapBaseResponse) {
                         timeMap = hashMapBaseResponse.data;
+                    }
+                });
+    }
+
+    public void getAddressInfo() {
+        showLoadingDialog();
+        CarefreeRetrofit.getInstance().createApi(AddressApis.class)
+                .getAddressList(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse<AddressListResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<AddressListResponse> addressListResponseBaseResponse) {
+                        ArrayList<AddressBean> list = addressListResponseBaseResponse.data.list;
+                        if (list.size() > 0) {
+                            defaultAddress = list.get(0);
+                            setAddressInfo();
+                        }
                     }
                 });
     }

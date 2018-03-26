@@ -137,7 +137,36 @@
                     android:textSize="@dimen/dimens_16sp"
                     android:textStyle="bold" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/order_detail_second_payment_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin">
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="二次支付金额" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="￥ "
+                    android:textColor="@color/common_red" />
+
+                <TextView
+                    android:id="@+id/order_detail_second_payment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/common_red"
+                    android:textSize="@dimen/dimens_16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

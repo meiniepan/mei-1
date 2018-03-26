@@ -3,15 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/tint_bg"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:background="@color/tint_bg"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
         android:background="@color/night_blue">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_size" />
 
         <include
             android:id="@+id/back"
@@ -21,8 +29,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:background="@color/white"
+        android:gravity="center"
         android:weightSum="1">
 
         <android.support.design.widget.TabLayout
@@ -33,7 +41,7 @@
             app:tabIndicatorColor="@color/night_blue" />
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
+    <com.wuyou.user.view.widget.UnScrollViewPager
         android:id="@+id/vp_login_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

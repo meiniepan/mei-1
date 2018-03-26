@@ -20,7 +20,7 @@ public class AppStartActivity extends BaseActivity {
                 startActivity(new Intent(getCtx(), MainActivity.class));
                 finish();
             }
-        }, 1000);
+        }, 500);
     }
 
     @Override
