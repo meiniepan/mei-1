@@ -6,6 +6,7 @@ package com.wuyou.user;
 
 public class Constant {
     public static final java.lang.String WX_ID = "wx4b8fec36e1c7dc68";
+    public static final java.lang.String WX_SECRET = "1caabc2ff8f95959965c7ffc3dbed21d";
 
     public static final String BASE_URL = "http://stage.api.iwantmei.com/customer/v1/";
     public static final String INPUT_PHONE_FLAG = "input_phone_sign";

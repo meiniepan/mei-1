@@ -104,7 +104,7 @@ public class ServeDetailActivity extends BaseActivity {
         serveDetailTitle.setText(serviceDetail.title);
         serveDetailCount.setText(serviceDetail.sold);
         serveDetailPrice.setText(serviceDetail.price + "");
-        serveDetailDescription.loadData(serviceDetail.content, "text/html", "UTF-8");
+        serveDetailDescription.loadDataWithBaseURL(null, serviceDetail.content, "text/html", "utf-8", null);
         serveDetailStore.setText(serviceDetail.shop_name);
         createOrderServePoint.setText(serviceDetail.high_praise);
         serveDetailCommentStar.setRating(serviceDetail.star);

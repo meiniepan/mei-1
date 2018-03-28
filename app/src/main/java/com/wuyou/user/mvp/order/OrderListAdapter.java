@@ -35,7 +35,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
                 .setText(R.id.order_item_title, item.service.service_name)
                 .setText(R.id.order_item_spot_name, item.shop.shop_name)
                 .setText(R.id.order_item_number, item.order_number)
-                .setText(R.id.order_item_price, item.amount + "");
+                .setText(R.id.order_item_price, CommonUtil.formatPrice(item.amount));
 
         ImageView imageView = helper.getView(R.id.order_item_picture);
         GlideUtils.loadImage(mCtx, item.service.photo, imageView);

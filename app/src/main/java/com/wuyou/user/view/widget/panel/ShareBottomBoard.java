@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.util.WXShareTools;
 import com.wuyou.user.util.WechatShareModel;
 
 import butterknife.ButterKnife;
@@ -41,14 +39,21 @@ public class ShareBottomBoard extends Dialog implements View.OnClickListener {
         window.setAttributes(params);
 
         rootView.findViewById(R.id.share_board_wx).setOnClickListener(this);
+        rootView.findViewById(R.id.share_board_moment).setOnClickListener(this);
+        rootView.findViewById(R.id.share_cancel).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.share_board_wx:
-                WXShareTools.init(mCtx, Constant.WX_ID);
-                WXShareTools.shareVideo(shareModel, WXShareTools.SharePlace.Zone);
+//                ShareUtil.shareMedia(mCtx, SharePlatform.WX);
+                break;
+            case R.id.share_board_moment:
+//                ShareUtil.shareMedia(mCtx, SharePlatform.WX_TIMELINE);
+                break;
+            case R.id.share_cancel:
+
                 break;
         }
     }

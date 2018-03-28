@@ -19,6 +19,7 @@ import com.wuyou.user.mvp.address.AddressActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.InfoActivity;
 import com.wuyou.user.view.activity.SettingActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
@@ -26,9 +27,6 @@ import com.wuyou.user.view.fragment.BaseFragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -100,8 +98,7 @@ public class MineFragment extends BaseFragment {
                 .subscribe(new BaseSubscriber<BaseResponse<WalletBalance>>() {
                     @Override
                     public void onSuccess(BaseResponse<WalletBalance> walletBalanceBaseResponse) {
-                        NumberFormat nf = new DecimalFormat("##.##");
-                        mineBalance.setText(nf.format(walletBalanceBaseResponse.data.balance));
+                        mineBalance.setText(CommonUtil.formatPrice(walletBalanceBaseResponse.data.balance));
                     }
                 });
     }

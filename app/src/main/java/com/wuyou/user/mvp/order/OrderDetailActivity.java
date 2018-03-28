@@ -150,12 +150,12 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailStore.setText(data.shop.shop_name);
         orderDetailTitle.setText(data.service.service_name);
         orderDetailCount.setText("X " + data.number);
-        orderDetailSecondPayment.setText(data.second_payment + "");
+        orderDetailSecondPayment.setText(CommonUtil.formatPrice(data.second_payment));
         if (data.second_payment == 0) {
             findViewById(R.id.order_detail_second_payment_area).setVisibility(View.GONE);
         }
-        orderDetailPrice.setText(data.service.price);
-        orderDetailPriceFinal.setText(data.total_amount);
+        orderDetailPrice.setText(CommonUtil.formatPrice(data.service.price));
+        orderDetailPriceFinal.setText(CommonUtil.formatPrice(data.total_amount));
         orderDetailName.setText(data.address.name);
         orderDetailAddress.setText(data.address.city_name + data.address.district + data.address.area + data.address.address);
         orderDetailPhone.setText(data.address.mobile);
@@ -223,7 +223,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
 
             }
         });
-        payPanel.setData(beanDetail.total_amount, "", "");
+        payPanel.setData(CommonUtil.formatPrice(beanDetail.total_amount), "", "");
         payPanel.show();
 
     }
@@ -272,7 +272,11 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                 orderDetailAction.setText(R.string.comment);
                 break;
             case 4:
+                orderDetailContactStore.setVisibility(View.GONE);
+                orderDetailAction.setVisibility(View.GONE);
+                break;
             case 5:
+                findViewById(R.id.order_detail_pay_area).setVisibility(View.GONE);
                 orderDetailContactStore.setVisibility(View.GONE);
                 orderDetailAction.setVisibility(View.GONE);
                 break;

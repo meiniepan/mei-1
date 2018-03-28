@@ -4,7 +4,7 @@ package com.wuyou.user.bean;
  * Created by hjn on 2018/2/6.
  */
 
-public class OrderBeanDetail extends OrderBean{
+public class OrderBeanDetail extends OrderBean {
 
     /**
      * order_id : 5
@@ -31,7 +31,7 @@ public class OrderBeanDetail extends OrderBean{
     public String remark;
     public String pay_type;
     public long pay_time;
-    public String total_amount;
+    public float total_amount;
     public int number;
     public AddressBean address;
 }

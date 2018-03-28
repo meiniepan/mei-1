@@ -26,7 +26,7 @@ import com.amap.api.maps.model.MyLocationStyle;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.DensityUtils;
-import com.gs.buluo.common.widget.RecycleViewDivider;
+import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.ServeSitesAdapter;
 import com.wuyou.user.bean.ServeSites;
@@ -208,7 +208,7 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
 
     @Override
     public void onMapClick(LatLng latLng) {
-        if (siteLayout.getVisibility()==View.GONE){
+        if (siteLayout.getVisibility() == View.GONE) {
             setSiteListGone();
         }
     }
@@ -261,6 +261,7 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
                 setSitesListVisible();
                 break;
             case R.id.map_guide:
+                ToastUtils.ToastMessage(getCtx(), R.string.no_function);
                 break;
         }
     }
@@ -297,6 +298,7 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
         marker1.setObject(data.get(1));
 
         adapter.setOnItemClickListener((adapter1, view, position) -> {
+            ToastUtils.ToastMessage(getCtx(),R.string.no_function);
             mAMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(data.get(position).lat, data.get(position).lng)));
             mAMap.moveCamera(CameraUpdateFactory.zoomTo(17));
         });
