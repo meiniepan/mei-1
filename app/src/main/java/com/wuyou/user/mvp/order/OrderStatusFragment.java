@@ -2,6 +2,7 @@ package com.wuyou.user.mvp.order;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.utils.ToastUtils;
@@ -73,12 +74,13 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     }
 
     public void setUpStatus() {
+        orderListStatus.getEmptyActView().setVisibility(View.GONE);
         orderListStatus.setLoginAction(v -> {
             Intent intent = new Intent(mCtx, LoginActivity.class);
             startActivity(intent);
         });
         orderListStatus.getLoginActView().setText(R.string.login_now);
-        orderListStatus.setErrorAndEmptyAction(v -> {
+        orderListStatus.setErrorAction(v -> {
             orderListStatus.showProgressView();
             mPresenter.getOrder(type);
         });

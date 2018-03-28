@@ -53,4 +53,9 @@ public class OrderFragment extends BaseFragment {
     public void fetchData() {
         orderPager.setCurrentItem(0);
     }
+
+    public void setStatus(int item) {
+        if (orderPager.getCurrentItem() != 1)
+            orderPager.setCurrentItem(item);
+    }
 }

@@ -3,6 +3,7 @@ package com.wuyou.user.network.apis;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
 import com.wuyou.user.bean.UserInfo;
+import com.wuyou.user.bean.WalletBalance;
 
 import io.reactivex.Observable;
 import retrofit2.http.FieldMap;
@@ -14,35 +15,21 @@ import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 /**
- * Created by hjn91 on 2018/1/30.
+ * Created by DELL on 2018/3/27.
  */
 
-public interface UserApis {
-    @GET("login/captcha")
-    Observable<BaseResponse<UserInfo>> getVerifyCode(
-            @QueryMap SortedTreeMap<String, String> map);
-
-    @GET("profile/{uid}")
-    Observable<BaseResponse<UserInfo>> getUserInfo(
+public interface MoneyApis {
+    @GET("coin/balance/{uid}")
+    Observable<BaseResponse<WalletBalance>> getWalletBalance(
             @Path("uid") String uid, @QueryMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
     @POST("login")
     Observable<BaseResponse<UserInfo>> doLogin(
             @FieldMap SortedTreeMap<String, String> map);
+
     @FormUrlEncoded
-    @PUT("logout/{uid}")
+    @PUT("login/{uid}")
     Observable<BaseResponse> doLogout(
             @Path("uid") String uid, @FieldMap SortedTreeMap<String, String> map);
-
-    @FormUrlEncoded
-    @PUT("profile/{uid}")
-    Observable<BaseResponse> updateUserInfo(
-            @Path("uid") String uid, @FieldMap SortedTreeMap<String, String> map);
-
-    @FormUrlEncoded
-    @PUT("profile/edit/{uid}")
-    Observable<BaseResponse> updatePwd(
-            @Path("uid") String uid, @FieldMap SortedTreeMap<String, String> map);
-
 }

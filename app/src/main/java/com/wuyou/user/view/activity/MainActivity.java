@@ -1,20 +1,29 @@
 package com.wuyou.user.view.activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.MainPagerAdapter;
 import com.wuyou.user.mvp.help.HelpFragment;
 import com.wuyou.user.mvp.home.HomeFragment;
+import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.mine.MineFragment;
 import com.wuyou.user.mvp.order.OrderFragment;
 import com.wuyou.user.view.fragment.BaseFragment;
+import com.wuyou.user.view.widget.UnScrollViewPager;
+import com.yinglan.alphatabs.AlphaTabView;
 import com.yinglan.alphatabs.AlphaTabsIndicator;
 
 import java.util.ArrayList;
@@ -27,7 +36,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.main_tab)
     AlphaTabsIndicator bottomView;
     @BindView(R.id.main_pager)
-    ViewPager viewPager;
+    UnScrollViewPager viewPager;
     List<BaseFragment> fragments = new ArrayList<>();
 
     private long mKeyTime = 0;
@@ -46,6 +55,27 @@ public class MainActivity extends BaseActivity {
         viewPager.setAdapter(new MainPagerAdapter(getSupportFragmentManager(), fragments));
         viewPager.setOffscreenPageLimit(3);
         bottomView.setViewPager(viewPager);
+        AlphaTabView tabView = bottomView.getTabView(3);
+        tabView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP && CarefreeDaoSession.getInstance().getUserInfo() == null) {
+                    Intent intent = new Intent(MainActivity.this.getCtx(), LoginActivity.class);
+                    MainActivity.this.startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
+        bottomView.getTabView(1).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() ==MotionEvent.ACTION_UP){
+                    orderFragment.setStatus(0);
+                }
+                return false;
+            }
+        });
     }
 
     @Override

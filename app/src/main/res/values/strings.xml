@@ -89,5 +89,6 @@
     <string name="pay_success">支付成功</string>
     <string name="wu_u_pay">无忧币支付</string>
     <string name="no_function">功能暂未开通</string>
+    <string name="not_enough_balance">账户余额不足</string>
 
 </resources>

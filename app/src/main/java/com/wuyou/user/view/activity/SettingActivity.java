@@ -28,7 +28,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.setting_cache_size)
     TextView tvCache;
     private CustomAlertDialog customAlertDialog;
-    private static final String TAG = "SettingActivity";
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -102,28 +101,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         intent.putExtra(Constant.MAIN_FLAG, 1);
         startActivity(intent);
         finish();
-//        CarefreeRetrofit.getInstance().createApi(UserApis.class).
-//                doLogout(CarefreeDaoSession.getInstance().getUserId(), com.wuyou.user.network.QueryMapBuilder.getIns().buildPost())
-//                .subscribeOn(Schedulers.io())
-//                .flatMap(new Function<BaseResponse, ObservableSource<?>>() {
-//                    @Override
-//                    public ObservableSource<?> apply(BaseResponse baseResponse) throws Exception {
-//                        CarefreeApplication.getInstance().getUserInfoDao().deleteAll();
-//                        CarefreeApplication.getInstance().setUserInfo(null);
-//                        return (ObservableSource) observer -> {};
-//                    }
-//                })
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new com.wuyou.user.network.BaseSubscriber() {
-//                    @Override
-//                    public void onSuccess(Object o) {
-//                        Intent intent = new Intent();
-//                        intent.setClass(getCtx(), LoginActivity.class);
-//                        startActivity(intent);
-////        AppManager.getAppManager().finishActivity(MainActivity.class);
-//                        finish();
-//                    }
-//                });
     }
 
     @Override

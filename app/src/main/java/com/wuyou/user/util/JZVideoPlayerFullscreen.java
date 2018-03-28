@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -135,9 +137,18 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
         }
     }
 
+    public interface OnShareListener {
+        void onShare();
+    }
+
+    OnShareListener onShareListener;
+
+    public void addShareListener(OnShareListener listener) {
+        onShareListener = listener;
+    }
+
     private void doShare() {
-        ShareBottomBoard bottomBoard = new ShareBottomBoard(context);
-        bottomBoard.show();
+        onShareListener.onShare();
     }
 
     private void setLikeState() {

@@ -43,11 +43,13 @@ import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.JZVideoPlayerFullscreen;
+import com.wuyou.user.util.WechatShareModel;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.util.layoutmanager.FullLinearLayoutManager;
 import com.wuyou.user.view.activity.HomeMapActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.MarqueeTextView;
+import com.wuyou.user.view.widget.panel.ShareBottomBoard;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -92,6 +94,8 @@ public class HomeFragment extends BaseFragment {
     private String communityId = "0";
     private CommunityBean cacheCommunityBean;
     private List<CommunityBean> communityBeans;
+    private List<HomeVideoBean> videoData;
+    private byte[] bitmap;
 
     @Override
     protected int getContentLayout() {
@@ -252,7 +256,7 @@ public class HomeFragment extends BaseFragment {
                 homeAddress.post(() -> showLocationChangedAlert(currentCommunity, cacheCommunityBean));
             } else {
                 Log.e("Test", "getCurrentCommunityId: 有缓存，当前社区和缓存社区一样的！！！！！");
-                homeAddress.post(() -> homeAddress.setText(location.getStreet() + currentCommunity.name));
+                getActivity().runOnUiThread(() -> homeAddress.setText(location.getStreet() + currentCommunity.name));
             }
         }
         return communityId;
@@ -292,22 +296,29 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void setVideoData(List<HomeVideoBean> videoData) {
-        if (videoData != null && videoData.size() > 1) {
+        this.videoData = videoData;
+        if (videoData != null && this.videoData.size() > 1) {
             HomeVideoBean homeVideoBean1 = videoData.get(0);
             video1.setUp(homeVideoBean1.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean1.title);
             homeVideoTitle1.setText(homeVideoBean1.title);
-            GlideUtils.loadRoundCornerImage(mCtx, homeVideoBean1.preview, video1.thumbImageView, 4);
+            bitmap = GlideUtils.loadRoundCornerImageWithBitmap(mCtx, homeVideoBean1.preview, video1.thumbImageView);
             HomeVideoBean homeVideoBean2 = videoData.get(1);
             video2.setUp(homeVideoBean2.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean2.title);
             homeVideoTitle2.setText(homeVideoBean2.title);
-            GlideUtils.loadRoundCornerImage(mCtx, homeVideoBean2.preview, video2.thumbImageView, 4);
+            GlideUtils.loadRoundCornerImageWithBitmap(mCtx, homeVideoBean2.preview, video2.thumbImageView);
         } else {
             ToastUtils.ToastMessage(mCtx, "获取视频信息失败" + videoData);
         }
     }
 
+    public void doShare(String video, String title, String desc, byte[] bitmap) {
+        WechatShareModel model = new WechatShareModel(video, title, desc, bitmap);
+        ShareBottomBoard bottomBoard = new ShareBottomBoard(mCtx);
+        bottomBoard.setData(model);
+        bottomBoard.show();
+    }
 
-    @OnClick({R.id.home_location_area, R.id.home_map})
+    @OnClick({R.id.home_location_area, R.id.home_map, R.id.home_search})
     public void onViewClicked(View view) {
         if (location == null) return;
         Intent intent = new Intent();
@@ -319,6 +330,9 @@ public class HomeFragment extends BaseFragment {
             case R.id.home_map:
                 intent.setClass(mCtx, HomeMapActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.home_search:
+                ToastUtils.ToastMessage(mCtx, R.string.no_function);
                 break;
         }
     }

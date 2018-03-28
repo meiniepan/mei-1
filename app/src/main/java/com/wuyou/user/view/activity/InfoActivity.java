@@ -35,9 +35,12 @@ public class InfoActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.info_account_area, R.id.info_email_area, R.id.info_sex_area, R.id.info_birthday_area})
+    @OnClick({R.id.info_account_area, R.id.info_email_area, R.id.info_sex_area, R.id.info_birthday_area, R.id.info_edit, R.id.info_head})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+
+            case R.id.info_head:
+            case R.id.info_edit:
             case R.id.info_account_area:
             case R.id.info_email_area:
             case R.id.info_sex_area:

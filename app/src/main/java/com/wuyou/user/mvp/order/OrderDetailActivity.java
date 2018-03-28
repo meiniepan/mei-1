@@ -139,17 +139,22 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     }
 
     public void setData(OrderBeanDetail data) {
-
         beanDetail = data;
         if (beanDetail.status == 1) orderDetailWarn.setVisibility(View.VISIBLE);
+        if (beanDetail.status == 2 && beanDetail.second_payment != 0) {
+            orderDetailWarn.setVisibility(View.VISIBLE);
+            orderDetailWarn.setText("待支付附加金额");
+            findViewById(R.id.order_detail_second_payment_area).setVisibility(View.GONE);
+        }
         orderDetailStatus.setText(CommonUtil.getOrderStatusString(data.status));
         orderDetailStore.setText(data.shop.shop_name);
         orderDetailTitle.setText(data.service.service_name);
         orderDetailCount.setText("X " + data.number);
         orderDetailSecondPayment.setText(data.second_payment + "");
-        if (data.second_payment == 0)
+        if (data.second_payment == 0) {
             findViewById(R.id.order_detail_second_payment_area).setVisibility(View.GONE);
-        orderDetailPrice.setText(data.total_amount);
+        }
+        orderDetailPrice.setText(data.service.price);
         orderDetailPriceFinal.setText(data.total_amount);
         orderDetailName.setText(data.address.name);
         orderDetailAddress.setText(data.address.city_name + data.address.district + data.address.area + data.address.address);

@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.gs.buluo.common.utils.ToastUtils;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.util.WXShareTools;
+import com.wuyou.user.util.WechatShareModel;
 
 import butterknife.ButterKnife;
 
@@ -19,12 +21,12 @@ import butterknife.ButterKnife;
  */
 public class ShareBottomBoard extends Dialog implements View.OnClickListener {
     Context mCtx;
+    private WechatShareModel shareModel;
 
     public ShareBottomBoard(Context context) {
         super(context, R.style.my_dialog);
         mCtx = context;
         initView();
-
     }
 
     private void initView() {
@@ -45,8 +47,13 @@ public class ShareBottomBoard extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.share_board_wx:
-                ToastUtils.ToastMessage(mCtx, "微信分享");
+                WXShareTools.init(mCtx, Constant.WX_ID);
+                WXShareTools.shareVideo(shareModel, WXShareTools.SharePlace.Zone);
                 break;
         }
+    }
+
+    public void setData(WechatShareModel data) {
+        this.shareModel = data;
     }
 }

@@ -12,6 +12,7 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.gs.buluo.common.utils.DensityUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 
 /**
@@ -36,9 +37,9 @@ public class GlideRoundTransform extends BitmapTransformation {
         TOP_RIGHT_BOTTOM_RIGHT_BOTTOM_LEFT,
     }
 
-    public GlideRoundTransform(Context context,float radius, CornerType cornerType) {
+    public GlideRoundTransform(Context context, float radius, CornerType cornerType) {
         super();
-        mRadius = DensityUtils.dip2px(context,radius);//dp ->px
+        mRadius = DensityUtils.dip2px(context, radius);//dp ->px
         mCornerType = cornerType;
     }
 
@@ -65,12 +66,22 @@ public class GlideRoundTransform extends BitmapTransformation {
         paint.setShader(new BitmapShader(source, BitmapShader.TileMode.CLAMP, BitmapShader
                 .TileMode.CLAMP));
         paint.setAntiAlias(true);
-
-
         Path path = new Path();
         drawRoundRect(canvas, paint, path, width, height);
-
+        bitmap = getBytes(result);
         return result;
+    }
+
+    public byte[] getBytes(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        return baos.toByteArray();
+    }
+
+    byte[] bitmap;
+
+    public byte[] getBitmap() {
+        return bitmap;
     }
 
     private void drawRoundRect(Canvas canvas, Paint paint, Path path, int width, int height) {

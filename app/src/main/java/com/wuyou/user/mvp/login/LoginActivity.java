@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.View;
 
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.R;
@@ -51,17 +52,16 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public int getCount() {
-                return 1;
+                return 2;
             }
         });
         //将ViewPager关联到TabLayout上
         mTabLayout.setupWithViewPager(mViewPager);
+        findViewById(R.id.warn_area).setOnClickListener(v -> ToastUtils.ToastMessage(getCtx(),R.string.no_function));
     }
 
     @Override
     protected int getContentLayout() {
         return R.layout.activity_login;
     }
-
-
 }

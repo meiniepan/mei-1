@@ -12,6 +12,9 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.gs.buluo.common.network.ApiException;
+import com.gs.buluo.common.network.BaseResponse;
+import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.CarefreeDaoSession;
@@ -19,11 +22,16 @@ import com.wuyou.user.R;
 import com.wuyou.user.bean.BankCard;
 import com.wuyou.user.bean.PayChannel;
 import com.wuyou.user.bean.ServeDetailBean;
+import com.wuyou.user.bean.WalletBalance;
+import com.wuyou.user.network.CarefreeRetrofit;
+import com.wuyou.user.network.apis.MoneyApis;
 
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by hjn on 2016/12/7.
@@ -90,18 +98,24 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
         chooseArea.setOnClickListener(this);
     }
 
+    private float balance;
 
     private void getWalletInfo() {
+        CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
+                .getWalletBalance(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse<WalletBalance>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<WalletBalance> walletBalanceBaseResponse) {
+                        balance = walletBalanceBaseResponse.data.balance;
+                    }
+                });
     }
 
-
-    private void showNotEnough(final float balance) {
-        new CustomAlertDialog.Builder(mCtx).setTitle(R.string.prompt).setMessage(mCtx.getString(R.string.complete))
-                .setPositiveButton(mCtx.getString(R.string.complete), new OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                }).setNegativeButton(mCtx.getResources().getString(R.string.cancel), null).create().show();
+    private void showNotEnough() {
+        new CustomAlertDialog.Builder(mCtx).setTitle(R.string.prompt).setMessage(mCtx.getString(R.string.not_enough_balance))
+                .setPositiveButton(mCtx.getString(R.string.ok), (dialog, which) -> dismiss()).create().show();
     }
 
     private void showAlert() {
@@ -143,6 +157,10 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
                 dismiss();
                 break;
             case R.id.pay_finish:
+                if (Float.valueOf(totalFee) > balance) {
+                    showNotEnough();
+                    return;
+                }
                 onFinishListener.onPaying();
                 break;
             case R.id.pay_choose_area:

@@ -6,11 +6,13 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
+    <com.wuyou.user.view.widget.UnScrollViewPager
         android:id="@+id/main_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
+    <include layout="@layout/split_line" />
 
     <com.yinglan.alphatabs.AlphaTabsIndicator
         android:id="@+id/main_tab"

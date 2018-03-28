@@ -4,7 +4,7 @@ package com.wuyou.user.util;
  * Created by DELL on 2018/3/15.
  */
 
-class WechatShareModel {
+public class WechatShareModel {
     private String url;
     private String title;
     private String description;
