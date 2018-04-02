@@ -35,12 +35,13 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="13213151313" />
+                <data android:scheme="1321315qqid1313" />
             </intent-filter>
         </activity>
 
         <activity android:name="me.shaohui.shareutil._ShareActivity"
                 android:launchMode="singleTask"
+                android:configChanges="orientation|screenSize|keyboardHidden"
                 android:taskAffinity="me.shaohui.shareutil"
                 android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>

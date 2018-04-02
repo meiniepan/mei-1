@@ -9,10 +9,15 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.R;
+import com.wuyou.user.bean.HomeVideoBean;
 import com.wuyou.user.util.WechatShareModel;
 
 import butterknife.ButterKnife;
+import me.shaohui.shareutil.ShareUtil;
+import me.shaohui.shareutil.share.ShareListener;
+import me.shaohui.shareutil.share.SharePlatform;
 
 /**
  * Created by hjn on 2016/11/17.
@@ -20,6 +25,7 @@ import butterknife.ButterKnife;
 public class ShareBottomBoard extends Dialog implements View.OnClickListener {
     Context mCtx;
     private WechatShareModel shareModel;
+    private HomeVideoBean homeVideoBean;
 
     public ShareBottomBoard(Context context) {
         super(context, R.style.my_dialog);
@@ -45,20 +51,36 @@ public class ShareBottomBoard extends Dialog implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if (homeVideoBean == null) return;
         switch (v.getId()) {
             case R.id.share_board_wx:
 //                ShareUtil.shareMedia(mCtx, SharePlatform.WX);
                 break;
             case R.id.share_board_moment:
-//                ShareUtil.shareMedia(mCtx, SharePlatform.WX_TIMELINE);
+                ShareUtil.shareMedia(mCtx, SharePlatform.WX_TIMELINE, homeVideoBean.title, "", homeVideoBean.video, homeVideoBean.preview, new ShareListener() {
+                    @Override
+                    public void shareSuccess() {
+                        ToastUtils.ToastMessage(mCtx,"分享成功");
+                    }
+
+                    @Override
+                    public void shareFailure(Exception e) {
+                        ToastUtils.ToastMessage(mCtx,"分享失败");
+                    }
+
+                    @Override
+                    public void shareCancel() {
+                        ToastUtils.ToastMessage(mCtx,"分享取消");
+                    }
+                });
                 break;
             case R.id.share_cancel:
-
+                dismiss();
                 break;
         }
     }
 
-    public void setData(WechatShareModel data) {
-        this.shareModel = data;
+    public void setData(HomeVideoBean data) {
+        this.homeVideoBean = data;
     }
 }

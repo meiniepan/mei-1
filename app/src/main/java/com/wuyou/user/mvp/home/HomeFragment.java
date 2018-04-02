@@ -3,6 +3,7 @@ package com.wuyou.user.mvp.home;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -48,6 +49,7 @@ import com.wuyou.user.util.layoutmanager.FullLinearLayoutManager;
 import com.wuyou.user.view.activity.HomeMapActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.MarqueeTextView;
+import com.wuyou.user.view.widget.panel.ShareBottomBoard;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -70,7 +72,7 @@ import static cn.jzvd.JZVideoPlayer.FULLSCREEN_ORIENTATION;
  * Created by Administrator on 2018\1\29 0029.
  */
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscreen.OnShareListener {
     @BindView(R.id.main_video_1)
     JZVideoPlayerFullscreen video1;
     @BindView(R.id.main_video_2)
@@ -95,6 +97,7 @@ public class HomeFragment extends BaseFragment {
     private CommunityBean cacheCommunityBean;
     private List<CommunityBean> communityBeans;
     private List<HomeVideoBean> videoData;
+    private HomeVideoBean homeVideoBean1;
 
     @Override
     protected int getContentLayout() {
@@ -245,7 +248,7 @@ public class HomeFragment extends BaseFragment {
             Log.e("Test", "getCurrentCommunityId: 当前位置没有社区服务点!!!!!!");
             homeAddress.post(this::showNoMatchAlert);
             if (null == cacheCommunityBean) {
-                homeAddress.post(() -> setCommunityText(currentCommunity));
+                handler.post(() -> setCommunityText(currentCommunity));
             }
             return communityId;
         }
@@ -256,14 +259,16 @@ public class HomeFragment extends BaseFragment {
         } else {                                //有缓存，比较之后再存
             if (!TextUtils.equals(currentCommunity.community_id, cacheCommunityBean.community_id)) { //当前社区和缓存社区不同
                 Log.e("Test", "getCurrentCommunityId: 有缓存，当前社区和缓存社区不同");
-                homeAddress.post(() -> showLocationChangedAlert(currentCommunity, cacheCommunityBean));
+                handler.post(() -> showLocationChangedAlert(currentCommunity, cacheCommunityBean));
             } else {
                 Log.e("Test", "getCurrentCommunityId: 有缓存，当前社区和缓存社区一样的！！！！！");
-                getActivity().runOnUiThread(() -> setCommunityText(currentCommunity));
+                handler.post(() -> setCommunityText(currentCommunity));
             }
         }
         return communityId;
     }
+
+    Handler handler = new Handler();
 
     private void showNoMatchAlert() {
         new CustomAlertDialog.Builder(mCtx).setTitle("提示").setMessage("检测到您当前位置没有服务点").setPositiveButton("知道了", null).create().show();
@@ -284,8 +289,14 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void setCommunityText(CommunityBean currentCommunity) {
-        homeAddress.setText(location.getStreet() + currentCommunity.name);
-        homeCurrentLocation.setText(cacheCommunityBean.name + "社区，附近有 45 家服务商");
+        if (currentCommunity == null) {
+            homeAddress.setText(location.getStreet());
+            homeCurrentLocation.setText("改地址附近有 0 家服务商");
+        } else {
+            homeAddress.setText(location.getStreet() + currentCommunity.name);
+            homeCurrentLocation.setText(cacheCommunityBean.name + "社区，附近有 45 家服务商");
+        }
+
     }
 
     //查找当前位置所在的社区
@@ -306,10 +317,12 @@ public class HomeFragment extends BaseFragment {
     public void setVideoData(List<HomeVideoBean> videoData) {
         this.videoData = videoData;
         if (videoData != null && this.videoData.size() > 1) {
-            HomeVideoBean homeVideoBean1 = videoData.get(0);
+            homeVideoBean1 = videoData.get(0);
             video1.setUp(homeVideoBean1.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean1.title);
             homeVideoTitle1.setText(homeVideoBean1.title);
             GlideUtils.loadRoundCornerImage(mCtx, homeVideoBean1.preview, video1.thumbImageView);
+            video1.addShareListener(this);
+
             HomeVideoBean homeVideoBean2 = videoData.get(1);
             video2.setUp(homeVideoBean2.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean2.title);
             homeVideoTitle2.setText(homeVideoBean2.title);
@@ -360,5 +373,13 @@ public class HomeFragment extends BaseFragment {
             }
             homeOrderMessage.setText(stringBuilder.toString());
         }
+    }
+
+
+    @Override
+    public void onShare(int platform) {
+        ShareBottomBoard bottomBoard = new ShareBottomBoard(mCtx);
+        bottomBoard.setData(homeVideoBean1);
+        bottomBoard.show();
     }
 }

@@ -39,6 +39,8 @@ public class ServeDetailActivity extends BaseActivity {
     TextView serveDetailCount;
     @BindView(R.id.serve_detail_price)
     TextView serveDetailPrice;
+    @BindView(R.id.serve_detail_unit)
+    TextView getServeDetailUnit;
     @BindView(R.id.serve_detail_description)
     WebView serveDetailDescription;
     @BindView(R.id.serve_detail_store)
@@ -103,7 +105,7 @@ public class ServeDetailActivity extends BaseActivity {
         GlideUtils.loadImageNoHolder(this, serviceDetail.photo, serveDetailPicture);
         serveDetailTitle.setText(serviceDetail.title);
         serveDetailCount.setText(serviceDetail.sold);
-        serveDetailPrice.setText(serviceDetail.price + "");
+        serveDetailPrice.setText(serviceDetail.price + "/" +serviceDetail.unit);
         serveDetailDescription.loadDataWithBaseURL(null, serviceDetail.content, "text/html", "utf-8", null);
         serveDetailStore.setText(serviceDetail.shop_name);
         createOrderServePoint.setText(serviceDetail.high_praise);

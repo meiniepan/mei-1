@@ -43,7 +43,8 @@
         android:textColor="@color/common_gray"
         app:layout_constraintLeft_toRightOf="@+id/serve_item_rate"
         app:layout_constraintTop_toTopOf="@+id/serve_item_rate"
-        tool:text="5..0" />
+        android:visibility="gone"
+        tool:text="5.0" />
 
     <TextView
         android:id="@+id/text"

@@ -7,13 +7,14 @@ package com.wuyou.user;
 public class Constant {
     public static final java.lang.String WX_ID = "wx4b8fec36e1c7dc68";
     public static final java.lang.String WX_SECRET = "1caabc2ff8f95959965c7ffc3dbed21d";
+    public static final String WX = "wx";
+    public static final String WX_MOMENT = "wx_moment";
 
-    public static final String BASE_URL = "http://stage.api.iwantmei.com/customer/v1/";
+    public static final String BASE_URL = "https://stage.api.iwantmei.com/customer/v1/";
     public static final String INPUT_PHONE_FLAG = "input_phone_sign";
     public static final String PHONE = "phone";
     public static final String CAPTCHA = "captcha";
     public static final String ORDER_ID = "order_id";
-    public static final String BASE_IMG_URL = "";
     public static final String SERVE_ID = "serve_id";
     public static final String CATEGORY_ID = "category_id";
     public static final String MAIN_FLAG = "main_flag";
@@ -28,9 +29,7 @@ public class Constant {
     public static final String CITY = "city_id";
     public static final String ADDRESS_BEAN = "address_bean";
     public static final String ADDRESS_LIST = "address_list";
-    public static final String LATLNG = "latlog";
     public static final String ADDRESS_SEARCH_FLAG = "address_search_flag";
     public static final String POI_RESULT = "poi_result";
     public static final String ORDER_BEAN = "order_bean";
-    public static final String HELP_PHONE = "12345667";
 }

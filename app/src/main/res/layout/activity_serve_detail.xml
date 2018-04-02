@@ -69,17 +69,25 @@
 
                 <TextView
                     android:id="@+id/serve_detail_price"
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/common_red"
+                    android:textSize="@dimen/dimens_16sp" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/common_red"
                     android:textSize="@dimen/dimens_16sp"
-                    tool:text="99" />
+                    tool:text="/" />
 
                 <TextView
+                    android:id="@+id/serve_detail_unit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="/小时"
+                    android:text="次"
                     android:textColor="@color/common_red"
                     android:textSize="@dimen/dimens_16sp" />
 
@@ -107,11 +115,11 @@
                 android:layout_height="@dimen/common_height"
                 android:drawableLeft="@mipmap/safe_flag"
                 android:drawablePadding="4dp"
+                android:gravity="center_vertical"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:paddingStart="@dimen/activity_horizontal_margin"
                 android:text="商家已备案，可放心选购"
-                android:textColor="@color/night_blue"
-                android:gravity="center_vertical"/>
+                android:textColor="@color/night_blue" />
 
             <include layout="@layout/split_line" />
 
@@ -171,7 +179,6 @@
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="16dp" />
 
-            <include layout="@layout/split_line_margin" />
 
             <LinearLayout
                 android:id="@+id/serve_detail_store_area"
@@ -179,6 +186,7 @@
                 android:layout_height="@dimen/common_height"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:paddingStart="@dimen/activity_horizontal_margin">
 
@@ -218,9 +226,9 @@
                 android:layout_height="@dimen/common_height"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="gone"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin">
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0dp"
@@ -252,7 +260,6 @@
             <include layout="@layout/split_line_margin" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/serve_detail_comment_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -260,7 +267,8 @@
                 android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:paddingStart="@dimen/activity_horizontal_margin"
                 android:text="服务好服务好服务好服务好服务好服务好服务好服务好服务好服务好服务好服务好"
-                android:textColor="@color/common_gray" />
+                android:textColor="@color/common_gray"
+                android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/serve_detail_comment_pictures"

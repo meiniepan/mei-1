@@ -21,6 +21,7 @@ public class ServeBean implements Parcelable {
     public String shop_name;
     public String photo;
     public String image;
+    public String unit;
 
     public ServeBean() {
     }
@@ -45,6 +46,7 @@ public class ServeBean implements Parcelable {
         dest.writeString(this.shop_name);
         dest.writeString(this.photo);
         dest.writeString(this.image);
+        dest.writeString(this.unit);
     }
 
     protected ServeBean(Parcel in) {
@@ -61,6 +63,7 @@ public class ServeBean implements Parcelable {
         this.shop_name = in.readString();
         this.photo = in.readString();
         this.image = in.readString();
+        this.unit = in.readString();
     }
 
     public static final Creator<ServeBean> CREATOR = new Creator<ServeBean>() {

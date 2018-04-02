@@ -34,8 +34,6 @@ import butterknife.OnClick;
 public class AddressManagerActivity extends BaseActivity<AddressConstract.View, AddressConstract.Presenter> implements AddressConstract.View {
     @BindView(R.id.address_manager_list)
     RecyclerView addressManagerList;
-    @BindView(R.id.address_manager_add)
-    TextView addressManagerAdd;
     @BindView(R.id.address_manager_status)
     StatusLayout addressManagerStatus;
 

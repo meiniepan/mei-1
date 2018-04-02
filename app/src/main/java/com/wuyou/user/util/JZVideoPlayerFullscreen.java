@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
-import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wuyou.user.R;
-import com.wuyou.user.view.widget.panel.ShareBottomBoard;
 
 import cn.jzvd.JZMediaManager;
 import cn.jzvd.JZUserAction;
@@ -22,6 +19,7 @@ import cn.jzvd.JZUserActionStandard;
 import cn.jzvd.JZUtils;
 import cn.jzvd.JZVideoPlayerManager;
 import cn.jzvd.JZVideoPlayerStandard;
+import me.shaohui.shareutil.share.SharePlatform;
 
 /**
  * 全屏状态播放完成，不退出全屏
@@ -133,22 +131,18 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
             liked = !liked;
             setLikeState();
         } else if (i == R.id.player_share) {
-            doShare();
+            onShareListener.onShare(SharePlatform.WX_TIMELINE);
         }
     }
 
     public interface OnShareListener {
-        void onShare();
+        void onShare(int platform);
     }
 
-    OnShareListener onShareListener;
+    public static OnShareListener onShareListener;
 
     public void addShareListener(OnShareListener listener) {
         onShareListener = listener;
-    }
-
-    private void doShare() {
-        onShareListener.onShare();
     }
 
     private void setLikeState() {

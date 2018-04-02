@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
+import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
@@ -59,6 +60,8 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
         if (null == CarefreeDaoSession.getInstance().getUserId()) {
             addressStatus.showLoginView(getString(R.string.no_login));
         }
+        addressStatus.setErrorContentViewMargin(0,-DensityUtils.dip2px(this,80),0,0);
+        addressStatus.setEmptyContentViewMargin(0,-DensityUtils.dip2px(this,80),0,0);
     }
 
     private void setUpStatus() {

@@ -38,7 +38,6 @@ public class ServeDetailBean implements Parcelable {
     public String photo;
     public float price;
     public int visiting_fee;
-    public String unit;
     public int stock;
     public String start_at;
     public String end_at;
@@ -51,6 +50,7 @@ public class ServeDetailBean implements Parcelable {
     public int recorded;
     public String id;
     public String sold;
+    public String unit;
 
     public int number;
 
@@ -83,6 +83,7 @@ public class ServeDetailBean implements Parcelable {
         dest.writeInt(this.recorded);
         dest.writeString(this.id);
         dest.writeString(this.sold);
+        dest.writeString(this.unit);
         dest.writeInt(this.number);
     }
 
@@ -106,6 +107,7 @@ public class ServeDetailBean implements Parcelable {
         this.recorded = in.readInt();
         this.id = in.readString();
         this.sold = in.readString();
+        this.unit = in.readString();
         this.number = in.readInt();
     }
 

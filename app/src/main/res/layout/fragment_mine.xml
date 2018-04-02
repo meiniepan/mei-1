@@ -41,6 +41,7 @@
             android:layout_alignStart="@+id/mine_name"
             android:layout_below="@+id/mine_name"
             android:layout_marginTop="5dp"
+            android:visibility="gone"
             android:textColor="@color/shallow_white"
             android:text="男" />
 
@@ -48,9 +49,9 @@
             android:id="@+id/mine_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/mine_sex"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/mine_sex"
+            android:layout_alignStart="@+id/mine_name"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/mine_name"
             android:textColor="@color/shallow_white"
             android:text="1332190283190" />
 

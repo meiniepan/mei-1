@@ -7,8 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.gs.buluo.common.utils.DensityUtils;
-import com.gs.buluo.common.widget.RecycleViewDivider;
+import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -52,6 +51,12 @@ public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, 
         serveCategoryStatus.showProgressView();
         serveCategoryStatus.setErrorAction(v -> mPresenter.getServe(categoryId));
         mPresenter.getServe(categoryId);
+        findViewById(R.id.serve_list_sort).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.ToastMessage(getCtx(), R.string.no_function);
+            }
+        });
     }
 
     @Override
