@@ -88,6 +88,7 @@ public class NewOrderActivity extends BaseActivity {
     private ServeDetailBean bean;
 
     private AddressBean defaultAddress;
+    private PayPanel payPanel;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -157,7 +158,7 @@ public class NewOrderActivity extends BaseActivity {
     }
 
     private void createSuccess(String orderId) {
-        PayPanel payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
+        payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
             @Override
             public void onPaying() {
                 payOrder(orderId);
@@ -181,6 +182,7 @@ public class NewOrderActivity extends BaseActivity {
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
+                        payPanel.dismiss();
                         goOrderDetail(orderId);
                     }
                 });

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -45,7 +46,6 @@ import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.JZVideoPlayerFullscreen;
 import com.wuyou.user.util.glide.GlideUtils;
-import com.wuyou.user.util.layoutmanager.FullLinearLayoutManager;
 import com.wuyou.user.view.activity.HomeMapActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.MarqueeTextView;
@@ -63,8 +63,6 @@ import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import me.shaohui.shareutil.ShareConfig;
-import me.shaohui.shareutil.ShareManager;
 
 import static cn.jzvd.JZVideoPlayer.FULLSCREEN_ORIENTATION;
 
@@ -106,15 +104,17 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        mainServeList.setLayoutManager(new FullLinearLayoutManager(mCtx));
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mCtx);
+        mLinearLayoutManager.setAutoMeasureEnabled(true);
+        mainServeList.setLayoutManager(mLinearLayoutManager);
+        mainServeList.setHasFixedSize(true);
+        mainServeList.setNestedScrollingEnabled(false);
+
         if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
         setCacheData();
         initVideo();
         initLocationAndGetData();
         getOrderMessage();
-
-        ShareConfig config = ShareConfig.instance().wxId(Constant.WX_ID).wxSecret(Constant.WX_SECRET);
-        ShareManager.init(config);
     }
 
     private void setCacheData() {

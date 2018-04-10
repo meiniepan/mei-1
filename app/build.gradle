@@ -63,7 +63,7 @@ ext {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.github.ngreedy:tribe_lib:2.9.2'
+    compile 'com.github.ngreedy:tribe_lib:2.9.3'
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile "com.android.support:design:$supportLibVersion"
@@ -83,4 +83,6 @@ dependencies {
     }
     compile 'com.android.support:multidex:1.0.3'
     compile project(path: ':shareutil')
+
+    compile 'com.tencent.bugly:crashreport:latest.release'
 }

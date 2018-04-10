@@ -60,8 +60,8 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
         if (null == CarefreeDaoSession.getInstance().getUserId()) {
             addressStatus.showLoginView(getString(R.string.no_login));
         }
-        addressStatus.setErrorContentViewMargin(0,-DensityUtils.dip2px(this,80),0,0);
-        addressStatus.setEmptyContentViewMargin(0,-DensityUtils.dip2px(this,80),0,0);
+        addressStatus.setErrorContentViewMargin(0, -DensityUtils.dip2px(this, 80), 0, 0);
+        addressStatus.setEmptyContentViewMargin(0, -DensityUtils.dip2px(this, 80), 0, 0);
     }
 
     private void setUpStatus() {

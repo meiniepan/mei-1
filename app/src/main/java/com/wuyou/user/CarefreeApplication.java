@@ -6,6 +6,7 @@ import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
 import com.gs.buluo.common.BaseApplication;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.UserInfoDao;
 
@@ -21,6 +22,7 @@ public class CarefreeApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        CrashReport.initCrashReport(getApplicationContext(), "079415cb31", true);
     }
 
     public static synchronized CarefreeApplication getInstance() {

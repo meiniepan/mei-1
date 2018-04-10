@@ -3,18 +3,15 @@ package com.wuyou.user.view.activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.MainPagerAdapter;
 import com.wuyou.user.mvp.help.HelpFragment;
@@ -32,6 +29,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.jzvd.JZVideoPlayer;
+import me.shaohui.shareutil.ShareConfig;
+import me.shaohui.shareutil.ShareManager;
 
 public class MainActivity extends BaseActivity {
     @BindView(R.id.main_tab)
@@ -71,12 +70,16 @@ public class MainActivity extends BaseActivity {
         bottomView.getTabView(1).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() ==MotionEvent.ACTION_UP){
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                     orderFragment.setStatus(0);
                 }
                 return false;
             }
         });
+
+        ShareConfig config = ShareConfig.instance().wxId(Constant.WX_ID).wxSecret(Constant.WX_SECRET);
+        ShareManager.init(config);
+        CrashReport.putUserData(getApplicationContext(), "userkey", CarefreeDaoSession.getInstance().getUserInfo() == null ? "unLogin" : CarefreeDaoSession.getInstance().getUserInfo().getMobile());
     }
 
     @Override
