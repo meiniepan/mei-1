@@ -66,11 +66,11 @@
                 <TextView
                     android:id="@+id/order_detail_un_pay_warn"
                     android:layout_width="wrap_content"
-                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:text="请在2小时内支付，否则将自动关闭"
                     android:textColor="@color/common_red"
-                    android:textSize="@dimen/dimens_12sp" />
+                    android:textSize="@dimen/dimens_12sp"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -137,6 +137,7 @@
                     android:textSize="@dimen/dimens_16sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/order_detail_second_payment_area"
                 android:layout_width="match_parent"
@@ -167,6 +168,7 @@
                     android:textSize="@dimen/dimens_16sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -212,8 +214,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/common_red"
-                    android:text="实付金额： ￥" />
+                    android:text="实付金额： ￥"
+                    android:textColor="@color/common_red" />
 
                 <TextView
                     android:id="@+id/order_detail_price_final"
@@ -500,6 +502,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="30dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:text="230932148648665465"
                         android:textColor="@color/common_gray" />
                 </LinearLayout>

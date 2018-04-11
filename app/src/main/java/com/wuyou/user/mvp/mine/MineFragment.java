@@ -90,7 +90,12 @@ public class MineFragment extends BaseFragment {
     }
 
     @Override
-    public void fetchData() {
+    public void onResume() {
+        super.onResume();
+        getBalance();
+    }
+
+    private void getBalance() {
         CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
                 .getWalletBalance(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())

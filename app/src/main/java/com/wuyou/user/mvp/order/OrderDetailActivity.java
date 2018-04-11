@@ -165,7 +165,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailServeWay.setText(data.service_mode);
         orderDetailServeTime.setText(data.service_date + "  " + data.service_time);
         orderDetailRemark.setText(data.remark);
-//        orderDetailBillSerial.setText(CommonUtil.getOrderStatusString(data.status));
+        orderDetailBillSerial.setText(data.serial);
         orderDetailPayMethod.setText(data.pay_type);
         orderDetailPayTime.setText(TribeDateUtils.dateFormat(new Date(data.pay_time * 1000)));
         shopTel = data.shop.shop_tel;
