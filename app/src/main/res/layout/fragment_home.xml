@@ -140,9 +140,10 @@
                 android:id="@+id/home_order_area"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
+                android:visibility="gone"
+                android:background="#ffece5"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="gone"
                 android:paddingEnd="@dimen/activity_horizontal_margin_end"
                 android:paddingStart="@dimen/activity_horizontal_margin_end">
 

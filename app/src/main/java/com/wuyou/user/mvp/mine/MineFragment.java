@@ -11,11 +11,12 @@ import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.WalletBalance;
 import com.wuyou.user.event.LoginEvent;
-import com.wuyou.user.mvp.address.AddressActivity;
+import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
@@ -121,7 +122,8 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.mine_address:
-                intent.setClass(mCtx, AddressActivity.class);
+                intent.setClass(mCtx, AddressManagerActivity.class);
+                intent.putExtra(Constant.ADDRESS_SOURCE, 1);
                 startActivity(intent);
                 break;
             case R.id.mine_card:

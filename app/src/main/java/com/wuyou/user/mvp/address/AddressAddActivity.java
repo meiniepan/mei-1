@@ -15,8 +15,8 @@ import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.AddressBean;
-import com.wuyou.user.bean.response.AddressListResponse;
 import com.wuyou.user.bean.CityBean;
+import com.wuyou.user.bean.response.AddressListResponse;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
@@ -66,6 +66,8 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
         }
 
         addressEditPhone.setText(CarefreeDaoSession.getInstance().getUserInfo().getMobile());
+
+        CommonUtil.setEdDecimal(addressEditPhone, 5);
     }
 
     public void setData(AddressBean data) {

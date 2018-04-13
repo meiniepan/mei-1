@@ -33,4 +33,5 @@ public class Constant {
     public static final String POI_RESULT = "poi_result";
     public static final String ORDER_BEAN = "order_bean";
     public static final String FIRST_START = "first_install";
+    public static final String ADDRESS_SOURCE = "address_source";
 }

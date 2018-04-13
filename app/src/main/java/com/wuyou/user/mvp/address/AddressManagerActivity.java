@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.utils.ToastUtils;
@@ -39,12 +38,12 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
 
     private AddressListAdapter adapter;
     private int updatePosition;
+    private ArrayList<AddressBean> list = new ArrayList<>();
 
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
         setUpStatus();
-        ArrayList<AddressBean> list = getIntent().getParcelableArrayListExtra(Constant.ADDRESS_LIST);
         addressManagerList.setLayoutManager(new LinearLayoutManager(this));
         addressManagerList.addItemDecoration(CommonUtil.getRecyclerDivider(this));
         adapter = new AddressListAdapter(R.layout.item_address_list);
@@ -52,8 +51,6 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
             showDeleteDialog(position, (AddressBean) adapter.getData().get(position));
             return false;
         });
-        addressManagerList.setAdapter(adapter);
-        adapter.setNewData(list);
         adapter.setOnItemClickListener((adapter, view, position) -> {
             showDeletePop(view, (AddressBean) adapter.getData().get(position));
             updatePosition = position;
@@ -62,8 +59,17 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
             intent.putExtra(Constant.ADDRESS_BEAN, (AddressBean) adapter.getData().get(position));
             startActivityForResult(intent, 201);
         });
-        if (list == null || list.size() == 0) {
-            addressManagerStatus.showEmptyView(getString(R.string.no_address));
+        addressManagerList.setAdapter(adapter);
+
+        if (getIntent().getIntExtra(Constant.ADDRESS_SOURCE, 0) == 1) {
+            addressManagerStatus.showProgressView();
+            mPresenter.getAddress();
+        } else {
+            list = getIntent().getParcelableArrayListExtra(Constant.ADDRESS_LIST);
+            adapter.setNewData(list);
+            if (list == null || list.size() == 0) {
+                addressManagerStatus.showEmptyView(getString(R.string.no_address));
+            }
         }
     }
 
@@ -153,6 +159,7 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
 
     @Override
     public void getAddressSuccess(AddressListResponse list) {
+        addressManagerStatus.showContentView();
         adapter.setNewData(list.list);
         if (adapter.getData().size() == 0) {
             addressManagerStatus.showEmptyView(getString(R.string.no_address));

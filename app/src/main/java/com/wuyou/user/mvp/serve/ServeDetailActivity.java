@@ -17,6 +17,7 @@ import com.wuyou.user.bean.ServeDetailBean;
 import com.wuyou.user.mvp.store.StoreDetailActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.ServeApis;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.panel.GoodsChoosePanel;
@@ -40,7 +41,7 @@ public class ServeDetailActivity extends BaseActivity {
     @BindView(R.id.serve_detail_price)
     TextView serveDetailPrice;
     @BindView(R.id.serve_detail_unit)
-    TextView getServeDetailUnit;
+    TextView serveDetailUnit;
     @BindView(R.id.serve_detail_description)
     WebView serveDetailDescription;
     @BindView(R.id.serve_detail_store)
@@ -105,7 +106,8 @@ public class ServeDetailActivity extends BaseActivity {
         GlideUtils.loadImageNoHolder(this, serviceDetail.photo, serveDetailPicture);
         serveDetailTitle.setText(serviceDetail.title);
         serveDetailCount.setText(serviceDetail.sold);
-        serveDetailPrice.setText(serviceDetail.price + "/" +serviceDetail.unit);
+        serveDetailPrice.setText(CommonUtil.formatPrice(serviceDetail.price));
+        serveDetailUnit.setText(serviceDetail.unit);
         serveDetailDescription.loadDataWithBaseURL(null, serviceDetail.content, "text/html", "utf-8", null);
         serveDetailStore.setText(serviceDetail.shop_name);
         createOrderServePoint.setText(serviceDetail.high_praise);

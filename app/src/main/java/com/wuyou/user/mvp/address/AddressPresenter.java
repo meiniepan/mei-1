@@ -12,9 +12,6 @@ import com.wuyou.user.bean.AddressId;
 import com.wuyou.user.bean.response.AddressListResponse;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.AddressApis;
-import com.wuyou.user.util.CommonUtil;
-
-import java.util.Map;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -63,11 +60,6 @@ public class AddressPresenter extends AddressConstract.Presenter {
                     public void onSuccess(BaseResponse baseResponse) {
                         mView.deleteSuccess(position);
                     }
-
-                    @Override
-                    protected void onFail(ApiException e) {
-                        mView.showError(e.getDisplayMessage(), e.getCode());
-                    }
                 });
     }
 
@@ -86,11 +78,6 @@ public class AddressPresenter extends AddressConstract.Presenter {
                     @Override
                     public void onSuccess(BaseResponse addressIdBaseResponse) {
                         mView.updateSuccess(addressBean);
-                    }
-
-                    @Override
-                    protected void onFail(ApiException e) {
-                        mView.showError(e.getDisplayMessage(), e.getCode());
                     }
                 });
     }
@@ -121,11 +108,6 @@ public class AddressPresenter extends AddressConstract.Presenter {
                     public void onSuccess(BaseResponse<AddressId> addressIdBaseResponse) {
                         addressBean.id = addressIdBaseResponse.data.address_id;
                         mView.addSuccess(addressBean);
-                    }
-
-                    @Override
-                    protected void onFail(ApiException e) {
-                        mView.showError(e.getDisplayMessage(), e.getCode());
                     }
                 });
     }
