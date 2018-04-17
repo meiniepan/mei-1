@@ -3,6 +3,7 @@ package com.wuyou.user.mvp.order;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBeanDetail;
 import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.util.ThreadPool;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.CommentActivity;
 import com.wuyou.user.view.activity.HelpRobotActivity;
@@ -77,15 +79,15 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     @BindView(R.id.order_detail_second_payment)
     TextView orderDetailSecondPayment;
     private String orderId;
-    private PayPanel payPanel;
     private OrderBeanDetail beanDetail;
     private String shopTel;
+
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
         orderId = getIntent().getStringExtra(Constant.ORDER_ID);
-        mPresenter.getOrderDetail(orderId);
         showLoadingDialog();
+        mPresenter.getOrderDetail(orderId);
     }
 
     @Override
@@ -108,13 +110,6 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
 
     @Override
     public void loadMoreFail(String displayMessage, int code) {
-    }
-
-    @Override
-    public void paySuccess() {
-        ToastUtils.ToastMessage(getCtx(), R.string.pay_success);
-        showLoadingDialog();
-        mPresenter.getOrderDetail(orderId);
     }
 
     @Override
@@ -211,11 +206,11 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     }
 
     private void payOrder() {
-        payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
+        PayPanel payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
             @Override
-            public void onPaying() {
-                mPresenter.payOrder(beanDetail.order_id, beanDetail.serial);
-                payPanel.dismiss();
+            public void onPaySuccess() {
+                showLoadingDialog();
+                mPresenter.getOrderDetail(orderId);
             }
 
             @Override
@@ -223,25 +218,24 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
 
             }
         });
-        payPanel.setData(CommonUtil.formatPrice(beanDetail.total_amount), "", "");
+        payPanel.setData(CommonUtil.formatPrice(beanDetail.total_amount), beanDetail.order_id, "1");
         payPanel.show();
 
     }
 
     private void paySecond() {
-        payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
+        PayPanel payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
             @Override
-            public void onPaying() {
+            public void onPaySuccess() {
                 mPresenter.finishOrder(orderId);
-                payPanel.dismiss();
             }
 
             @Override
             public void onPayFail(ApiException e) {
-
+                ToastUtils.ToastMessage(getCtx(), e.getDisplayMessage());
             }
         });
-        payPanel.setData(beanDetail.second_payment + "", "", "");
+        payPanel.setData(beanDetail.second_payment + "", orderId, "2");
         payPanel.show();
     }
 

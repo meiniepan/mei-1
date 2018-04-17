@@ -88,7 +88,6 @@ public class NewOrderActivity extends BaseActivity {
     private ServeDetailBean bean;
 
     private AddressBean defaultAddress;
-    private PayPanel payPanel;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -158,10 +157,10 @@ public class NewOrderActivity extends BaseActivity {
     }
 
     private void createSuccess(String orderId) {
-        payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
+        PayPanel payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
             @Override
-            public void onPaying() {
-                payOrder(orderId);
+            public void onPaySuccess() {
+                goOrderDetail(orderId);
             }
 
             @Override
@@ -169,23 +168,8 @@ public class NewOrderActivity extends BaseActivity {
                 goOrderDetail(orderId);
             }
         });
-        payPanel.setData(createOrderAmout.getText().toString().trim(), "", "");
+        payPanel.setData(createOrderAmout.getText().toString().trim(), orderId, "1");
         payPanel.show();
-    }
-
-    private void payOrder(String orderId) {
-        showLoadingDialog();
-        CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .payOrder(orderId, QueryMapBuilder.getIns().put("pay_type", "1").put("user_id", CarefreeDaoSession.getInstance().getUserId()).buildPost())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse>() {
-                    @Override
-                    public void onSuccess(BaseResponse baseResponse) {
-                        payPanel.dismiss();
-                        goOrderDetail(orderId);
-                    }
-                });
     }
 
     private void goOrderDetail(String orderId) {

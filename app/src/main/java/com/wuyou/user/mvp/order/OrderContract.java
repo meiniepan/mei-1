@@ -21,8 +21,6 @@ public interface OrderContract {
 
         void loadMoreFail(String displayMessage, int code);
 
-        void paySuccess();
-
         void finishOrderSuccess();
     }
 
@@ -34,8 +32,6 @@ public interface OrderContract {
         abstract void cancelOrder(int position, String orderId);
 
         abstract void getOrderDetail(String orderId);
-
-        abstract void payOrder(String orderId,String serial);
 
         abstract void finishOrder(String orderId);
     }

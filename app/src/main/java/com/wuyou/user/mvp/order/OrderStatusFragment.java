@@ -168,11 +168,6 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     }
 
     @Override
-    public void paySuccess() {
-        refreshData();
-    }
-
-    @Override
     public void finishOrderSuccess() {
         refreshData();
     }
@@ -181,27 +176,26 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     private void dealWithOrangeButtonClick(int position, OrderBean orderBean) {
         switch (orderBean.status) {
             case 1:
-                payPanel = new PayPanel(mCtx, new PayPanel.OnPayFinishListener() {
+                payPanel = new PayPanel(getActivity(), new PayPanel.OnPayFinishListener() {
                     @Override
-                    public void onPaying() {
-                        mPresenter.payOrder(orderBean.order_id, orderBean.serial);
-                        payPanel.dismiss();
+                    public void onPaySuccess() {
+                        refreshData();
                     }
 
                     @Override
                     public void onPayFail(ApiException e) {
                     }
                 });
-                payPanel.setData(orderBean.amount+"","","");
+                payPanel.setData(orderBean.amount + "", orderBean.order_id, "1");
                 payPanel.show();
                 break;
             case 2:
                 if (orderBean.second_payment == 0) {
                     mPresenter.finishOrder(orderBean.order_id);
-                } else {
-                    payPanel = new PayPanel(mCtx, new PayPanel.OnPayFinishListener() {
+                } else { //二次支付
+                    payPanel = new PayPanel(getActivity(), new PayPanel.OnPayFinishListener() {
                         @Override
-                        public void onPaying() {
+                        public void onPaySuccess() {
                             mPresenter.finishOrder(orderBean.order_id);
                             payPanel.dismiss();
                         }
@@ -210,7 +204,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
                         public void onPayFail(ApiException e) {
                         }
                     });
-                    payPanel.setData(orderBean.second_payment+"","","");
+                    payPanel.setData(orderBean.second_payment + "", "", "2");
                     payPanel.show();
                 }
                 break;

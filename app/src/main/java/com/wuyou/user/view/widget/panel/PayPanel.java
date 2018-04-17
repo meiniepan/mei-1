@@ -1,8 +1,9 @@
 package com.wuyou.user.view.widget.panel;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.alipay.sdk.app.PayTask;
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
@@ -19,17 +21,20 @@ import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
+import com.wuyou.user.bean.ALiPayResult;
 import com.wuyou.user.bean.BankCard;
 import com.wuyou.user.bean.PayChannel;
-import com.wuyou.user.bean.ServeDetailBean;
 import com.wuyou.user.bean.WalletBalance;
+import com.wuyou.user.bean.response.SimpleResponse;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
+import com.wuyou.user.network.apis.OrderApis;
 
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -37,8 +42,8 @@ import io.reactivex.schedulers.Schedulers;
  * Created by hjn on 2016/12/7.
  */
 public class PayPanel extends Dialog implements View.OnClickListener, PayChoosePanel.onChooseFinish {
-    private final OnPayFinishListener onFinishListener;
-    private Context mCtx;
+    private OnPayFinishListener onFinishListener;
+    private Activity mCtx;
     @BindView(R.id.pay_way)
     TextView tvWay;
     @BindView(R.id.pay_money)
@@ -48,21 +53,17 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
     @BindView(R.id.pay_choose)
     View arrow;
 
-    private View rootView;
     private String totalFee;
     private String targetId;
-    private String paymentType;
-    private String ownerId;
 
-    private PayChoosePanel payChoosePanel;
+    private PayChannel payChannel = PayChannel.BALANCE;
+    private String secondPay = "1";
 
 
-    public PayPanel(Context context, OnPayFinishListener onDismissListener) {
+    public PayPanel(Activity context, OnPayFinishListener onDismissListener) {
         super(context, R.style.my_dialog);
         mCtx = context;
         this.onFinishListener = onDismissListener;
-        ownerId = CarefreeDaoSession.getInstance().getUserId();
-//        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -77,12 +78,12 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
         this.totalFee = price;
         tvTotal.setText(price);
         this.targetId = targetId;
-        paymentType = type;
+        secondPay = type;
         getWalletInfo();
     }
 
     private void initView() {
-        rootView = LayoutInflater.from(mCtx).inflate(R.layout.pay_board, null);
+        View rootView = LayoutInflater.from(mCtx).inflate(R.layout.pay_board, null);
         setContentView(rootView);
         ButterKnife.bind(this);
         Window window = getWindow();
@@ -147,8 +148,6 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
 //        rootView.startAnimation(animation);
 //    }
 
-    private void createPayment(final String password) {
-    }
 
     @Override
     public void onClick(View v) {
@@ -157,32 +156,83 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
                 dismiss();
                 break;
             case R.id.pay_finish:
-                if (Float.valueOf(totalFee) > balance) {
-                    showNotEnough();
-                    return;
-                }
-                onFinishListener.onPaying();
+                doPay();
                 break;
             case R.id.pay_choose_area:
-                payChoosePanel = new PayChoosePanel(mCtx, 0, this);
+                PayChoosePanel payChoosePanel = new PayChoosePanel(mCtx, 0, this);
                 payChoosePanel.show();
                 break;
         }
     }
 
-    @Override
-    public void onChoose(PayChannel payChannel, BankCard bankCard, String bankName) {
-        tvWay.setText(payChannel.value);
+    private void doPay() {
+        switch (payChannel) {
+            case BALANCE:
+                if (Float.valueOf(totalFee) > balance) {
+                    showNotEnough();
+                    return;
+                }
+                payInBalance();
+                break;
+            case ALIPAY:
+                payInAli();
+                break;
+        }
     }
 
-    ServeDetailBean serveDetailBean;
+    private void payInAli() {
+        CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
+                .getAliPayOrderInfo(targetId, QueryMapBuilder.getIns().put("uid", CarefreeDaoSession.getInstance().getUserId()).put("stage", secondPay).buildGet())
+                .subscribeOn(Schedulers.io())
+                .map(simpleResponse -> {
+                    PayTask alipay = new PayTask(mCtx);
+                    return alipay.payV2(simpleResponse.data.response, true);
+                })
+                .flatMap(stringStringMap -> {
+                    String resultStatus = new ALiPayResult(stringStringMap).getResultStatus();
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        return CarefreeRetrofit.getInstance().createApi(MoneyApis.class).getPayStatus(targetId, QueryMapBuilder.getIns().buildGet());
+                    }
+                    return (ObservableSource<BaseResponse<SimpleResponse>>) observer -> onFinishListener.onPayFail(new ApiException(900, getContext().getString(R.string.pay_fail), ""));
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if (response.data.is_paid == 1) {
+                        onFinishListener.onPaySuccess();
+                        dismiss();
+                    } else {
+                        onFinishListener.onPayFail(new ApiException(900, getContext().getString(R.string.pay_fail), ""));
+                    }
+                });
+    }
 
-    public void setData(ServeDetailBean serviceDetail) {
-        serveDetailBean = serviceDetail;
+    private void payInBalance() {
+        CarefreeRetrofit.getInstance().createApi(OrderApis.class)
+                .payOrder(targetId, QueryMapBuilder.getIns().put("pay_type", "1").put("user_id", CarefreeDaoSession.getInstance().getUserId()).buildPost())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse baseResponse) {
+                        onFinishListener.onPaySuccess();
+                        dismiss();
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        onFinishListener.onPayFail(e);
+                    }
+                });
+    }
+
+    @Override
+    public void onChoose(PayChannel payChannel, BankCard bankCard, String bankName) {
+        this.payChannel = payChannel;
+        tvWay.setText(this.payChannel.value);
     }
 
     public interface OnPayFinishListener {
-        void onPaying();
+        void onPaySuccess();
 
         void onPayFail(ApiException e);
     }
@@ -190,6 +240,6 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
 //    @Subscribe(threadMode = ThreadMode.MAIN)
 //    public void paySuccess(WXPayEvent event) {
 //        dismiss();
-//        if (onFinishListener != null) onFinishListener.onPaying();
+//        if (onFinishListener != null) onFinishListener.onPaySuccess();
 //    }
 }

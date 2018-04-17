@@ -2,25 +2,21 @@ package com.wuyou.user.view.widget.panel;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.gs.buluo.common.utils.DensityUtils;
-import com.gs.buluo.common.widget.LoadingDialog;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.BankCard;
 import com.wuyou.user.bean.PayChannel;
-
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +31,8 @@ public class PayChoosePanel extends Dialog implements View.OnClickListener {
     RadioButton rbBalance;
     @BindView(R.id.new_order_pay_wx)
     RadioButton rbWeChat;
+    @BindView(R.id.new_order_pay_ali)
+    RadioButton rbAli;
     @BindView(R.id.card_list)
     ListView cardList;
     @BindView(R.id.pay_choose_available_balance)
@@ -74,6 +72,7 @@ public class PayChoosePanel extends Dialog implements View.OnClickListener {
 
         rootView.findViewById(R.id.ll_balance).setOnClickListener(this);
         rootView.findViewById(R.id.ll_wx).setOnClickListener(this);
+        rootView.findViewById(R.id.ll_ali).setOnClickListener(this);
         rootView.findViewById(R.id.ll_add__bank_card).setOnClickListener(this);
         rootView.findViewById(R.id.pay_choose_close).setOnClickListener(this);
     }
@@ -88,6 +87,7 @@ public class PayChoosePanel extends Dialog implements View.OnClickListener {
             case R.id.ll_balance:
                 rbBalance.setChecked(true);
                 rbWeChat.setChecked(false);
+                rbAli.setChecked(false);
                 payMethod = PayChannel.BALANCE;
                 onChooseFinish.onChoose(payMethod, null, bankName);
                 dismiss();
@@ -95,7 +95,15 @@ public class PayChoosePanel extends Dialog implements View.OnClickListener {
             case R.id.ll_wx:
                 rbBalance.setChecked(false);
                 rbWeChat.setChecked(true);
+                rbAli.setChecked(false);
                 payMethod = PayChannel.WECHAT;
+                onChooseFinish.onChoose(payMethod, null, bankName);
+                dismiss();
+            case R.id.ll_ali:
+                rbBalance.setChecked(false);
+                rbWeChat.setChecked(false);
+                rbAli.setChecked(true);
+                payMethod = PayChannel.ALIPAY;
                 onChooseFinish.onChoose(payMethod, null, bankName);
                 dismiss();
                 break;

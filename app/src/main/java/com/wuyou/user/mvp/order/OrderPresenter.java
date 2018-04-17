@@ -104,25 +104,6 @@ public class OrderPresenter extends OrderContract.Presenter {
     }
 
     @Override
-    void payOrder(String orderId, String serial) {
-        CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .payOrder(orderId, QueryMapBuilder.getIns().put("pay_type", "1").put("user_id", CarefreeDaoSession.getInstance().getUserId()).buildPost())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse>() {
-                    @Override
-                    public void onSuccess(BaseResponse baseResponse) {
-                        mView.paySuccess();
-                    }
-
-                    @Override
-                    protected void onFail(ApiException e) {
-                        mView.showError(e.getDisplayMessage(), 100);
-                    }
-                });
-    }
-
-    @Override
     void finishOrder(String orderId) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
                 .finishOrder(orderId, QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).buildPost())
