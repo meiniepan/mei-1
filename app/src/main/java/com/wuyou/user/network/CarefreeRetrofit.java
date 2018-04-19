@@ -1,13 +1,13 @@
 package com.wuyou.user.network;
 
+import android.support.v4.util.ArrayMap;
+
 import com.gs.buluo.common.network.CustomGsonFactory;
 import com.gs.buluo.common.network.LogInterceptor;
 import com.wuyou.user.Constant;
 
 import org.reactivestreams.Publisher;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
@@ -24,7 +24,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 public class CarefreeRetrofit {
 
     private static CarefreeRetrofit instance;
-    private Map<Class, Object> apis = new HashMap<>();
+    private ArrayMap<Class, Object> apis = new ArrayMap<>();
     private final Retrofit retrofit;
 
     private CarefreeRetrofit() {

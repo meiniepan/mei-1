@@ -1,5 +1,7 @@
 package com.wuyou.user.network.apis;
 
+import android.support.v4.util.ArrayMap;
+
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
 import com.wuyou.user.bean.ServeDetailBean;
@@ -9,11 +11,9 @@ import com.wuyou.user.bean.response.ListResponse;
 import com.wuyou.user.bean.response.ServeListResponse;
 import com.wuyou.user.bean.response.ServeTimeBean;
 
-import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
@@ -36,5 +36,5 @@ public interface ServeApis {
     Observable<BaseResponse<ListResponse<ServeLevelBean>>> getFastServeLevel(@Path("category_id") String id, @QueryMap SortedTreeMap<String, String> map);
 
     @GET("service_times")
-    Observable<BaseResponse<HashMap<String,List<ServeTimeBean>>>> getAvailableServeTime(@QueryMap SortedTreeMap<String, String> map);
+    Observable<BaseResponse<ArrayMap<String, List<ServeTimeBean>>>> getAvailableServeTime(@QueryMap SortedTreeMap<String, String> map);
 }

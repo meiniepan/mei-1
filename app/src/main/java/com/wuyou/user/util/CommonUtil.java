@@ -17,6 +17,7 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.RequiresApi;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -49,8 +50,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -96,8 +95,8 @@ public class CommonUtil {
         }});
     }
 
-    public static Map<String, String> ConvertObjToMap(Object obj) {
-        Map<String, String> reMap = new HashMap<>();
+    public static ArrayMap<String, String> ConvertObjToMap(Object obj) {
+        ArrayMap<String, String> reMap = new ArrayMap<>();
         if (obj == null)
             return null;
         Field[] fields = obj.getClass().getDeclaredFields();

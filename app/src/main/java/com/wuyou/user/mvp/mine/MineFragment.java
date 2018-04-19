@@ -97,6 +97,7 @@ public class MineFragment extends BaseFragment {
     }
 
     private void getBalance() {
+        if (CarefreeDaoSession.getInstance().getUserInfo() == null) return;
         CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
                 .getWalletBalance(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())

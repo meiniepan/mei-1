@@ -27,7 +27,6 @@ import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.util.layoutmanager.AutoLineFeedLayoutManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +75,6 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener, Di
     private int type = 0;  // 1 加入购物车 ，2.立即购买
     private View buyView;
     private View limitSaleView;
-    Map<String, ServeDetailBean> goodsMap = new HashMap<>();
 
     public GoodsChoosePanel(Context context, OnShowInDetail onShowInDetail) {
         super(context, R.style.my_dialog);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -39,7 +40,6 @@ import com.wuyou.user.view.widget.panel.PayPanel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -290,15 +290,15 @@ public class NewOrderActivity extends BaseActivity {
     }
 
 
-    private HashMap<String, List<ServeTimeBean>> timeMap;
+    private ArrayMap<String, List<ServeTimeBean>> timeMap;
 
     private void getServeTime(String service_id, String shop_id) { //TODO
         CarefreeRetrofit.getInstance().createApi(ServeApis.class).getAvailableServeTime(QueryMapBuilder.getIns().put("service_id", "1").put("shop_id", "114").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse<HashMap<String, List<ServeTimeBean>>>>() {
+                .subscribe(new BaseSubscriber<BaseResponse<ArrayMap<String, List<ServeTimeBean>>>>() {
                     @Override
-                    public void onSuccess(BaseResponse<HashMap<String, List<ServeTimeBean>>> hashMapBaseResponse) {
+                    public void onSuccess(BaseResponse<ArrayMap<String, List<ServeTimeBean>>> hashMapBaseResponse) {
                         timeMap = hashMapBaseResponse.data;
                     }
                 });
