@@ -5,6 +5,7 @@ import com.gs.buluo.common.network.SortedTreeMap;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.WalletBalance;
 import com.wuyou.user.bean.response.SimpleResponse;
+import com.wuyou.user.bean.response.WxPayResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.FieldMap;
@@ -28,6 +29,11 @@ public interface MoneyApis {
     Observable<BaseResponse<SimpleResponse>> getAliPayOrderInfo(
             @Path("order_id") String orderId, @QueryMap SortedTreeMap<String, String> map);
 
+    @GET("wx_pay/order/{order_id}")
+    Observable<BaseResponse<WxPayResponse>> getWXPayOrderInfo(
+            @Path("order_id") String orderId, @QueryMap SortedTreeMap<String, String> map);
+
+
     @FormUrlEncoded
     @POST("login")
     Observable<BaseResponse<UserInfo>> doLogin(
@@ -41,4 +47,5 @@ public interface MoneyApis {
     @GET("is_paid/{order_id}")
     Observable<BaseResponse<SimpleResponse>> getPayStatus(
             @Path("order_id") String orderId, @QueryMap SortedTreeMap<String, String> map);
+
 }

@@ -50,7 +50,7 @@
             </intent-filter>
         </activity>
         <activity-alias
-                android:name="${applicationId}.wxapi.WXEntryActivity"
+                android:name="${applicationId}.com.wuyou.user.wxapi.WXEntryActivity"
                 android:exported="true"
                 android:targetActivity="me.shaohui.shareutil._ShareActivity"/>
     </application>

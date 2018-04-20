@@ -85,4 +85,5 @@ dependencies {
     compile project(path: ':shareutil')
     compile 'com.tencent.bugly:crashreport:latest.release'
     implementation files('libs/alipaySdk-20180403.jar')
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
 }

@@ -19,18 +19,27 @@ import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.ALiPayResult;
 import com.wuyou.user.bean.BankCard;
 import com.wuyou.user.bean.PayChannel;
 import com.wuyou.user.bean.WalletBalance;
 import com.wuyou.user.bean.response.SimpleResponse;
+import com.wuyou.user.bean.response.WxPayResponse;
+import com.wuyou.user.event.WXPayEvent;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.OrderApis;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,7 +67,6 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
 
     private PayChannel payChannel = PayChannel.BALANCE;
     private String secondPay = "1";
-
 
     public PayPanel(Activity context, OnPayFinishListener onDismissListener) {
         super(context, R.style.my_dialog);
@@ -177,8 +185,54 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
             case ALIPAY:
                 payInAli();
                 break;
+            case WECHAT:
+                payInWX();
+                break;
         }
     }
+
+    private IWXAPI msgApi;
+
+    private void payInWX() {
+        msgApi = WXAPIFactory.createWXAPI(CarefreeApplication.getInstance().getApplicationContext(), null);
+        msgApi.registerApp(Constant.WX_ID);
+        CarefreeRetrofit.getInstance().createApi(MoneyApis.class).getWXPayOrderInfo(targetId, QueryMapBuilder.getIns()
+                .put("uid", CarefreeDaoSession.getInstance().getUserId())
+                .put("pay_type", "APP")
+                .put("stage", secondPay).buildGet())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse<WxPayResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<WxPayResponse> baseResponseBaseResponse) {
+                        doPay(baseResponseBaseResponse.data);
+                    }
+                });
+
+    }
+
+    public void doPay(WxPayResponse data) {
+        PayReq request = new PayReq();
+        request.appId = data.appid;
+        request.partnerId = data.mch_id;
+        request.prepayId = data.prepay_id;
+        request.packageValue = "Sign=WXPay";
+        request.nonceStr = data.nonce_str;
+        request.timeStamp = data.timestamp;
+        request.sign = data.sign;
+        msgApi.sendReq(request);
+
+//        msgApi.registerApp(Constant.WX_ID);
+//        PayReq request = new PayReq();
+//        request.appId = Constant.WX_ID;
+//        request.partnerId = Constant.WX_SHOP_ID;
+//        request.prepayId= "1101000000140415649af9fc314aa427";
+//        request.packageValue   = "Sign=WXPay";
+//        request.nonceStr= CommonUtils.getRandomString(32);
+//        request.timeStamp= SystemClock.currentThreadTimeMillis()/1000+"";
+//        request.sign= Constant.WX_SIGN;
+    }
+
 
     private void payInAli() {
         CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
@@ -237,9 +291,9 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
         void onPayFail(ApiException e);
     }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void paySuccess(WXPayEvent event) {
-//        dismiss();
-//        if (onFinishListener != null) onFinishListener.onPaySuccess();
-//    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void paySuccess(WXPayEvent event) {
+        dismiss();
+        if (onFinishListener != null) onFinishListener.onPaySuccess();
+    }
 }

@@ -51,7 +51,6 @@ public class PayChoosePanel extends Dialog implements View.OnClickListener {
         mCtx = context;
         this.onChooseFinish = onChooseFinish;
         initView();
-        initData();
         if (availableBalance == -1) {//充值
             findViewById(R.id.ll_balance).setVisibility(View.GONE);
         } else {
@@ -77,10 +76,6 @@ public class PayChoosePanel extends Dialog implements View.OnClickListener {
         rootView.findViewById(R.id.pay_choose_close).setOnClickListener(this);
     }
 
-    private void initData() {
-    }
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -99,6 +94,7 @@ public class PayChoosePanel extends Dialog implements View.OnClickListener {
                 payMethod = PayChannel.WECHAT;
                 onChooseFinish.onChoose(payMethod, null, bankName);
                 dismiss();
+                break;
             case R.id.ll_ali:
                 rbBalance.setChecked(false);
                 rbWeChat.setChecked(false);
