@@ -36,10 +36,13 @@ import com.wuyou.user.event.WXPayEvent;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.OrderApis;
+import com.wuyou.user.util.RxUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -199,6 +202,7 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
         CarefreeRetrofit.getInstance().createApi(MoneyApis.class).getWXPayOrderInfo(targetId, QueryMapBuilder.getIns()
                 .put("uid", CarefreeDaoSession.getInstance().getUserId())
                 .put("pay_type", "APP")
+                .put("is_mini_program", "0")
                 .put("stage", secondPay).buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -211,7 +215,7 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
 
     }
 
-    public void doPay(WxPayResponse data) {
+    private void doPay(WxPayResponse data) {
         PayReq request = new PayReq();
         request.appId = data.appid;
         request.partnerId = data.mch_id;
@@ -221,16 +225,6 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
         request.timeStamp = data.timestamp;
         request.sign = data.sign;
         msgApi.sendReq(request);
-
-//        msgApi.registerApp(Constant.WX_ID);
-//        PayReq request = new PayReq();
-//        request.appId = Constant.WX_ID;
-//        request.partnerId = Constant.WX_SHOP_ID;
-//        request.prepayId= "1101000000140415649af9fc314aa427";
-//        request.packageValue   = "Sign=WXPay";
-//        request.nonceStr= CommonUtils.getRandomString(32);
-//        request.timeStamp= SystemClock.currentThreadTimeMillis()/1000+"";
-//        request.sign= Constant.WX_SIGN;
     }
 
 
@@ -256,6 +250,7 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
                         dismiss();
                     } else {
                         onFinishListener.onPayFail(new ApiException(900, getContext().getString(R.string.pay_fail), ""));
+                        dismiss();
                     }
                 });
     }
@@ -263,8 +258,7 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
     private void payInBalance() {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
                 .payOrder(targetId, QueryMapBuilder.getIns().put("pay_type", "1").put("user_id", CarefreeDaoSession.getInstance().getUserId()).buildPost())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
@@ -292,8 +286,22 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void paySuccess(WXPayEvent event) {
-        dismiss();
-        if (onFinishListener != null) onFinishListener.onPaySuccess();
+    public void payFinish(WXPayEvent event) {
+        if (targetId != null)
+            CarefreeRetrofit.getInstance().createApi(MoneyApis.class).getPayStatus(targetId, QueryMapBuilder.getIns().buildGet())
+                    .compose(RxUtil.switchSchedulers())
+                    .subscribe(new BaseSubscriber<BaseResponse<SimpleResponse>>() {
+                        @Override
+                        public void onSuccess(BaseResponse<SimpleResponse> simpleResponseBaseResponse) {
+                            if (onFinishListener != null) onFinishListener.onPaySuccess();
+                            dismiss();
+                        }
+
+                        @Override
+                        protected void onFail(ApiException e) {
+                            if (onFinishListener != null) onFinishListener.onPayFail(e);
+                            dismiss();
+                        }
+                    });
     }
 }

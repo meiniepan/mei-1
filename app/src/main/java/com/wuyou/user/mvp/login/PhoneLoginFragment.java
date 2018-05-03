@@ -57,8 +57,7 @@ public class PhoneLoginFragment extends BaseFragment<LoginContract.View, LoginCo
 
     @Override
     public void getVerifySuccess() {
-        observer = new CounterDisposableObserver(reSendCaptcha);
-        RxUtil.countdown(59).subscribe(observer);
+
     }
 
     @Override
@@ -74,7 +73,8 @@ public class PhoneLoginFragment extends BaseFragment<LoginContract.View, LoginCo
                 if (!CommonUtil.checkPhone("", phone, mCtx)) return;
                 showLoadingDialog();
                 mPresenter.getVerifyCode(phone);
-                loginVerify.requestFocus();
+                observer = new CounterDisposableObserver(reSendCaptcha);
+                RxUtil.countdown(59).subscribe(observer);
                 break;
             case R.id.login:
                 String phone2 = loginPhone.getText().toString().trim();
