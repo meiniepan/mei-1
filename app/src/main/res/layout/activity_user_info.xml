@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:clipToPadding="true">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,35 +26,24 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="80dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingStart="@dimen/activity_horizontal_margin">
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="头像" />
+
         <ImageView
             android:id="@+id/info_head"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@mipmap/default_pic"/>
+            android:src="@mipmap/default_pic" />
 
-        <TextView
-            android:id="@+id/info_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="用户名"
-            android:textSize="@dimen/dimens_18sp"
-            android:textColor="@color/black"/>
-
-        <TextView
-            android:id="@+id/info_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="编辑"
-            android:textColor="@color/night_blue"
-            android:textSize="@dimen/dimens_12sp" />
     </LinearLayout>
 
     <include layout="@layout/split_line_margin" />
@@ -72,7 +61,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="账号" />
+            android:text="昵称" />
+
+        <TextView
+            android:id="@+id/tv_account_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp" />
 
         <ImageView
             android:layout_width="10dp"
@@ -80,6 +75,34 @@
             android:src="@mipmap/arrow_gray" />
     </LinearLayout>
 
+    <include layout="@layout/split_line_margin" />
+
+    <LinearLayout
+        android:id="@+id/info_phone_area"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="手机" />
+
+        <TextView
+            android:id="@+id/tv_phone_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp" />
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/arrow_gray" />
+    </LinearLayout>
     <include layout="@layout/split_line_margin" />
 
     <LinearLayout
@@ -96,6 +119,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="邮箱" />
+
+        <TextView
+            android:id="@+id/tv_email_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp" />
 
         <ImageView
             android:layout_width="10dp"
@@ -120,6 +149,12 @@
             android:layout_weight="1"
             android:text="性别" />
 
+        <TextView
+            android:id="@+id/tv_sex_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp" />
+
         <ImageView
             android:layout_width="10dp"
             android:layout_height="20dp"
@@ -142,6 +177,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="生日" />
+
+        <TextView
+            android:id="@+id/tv_birthday_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp" />
 
         <ImageView
             android:layout_width="10dp"

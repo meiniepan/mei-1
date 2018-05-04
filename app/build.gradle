@@ -89,10 +89,16 @@ android {
         compile('com.github.gzu-liyujiang.AndroidPicker:WheelPicker:1.5.5') {
             exclude group: 'com.android.support'
         }
+//        compile('cn.qqtheme.framework:WheelPicker:1.5.5') {
+//            exclude group: 'com.android.support'
+//        }//选择生日时使用
         compile 'com.android.support:multidex:1.0.3'
         compile project(path: ':shareutil')
         compile 'com.tencent.bugly:crashreport:latest.release'
         implementation files('libs/alipaySdk-20180403.jar')
         compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+        implementation('com.zhihu.android:matisse:0.5.0-alpha4') {
+            exclude group: 'com.android.support'
+        }//知乎图片选择器
     }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen>
+    <external-path
+        name="files_root"
+        path="/storage/emulated/0/DCIM/"/>
+    <external-path
+        name="external_storage_root"
+        path="."/>
+    <files-path
+        name="images"
+        path="images/"/>
+    <files-path
+        name="docs"
+        path="docs/"/>
+</PreferenceScreen>
