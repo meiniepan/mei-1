@@ -23,7 +23,7 @@ public class UserInfo {
     @Property(nameInDb = "UID")
     private String uid;
     @Property(nameInDb = "HEAD")
-    private String head_image;
+    private String avatar;
     @Property(nameInDb = "TOKEN")
     private String token;
     @Property(nameInDb = "PWD")
@@ -34,15 +34,14 @@ public class UserInfo {
     @Convert(converter = AddressConverter.class, columnType = String.class)
     private AddressBean address;
 
-
-    @Generated(hash = 1025806812)
-    public UserInfo(Long mid, String nickname, String mobile, String uid, String head_image,
+    @Generated(hash = 53264404)
+    public UserInfo(Long mid, String nickname, String mobile, String uid, String avatar,
             String token, String password, String gender, AddressBean address) {
         this.mid = mid;
         this.nickname = nickname;
         this.mobile = mobile;
         this.uid = uid;
-        this.head_image = head_image;
+        this.avatar = avatar;
         this.token = token;
         this.password = password;
         this.gender = gender;
@@ -52,7 +51,6 @@ public class UserInfo {
     @Generated(hash = 1279772520)
     public UserInfo() {
     }
-
 
     public Long getMid() {
         return this.mid;
@@ -86,12 +84,12 @@ public class UserInfo {
         this.uid = uid;
     }
 
-    public String getHead_image() {
-        return this.head_image;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setHead_image(String head_image) {
-        this.head_image = head_image;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getToken() {

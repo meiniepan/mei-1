@@ -18,12 +18,21 @@ import io.reactivex.schedulers.Schedulers;
 public class ServePresenter extends ServeContract.Presenter {
     private String startId;
     private String serveId;
+    private int key;
+    private int sort;
 
+    /**
+     * key    默认：0；价格：1；销量：2
+     * sort    倒序：0；升序：1
+     */
     @Override
-    void getServe(String serveId) {
+    void getServe(String serveId, int key, int sort) {
         this.serveId = serveId;
+        this.key = key;
+        this.sort = sort;
         CarefreeRetrofit.getInstance().createApi(ServeApis.class)
-                .getServeList(QueryMapBuilder.getIns().put("category_id", serveId).put("flag", 1 + "").put("start_id", 0 + "").put("size", 10 + "").buildGet())
+                .getServeList(QueryMapBuilder.getIns().put("category_id", serveId).put("flag", 1 + "").put("start_id", 0 + "").put("size", 10 + "")
+                        .put("key", key + "").put("sort", sort + "").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<ServeListResponse>>() {
@@ -44,7 +53,8 @@ public class ServePresenter extends ServeContract.Presenter {
     @Override
     void getServeMore() {
         CarefreeRetrofit.getInstance().createApi(ServeApis.class)
-                .getServeList(QueryMapBuilder.getIns().put("category_id", serveId).put("flag", 2 + "").put("start_id", startId).put("size", 10 + "").buildGet())
+                .getServeList(QueryMapBuilder.getIns().put("category_id", serveId).put("flag", 2 + "").put("start_id", startId).put("size", 10 + "")
+                        .put("key", key + "").put("sort", sort + "").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<ServeListResponse>>() {

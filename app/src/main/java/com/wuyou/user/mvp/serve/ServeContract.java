@@ -18,7 +18,7 @@ public interface ServeContract {
     }
 
     abstract class Presenter extends BasePresenter<View> {
-        abstract void getServe(String serveId);
+        abstract void getServe(String serveId,int key ,int sort);
 
         abstract void getServeMore();
     }

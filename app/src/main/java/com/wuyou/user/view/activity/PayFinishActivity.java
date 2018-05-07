@@ -65,6 +65,7 @@ public class PayFinishActivity extends BaseActivity {
                 break;
             case R.id.pay_finish_back_main:
                 intent.setClass(getCtx(), MainActivity.class);
+                intent.putExtra(Constant.MAIN_FLAG, 1);
                 startActivity(intent);
                 finish();
                 break;
@@ -75,6 +76,8 @@ public class PayFinishActivity extends BaseActivity {
     public void onBackPressed() {
         Intent intent = new Intent();
         intent.setClass(getCtx(), MainActivity.class);
+        intent.putExtra(Constant.MAIN_FLAG, 1);
         startActivity(intent);
+        finish();
     }
 }

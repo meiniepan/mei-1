@@ -48,6 +48,15 @@ public class MainActivity extends BaseActivity {
     private OrderFragment orderFragment;
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        int flag = intent.getIntExtra(Constant.MAIN_FLAG,0);
+        if (flag==1){
+            viewPager.setCurrentItem(1);
+        }
+        super.onNewIntent(intent);
+    }
+
+    @Override
     protected void bindView(Bundle savedInstanceState) {
         if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
         setBarColor(R.color.transparent);

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true"
+    android:background="@color/white"
     android:clipToPadding="true"
-    android:background="@color/white">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,10 +29,10 @@
         <ImageView
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:visibility="gone"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/white_search"/>
+            android:src="@mipmap/white_search"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout
@@ -42,52 +42,55 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/serve_category_sort_default"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
+            <com.wuyou.user.view.widget.ColorTextView
+                android:id="@+id/serve_category_default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="服务商" />
+                android:text="默认" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/serve_category_sort_price"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.wuyou.user.view.widget.ColorTextView
+                android:id="@+id/serve_category_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="价格" />
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:id="@+id/serve_category_sort_price_mark"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:src="@mipmap/arrow_black_down" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/serve_category_sort_sale"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
+            <com.wuyou.user.view.widget.ColorTextView
+                android:id="@+id/serve_category_sale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="维修类型" />
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@mipmap/arrow_black_down" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="排序" />
+                android:text="销量" />
 
             <ImageView
                 android:layout_width="24dp"
@@ -106,6 +109,7 @@
         android:layout_weight="1"
         app:emptyDrawable="@mipmap/img_housekeeping"
         app:errorDrawable="@mipmap/net_error">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/serve_category_list"
             android:layout_width="match_parent"
@@ -113,12 +117,12 @@
     </com.gs.buluo.common.widget.StatusLayout>
 
     <Button
-        android:onClick="fastCreate"
         style="@style/button_style"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
         android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
+        android:onClick="fastCreate"
         android:text="@string/fast_order" />
 </LinearLayout>

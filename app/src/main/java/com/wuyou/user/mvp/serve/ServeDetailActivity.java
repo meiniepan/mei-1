@@ -21,6 +21,7 @@ import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.activity.MainActivity;
 import com.wuyou.user.view.widget.panel.GoodsChoosePanel;
 
 import org.jsoup.Jsoup;
@@ -118,8 +119,8 @@ public class ServeDetailActivity extends BaseActivity {
         serveDetailDescription.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         serveDetailStore.setText(serviceDetail.shop_name);
         createOrderServePoint.setText(serviceDetail.high_praise);
-        serveDetailCommentStar.setRating(serviceDetail.star);
-        serveDetailCommentStarCount.setText(serviceDetail.star + "");
+        serveDetailCommentStar.setRating(serviceDetail.star / 2);
+        serveDetailCommentStarCount.setText(serviceDetail.star / 2 + "");
     }
 
     private String getNewContent(String htmltext) {

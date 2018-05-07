@@ -28,7 +28,7 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
         public final static Property Nickname = new Property(1, String.class, "nickname", false, "USERNAME");
         public final static Property Mobile = new Property(2, String.class, "mobile", false, "PHONE");
         public final static Property Uid = new Property(3, String.class, "uid", false, "UID");
-        public final static Property Head_image = new Property(4, String.class, "head_image", false, "HEAD");
+        public final static Property Avatar = new Property(4, String.class, "avatar", false, "HEAD");
         public final static Property Token = new Property(5, String.class, "token", false, "TOKEN");
         public final static Property Password = new Property(6, String.class, "password", false, "PWD");
         public final static Property Gender = new Property(7, String.class, "gender", false, "GENDER");
@@ -53,7 +53,7 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
                 "\"USERNAME\" TEXT," + // 1: nickname
                 "\"PHONE\" TEXT," + // 2: mobile
                 "\"UID\" TEXT," + // 3: uid
-                "\"HEAD\" TEXT," + // 4: head_image
+                "\"HEAD\" TEXT," + // 4: avatar
                 "\"TOKEN\" TEXT," + // 5: token
                 "\"PWD\" TEXT," + // 6: password
                 "\"GENDER\" TEXT," + // 7: gender
@@ -90,9 +90,9 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
             stmt.bindString(4, uid);
         }
  
-        String head_image = entity.getHead_image();
-        if (head_image != null) {
-            stmt.bindString(5, head_image);
+        String avatar = entity.getAvatar();
+        if (avatar != null) {
+            stmt.bindString(5, avatar);
         }
  
         String token = entity.getToken();
@@ -140,9 +140,9 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
             stmt.bindString(4, uid);
         }
  
-        String head_image = entity.getHead_image();
-        if (head_image != null) {
-            stmt.bindString(5, head_image);
+        String avatar = entity.getAvatar();
+        if (avatar != null) {
+            stmt.bindString(5, avatar);
         }
  
         String token = entity.getToken();
@@ -178,7 +178,7 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // nickname
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // mobile
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // uid
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // head_image
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // avatar
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // token
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // password
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // gender
@@ -193,7 +193,7 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
         entity.setNickname(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setMobile(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setUid(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setHead_image(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setAvatar(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setToken(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setPassword(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setGender(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));

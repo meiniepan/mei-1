@@ -2,6 +2,7 @@ package com.wuyou.user.mvp.mine;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.InfoActivity;
 import com.wuyou.user.view.activity.SettingActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
@@ -70,7 +72,7 @@ public class MineFragment extends BaseFragment {
         UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
         if (userInfo != null) {
             mineLogin.setVisibility(View.GONE);
-//            GlideUtils.loadImage(mCtx, userInfo.getHead_image(), mineHead,true);
+            if (!TextUtils.isEmpty(userInfo.getAvatar())) GlideUtils.loadImage(mCtx, userInfo.getAvatar(), mineHead, true);
             minePhone.setText(userInfo.getMobile());
             mineName.setText(userInfo.getName());
 //            mineSex.setText(userInfo.getGender());
@@ -110,7 +112,7 @@ public class MineFragment extends BaseFragment {
                 });
     }
 
-    @OnClick({R.id.mine_setting, R.id.mine_recharge, R.id.mine_login, R.id.mine_card, R.id .mine_address, R.id.mine_activity, R.id.mine_info})
+    @OnClick({R.id.mine_setting, R.id.mine_recharge, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {

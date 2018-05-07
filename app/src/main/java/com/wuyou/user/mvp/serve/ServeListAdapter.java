@@ -31,11 +31,10 @@ public class ServeListAdapter extends BaseQuickAdapter<ServeBean, BaseHolder> {
                 .setText(R.id.serve_item_count, item.sold)
                 .setText(R.id.serve_item_price, "￥" + item.price + "/" + item.unit)
                 .setText(R.id.serve_item_point, item.high_praise)
-                .setText(R.id.serve_item_rate_number, item.star + ".0")
-                .setText(R.id.serve_item_store, item.shop_name)
-                .setText(R.id.serve_item_rate_number, item.star + "");
+                .setText(R.id.serve_item_rate_number, item.star / 2 + ".0")
+                .setText(R.id.serve_item_store, item.shop_name);
 
         ProperRatingBar ratingBar = helper.getView(R.id.serve_item_rate);
-        ratingBar.setRating(item.star);
+        ratingBar.setRating(item.star / 2);
     }
 }
