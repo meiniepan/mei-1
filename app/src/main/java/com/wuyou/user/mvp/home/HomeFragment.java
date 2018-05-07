@@ -308,7 +308,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         for (CommunityBean bean : list) {
             data = new LatLng(bean.lat, bean.lng);
             float lineDistance = AMapUtils.calculateLineDistance(current, data);
-            if (lineDistance < 15571323) {    //如果当前位置和社区中心点坐标小于2000米，视为在社区里
+            if (lineDistance < 2000) {    //如果当前位置和社区中心点坐标小于2000米，视为在社区里
                 return bean;
             }
         }

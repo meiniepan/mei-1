@@ -16,6 +16,7 @@ import com.wuyou.user.bean.ServeBean;
 import com.wuyou.user.bean.response.ServeListResponse;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.activity.MainActivity;
 import com.wuyou.user.view.widget.ColorTextView;
 
 import butterknife.BindView;

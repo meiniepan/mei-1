@@ -27,10 +27,13 @@ public class MainServeChildrenAdapter extends BaseQuickAdapter<CategoryChild, Ba
         int padding = textView.getPaddingStart();
         if (item.position % 3 == 0) {
             textView.setBackgroundResource(R.drawable.orange_border);
+            textView.setTextColor(0xffff904b);
         } else if (item.position % 3 == 1) {
-            textView.setBackgroundResource(R.drawable.red_border);
+            textView.setBackgroundResource(R.drawable.green_border);
+            textView.setTextColor(0xff4fc891);
         } else {
             textView.setBackgroundResource(R.drawable.night_blue_border);
+            textView.setTextColor(0xff627db9);
         }
         textView.setPadding(padding, padding, padding, padding);
     }

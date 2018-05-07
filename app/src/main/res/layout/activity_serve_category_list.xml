@@ -73,8 +73,8 @@
 
             <ImageView
                 android:id="@+id/serve_category_sort_price_mark"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:src="@mipmap/arrow_black_down" />
         </LinearLayout>
 
@@ -92,10 +92,6 @@
                 android:layout_height="wrap_content"
                 android:text="销量" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@mipmap/arrow_black_down" />
         </LinearLayout>
 
     </LinearLayout>

@@ -230,10 +230,10 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener, Di
         switch (v.getId()) {
             case R.id.goods_board_add:
                 if (defaultEntity == null) return;
-//                if (nowNum >= defaultEntity.stock) {
-//                    ToastUtils.ToastMessage(mCtx, mCtx.getString(R.string.not_enough_goods));
-//                    return;
-//                }
+                if (nowNum >= defaultEntity.stock) {
+                    ToastUtils.ToastMessage(mCtx, mCtx.getString(R.string.not_enough_goods));
+                    return;
+                }
                 nowNum += 1;
                 mNumber.setText(nowNum + "");
                 break;
@@ -246,6 +246,10 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener, Di
             case R.id.goods_board_finish:
                 if (defaultEntity == null) {
                     ToastUtils.ToastMessage(mCtx, "请选择商品");
+                    return;
+                }
+                if (nowNum >= defaultEntity.stock) {
+                    ToastUtils.ToastMessage(mCtx, mCtx.getString(R.string.not_enough_goods));
                     return;
                 }
                 accountOrder();

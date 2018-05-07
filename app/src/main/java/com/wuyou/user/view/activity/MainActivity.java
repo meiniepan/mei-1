@@ -29,6 +29,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +52,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        int flag = intent.getIntExtra(Constant.MAIN_FLAG,0);
-        if (flag==1){
+        int flag = intent.getIntExtra(Constant.MAIN_FLAG, 0);
+        if (flag == 1) {
             viewPager.setCurrentItem(1);
         }
         super.onNewIntent(intent);

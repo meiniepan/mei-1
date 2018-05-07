@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -85,10 +86,8 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
                 .subscribeOn(Schedulers.io())
                 .map(listResponseBaseResponse -> {
                     List<ServeSites> serveSites = listResponseBaseResponse.data.list;
-                    serveSites.get(0).lat = 39.9d;
-                    serveSites.get(0).lng = 116.3654d;
-                    serveSites.get(1).lat = 39.9d;
-                    serveSites.get(1).lng = 116.4654d;
+//                    serveSites.get(1).lat = 39.9d;
+//                    serveSites.get(1).lng = 116.4654d;
 
                     Collections.sort(serveSites, (o1, o2) -> {
                         LatLng latLng1 = new LatLng(o1.lat, o1.lng);
@@ -150,6 +149,12 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
                 ServeSites serveSites = (ServeSites) marker.getObject();
                 showSiteInfo(serveSites);
                 return true;
+            }
+        });
+        mAMap.setOnMapClickListener(new AMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                Log.e("Test", "onMapClick: " + latLng.latitude + "..........." + latLng.longitude);
             }
         });
     }
@@ -289,16 +294,14 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
             list.add(markerOption);
         }
         ArrayList<Marker> markers = mAMap.addMarkers(list, true);
-        Marker marker = markers.get(0);
-        marker.setPosition(new LatLng(39.9f, 116.365f));
-        marker.setObject(data.get(0));
-
-        Marker marker1 = markers.get(1);
-        marker1.setPosition(new LatLng(39.9f, 116.385f));
-        marker1.setObject(data.get(1));
-
+        for (int i = 0; i < markers.size(); i++) {
+            Marker marker = markers.get(i);
+            ServeSites serveSite = data.get(i);
+            marker.setPosition(new LatLng(serveSite.lat, serveSite.lng));
+            marker.setObject(serveSite);
+        }
         adapter.setOnItemClickListener((adapter1, view, position) -> {
-            ToastUtils.ToastMessage(getCtx(),R.string.no_function);
+            ToastUtils.ToastMessage(getCtx(), R.string.no_function);
             mAMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(data.get(position).lat, data.get(position).lng)));
             mAMap.moveCamera(CameraUpdateFactory.zoomTo(17));
         });
