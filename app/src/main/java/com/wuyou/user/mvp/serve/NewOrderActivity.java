@@ -39,7 +39,6 @@ import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.panel.PayPanel;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -159,23 +158,28 @@ public class NewOrderActivity extends BaseActivity {
     private void createSuccess(String orderId) {
         PayPanel payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
             @Override
-            public void onPaySuccess() {
-                goOrderDetail(orderId);
+            public void onPayFinish() {
+                finishStack(orderId);
             }
 
             @Override
             public void onPayFail(ApiException e) {
-                goOrderDetail(orderId);
+                goDetail(orderId);
             }
         });
+        payPanel.setOnDismissListener(() -> goDetail(orderId));
         payPanel.setData(createOrderAmout.getText().toString().trim(), orderId, "1");
         payPanel.show();
     }
 
-    private void goOrderDetail(String orderId) {
+    private void goDetail(String orderId) {
         Intent intent = new Intent(getCtx(), OrderDetailActivity.class);
         intent.putExtra(Constant.ORDER_ID, orderId);
         startActivity(intent);
+        finishStack(orderId);
+    }
+
+    private void finishStack(String orderId) {
         finish();
         AppManager.getAppManager().finishActivity(ServeDetailActivity.class);
         AppManager.getAppManager().finishActivity(FastCreateActivity.class);
@@ -264,11 +268,6 @@ public class NewOrderActivity extends BaseActivity {
         picker.show();
     }
 
-    @NonNull
-    private String getDataString(Calendar calendar) {
-        int month = calendar.get(Calendar.MONTH) + 1;
-        return calendar.get(Calendar.YEAR) + "-" + month + "-" + calendar.get(Calendar.DAY_OF_MONTH);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

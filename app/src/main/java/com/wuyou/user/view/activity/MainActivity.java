@@ -14,6 +14,7 @@ import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.MainPagerAdapter;
+import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.help.HelpFragment;
 import com.wuyou.user.mvp.home.HomeFragment;
 import com.wuyou.user.mvp.login.LoginActivity;
@@ -23,6 +24,10 @@ import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.UnScrollViewPager;
 import com.yinglan.alphatabs.AlphaTabView;
 import com.yinglan.alphatabs.AlphaTabsIndicator;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +49,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
         setBarColor(R.color.transparent);
 //        QMUIStatusBarHelper.translucent(this,getResources().getColor(R.color.night_blue));
 //        QMUIStatusBarHelper.setStatusBarLightMode(this);
@@ -80,6 +86,11 @@ public class MainActivity extends BaseActivity {
         ShareConfig config = ShareConfig.instance().wxId(Constant.WX_ID).wxSecret(Constant.WX_SECRET);
         ShareManager.init(config);
         CrashReport.putUserData(getApplicationContext(), "userkey", CarefreeDaoSession.getInstance().getUserInfo() == null ? "unLogin" : CarefreeDaoSession.getInstance().getUserInfo().getMobile());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginEvent(LoginEvent event) {
+        viewPager.setCurrentItem(0);
     }
 
     @Override

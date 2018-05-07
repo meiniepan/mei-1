@@ -13,11 +13,8 @@ import com.tencent.mm.opensdk.modelpay.PayResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.event.WXPayEvent;
-import com.wuyou.user.network.CarefreeRetrofit;
-import com.wuyou.user.network.apis.MoneyApis;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -57,15 +54,14 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp baseResp) {
-        Log.e(TAG, "onResp22222222: " + baseResp.toString());
-        if (baseResp instanceof PayResp) {
-            getPayResult(((PayResp) baseResp).prepayId);
+        Log.e(TAG, "onWxPayResp: " + baseResp.toString());
+        if (baseResp instanceof PayResp && baseResp.errCode == 0) {
+            EventBus.getDefault().post(new WXPayEvent());
         }
         finish();
     }
 
     private void getPayResult(String prepayId) {
-        LoadingDialog.getInstance().show(this, "", true);
-        EventBus.getDefault().post(new WXPayEvent());
+
     }
 }

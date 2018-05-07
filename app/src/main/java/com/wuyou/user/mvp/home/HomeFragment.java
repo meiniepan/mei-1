@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.services.core.PoiItem;
@@ -158,6 +157,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLogin(LoginEvent event) {
         getOrderMessage();
+        if (CarefreeDaoSession.getInstance().getUserInfo() == null) mLocationClient.startLocation(); //退出登录，重新定位社区
     }
 
 

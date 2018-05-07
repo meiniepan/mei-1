@@ -178,13 +178,10 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
             case 1:
                 payPanel = new PayPanel(getActivity(), new PayPanel.OnPayFinishListener() {
                     @Override
-                    public void onPaySuccess() {
-                        refreshData();
-                    }
+                    public void onPayFinish() {refreshData();}
 
                     @Override
-                    public void onPayFail(ApiException e) {
-                    }
+                    public void onPayFail(ApiException e) {ToastUtils.ToastMessage(mCtx,e.getDisplayMessage());}
                 });
                 payPanel.setData(orderBean.amount + "", orderBean.order_id, "1");
                 payPanel.show();
@@ -195,16 +192,12 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
                 } else { //二次支付
                     payPanel = new PayPanel(getActivity(), new PayPanel.OnPayFinishListener() {
                         @Override
-                        public void onPaySuccess() {
-                            mPresenter.finishOrder(orderBean.order_id);
-                            payPanel.dismiss();
-                        }
+                        public void onPayFinish() {refreshData();}
 
                         @Override
-                        public void onPayFail(ApiException e) {
-                        }
+                        public void onPayFail(ApiException e) {ToastUtils.ToastMessage(mCtx,e.getDisplayMessage());}
                     });
-                    payPanel.setData(orderBean.second_payment + "", "", "2");
+                    payPanel.setData(orderBean.second_payment + "", orderBean.order_id, "2");
                     payPanel.show();
                 }
                 break;

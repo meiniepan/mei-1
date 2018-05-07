@@ -17,7 +17,7 @@ public class UserInfo {
     @Id
     private Long mid;
     @Property(nameInDb = "USERNAME")
-    private String name;
+    private String nickname;
     @Property(nameInDb = "PHONE")
     private String mobile;
     @Property(nameInDb = "UID")
@@ -34,11 +34,12 @@ public class UserInfo {
     @Convert(converter = AddressConverter.class, columnType = String.class)
     private AddressBean address;
 
-    @Generated(hash = 360151486)
-    public UserInfo(Long mid, String name, String mobile, String uid, String head_image,
+
+    @Generated(hash = 1025806812)
+    public UserInfo(Long mid, String nickname, String mobile, String uid, String head_image,
             String token, String password, String gender, AddressBean address) {
         this.mid = mid;
-        this.name = name;
+        this.nickname = nickname;
         this.mobile = mobile;
         this.uid = uid;
         this.head_image = head_image;
@@ -52,6 +53,7 @@ public class UserInfo {
     public UserInfo() {
     }
 
+
     public Long getMid() {
         return this.mid;
     }
@@ -61,11 +63,11 @@ public class UserInfo {
     }
 
     public String getName() {
-        return this.name;
+        return this.nickname;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.nickname = name;
     }
 
     public String getMobile() {
@@ -122,6 +124,14 @@ public class UserInfo {
 
     public void setAddress(AddressBean address) {
         this.address = address;
+    }
+
+    public String getNickname() {
+        return this.nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public static class AddressConverter implements PropertyConverter<AddressBean, String> {

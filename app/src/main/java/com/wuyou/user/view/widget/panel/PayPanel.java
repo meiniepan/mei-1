@@ -2,8 +2,7 @@ package com.wuyou.user.view.widget.panel;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.text.TextUtils;
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,27 +25,23 @@ import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.ALiPayResult;
 import com.wuyou.user.bean.BankCard;
 import com.wuyou.user.bean.PayChannel;
 import com.wuyou.user.bean.WalletBalance;
-import com.wuyou.user.bean.response.SimpleResponse;
 import com.wuyou.user.bean.response.WxPayResponse;
 import com.wuyou.user.event.WXPayEvent;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.util.RxUtil;
+import com.wuyou.user.view.activity.PayFinishActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.HashMap;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -68,21 +63,22 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
     private String totalFee;
     private String targetId;
 
-    private PayChannel payChannel = PayChannel.BALANCE;
+    private PayChannel payChannel = PayChannel.WECHAT;
     private String secondPay = "1";
 
-    public PayPanel(Activity context, OnPayFinishListener onDismissListener) {
+    public PayPanel(Activity context, OnPayFinishListener onFinishListener) {
         super(context, R.style.my_dialog);
         mCtx = context;
-        this.onFinishListener = onDismissListener;
+        this.onFinishListener = onFinishListener;
+        EventBus.getDefault().register(this);
         initView();
     }
 
     @Override
     public void dismiss() {
-        super.dismiss();
-        onFinishListener.onPayFail(null);
+        if (onDismissListener != null) onDismissListener.onDismiss();
         if (EventBus.getDefault().isRegistered(this)) EventBus.getDefault().unregister(this);
+        super.dismiss();
     }
 
     public void setData(String price, String targetId, String type) {
@@ -132,10 +128,7 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
 
     private void showAlert() {
         new CustomAlertDialog.Builder(getContext()).setTitle(R.string.prompt).setMessage(R.string.not_set_pwd)
-                .setPositiveButton("去设置", new OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+                .setPositiveButton("去设置", (dialog, which) -> {
                 }).setNegativeButton(mCtx.getString(R.string.cancel), null).create().show();
     }
 
@@ -170,7 +163,7 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
                 doPay();
                 break;
             case R.id.pay_choose_area:
-                PayChoosePanel payChoosePanel = new PayChoosePanel(mCtx, 0, this);
+                PayChoosePanel payChoosePanel = new PayChoosePanel(mCtx, payChannel, this);
                 payChoosePanel.show();
                 break;
         }
@@ -236,23 +229,14 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
                     PayTask alipay = new PayTask(mCtx);
                     return alipay.payV2(simpleResponse.data.response, true);
                 })
-                .flatMap(stringStringMap -> {
-                    String resultStatus = new ALiPayResult(stringStringMap).getResultStatus();
-                    if (TextUtils.equals(resultStatus, "9000")) {
-                        return CarefreeRetrofit.getInstance().createApi(MoneyApis.class).getPayStatus(targetId, QueryMapBuilder.getIns().buildGet());
-                    }
-                    return (ObservableSource<BaseResponse<SimpleResponse>>) observer -> onFinishListener.onPayFail(new ApiException(900, getContext().getString(R.string.pay_fail), ""));
-                })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    if (response.data.is_paid == 1) {
-                        onFinishListener.onPaySuccess();
-                        dismiss();
-                    } else {
-                        onFinishListener.onPayFail(new ApiException(900, getContext().getString(R.string.pay_fail), ""));
-                        dismiss();
-                    }
-                });
+                .subscribe(response -> doNext());
+    }
+
+    private void doNext() {
+        payFinish();
+        onFinishListener.onPayFinish();
+        dismiss();
     }
 
     private void payInBalance() {
@@ -262,8 +246,7 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
-                        onFinishListener.onPaySuccess();
-                        dismiss();
+                        doNext();
                     }
 
                     @Override
@@ -280,28 +263,30 @@ public class PayPanel extends Dialog implements View.OnClickListener, PayChooseP
     }
 
     public interface OnPayFinishListener {
-        void onPaySuccess();
+        void onPayFinish();
 
         void onPayFail(ApiException e);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void payFinish(WXPayEvent event) {
-        if (targetId != null)
-            CarefreeRetrofit.getInstance().createApi(MoneyApis.class).getPayStatus(targetId, QueryMapBuilder.getIns().buildGet())
-                    .compose(RxUtil.switchSchedulers())
-                    .subscribe(new BaseSubscriber<BaseResponse<SimpleResponse>>() {
-                        @Override
-                        public void onSuccess(BaseResponse<SimpleResponse> simpleResponseBaseResponse) {
-                            if (onFinishListener != null) onFinishListener.onPaySuccess();
-                            dismiss();
-                        }
+    public void onWXPayFinish(WXPayEvent event) {
+        doNext();
+    }
 
-                        @Override
-                        protected void onFail(ApiException e) {
-                            if (onFinishListener != null) onFinishListener.onPayFail(e);
-                            dismiss();
-                        }
-                    });
+    private void payFinish() {
+        onDismissListener = null;
+        Intent intent = new Intent(mCtx, PayFinishActivity.class);
+        intent.putExtra(Constant.ORDER_ID, targetId);
+        mCtx.startActivity(intent);
+    }
+
+    private onDismissListener onDismissListener;
+
+    public interface onDismissListener {
+        void onDismiss();
+    }
+
+    public void setOnDismissListener(onDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
     }
 }

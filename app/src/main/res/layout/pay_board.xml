@@ -58,7 +58,7 @@
                 android:id="@+id/pay_way"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/wu_u_pay"
+                android:text="@string/pay_wechat"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/pay_choose" />
         </RelativeLayout>

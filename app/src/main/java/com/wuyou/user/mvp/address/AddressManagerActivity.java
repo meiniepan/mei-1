@@ -49,7 +49,7 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
         adapter = new AddressListAdapter(R.layout.item_address_list);
         adapter.setOnItemLongClickListener((adapter, view, position) -> {
             showDeleteDialog(position, (AddressBean) adapter.getData().get(position));
-            return false;
+            return true;
         });
         adapter.setOnItemClickListener((adapter, view, position) -> {
             showDeletePop(view, (AddressBean) adapter.getData().get(position));

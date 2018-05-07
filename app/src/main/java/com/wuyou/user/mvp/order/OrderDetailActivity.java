@@ -208,14 +208,11 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     private void payOrder() {
         PayPanel payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
             @Override
-            public void onPaySuccess() {
-                showLoadingDialog();
-                mPresenter.getOrderDetail(orderId);
-            }
+            public void onPayFinish() {finish();}
 
             @Override
             public void onPayFail(ApiException e) {
-
+                ToastUtils.ToastMessage(getCtx(),e.getDisplayMessage());
             }
         });
         payPanel.setData(CommonUtil.formatPrice(beanDetail.total_amount), beanDetail.order_id, "1");
@@ -226,9 +223,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     private void paySecond() {
         PayPanel payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
             @Override
-            public void onPaySuccess() {
-                mPresenter.finishOrder(orderId);
-            }
+            public void onPayFinish() {}
 
             @Override
             public void onPayFail(ApiException e) {
@@ -268,11 +263,13 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
             case 4:
                 orderDetailContactStore.setVisibility(View.GONE);
                 orderDetailAction.setVisibility(View.GONE);
+                findViewById(R.id.order_detail_bottom).setVisibility(View.GONE);
                 break;
             case 5:
                 findViewById(R.id.order_detail_pay_area).setVisibility(View.GONE);
                 orderDetailContactStore.setVisibility(View.GONE);
                 orderDetailAction.setVisibility(View.GONE);
+                findViewById(R.id.order_detail_bottom).setVisibility(View.GONE);
                 break;
         }
 

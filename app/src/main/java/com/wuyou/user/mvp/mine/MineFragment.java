@@ -72,7 +72,7 @@ public class MineFragment extends BaseFragment {
             mineLogin.setVisibility(View.GONE);
 //            GlideUtils.loadImage(mCtx, userInfo.getHead_image(), mineHead,true);
             minePhone.setText(userInfo.getMobile());
-//            mineName.setText(userInfo.getName());
+            mineName.setText(userInfo.getName());
 //            mineSex.setText(userInfo.getGender());
         } else {
             mineLogin.setVisibility(View.VISIBLE);

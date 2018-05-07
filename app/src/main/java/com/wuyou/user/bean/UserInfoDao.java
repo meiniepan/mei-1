@@ -25,7 +25,7 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
      */
     public static class Properties {
         public final static Property Mid = new Property(0, Long.class, "mid", true, "_id");
-        public final static Property Name = new Property(1, String.class, "name", false, "USERNAME");
+        public final static Property Nickname = new Property(1, String.class, "nickname", false, "USERNAME");
         public final static Property Mobile = new Property(2, String.class, "mobile", false, "PHONE");
         public final static Property Uid = new Property(3, String.class, "uid", false, "UID");
         public final static Property Head_image = new Property(4, String.class, "head_image", false, "HEAD");
@@ -50,7 +50,7 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"USER_INFO\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: mid
-                "\"USERNAME\" TEXT," + // 1: name
+                "\"USERNAME\" TEXT," + // 1: nickname
                 "\"PHONE\" TEXT," + // 2: mobile
                 "\"UID\" TEXT," + // 3: uid
                 "\"HEAD\" TEXT," + // 4: head_image
@@ -75,9 +75,9 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
             stmt.bindLong(1, mid);
         }
  
-        String name = entity.getName();
-        if (name != null) {
-            stmt.bindString(2, name);
+        String nickname = entity.getNickname();
+        if (nickname != null) {
+            stmt.bindString(2, nickname);
         }
  
         String mobile = entity.getMobile();
@@ -125,9 +125,9 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
             stmt.bindLong(1, mid);
         }
  
-        String name = entity.getName();
-        if (name != null) {
-            stmt.bindString(2, name);
+        String nickname = entity.getNickname();
+        if (nickname != null) {
+            stmt.bindString(2, nickname);
         }
  
         String mobile = entity.getMobile();
@@ -175,7 +175,7 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
     public UserInfo readEntity(Cursor cursor, int offset) {
         UserInfo entity = new UserInfo( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // mid
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // nickname
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // mobile
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // uid
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // head_image
@@ -190,7 +190,7 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
     @Override
     public void readEntity(Cursor cursor, UserInfo entity, int offset) {
         entity.setMid(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setNickname(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setMobile(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setUid(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setHead_image(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));

@@ -136,6 +136,7 @@
             android:launchMode="singleTop" />
         <activity android:name=".view.activity.ModifyNickActivity" />
         <activity android:name=".view.activity.ModifyGenderActivity" />
+        <activity android:name=".view.activity.PayFinishActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"

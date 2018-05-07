@@ -3,6 +3,7 @@ package com.wuyou.user.mvp.serve;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,6 +22,11 @@ import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.panel.GoodsChoosePanel;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -108,10 +114,20 @@ public class ServeDetailActivity extends BaseActivity {
         serveDetailCount.setText(serviceDetail.sold);
         serveDetailPrice.setText(CommonUtil.formatPrice(serviceDetail.price));
         serveDetailUnit.setText(serviceDetail.unit);
-        serveDetailDescription.loadDataWithBaseURL(null, serviceDetail.content, "text/html", "utf-8", null);
+        serveDetailDescription.loadDataWithBaseURL(null, getNewContent(serviceDetail.content), "text/html", "utf-8", null);
+        serveDetailDescription.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         serveDetailStore.setText(serviceDetail.shop_name);
         createOrderServePoint.setText(serviceDetail.high_praise);
         serveDetailCommentStar.setRating(serviceDetail.star);
         serveDetailCommentStarCount.setText(serviceDetail.star + "");
+    }
+
+    private String getNewContent(String htmltext) {
+        Document doc = Jsoup.parse(htmltext);
+        Elements elements = doc.getElementsByTag("img");
+        for (Element element : elements) {
+            element.attr("width", "100%").attr("height", "auto");
+        }
+        return doc.toString();
     }
 }

@@ -14,6 +14,7 @@ import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.event.LoginEvent;
+import com.wuyou.user.mvp.login.LoginActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -97,8 +98,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private void logout() {
         CarefreeDaoSession.getInstance().clearUserInfo();
         EventBus.getDefault().post(new LoginEvent());
-        Intent intent = new Intent(getCtx(), MainActivity.class);
-        intent.putExtra(Constant.MAIN_FLAG, 1);
+        Intent intent = new Intent(getCtx(), LoginActivity.class);
         startActivity(intent);
         finish();
     }

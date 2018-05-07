@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
+    android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:clipToPadding="true">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -42,15 +42,15 @@
         android:id="@+id/address_edit_city_click"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:paddingStart="@dimen/activity_horizontal_margin">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="所在城市" />
 
@@ -78,7 +78,7 @@
         android:paddingStart="@dimen/activity_horizontal_margin">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="所在区域" />
 
@@ -86,7 +86,6 @@
             android:id="@+id/address_edit_area"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
             tool:text="杯牛奶公司" />
@@ -109,7 +108,7 @@
         android:paddingStart="@dimen/activity_horizontal_margin">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="详细地址" />
 
@@ -117,7 +116,6 @@
             android:id="@+id/address_edit_detail"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
             android:layout_weight="1"
             android:background="@null"
             android:textColor="@color/common_dark"
@@ -135,15 +133,14 @@
         android:paddingStart="@dimen/activity_horizontal_margin">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:text="联系人    " />
+            android:text="联系人" />
 
         <EditText
             android:id="@+id/address_edit_receiver"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
             android:layout_weight="1"
             android:background="@null"
             android:textColor="@color/common_dark"
@@ -161,7 +158,7 @@
         android:paddingStart="@dimen/activity_horizontal_margin">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="联系电话" />
 
@@ -169,7 +166,6 @@
             android:id="@+id/address_edit_phone"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
             android:layout_weight="1"
             android:background="@null"
             android:inputType="phone"

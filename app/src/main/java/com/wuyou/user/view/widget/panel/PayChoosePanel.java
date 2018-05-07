@@ -46,16 +46,12 @@ public class PayChoosePanel extends Dialog implements View.OnClickListener {
     private BankCard mBankCard;
     private String bankName;
 
-    public PayChoosePanel(Context context, double availableBalance, onChooseFinish onChooseFinish) {
+    public PayChoosePanel(Context context, PayChannel payChannel, onChooseFinish onChooseFinish) {
         super(context, R.style.pay_dialog);
         mCtx = context;
         this.onChooseFinish = onChooseFinish;
         initView();
-        if (availableBalance == -1) {//充值
-            findViewById(R.id.ll_balance).setVisibility(View.GONE);
-        } else {
-            tvBalance.setText(availableBalance + "");
-        }
+        setCheckedStatus(payChannel);
     }
 
     private void initView() {
@@ -80,7 +76,7 @@ public class PayChoosePanel extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_balance:
-                rbBalance.setChecked(true);
+                rbBalance.setChecked(false);
                 rbWeChat.setChecked(false);
                 rbAli.setChecked(false);
                 payMethod = PayChannel.BALANCE;
@@ -110,6 +106,11 @@ public class PayChoosePanel extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
         }
+    }
+
+    private void setCheckedStatus(PayChannel payChannel) {
+        rbWeChat.setChecked(payChannel == PayChannel.WECHAT);
+        rbAli.setChecked(payChannel == PayChannel.ALIPAY);
     }
 
 
