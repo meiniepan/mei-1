@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.gs.buluo.common.network.TokenEvent;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
@@ -29,9 +30,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,5 +136,11 @@ public class MainActivity extends BaseActivity {
 
         }
         super.onConfigurationChanged(newConfig);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTokenExpired(TokenEvent event) {
+        Intent intent = new Intent(getCtx(), LoginActivity.class);
+        startActivity(intent);
     }
 }
