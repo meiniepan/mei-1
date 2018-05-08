@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -90,6 +91,8 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
 
     @BindView(R.id.home_order_area)
     View homeOrderArea;
+    @BindView(R.id.home_refresh)
+    SwipeRefreshLayout homeRefresh;
 
     private String communityId = "0";
     private CommunityBean cacheCommunityBean;
@@ -115,6 +118,10 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         initVideo();
         initLocationAndGetData();
         getOrderMessage();
+        homeRefresh.setOnRefreshListener(() -> {
+            getOrderMessage();
+            mLocationClient.startLocation();
+        });
     }
 
     private void setCacheData() {
@@ -157,7 +164,8 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLogin(LoginEvent event) {
         getOrderMessage();
-        if (CarefreeDaoSession.getInstance().getUserInfo() == null) mLocationClient.startLocation(); //退出登录，重新定位社区
+        if (CarefreeDaoSession.getInstance().getUserInfo() == null)
+            mLocationClient.startLocation(); //退出登录，重新定位社区
     }
 
 
@@ -292,7 +300,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     private void setCommunityText(CommunityBean currentCommunity) {
         if (currentCommunity == null) {
             homeAddress.setText(location.getStreet());
-            homeCurrentLocation.setText("改地址附近有 0 家服务商");
+            homeCurrentLocation.setText("该地址附近有 0 家服务商");
         } else {
             homeAddress.setText(location.getStreet() + currentCommunity.name);
             homeCurrentLocation.setText(cacheCommunityBean.name + "社区，附近有 45 家服务商");
@@ -361,6 +369,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                     @Override
                     public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
                         setOrderData(orderListResponseBaseResponse.data.list);
+                        homeRefresh.setRefreshing(false);
                     }
                 });
     }
