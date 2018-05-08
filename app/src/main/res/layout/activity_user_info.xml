@@ -67,6 +67,7 @@
             android:id="@+id/tv_account_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="未填写"
             android:layout_marginEnd="10dp" />
 
         <ImageView
@@ -96,6 +97,7 @@
             android:id="@+id/tv_phone_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="未填写"
             android:layout_marginEnd="10dp" />
 
         <ImageView
@@ -124,6 +126,7 @@
             android:id="@+id/tv_email_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="未填写"
             android:layout_marginEnd="10dp" />
 
         <ImageView
@@ -153,6 +156,7 @@
             android:id="@+id/tv_sex_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="未填写"
             android:layout_marginEnd="10dp" />
 
         <ImageView
@@ -182,6 +186,7 @@
             android:id="@+id/tv_birthday_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="未填写"
             android:layout_marginEnd="10dp" />
 
         <ImageView

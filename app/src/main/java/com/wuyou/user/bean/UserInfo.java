@@ -34,9 +34,13 @@ public class UserInfo {
     @Convert(converter = AddressConverter.class, columnType = String.class)
     private AddressBean address;
 
-    @Generated(hash = 53264404)
+    private String email;
+    private String birthday;
+
+    @Generated(hash = 1762817972)
     public UserInfo(Long mid, String nickname, String mobile, String uid, String avatar,
-            String token, String password, String gender, AddressBean address) {
+            String token, String password, String gender, AddressBean address, String email,
+            String birthday) {
         this.mid = mid;
         this.nickname = nickname;
         this.mobile = mobile;
@@ -46,11 +50,30 @@ public class UserInfo {
         this.password = password;
         this.gender = gender;
         this.address = address;
+        this.email = email;
+        this.birthday = birthday;
     }
 
     @Generated(hash = 1279772520)
     public UserInfo() {
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
 
     public Long getMid() {
         return this.mid;

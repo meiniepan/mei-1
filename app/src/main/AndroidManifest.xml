@@ -134,9 +134,13 @@
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
-        <activity android:name=".view.activity.ModifyNickActivity" />
+        <activity android:name=".view.activity.ModifyNickActivity"
+            android:windowSoftInputMode="stateVisible"/>
         <activity android:name=".view.activity.ModifyGenderActivity" />
         <activity android:name=".view.activity.PayFinishActivity" />
+        <activity android:name=".view.activity.ModifyPhoneActivity"
+            android:windowSoftInputMode="stateVisible"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="WEIXIN_APP_ID"

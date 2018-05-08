@@ -135,7 +135,6 @@
                     android:gravity="center_vertical"
                     android:paddingEnd="@dimen/activity_horizontal_margin"
                     android:paddingStart="@dimen/activity_horizontal_margin"
-                    android:text="宣武门社区，附近有 45 家服务商"
                     android:textColor="@color/black" />
 
                 <include layout="@layout/split_line" />

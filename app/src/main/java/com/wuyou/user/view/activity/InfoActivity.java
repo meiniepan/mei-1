@@ -7,11 +7,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gs.buluo.common.utils.ToastUtils;
+import com.gs.buluo.common.network.BaseResponse;
+import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.QueryMapBuilder;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.UserInfo;
+import com.wuyou.user.network.CarefreeRetrofit;
+import com.wuyou.user.network.apis.UserApis;
+import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.Glide4Engine;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.zhihu.matisse.Matisse;
@@ -43,12 +48,24 @@ public class InfoActivity extends BaseActivity {
     TextView tvSexArea;
     @BindView(R.id.tv_birthday_area)
     TextView tvBirthdayArea;
+
     private Uri imagePath;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
         UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
-//        GlideUtils.loadImage(this, userInfo.getHead_image(), infoHead, true);
+        GlideUtils.loadImage(this, userInfo.getAvatar(), infoHead, true);
+        tvPhoneArea.setText(userInfo.getMobile());
+        showLoadingDialog();
+        CarefreeRetrofit.getInstance().createApi(UserApis.class)
+                .getUserInfo(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<BaseResponse<UserInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<UserInfo> userInfoBaseResponse) {
+                        setUserData(userInfoBaseResponse.data);
+                    }
+                });
     }
 
     @Override
@@ -59,27 +76,31 @@ public class InfoActivity extends BaseActivity {
 
     @OnClick({R.id.info_account_area, R.id.info_phone_area, R.id.info_email_area, R.id.info_sex_area, R.id.info_birthday_area, R.id.info_head})
     public void onViewClicked(View view) {
-        ToastUtils.ToastMessage(getCtx(), R.string.no_function);
-//        switch (view.getId()) {
-//            case R.id.info_head:
-//                chosePhoto();
-//                break;
-//            case R.id.info_account_area:
-//                startActivityForResult(new Intent(getCtx(), ModifyNickActivity.class).putExtra(Constant.FROM, Constant.NICK), Constant.Intent.REQUEST_NICK);
-//                break;
-//            case R.id.info_phone_area:
-//                startActivityForResult(new Intent(getCtx(), ModifyNickActivity.class).putExtra(Constant.FROM, Constant.PHONE), Constant.Intent.REQUEST_PHONE);
-//                break;
-//            case R.id.info_email_area:
-//                startActivityForResult(new Intent(getCtx(), ModifyNickActivity.class).putExtra(Constant.FROM, Constant.EMAIL), Constant.Intent.REQUEST_EMAIL);
-//                break;
-//            case R.id.info_sex_area:
-//                startActivityForResult(new Intent(getCtx(), ModifyGenderActivity.class), Constant.Intent.REQUEST_GENDER);
-//                break;
-//            case R.id.info_birthday_area:
-//                chooseBirthday();
-//                break;
-//        }
+        Intent intent = new Intent();
+        switch (view.getId()) {
+            case R.id.info_head:
+                chosePhoto();
+                break;
+            case R.id.info_account_area:
+                intent.setClass(getCtx(), ModifyNickActivity.class);
+                startActivityForResult(intent.putExtra(Constant.FROM, Constant.NICK), Constant.Intent.REQUEST_NICK);
+                break;
+            case R.id.info_phone_area:
+                intent.setClass(getCtx(), ModifyPhoneActivity.class);
+                startActivityForResult(intent.putExtra(Constant.FROM, Constant.PHONE), Constant.Intent.REQUEST_PHONE);
+                break;
+            case R.id.info_email_area:
+                intent.setClass(getCtx(), ModifyNickActivity.class);
+                startActivityForResult(intent.putExtra(Constant.FROM, Constant.EMAIL), Constant.Intent.REQUEST_EMAIL);
+                break;
+            case R.id.info_sex_area:
+                intent.setClass(getCtx(), ModifyGenderActivity.class);
+                startActivityForResult(intent, Constant.Intent.REQUEST_GENDER);
+                break;
+            case R.id.info_birthday_area:
+                chooseBirthday();
+                break;
+        }
     }
 
     private void chooseBirthday() {
@@ -88,37 +109,38 @@ public class InfoActivity extends BaseActivity {
         picker.setCanceledOnTouchOutside(true);
         picker.setUseWeight(true);
         picker.setTopPadding(ConvertUtils.toPx(this, 10));
-        picker.setRangeEnd(2111, 1, 11);
+        picker.setRangeStart(1930, 1, 1);
         calendar.setTime(new Date(System.currentTimeMillis() + 24 * 3600 * 1000));
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        picker.setRangeStart(year, month, day);
+        picker.setRangeEnd(year, month, day);
         picker.setResetWhileWheel(false);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {
-                calendar.set(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(day));
-                tvBirthdayArea.setText(year + "-" + month + "-" + day);
-            }
-        });
-        picker.setOnWheelListener(new DatePicker.OnWheelListener() {
-            @Override
-            public void onYearWheeled(int index, String year) {
-                picker.setTitleText(year + "-" + picker.getSelectedMonth() + "-" + picker.getSelectedDay());
-            }
-
-            @Override
-            public void onMonthWheeled(int index, String month) {
-                picker.setTitleText(picker.getSelectedYear() + "-" + month + "-" + picker.getSelectedDay());
-            }
-
-            @Override
-            public void onDayWheeled(int index, String day) {
-                picker.setTitleText(picker.getSelectedYear() + "-" + picker.getSelectedMonth() + "-" + day);
+                updateBirthday(year + "-" + month + "-" + day);
             }
         });
         picker.show();
+    }
+
+    private void updateBirthday(String birth) {
+        showLoadingDialog();
+        CarefreeRetrofit.getInstance().createApi(UserApis.class)
+                .updateUserInfo(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns()
+                        .put("field", "birthday")
+                        .put("value", birth)
+                        .buildPost())
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse baseResponse) {
+                        tvBirthdayArea.setText(birth);
+                    }
+                });
+
+
     }
 
     private void chosePhoto() {
@@ -148,8 +170,24 @@ public class InfoActivity extends BaseActivity {
             } else if (requestCode == Constant.Intent.REQUEST_EMAIL) {
                 tvEmailArea.setText(data.getStringExtra("info"));
             } else if (requestCode == Constant.Intent.REQUEST_GENDER) {
-                tvSexArea.setText(data.getStringExtra("info"));
+                int gender = data.getIntExtra("info", 0);
+                tvSexArea.setText(getGenderString(gender));
             }
         }
+    }
+
+    private String getGenderString(int gender) {
+        if (gender == 0) return "男";
+        else if (gender == 1) return "女";
+        else return "保密";
+    }
+
+    public void setUserData(UserInfo userInfo) {
+        if (userInfo.getNickname() != null) tvAccountArea.setText(userInfo.getNickname());
+        if (userInfo.getGender() != null) tvSexArea.setText(getGenderString(Integer.parseInt(userInfo.getGender())));
+        if (userInfo.getBirthday() != null) tvBirthdayArea.setText(userInfo.getBirthday());
+        if (userInfo.getEmail() != null) tvEmailArea.setText(userInfo.getEmail());
+        if (userInfo.getAvatar() != null)
+            GlideUtils.loadRoundCornerImage(this, userInfo.getAvatar(), infoHead);
     }
 }

@@ -77,10 +77,4 @@ public class HelpFragment extends BaseFragment {
                 break;
         }
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (serviceIntent != null) return;
-    }
 }
