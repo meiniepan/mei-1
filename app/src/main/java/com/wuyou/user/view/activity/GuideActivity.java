@@ -6,10 +6,8 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 
-import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.GuidePagerAdapter;
-import com.wuyou.user.mvp.login.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,11 +63,7 @@ public class GuideActivity extends BaseActivity {
     }
 
     public void startAct(View view) {
-        if (CarefreeDaoSession.getInstance().getUserInfo() == null) {
-            startActivity(new Intent(this, LoginActivity.class));
-        } else {
-            startActivity(new Intent(this, MainActivity.class));
-        }
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 }

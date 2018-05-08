@@ -505,7 +505,7 @@
                         android:layout_marginStart="30dp"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="230932148648665465"
+                        android:text="等待交易确认"
                         android:textColor="@color/common_gray" />
                 </LinearLayout>
 

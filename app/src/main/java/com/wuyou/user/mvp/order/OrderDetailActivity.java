@@ -3,7 +3,6 @@ package com.wuyou.user.mvp.order;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,7 +15,6 @@ import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBeanDetail;
 import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.util.CommonUtil;
-import com.wuyou.user.util.ThreadPool;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.CommentActivity;
 import com.wuyou.user.view.activity.HelpRobotActivity;
@@ -160,7 +158,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailServeWay.setText(data.service_mode);
         orderDetailServeTime.setText(data.service_date + "  " + data.service_time);
         orderDetailRemark.setText(data.remark);
-        orderDetailBillSerial.setText(data.serial);
+        if (!TextUtils.isEmpty(data.serial)) orderDetailBillSerial.setText(data.serial);
         orderDetailPayMethod.setText(data.pay_type);
         orderDetailPayTime.setText(TribeDateUtils.dateFormat(new Date(data.pay_time * 1000)));
         shopTel = data.shop.shop_tel;
@@ -208,11 +206,13 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     private void payOrder() {
         PayPanel payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
             @Override
-            public void onPayFinish() {finish();}
+            public void onPayFinish() {
+                finish();
+            }
 
             @Override
             public void onPayFail(ApiException e) {
-                ToastUtils.ToastMessage(getCtx(),e.getDisplayMessage());
+                ToastUtils.ToastMessage(getCtx(), e.getDisplayMessage());
             }
         });
         payPanel.setData(CommonUtil.formatPrice(beanDetail.total_amount), beanDetail.order_id, "1");
@@ -223,7 +223,8 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     private void paySecond() {
         PayPanel payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
             @Override
-            public void onPayFinish() {}
+            public void onPayFinish() {
+            }
 
             @Override
             public void onPayFail(ApiException e) {
