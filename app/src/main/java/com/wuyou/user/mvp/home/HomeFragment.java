@@ -180,10 +180,10 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         mLocationClient.setLocationListener(aMapLocation -> {
             if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
                 location = aMapLocation;
-                HomeFragment.this.getCommunityList();
+                getCommunityList();
             } else {
                 HomeFragment.this.dismissDialog();
-                ToastUtils.ToastMessage(mCtx, R.string.connect_fail);
+                ToastUtils.ToastMessage(mCtx, getString(R.string.location_error));
             }
         });
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
@@ -204,6 +204,12 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                         String dataToJson = new GsonBuilder().create().toJson(orderListResponseBaseResponse.data);
                         SharePreferenceManager.getInstance(mCtx).setValue(Constant.CATEGORY_CACHE, dataToJson);
                         setData(orderListResponseBaseResponse.data.list);
+                        if (homeRefresh.isRefreshing()) homeRefresh.setRefreshing(false);
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        if (homeRefresh.isRefreshing()) homeRefresh.setRefreshing(false);
                     }
                 });
     }
@@ -369,6 +375,11 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                     @Override
                     public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
                         setOrderData(orderListResponseBaseResponse.data.list);
+                        homeRefresh.setRefreshing(false);
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
                         homeRefresh.setRefreshing(false);
                     }
                 });

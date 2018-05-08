@@ -71,7 +71,6 @@ public class PhoneLoginFragment extends BaseFragment<LoginContract.View, LoginCo
             case R.id.login_send_verify:
                 String phone = loginPhone.getText().toString().trim();
                 if (!CommonUtil.checkPhone("", phone, mCtx)) return;
-                showLoadingDialog();
                 mPresenter.getVerifyCode(phone);
                 observer = new CounterDisposableObserver(reSendCaptcha);
                 RxUtil.countdown(59).subscribe(observer);
