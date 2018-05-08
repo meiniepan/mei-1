@@ -71,7 +71,7 @@ public class HelpFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.help_dialog:
-                Intent dialog = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "123456789"));
+                Intent dialog = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getString(R.string.help_phone)));
                 dialog.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(dialog);
                 break;

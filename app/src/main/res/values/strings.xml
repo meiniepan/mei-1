@@ -93,5 +93,6 @@
     <string name="pay_ali">支付宝支付</string>
     <string name="pay_fail">支付失败,请稍后重试</string>
     <string name="pay_finish">支付完成</string>
+    <string name="help_phone">18601076853</string>
 
 </resources>
