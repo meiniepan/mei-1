@@ -120,7 +120,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         getOrderMessage();
         homeRefresh.setOnRefreshListener(() -> {
             getOrderMessage();
-            mLocationClient.startLocation();
         });
     }
 
@@ -150,7 +149,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         PoiItem poiItem = event.poiItem;
         location.setLatitude(poiItem.getLatLonPoint().getLatitude());
         location.setLongitude(poiItem.getLatLonPoint().getLongitude());
-        location.setStreet(poiItem.getTitle());
+        location.setAoiName(poiItem.getTitle());
 
         String currentCommunityId = getCurrentCommunityId(communityBeans);
         if (!TextUtils.equals(currentCommunityId, communityId)) {
@@ -241,7 +240,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     public void getCommunityData(String currentCommunityId) {
         CarefreeRetrofit.getInstance().createApi(HomeApis.class).getVideos(currentCommunityId, QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
-                .doOnNext(response -> getServeList())
+                .doOnNext(response -> getServeList()) //获取服务列表
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<HomeVideoResponse>>() {
                     @Override
@@ -305,10 +304,10 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
 
     private void setCommunityText(CommunityBean currentCommunity) {
         if (currentCommunity == null) {
-            homeAddress.setText(location.getStreet());
+            homeAddress.setText(location.getAoiName());
             homeCurrentLocation.setText("该地址附近有 0 家服务商");
         } else {
-            homeAddress.setText(location.getStreet() + currentCommunity.name);
+            homeAddress.setText(location.getAoiName() + currentCommunity.name);
             homeCurrentLocation.setText(cacheCommunityBean.name + "社区，附近有 45 家服务商");
         }
 

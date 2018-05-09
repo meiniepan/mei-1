@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:ellipsize="end"
-                android:maxLength="12"
+                android:maxLength="10"
                 android:text="北京"
                 android:textColor="@color/white"
                 android:textSize="@dimen/dimens_16sp" />

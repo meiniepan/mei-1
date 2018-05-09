@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
+import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -79,7 +80,8 @@ public class InfoActivity extends BaseActivity {
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.info_head:
-                chosePhoto();
+                ToastUtils.ToastMessage(getCtx(), R.string.no_function);
+//                chosePhoto();
                 break;
             case R.id.info_account_area:
                 intent.setClass(getCtx(), ModifyNickActivity.class);
@@ -116,12 +118,7 @@ public class InfoActivity extends BaseActivity {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         picker.setRangeEnd(year, month, day);
         picker.setResetWhileWheel(false);
-        picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
-            @Override
-            public void onDatePicked(String year, String month, String day) {
-                updateBirthday(year + "-" + month + "-" + day);
-            }
-        });
+        picker.setOnDatePickListener((DatePicker.OnYearMonthDayPickListener) (year1, month1, day1) -> updateBirthday(year1 + "-" + month1 + "-" + day1));
         picker.show();
     }
 
@@ -184,7 +181,8 @@ public class InfoActivity extends BaseActivity {
 
     public void setUserData(UserInfo userInfo) {
         if (userInfo.getNickname() != null) tvAccountArea.setText(userInfo.getNickname());
-        if (userInfo.getGender() != null) tvSexArea.setText(getGenderString(Integer.parseInt(userInfo.getGender())));
+        if (userInfo.getGender() != null)
+            tvSexArea.setText(getGenderString(Integer.parseInt(userInfo.getGender())));
         if (userInfo.getBirthday() != null) tvBirthdayArea.setText(userInfo.getBirthday());
         if (userInfo.getEmail() != null) tvEmailArea.setText(userInfo.getEmail());
         if (userInfo.getAvatar() != null)

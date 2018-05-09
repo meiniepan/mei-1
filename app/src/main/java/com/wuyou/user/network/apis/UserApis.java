@@ -45,4 +45,8 @@ public interface UserApis {
     Observable<BaseResponse> updatePwd(
             @Path("uid") String uid, @FieldMap SortedTreeMap<String, String> map);
 
+
+    @GET("captcha")
+    Observable<BaseResponse> getCaptchaCode(
+            @QueryMap SortedTreeMap<String, String> map);
 }
