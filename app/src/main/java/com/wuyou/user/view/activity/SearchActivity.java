@@ -1,5 +1,6 @@
 package com.wuyou.user.view.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
+import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
@@ -22,6 +24,7 @@ import com.wuyou.user.mvp.serve.ServeDetailActivity;
 import com.wuyou.user.mvp.serve.ServeListAdapter;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.ServeApis;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.KeyboardUtils;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.widget.search.SearchRecyclerViewAdapter;
@@ -58,6 +61,7 @@ public class SearchActivity extends BaseActivity {
         });
         searchList.setLayoutManager(new LinearLayoutManager(this));
         searchHistoryList.setLayoutManager(new LinearLayoutManager(this));
+        searchHistoryList.addItemDecoration(CommonUtil.getRecyclerDivider(this));
         adapter = new ServeListAdapter(this, R.layout.item_serve_list);
         searchList.setAdapter(adapter);
         adapter.setOnLoadMoreListener(this::getMore, searchList);
@@ -102,7 +106,7 @@ public class SearchActivity extends BaseActivity {
                         searchStatus.showContentView();
                         List<ServeBean> list = listBaseResponse.data.list;
                         if (list.size() == 0) {
-                            searchStatus.showEmptyView();
+                            searchStatus.showEmptyView("没有找到您要的服务，换个词试试吧");
                             return;
                         }
                         adapter.setNewData(list);
@@ -144,5 +148,16 @@ public class SearchActivity extends BaseActivity {
                         adapter.loadMoreFail();
                     }
                 });
+    }
+
+    public void clearHistory(View view) {
+        new CustomAlertDialog.Builder(this).setTitle("提示").setMessage("确定清空历史搜索吗?")
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        CarefreeDaoSession.getInstance().clearSearchHistory();
+                        adapter.clearData();
+                    }
+                }).setNegativeButton(getString(R.string.cancel), null).create().show();
     }
 }

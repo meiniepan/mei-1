@@ -90,4 +90,12 @@ public class CarefreeDaoSession {
                 .limit(5)
                 .build().list();
     }
+
+    public void clearSearchHistory() {
+        daoSession.getSearchHistoryBeanDao().deleteAll();
+    }
+
+    public void deleteHistory(SearchHistoryBean item) {
+        daoSession.getSearchHistoryBeanDao().delete(item);
+    }
 }

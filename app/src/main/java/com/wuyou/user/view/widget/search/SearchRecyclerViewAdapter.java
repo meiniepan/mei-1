@@ -1,7 +1,8 @@
 package com.wuyou.user.view.widget.search;
 
-import android.widget.ImageView;
+import android.view.View;
 
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.SearchHistoryBean;
 import com.wuyou.user.view.widget.recyclerHelper.BaseHolder;
@@ -25,6 +26,13 @@ public class SearchRecyclerViewAdapter extends BaseQuickAdapter<SearchHistoryBea
     @Override
     protected void convert(BaseHolder helper, SearchHistoryBean item) {
         helper.setText(R.id.tv_history_item, item.getTitle());
+        helper.getView(R.id.tv_history_delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                remove(helper.getAdapterPosition());
+                CarefreeDaoSession.getInstance().deleteHistory(item);
+            }
+        });
     }
 
     public void setHistoryIcon(int historyIcon) {

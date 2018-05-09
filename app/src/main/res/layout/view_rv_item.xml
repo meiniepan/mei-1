@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp">
-
-    <ImageView
-        android:id="@+id/right_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:padding="10dp"
-        android:src="@drawable/ic_history_black_24dp"
-        android:tint="@android:color/darker_gray" />
+    android:layout_height="@dimen/common_height">
 
     <TextView
         android:id="@+id/tv_history_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/right_icon"
         android:paddingLeft="10dp"
         android:textColor="@color/common_dark"
         android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_history_delete"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@drawable/red_radius_button"
+        android:text="@string/delete"/>
 </RelativeLayout>
