@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.wuyou.user.bean.AddressBean;
 import com.wuyou.user.bean.DaoMaster;
 import com.wuyou.user.bean.DaoSession;
+import com.wuyou.user.bean.SearchHistoryBean;
+import com.wuyou.user.bean.SearchHistoryBeanDao;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.UserInfoDao;
 
@@ -75,5 +77,17 @@ public class CarefreeDaoSession {
 
     public AddressBean getDefaultAddress() {
         return getUserInfo().getAddress();
+    }
+
+
+    public void addHistoryRecord(SearchHistoryBean bean) {
+        SearchHistoryBeanDao searchHistoryBeanDao = daoSession.getSearchHistoryBeanDao();
+        if (!searchHistoryBeanDao.hasKey(bean)) searchHistoryBeanDao.save(bean);
+    }
+
+    public List<SearchHistoryBean> getHistoryRecords() {
+        return daoSession.getSearchHistoryBeanDao().queryBuilder()
+                .limit(5)
+                .build().list();
     }
 }

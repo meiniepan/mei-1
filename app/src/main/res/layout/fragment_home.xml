@@ -64,10 +64,12 @@
             android:layout_height="43dp"
             android:src="@mipmap/map" />
     </LinearLayout>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/home_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -79,6 +81,34 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/home_order_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"
+                    android:background="@color/common_orange"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="@dimen/activity_horizontal_margin_end"
+                    android:paddingStart="@dimen/activity_horizontal_margin_end"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="通知:"
+                        android:textColor="@color/white" />
+
+                    <com.wuyou.user.view.widget.MarqueeTextView
+                        android:id="@+id/home_order_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:singleLine="true"
+                        android:textColor="@color/white" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -123,10 +153,17 @@
                         android:text="视频标题" />
                 </LinearLayout>
 
-                <!--<include layout="@layout/split_line" />-->
+                <include layout="@layout/split_line_margin" />
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/home_activity"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+                <include layout="@layout/split_line_margin" />
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/home_current_location"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/common_height"
@@ -135,37 +172,11 @@
                     android:gravity="center_vertical"
                     android:paddingEnd="@dimen/activity_horizontal_margin"
                     android:paddingStart="@dimen/activity_horizontal_margin"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone" />
 
                 <include layout="@layout/split_line" />
-
-                <LinearLayout
-                    android:id="@+id/home_order_area"
-                    android:layout_width="match_parent"
-                    android:layout_height="33dp"
-                    android:visibility="gone"
-                    android:background="#ffece5"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingEnd="@dimen/activity_horizontal_margin_end"
-                    android:paddingStart="@dimen/activity_horizontal_margin_end">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="通知:"
-                        android:textColor="@color/common_orange" />
-
-                    <com.wuyou.user.view.widget.MarqueeTextView
-                        android:id="@+id/home_order_message"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:ellipsize="marquee"
-                        android:focusable="true"
-                        android:singleLine="true"
-                        android:textColor="@color/common_orange" />
-                </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/main_serve_list"

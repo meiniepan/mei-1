@@ -77,33 +77,32 @@ public class InfoActivity extends BaseActivity {
 
     @OnClick({R.id.info_account_area, R.id.info_phone_area, R.id.info_email_area, R.id.info_sex_area, R.id.info_birthday_area, R.id.info_head})
     public void onViewClicked(View view) {
-        ToastUtils.ToastMessage(getCtx(), R.string.no_function);
-//        Intent intent = new Intent();
-//        switch (view.getId()) {
-//            case R.id.info_head:
-//                ToastUtils.ToastMessage(getCtx(), R.string.no_function);
-////                chosePhoto();
-//                break;
-//            case R.id.info_account_area:
-//                intent.setClass(getCtx(), ModifyNickActivity.class);
-//                startActivityForResult(intent.putExtra(Constant.FROM, Constant.NICK), Constant.Intent.REQUEST_NICK);
-//                break;
-//            case R.id.info_phone_area:
-//                intent.setClass(getCtx(), ModifyPhoneActivity.class);
-//                startActivityForResult(intent.putExtra(Constant.FROM, Constant.PHONE), Constant.Intent.REQUEST_PHONE);
-//                break;
-//            case R.id.info_email_area:
-//                intent.setClass(getCtx(), ModifyNickActivity.class);
-//                startActivityForResult(intent.putExtra(Constant.FROM, Constant.EMAIL), Constant.Intent.REQUEST_EMAIL);
-//                break;
-//            case R.id.info_sex_area:
-//                intent.setClass(getCtx(), ModifyGenderActivity.class);
-//                startActivityForResult(intent, Constant.Intent.REQUEST_GENDER);
-//                break;
-//            case R.id.info_birthday_area:
-//                chooseBirthday();
-//                break;
-//        }
+        Intent intent = new Intent();
+        switch (view.getId()) {
+            case R.id.info_head:
+                ToastUtils.ToastMessage(getCtx(), R.string.no_function);
+//                chosePhoto();
+                break;
+            case R.id.info_account_area:
+                intent.setClass(getCtx(), ModifyNickActivity.class);
+                startActivityForResult(intent.putExtra(Constant.FROM, Constant.NICK), Constant.Intent.REQUEST_NICK);
+                break;
+            case R.id.info_phone_area:
+                intent.setClass(getCtx(), ModifyPhoneActivity.class);
+                startActivityForResult(intent.putExtra(Constant.FROM, Constant.PHONE), Constant.Intent.REQUEST_PHONE);
+                break;
+            case R.id.info_email_area:
+                intent.setClass(getCtx(), ModifyNickActivity.class);
+                startActivityForResult(intent.putExtra(Constant.FROM, Constant.EMAIL), Constant.Intent.REQUEST_EMAIL);
+                break;
+            case R.id.info_sex_area:
+                intent.setClass(getCtx(), ModifyGenderActivity.class);
+                startActivityForResult(intent, Constant.Intent.REQUEST_GENDER);
+                break;
+            case R.id.info_birthday_area:
+                chooseBirthday();
+                break;
+        }
     }
 
     private void chooseBirthday() {

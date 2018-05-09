@@ -36,6 +36,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/address_search"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_marginBottom="8dp"
@@ -52,7 +53,6 @@
             android:src="@mipmap/location_search" />
 
         <TextView
-            android:id="@+id/address_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"

@@ -48,6 +48,7 @@ import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.JZVideoPlayerFullscreen;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.HomeMapActivity;
+import com.wuyou.user.view.activity.SearchActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.MarqueeTextView;
 import com.wuyou.user.view.widget.panel.ShareBottomBoard;
@@ -360,7 +361,8 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 startActivity(intent);
                 break;
             case R.id.home_search:
-                ToastUtils.ToastMessage(mCtx, R.string.no_function);
+                intent.setClass(mCtx, SearchActivity.class);
+                startActivity(intent);
                 break;
         }
     }

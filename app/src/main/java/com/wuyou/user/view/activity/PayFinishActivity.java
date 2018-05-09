@@ -46,6 +46,15 @@ public class PayFinishActivity extends BaseActivity {
                     protected void onFail(ApiException e) {
                     }
                 });
+        findViewById(R.id.back).setOnClickListener(v -> back());
+    }
+
+    private void back() {
+        Intent intent = new Intent();
+        intent.setClass(getCtx(), MainActivity.class);
+        intent.putExtra(Constant.MAIN_FLAG, 1);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -74,10 +83,6 @@ public class PayFinishActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent();
-        intent.setClass(getCtx(), MainActivity.class);
-        intent.putExtra(Constant.MAIN_FLAG, 1);
-        startActivity(intent);
-        finish();
+        back();
     }
 }

@@ -4,6 +4,7 @@ import android.support.v4.util.ArrayMap;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
+import com.wuyou.user.bean.ServeBean;
 import com.wuyou.user.bean.ServeDetailBean;
 import com.wuyou.user.bean.ServeLevelBean;
 import com.wuyou.user.bean.response.CategoryListResponse;
@@ -37,4 +38,7 @@ public interface ServeApis {
 
     @GET("service_times")
     Observable<BaseResponse<ArrayMap<String, List<ServeTimeBean>>>> getAvailableServeTime(@QueryMap SortedTreeMap<String, String> map);
+
+    @GET("services/search")
+    Observable<BaseResponse<ListResponse<ServeBean>>> searchServe(@QueryMap SortedTreeMap<String, String> map);
 }
