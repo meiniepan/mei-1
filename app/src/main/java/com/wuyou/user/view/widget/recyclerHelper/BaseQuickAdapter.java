@@ -127,7 +127,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseHolder> extends Recycler
 
     private RecyclerView mRecyclerView;
 
-    protected RecyclerView getRecyclerView() {
+    public RecyclerView getRecyclerView() {
         return mRecyclerView;
     }
 

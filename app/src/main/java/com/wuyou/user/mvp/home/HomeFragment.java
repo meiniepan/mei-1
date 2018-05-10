@@ -49,6 +49,7 @@ import com.wuyou.user.util.JZVideoPlayerFullscreen;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.HomeMapActivity;
 import com.wuyou.user.view.activity.SearchActivity;
+import com.wuyou.user.view.activity.WebActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.MarqueeTextView;
 import com.wuyou.user.view.widget.panel.ShareBottomBoard;
@@ -347,7 +348,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         }
     }
 
-    @OnClick({R.id.home_location_area, R.id.home_map, R.id.home_search})
+    @OnClick({R.id.home_location_area, R.id.home_map, R.id.home_search, R.id.home_activity})
     public void onViewClicked(View view) {
         if (location == null) return;
         Intent intent = new Intent();
@@ -362,6 +363,11 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 break;
             case R.id.home_search:
                 intent.setClass(mCtx, SearchActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.home_activity:
+                intent.setClass(mCtx, WebActivity.class);
+                intent.putExtra(Constant.WEB_URL, "http://www.baidu.com");
                 startActivity(intent);
                 break;
         }

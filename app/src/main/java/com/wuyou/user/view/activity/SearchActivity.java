@@ -27,7 +27,6 @@ import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.KeyboardUtils;
 import com.wuyou.user.util.RxUtil;
-import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.view.widget.search.SearchRecyclerViewAdapter;
 
 import java.util.List;
@@ -63,25 +62,35 @@ public class SearchActivity extends BaseActivity {
         searchList.setLayoutManager(new LinearLayoutManager(this));
         searchHistoryList.setLayoutManager(new LinearLayoutManager(this));
         searchHistoryList.addItemDecoration(CommonUtil.getRecyclerDivider(this));
+
         adapter = new ServeListAdapter(this, R.layout.item_serve_list);
         searchList.setAdapter(adapter);
+        adapter.bindToRecyclerView(searchList);
 //        adapter.setOnLoadMoreListener(this::getMore, searchList);
         adapter.setOnItemClickListener((adapter, view, position) -> goDetail((ServeBean) adapter.getData().get(position)));
 
         SearchRecyclerViewAdapter historyAdapter = new SearchRecyclerViewAdapter(CarefreeDaoSession.getInstance().getHistoryRecords());
         searchHistoryList.setAdapter(historyAdapter);
-        if (historyAdapter.getData().size() == 0) findViewById(R.id.search_clear).setVisibility(View.GONE);
-
-        historyAdapter.setOnItemClickListener((adapter, view, position) -> {
+        historyAdapter.bindToRecyclerView(searchHistoryList);
+        if (historyAdapter.getData().size() == 0)
+            findViewById(R.id.search_clear).setVisibility(View.GONE);
+        historyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             searchText = ((SearchHistoryBean) adapter.getData().get(position)).getTitle();
             KeyboardUtils.hideSoftInput(searchEdit, getCtx());
             doSearch();
         });
+
         searchEdit.setOnTouchListener((v, event) -> {
             historyAdapter.setNewData(CarefreeDaoSession.getInstance().getHistoryRecords());
             cardView.setVisibility(View.VISIBLE);
             return false;
         });
+
+        findViewById(R.id.search_clear).setOnClickListener(v -> new CustomAlertDialog.Builder(getCtx()).setTitle("提示").setMessage("确定清空历史搜索吗?")
+                .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+                    CarefreeDaoSession.getInstance().clearSearchHistory();
+                    historyAdapter.clearData();
+                }).setNegativeButton(getString(R.string.cancel), null).create().show());
     }
 
     private void goDetail(ServeBean serveBean) {
@@ -94,6 +103,7 @@ public class SearchActivity extends BaseActivity {
 
     private void doSearch() {
         CarefreeDaoSession.getInstance().addHistoryRecord(new SearchHistoryBean(searchText));
+        findViewById(R.id.search_clear).setVisibility(View.VISIBLE);
         searchStatus.showProgressView();
         cardView.setVisibility(View.GONE);
         CarefreeRetrofit.getInstance().createApi(ServeApis.class)
@@ -152,16 +162,5 @@ public class SearchActivity extends BaseActivity {
                         adapter.loadMoreFail();
                     }
                 });
-    }
-
-    public void clearHistory(View view) {
-        new CustomAlertDialog.Builder(this).setTitle("提示").setMessage("确定清空历史搜索吗?")
-                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        CarefreeDaoSession.getInstance().clearSearchHistory();
-                        adapter.clearData();
-                    }
-                }).setNegativeButton(getString(R.string.cancel), null).create().show();
     }
 }

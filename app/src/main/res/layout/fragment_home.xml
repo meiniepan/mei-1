@@ -156,6 +156,7 @@
                 <include layout="@layout/split_line_margin" />
 
                 <ImageView
+                    android:id="@+id/home_activity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/home_activity"

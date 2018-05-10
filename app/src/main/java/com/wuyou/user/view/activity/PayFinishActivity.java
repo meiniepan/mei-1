@@ -46,7 +46,6 @@ public class PayFinishActivity extends BaseActivity {
                     protected void onFail(ApiException e) {
                     }
                 });
-        findViewById(R.id.back).setOnClickListener(v -> back());
     }
 
     private void back() {

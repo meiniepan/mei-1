@@ -12,7 +12,7 @@
 
         <TextView
             android:id="@+id/tv_history_item"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:textColor="@color/common_dark"
