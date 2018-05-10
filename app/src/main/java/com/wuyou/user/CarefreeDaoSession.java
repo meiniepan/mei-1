@@ -10,6 +10,9 @@ import com.wuyou.user.bean.SearchHistoryBeanDao;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.UserInfoDao;
 
+import org.greenrobot.greendao.Property;
+
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -82,13 +85,12 @@ public class CarefreeDaoSession {
 
     public void addHistoryRecord(SearchHistoryBean bean) {
         SearchHistoryBeanDao searchHistoryBeanDao = daoSession.getSearchHistoryBeanDao();
-        if (!searchHistoryBeanDao.hasKey(bean)) searchHistoryBeanDao.save(bean);
+        if (searchHistoryBeanDao.queryBuilder().where(SearchHistoryBeanDao.Properties.Title.eq(bean.getTitle())).list().size() == 0)
+            searchHistoryBeanDao.save(bean);
     }
 
     public List<SearchHistoryBean> getHistoryRecords() {
-        return daoSession.getSearchHistoryBeanDao().queryBuilder()
-                .limit(5)
-                .build().list();
+        return daoSession.getSearchHistoryBeanDao().queryBuilder().orderDesc(SearchHistoryBeanDao.Properties.Mid).build().list();
     }
 
     public void clearSearchHistory() {

@@ -141,7 +141,8 @@
         <activity android:name=".view.activity.ModifyPhoneActivity"
             android:windowSoftInputMode="stateVisible"
             android:screenOrientation="portrait"/>
-        <activity android:name=".view.activity.SearchActivity" />
+        <activity android:name=".view.activity.SearchActivity"
+            android:windowSoftInputMode="adjustPan"/>
 
         <meta-data
             android:name="WEIXIN_APP_ID"

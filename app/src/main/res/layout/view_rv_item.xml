@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.gs.buluo.common.widget.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/common_height">
+    android:layout_height="@dimen/common_height"
+    android:id="@+id/history_item_swipe">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_history_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:textColor="@color/common_dark"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_history_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:paddingLeft="10dp"
-        android:textColor="@color/common_dark"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/tv_history_delete"
-        android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp"
-        android:gravity="center"
+        android:id="@+id/history_item_delete"
+        android:layout_width="70dp"
         android:textColor="@color/white"
-        android:background="@drawable/red_radius_button"
-        android:text="@string/delete"/>
-</RelativeLayout>
+        android:gravity="center"
+        android:textSize="@dimen/dimens_16sp"
+        android:layout_height="match_parent"
+        android:background="@color/common_red"
+        android:text="删除" />
+</com.gs.buluo.common.widget.SwipeMenuLayout>

@@ -11,6 +11,7 @@ import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.ToastUtils;
+import com.gs.buluo.common.utils.TribeDateUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -111,7 +112,8 @@ public class InfoActivity extends BaseActivity {
         picker.setCanceledOnTouchOutside(true);
         picker.setUseWeight(true);
         picker.setTopPadding(ConvertUtils.toPx(this, 10));
-        picker.setRangeStart(1930, 1, 1);
+        picker.setRangeStart(1940, 1, 1);
+        picker.setSelectedItem(1980,1,1);
         calendar.setTime(new Date(System.currentTimeMillis() + 24 * 3600 * 1000));
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
@@ -183,7 +185,8 @@ public class InfoActivity extends BaseActivity {
         if (userInfo.getNickname() != null) tvAccountArea.setText(userInfo.getNickname());
         if (userInfo.getGender() != null)
             tvSexArea.setText(getGenderString(Integer.parseInt(userInfo.getGender())));
-        if (userInfo.getBirthday() != null) tvBirthdayArea.setText(userInfo.getBirthday());
+        if (userInfo.getBirthday() != null)
+            tvBirthdayArea.setText(TribeDateUtils.dateFormat5(new Date(Long.parseLong(userInfo.getBirthday()) * 1000)));
         if (userInfo.getEmail() != null) tvEmailArea.setText(userInfo.getEmail());
         if (userInfo.getAvatar() != null)
             GlideUtils.loadRoundCornerImage(this, userInfo.getAvatar(), infoHead);

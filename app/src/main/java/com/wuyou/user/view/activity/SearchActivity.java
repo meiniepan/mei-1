@@ -27,6 +27,7 @@ import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.KeyboardUtils;
 import com.wuyou.user.util.RxUtil;
+import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.view.widget.search.SearchRecyclerViewAdapter;
 
 import java.util.List;
@@ -64,17 +65,20 @@ public class SearchActivity extends BaseActivity {
         searchHistoryList.addItemDecoration(CommonUtil.getRecyclerDivider(this));
         adapter = new ServeListAdapter(this, R.layout.item_serve_list);
         searchList.setAdapter(adapter);
-        adapter.setOnLoadMoreListener(this::getMore, searchList);
+//        adapter.setOnLoadMoreListener(this::getMore, searchList);
         adapter.setOnItemClickListener((adapter, view, position) -> goDetail((ServeBean) adapter.getData().get(position)));
 
         SearchRecyclerViewAdapter historyAdapter = new SearchRecyclerViewAdapter(CarefreeDaoSession.getInstance().getHistoryRecords());
         searchHistoryList.setAdapter(historyAdapter);
+        if (historyAdapter.getData().size() == 0) findViewById(R.id.search_clear).setVisibility(View.GONE);
+
         historyAdapter.setOnItemClickListener((adapter, view, position) -> {
             searchText = ((SearchHistoryBean) adapter.getData().get(position)).getTitle();
             KeyboardUtils.hideSoftInput(searchEdit, getCtx());
             doSearch();
         });
         searchEdit.setOnTouchListener((v, event) -> {
+            historyAdapter.setNewData(CarefreeDaoSession.getInstance().getHistoryRecords());
             cardView.setVisibility(View.VISIBLE);
             return false;
         });
@@ -97,7 +101,7 @@ public class SearchActivity extends BaseActivity {
                         .put("keyword", searchText)
                         .put("start_id", "0")
                         .put("flag", "1")
-                        .put("size", "10")
+                        .put("size", "20")
                         .buildGet())
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<BaseResponse<ListResponse<ServeBean>>>() {

@@ -40,7 +40,7 @@ public class PhoneLoginFragment extends BaseFragment<LoginContract.View, LoginCo
 
     @Override
     public void showError(String message, int res) {
-        ToastUtils.ToastMessage(getContext(), R.string.connect_fail);
+        ToastUtils.ToastMessage(getContext(), message);
     }
 
 

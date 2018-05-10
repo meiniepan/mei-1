@@ -3,6 +3,16 @@ apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.0"
+    def API_URL;
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            if ("true" == IS_TEST) {
+                outputFileName = "dev-app-user-${variant.versionName}.apk".toLowerCase()
+            } else {
+                outputFileName = "app.user-${variant.versionName}.apk".toLowerCase()
+            }
+        }
+    }
     defaultConfig {
         applicationId "com.wuyou.user"
         minSdkVersion 17
@@ -25,15 +35,26 @@ android {
         }
     }
     buildTypes {
+        if ("true" == IS_TEST) {
+            API_URL = DUBUG_SERVER_URL
+        } else {
+            API_URL = RELEASE_SERVER_URL
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'API_SERVER_URL', API_URL
+            signingConfig signingConfigs.release
+            debuggable true
+        }
+        debug {
+            buildConfigField 'String', 'API_SERVER_URL', API_URL
             signingConfig signingConfigs.release
             debuggable true
         }
     }
     greendao {
-        schemaVersion 2
+        schemaVersion 3
         targetGenDir 'src/main/java'
     }
     compileOptions {

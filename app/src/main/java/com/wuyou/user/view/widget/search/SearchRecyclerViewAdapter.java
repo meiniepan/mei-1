@@ -2,6 +2,7 @@ package com.wuyou.user.view.widget.search;
 
 import android.view.View;
 
+import com.gs.buluo.common.widget.SwipeMenuLayout;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.SearchHistoryBean;
@@ -26,10 +27,12 @@ public class SearchRecyclerViewAdapter extends BaseQuickAdapter<SearchHistoryBea
     @Override
     protected void convert(BaseHolder helper, SearchHistoryBean item) {
         helper.setText(R.id.tv_history_item, item.getTitle());
-        helper.getView(R.id.tv_history_delete).setOnClickListener(new View.OnClickListener() {
+        SwipeMenuLayout menuLayout = helper.getView(R.id.history_item_swipe);
+        helper.getView(R.id.history_item_delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 remove(helper.getAdapterPosition());
+                menuLayout.quickClose();
                 CarefreeDaoSession.getInstance().deleteHistory(item);
             }
         });
