@@ -99,4 +99,6 @@
     <string name="clear_history">清除历史记录</string>
     <string name="enter_content">请输入内容</string>
     <string name="delete">删除</string>
+    <string name="please_input_right_email">请输入正确的邮箱格式</string>
+    <string name="nickname_not_right">昵称为4-12个字符</string>
 </resources>

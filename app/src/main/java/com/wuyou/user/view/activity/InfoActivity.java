@@ -113,7 +113,7 @@ public class InfoActivity extends BaseActivity {
         picker.setUseWeight(true);
         picker.setTopPadding(ConvertUtils.toPx(this, 10));
         picker.setRangeStart(1940, 1, 1);
-        picker.setSelectedItem(1980,1,1);
+        picker.setSelectedItem(1980, 1, 1);
         calendar.setTime(new Date(System.currentTimeMillis() + 24 * 3600 * 1000));
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;

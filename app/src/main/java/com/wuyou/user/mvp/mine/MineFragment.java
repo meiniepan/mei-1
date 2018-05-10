@@ -16,6 +16,7 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.WalletBalance;
+import com.wuyou.user.event.InfoUpdateEvent;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
@@ -72,7 +73,8 @@ public class MineFragment extends BaseFragment {
         UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
         if (userInfo != null) {
             mineLogin.setVisibility(View.GONE);
-            if (!TextUtils.isEmpty(userInfo.getAvatar())) GlideUtils.loadImage(mCtx, userInfo.getAvatar(), mineHead, true);
+            if (!TextUtils.isEmpty(userInfo.getAvatar()))
+                GlideUtils.loadImage(mCtx, userInfo.getAvatar(), mineHead, true);
             minePhone.setText(userInfo.getMobile());
             mineName.setText(userInfo.getName());
 //            mineSex.setText(userInfo.getGender());
@@ -85,6 +87,12 @@ public class MineFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginEvent(LoginEvent event) {
         setLoginInfo();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateName(InfoUpdateEvent event) {
+        if (event.getName() != null) mineName.setText(event.getName());
+        if (event.getPhone() != null) minePhone.setText(event.getPhone());
     }
 
     @Override
@@ -136,7 +144,7 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.mine_info:
                 intent.setClass(mCtx, InfoActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 201);
                 break;
         }
     }

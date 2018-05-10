@@ -12,12 +12,18 @@ import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
+import com.wuyou.user.bean.UserInfo;
+import com.wuyou.user.event.InfoUpdateEvent;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.CounterDisposableObserver;
 import com.wuyou.user.util.RxUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by DELL on 2018/5/8.
@@ -49,11 +55,18 @@ public class ModifyPhoneActivity extends BaseActivity {
         }
         showLoadingDialog();
         final String phone = phoneUpdatePhone.getText().toString().trim();
+        if (!CommonUtil.checkPhone("", phone, this)) return;
         CarefreeRetrofit.getInstance().createApi(UserApis.class).updateUserInfo(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns()
                 .put("field", "mobile")
                 .put("value", phone)
                 .put("captcha", phoneUpdateCaptcha.getText().toString().trim()).buildPost())
-                .compose(RxUtil.switchSchedulers())
+                .doOnNext(baseResponse -> {
+                    UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
+                    userInfo.setMobile(phone);
+                    CarefreeDaoSession.getInstance().updateUserInfo(userInfo);
+                    EventBus.getDefault().post(new InfoUpdateEvent(phone,0));
+                })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
@@ -69,9 +82,11 @@ public class ModifyPhoneActivity extends BaseActivity {
             ToastUtils.ToastMessage(getCtx(), R.string.input_phone);
             return;
         }
+        String phone = phoneUpdatePhone.getText().toString().trim();
+        if (!CommonUtil.checkPhone("", phone, this)) return;
         phoneUpdateCaptcha.requestFocus();
         CarefreeRetrofit.getInstance().createApi(UserApis.class)
-                .getCaptchaCode(QueryMapBuilder.getIns().put("mobile", phoneUpdatePhone.getText().toString().trim()).put("type", "3").buildGet())
+                .getCaptchaCode(QueryMapBuilder.getIns().put("mobile", phone).put("type", "3").buildGet())
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override

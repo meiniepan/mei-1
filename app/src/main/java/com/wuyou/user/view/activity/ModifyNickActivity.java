@@ -3,6 +3,7 @@ package com.wuyou.user.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,12 +16,21 @@ import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.bean.UserInfo;
+import com.wuyou.user.event.InfoUpdateEvent;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.RxUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by DELL on 2018/3/14.
@@ -28,7 +38,7 @@ import butterknife.OnClick;
 
 public class ModifyNickActivity extends BaseActivity {
     @BindView(R.id.et_input_nick)
-    EditText etNick;
+    EditText editText;
     @BindView(R.id.tv_info_title)
     TextView tvTitle;
     private String from;
@@ -39,13 +49,13 @@ public class ModifyNickActivity extends BaseActivity {
         switch (from) {
             case Constant.NICK:
                 tvTitle.setText("修改昵称");
-                etNick.setHint("请填写昵称");
+                editText.setHint("请填写昵称");
                 break;
             case Constant.EMAIL:
                 findViewById(R.id.info_update_mark).setVisibility(View.GONE);
                 tvTitle.setText("修改邮箱");
-                etNick.setHint("请填写邮箱");
-                etNick.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+                editText.setHint("请填写邮箱");
+                editText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
                 break;
         }
     }
@@ -60,13 +70,23 @@ public class ModifyNickActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_modify_nick:
-                if (etNick.length() == 0) return;
+                String input = editText.getText().toString();
                 switch (from) {
                     case Constant.NICK:
-                        updateInfo("nickname", etNick.getText().toString());
+                        if (editText.length() < 4 || editText.length() > 12) {
+                            ToastUtils.ToastMessage(getCtx(), getString(R.string.nickname_not_right));
+                            return;
+                        }
+                        updateInfo("nickname", input);
                         break;
                     case Constant.EMAIL:
-                        updateInfo("email", etNick.getText().toString());
+                        Pattern pattern = Pattern.compile("^[0-9a-z]+\\w*@([0-9a-z]+\\.)+[0-9a-z]+$");
+                        Matcher matcher = pattern.matcher(input);
+                        if (!matcher.matches()) {
+                            ToastUtils.ToastMessage(getCtx(), getString(R.string.please_input_right_email));
+                            return;
+                        }
+                        updateInfo("email", input);
                         break;
                 }
 
@@ -82,11 +102,20 @@ public class ModifyNickActivity extends BaseActivity {
                         .put("field", key)
                         .put("value", value)
                         .buildPost())
-                .compose(RxUtil.switchSchedulers())
+                .subscribeOn(Schedulers.io())
+                .doOnNext(baseResponse -> {
+                    if (TextUtils.equals( Constant.NICK,from)){
+                        UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
+                        userInfo.setNickname(value);
+                        CarefreeDaoSession.getInstance().updateUserInfo(userInfo);
+                        EventBus.getDefault().post(new InfoUpdateEvent(value));
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
-                        setResult(RESULT_OK, new Intent().putExtra("info", etNick.getText().toString()));
+                        setResult(RESULT_OK, new Intent().putExtra("info", editText.getText().toString()));
                         finish();
                     }
 
