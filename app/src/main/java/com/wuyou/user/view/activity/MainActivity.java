@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.gs.buluo.common.network.TokenEvent;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.wuyou.user.BuildConfig;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;

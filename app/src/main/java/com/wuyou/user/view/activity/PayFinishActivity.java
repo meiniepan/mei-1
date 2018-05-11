@@ -9,6 +9,7 @@ import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
+import com.gs.buluo.common.utils.AppManager;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.response.SimpleResponse;
@@ -70,6 +71,7 @@ public class PayFinishActivity extends BaseActivity {
                 intent.putExtra(Constant.ORDER_ID, targetId);
                 startActivity(intent);
                 finish();
+                AppManager.getAppManager().finishActivity(SearchActivity.class);
                 break;
             case R.id.pay_finish_back_main:
                 intent.setClass(getCtx(), MainActivity.class);

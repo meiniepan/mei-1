@@ -55,11 +55,15 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         mToolbar = findViewById(getToolBarId());
 
 //        setSupportActionBar(mToolbar);
-        bindView(savedInstanceState);
-        initSystemBar(this);
         View backView = findViewById(R.id.back);
         if (backView != null) {
             backView.setOnClickListener(view -> finish());
+        }
+        bindView(savedInstanceState);
+        try {
+            initSystemBar(this);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

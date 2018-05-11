@@ -3,6 +3,7 @@ package com.wuyou.user.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -24,6 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by DELL on 2018/5/8.
@@ -60,6 +62,7 @@ public class ModifyPhoneActivity extends BaseActivity {
                 .put("field", "mobile")
                 .put("value", phone)
                 .put("captcha", phoneUpdateCaptcha.getText().toString().trim()).buildPost())
+                .subscribeOn(Schedulers.io())
                 .doOnNext(baseResponse -> {
                     UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
                     userInfo.setMobile(phone);

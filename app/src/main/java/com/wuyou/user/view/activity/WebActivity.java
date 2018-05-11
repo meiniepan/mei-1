@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.Constant;
+import com.wuyou.user.JSCallJavaInterface;
 import com.wuyou.user.R;
 
 import butterknife.BindView;
@@ -80,6 +81,9 @@ public class WebActivity extends BaseActivity {
                 tvTitle.setText(title);
             }
         });
+
+
+        webView.addJavascriptInterface(new JSCallJavaInterface(), "JSCallJava");
     }
 
     @Override

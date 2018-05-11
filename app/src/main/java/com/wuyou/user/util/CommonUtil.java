@@ -477,4 +477,11 @@ public class CommonUtil {
     public static RecycleViewDivider getRecyclerDivider(Context context) {
         return new RecycleViewDivider(context, LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(context, 0.5f), context.getResources().getColor(R.color.tint_bg));
     }
+
+    public static String getPhoneWithStar(String mobile) {
+        if (mobile.length() == 11) {
+            return mobile.substring(0, 3) + "****" + mobile.substring(7);
+        }
+        return mobile;
+    }
 }

@@ -31,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
         android:background="@color/white"
+        android:layout_marginTop="10dp"
         android:hint="请填写昵称"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingStart="@dimen/activity_horizontal_margin" />

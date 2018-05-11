@@ -18,6 +18,7 @@ import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.CommentActivity;
 import com.wuyou.user.view.activity.HelpRobotActivity;
+import com.wuyou.user.view.activity.MainActivity;
 import com.wuyou.user.view.widget.panel.PayPanel;
 
 import java.util.Date;
@@ -86,6 +87,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderId = getIntent().getStringExtra(Constant.ORDER_ID);
         showLoadingDialog();
         mPresenter.getOrderDetail(orderId);
+        findViewById(R.id.back).setOnClickListener(v -> back());
     }
 
     @Override
@@ -273,6 +275,18 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                 findViewById(R.id.order_detail_bottom).setVisibility(View.GONE);
                 break;
         }
+    }
 
+    @Override
+    public void onBackPressed() {
+        back();
+    }
+
+    private void back() {
+        Intent intent = new Intent();
+        intent.setClass(getCtx(), MainActivity.class);
+        intent.putExtra(Constant.MAIN_FLAG, 1);
+        startActivity(intent);
+        finish();
     }
 }

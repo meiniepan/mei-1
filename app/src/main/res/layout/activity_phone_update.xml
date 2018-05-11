@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="绑定新手机号"
+            android:text="绑定新手机"
             android:textColor="@color/white"
             android:textSize="@dimen/title_size" />
 
@@ -51,11 +51,12 @@
             android:id="@+id/phone_update_send"
             android:layout_width="80dp"
             android:layout_height="30dp"
-            android:background="@drawable/captcha_selector"
+            android:background="@drawable/night_blue_border"
             android:gravity="center"
             android:onClick="sendCaptchaToUpdate"
+            android:textSize="@dimen/dimens_12sp"
             android:text="@string/send_captcha"
-            android:textColor="#fff" />
+            android:textColor="@color/night_blue" />
     </LinearLayout>
 
     <include layout="@layout/split_area" />

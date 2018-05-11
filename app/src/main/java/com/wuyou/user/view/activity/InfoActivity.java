@@ -18,6 +18,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.Glide4Engine;
 import com.wuyou.user.util.glide.GlideUtils;
@@ -57,7 +58,7 @@ public class InfoActivity extends BaseActivity {
     protected void bindView(Bundle savedInstanceState) {
         UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
         GlideUtils.loadImage(this, userInfo.getAvatar(), infoHead, true);
-        tvPhoneArea.setText(userInfo.getMobile());
+        tvPhoneArea.setText(CommonUtil.getPhoneWithStar(userInfo.getMobile()));
         showLoadingDialog();
         CarefreeRetrofit.getInstance().createApi(UserApis.class)
                 .getUserInfo(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
@@ -165,7 +166,7 @@ public class InfoActivity extends BaseActivity {
             } else if (requestCode == Constant.Intent.REQUEST_NICK) {
                 tvAccountArea.setText(data.getStringExtra("info"));
             } else if (requestCode == Constant.Intent.REQUEST_PHONE) {
-                tvPhoneArea.setText(data.getStringExtra("info"));
+                tvPhoneArea.setText(CommonUtil.getPhoneWithStar(data.getStringExtra("info")));
             } else if (requestCode == Constant.Intent.REQUEST_EMAIL) {
                 tvEmailArea.setText(data.getStringExtra("info"));
             } else if (requestCode == Constant.Intent.REQUEST_GENDER) {
