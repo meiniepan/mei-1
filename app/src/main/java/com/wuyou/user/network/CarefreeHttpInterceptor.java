@@ -31,6 +31,7 @@ public class CarefreeHttpInterceptor implements Interceptor {
             url = newBuilder.build();
         }
         if (CarefreeDaoSession.getInstance().getUserInfo() != null) {
+
             builder.addHeader("Authorization", CarefreeDaoSession.getInstance().getUserInfo().getToken());
         }
         Request request = builder.addHeader("Accept", "application/json").url(url).addHeader("Content-Type", "application/json").

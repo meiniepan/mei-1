@@ -236,6 +236,11 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                         communityId = getCurrentCommunityId(communityBeans);
                         getCommunityData(communityId);
                     }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        ToastUtils.ToastMessage(mCtx,getString(R.string.get_community_fail));
+                    }
                 });
     }
 
@@ -367,7 +372,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 break;
             case R.id.home_activity:
                 intent.setClass(mCtx, WebActivity.class);
-                intent.putExtra(Constant.WEB_URL, "http://www.baidu.com");
+                intent.putExtra(Constant.WEB_URL, "http://39.105.52.20:8087");
                 startActivity(intent);
                 break;
         }

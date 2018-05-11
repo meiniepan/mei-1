@@ -1,20 +1,23 @@
 package com.wuyou.user.view.activity;
 
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.Constant;
-import com.wuyou.user.JSCallJavaInterface;
 import com.wuyou.user.R;
+import com.wuyou.user.bean.JSBean;
 
 import butterknife.BindView;
 
@@ -33,10 +36,10 @@ public class WebActivity extends BaseActivity {
     protected void bindView(Bundle savedInstanceState) {
         setBarColor(R.color.common_dark);
         setUpWebView();
-        String imgUrl = getIntent().getStringExtra(Constant.WEB_URL);
+        String url = getIntent().getStringExtra(Constant.WEB_URL);
         int type = getIntent().getIntExtra(Constant.WEB_TYPE, 0);
-        if (imgUrl != null) {
-            webView.loadUrl(imgUrl);
+        if (url != null) {
+            webView.loadUrl(url);
         }
     }
 
@@ -57,8 +60,20 @@ public class WebActivity extends BaseActivity {
 //        webView.requestFocus();
 //        webView.requestFocus(View.FOCUS_DOWN|View.FOCUS_UP);
         webView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                Log.e("Test", "onPageStarted: " + url);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                Log.e("Test", "onPageFinished: " + Thread.currentThread());
+            }
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Log.e("Test", "shouldOverrideUrlLoading: " + url);
                 view.loadUrl(url);
                 return true;
             }
@@ -83,7 +98,19 @@ public class WebActivity extends BaseActivity {
         });
 
 
-        webView.addJavascriptInterface(new JSCallJavaInterface(), "JSCallJava");
+        //js调用本地方法
+        webView.addJavascriptInterface(new JSCallJavaInterface(), "root");
+    }
+
+
+    private String loadJSMethod(String methodName) {
+        final String[] result = new String[1];
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            webView.evaluateJavascript("javascript:" + methodName, value -> result[0] = value);
+        } else {
+            webView.loadUrl("javascript:" + methodName);
+        }
+        return result[0];
     }
 
     @Override
@@ -110,5 +137,15 @@ public class WebActivity extends BaseActivity {
         webView.destroy();
         webView = null;
         super.onDestroy();
+    }
+
+
+    private class JSCallJavaInterface {
+        @JavascriptInterface
+        public void hybridProtocol(String json) {
+//        ToastUtils.ToastMessage(CarefreeApplication.getInstance().getApplicationContext(), message);
+            Log.e("Test", "ShareActivity: " + Thread.currentThread());
+            Log.e("Test", "ShareActivity: " + new Gson().fromJson(json, JSBean.class).activityid);
+        }
     }
 }

@@ -3,7 +3,6 @@ package com.wuyou.user.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.JavascriptInterface;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -13,15 +12,11 @@ import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.UserInfo;
-import com.wuyou.user.event.InfoUpdateEvent;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.CounterDisposableObserver;
 import com.wuyou.user.util.RxUtil;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -63,12 +58,6 @@ public class ModifyPhoneActivity extends BaseActivity {
                 .put("value", phone)
                 .put("captcha", phoneUpdateCaptcha.getText().toString().trim()).buildPost())
                 .subscribeOn(Schedulers.io())
-                .doOnNext(baseResponse -> {
-                    UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
-                    userInfo.setMobile(phone);
-                    CarefreeDaoSession.getInstance().updateUserInfo(userInfo);
-                    EventBus.getDefault().post(new InfoUpdateEvent(phone,0));
-                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override

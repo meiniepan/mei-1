@@ -120,9 +120,9 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     @Override
     public void showError(String message, int res) {
         if (res == 100) {
-            ToastUtils.ToastMessage(mCtx, message);
+            ToastUtils.ToastMessage(mCtx, R.string.connect_fail);
         } else {
-            orderListStatus.showErrorView(message);
+            orderListStatus.showErrorView(getString(R.string.connect_fail));
         }
     }
 

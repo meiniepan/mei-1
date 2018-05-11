@@ -3,7 +3,6 @@ package com.wuyou.user.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,13 +15,8 @@ import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.UserInfo;
-import com.wuyou.user.event.InfoUpdateEvent;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;
-import com.wuyou.user.util.RxUtil;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -103,14 +97,6 @@ public class ModifyNickActivity extends BaseActivity {
                         .put("value", value)
                         .buildPost())
                 .subscribeOn(Schedulers.io())
-                .doOnNext(baseResponse -> {
-                    if (TextUtils.equals( Constant.NICK,from)){
-                        UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
-                        userInfo.setNickname(value);
-                        CarefreeDaoSession.getInstance().updateUserInfo(userInfo);
-                        EventBus.getDefault().post(new InfoUpdateEvent(value));
-                    }
-                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override

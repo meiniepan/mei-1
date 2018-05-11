@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.gnway.bangwoba.activity.Leaving_message;
 import com.gs.buluo.common.utils.DataCleanManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
@@ -58,10 +59,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.setting_about:
+                ToastUtils.ToastMessage(getCtx(),R.string.no_function);
+                break;
             case R.id.setting_feedback:
-                ToastUtils.ToastMessage(getCtx(), R.string.no_function);
-//                intent.setClass(mCtx, FeedbackActivity.class);
-//                startActivity(intent);
+                intent.setClass(getCtx(), Leaving_message.class);
+                startActivity(intent);
                 break;
             case R.id.setting_clear_cache:
                 new CustomAlertDialog.Builder(this).setTitle(R.string.prompt).setMessage("确定清除所有缓存?").setPositiveButton("清除", new DialogInterface.OnClickListener() {

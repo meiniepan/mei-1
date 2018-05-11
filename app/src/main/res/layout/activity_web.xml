@@ -7,7 +7,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        android:background="@color/night_blue">
+        android:background="@color/night_blue"
+        android:visibility="gone">
         <TextView
             android:id="@+id/web_title"
             android:layout_width="wrap_content"

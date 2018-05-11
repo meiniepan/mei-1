@@ -16,12 +16,12 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.WalletBalance;
-import com.wuyou.user.event.InfoUpdateEvent;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
+import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.InfoActivity;
@@ -73,15 +73,19 @@ public class MineFragment extends BaseFragment {
         UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
         if (userInfo != null) {
             mineLogin.setVisibility(View.GONE);
-            if (!TextUtils.isEmpty(userInfo.getAvatar()))
-                GlideUtils.loadImage(mCtx, userInfo.getAvatar(), mineHead, true);
-            minePhone.setText(userInfo.getMobile());
-            mineName.setText(userInfo.getName());
-//            mineSex.setText(userInfo.getGender());
+            setInfo(userInfo);
         } else {
             mineLogin.setVisibility(View.VISIBLE);
             mineHead.setImageResource(R.mipmap.default_pic);
         }
+    }
+
+    private void setInfo(UserInfo userInfo) {
+        if (!TextUtils.isEmpty(userInfo.getAvatar()))
+            GlideUtils.loadImage(mCtx, userInfo.getAvatar(), mineHead, true);
+        minePhone.setText(userInfo.getMobile());
+        mineName.setText(userInfo.getName());
+//            mineSex.setText(userInfo.getGender());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -89,25 +93,28 @@ public class MineFragment extends BaseFragment {
         setLoginInfo();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUpdateName(InfoUpdateEvent event) {
-        if (event.getName() != null) mineName.setText(event.getName());
-        if (event.getPhone() != null) minePhone.setText(event.getPhone());
-    }
-
-    @Override
-    public void showError(String message, int res) {
-
-    }
-
     @Override
     public void onResume() {
         super.onResume();
+        if (CarefreeDaoSession.getInstance().getUserInfo() == null) return;
         getBalance();
+        getInfo();
+    }
+
+    public void getInfo() {
+        CarefreeRetrofit.getInstance().createApi(UserApis.class).getUserInfo(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
+                .subscribeOn(Schedulers.io())
+                .doOnNext(userInfoBaseResponse -> {
+                    UserInfo info = userInfoBaseResponse.data;
+                    info.setToken(CarefreeDaoSession.getInstance().getUserInfo().getToken());
+                    info.setMid(CarefreeDaoSession.getInstance().getUserInfo().getMid());
+                    CarefreeDaoSession.getInstance().updateUserInfo(info);
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(userInfoBaseResponse -> setInfo(userInfoBaseResponse.data));
     }
 
     private void getBalance() {
-        if (CarefreeDaoSession.getInstance().getUserInfo() == null) return;
         CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
                 .getWalletBalance(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
@@ -144,7 +151,7 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.mine_info:
                 intent.setClass(mCtx, InfoActivity.class);
-                startActivityForResult(intent, 201);
+                startActivity(intent);
                 break;
         }
     }
