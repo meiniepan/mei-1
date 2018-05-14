@@ -46,7 +46,7 @@
     <string name="finished">已完成</string>
     <string name="finish">完成</string>
     <string name="pay">付款</string>
-    <string name="go_pay">付款</string>
+    <string name="go_pay">去支付</string>
     <string name="cancel_order">取消订单</string>
     <string name="delivered">已派单</string>
     <string name="order_accepted">订单已受理</string>
@@ -84,7 +84,7 @@
     <string name="no_order_yet">您目前还没有订单，快去下单吧</string>
     <string name="no_login">您还没有登录</string>
     <string name="canceled">已取消</string>
-    <string name="finish_serve">完成服务</string>
+    <string name="finish_serve">确认完成</string>
     <string name="please_login">请先登录</string>
     <string name="pay_success">支付成功</string>
     <string name="wu_u_pay">无忧币支付</string>
@@ -102,4 +102,16 @@
     <string name="please_input_right_email">请输入正确的邮箱格式</string>
     <string name="nickname_not_right">昵称为4-12个字符</string>
     <string name="get_community_fail">获取社区列表失败</string>
+    <string name="pay_method">支付方式</string>
+    <string name="pay_online">在线支付</string>
+    <string name="order_note">订单留言</string>
+    <string name="serve_fee">服务费用</string>
+    <string name="door_serve_fee">上门费用</string>
+    <string name="update_gender">修改性别</string>
+    <string name="choose_pay_method">选择支付方式</string>
+    <string name="door_serve">上门服务</string>
+    <string name="order_status">订单状态</string>
+    <string name="total">合计</string>
+    <string name="extra_fee">附加费用</string>
+    <string name="go_comment">去评价</string>
 </resources>

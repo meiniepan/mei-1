@@ -53,6 +53,7 @@ public class InfoActivity extends BaseActivity {
     TextView tvBirthdayArea;
 
     private Uri imagePath;
+    private int gender;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -99,6 +100,7 @@ public class InfoActivity extends BaseActivity {
                 break;
             case R.id.info_sex_area:
                 intent.setClass(getCtx(), ModifyGenderActivity.class);
+                intent.putExtra(Constant.GENDER, gender);
                 startActivityForResult(intent, Constant.Intent.REQUEST_GENDER);
                 break;
             case R.id.info_birthday_area:
@@ -170,7 +172,7 @@ public class InfoActivity extends BaseActivity {
             } else if (requestCode == Constant.Intent.REQUEST_EMAIL) {
                 tvEmailArea.setText(data.getStringExtra("info"));
             } else if (requestCode == Constant.Intent.REQUEST_GENDER) {
-                int gender = data.getIntExtra("info", 0);
+                gender = data.getIntExtra("info", 0);
                 tvSexArea.setText(getGenderString(gender));
             }
         }
@@ -184,8 +186,10 @@ public class InfoActivity extends BaseActivity {
 
     public void setUserData(UserInfo userInfo) {
         if (userInfo.getNickname() != null) tvAccountArea.setText(userInfo.getNickname());
-        if (userInfo.getGender() != null)
-            tvSexArea.setText(getGenderString(Integer.parseInt(userInfo.getGender())));
+        if (userInfo.getGender() != null) {
+            gender = Integer.parseInt(userInfo.getGender());
+            tvSexArea.setText(getGenderString(gender));
+        }
         if (userInfo.getBirthday() != null)
             tvBirthdayArea.setText(TribeDateUtils.dateFormat5(new Date(Long.parseLong(userInfo.getBirthday()) * 1000)));
         if (userInfo.getEmail() != null) tvEmailArea.setText(userInfo.getEmail());

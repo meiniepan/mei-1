@@ -30,13 +30,14 @@ import com.wuyou.user.bean.response.ServeTimeBean;
 import com.wuyou.user.mvp.address.AddressAddActivity;
 import com.wuyou.user.mvp.order.OrderAddressActivity;
 import com.wuyou.user.mvp.order.OrderDetailActivity;
+import com.wuyou.user.mvp.order.PayChooseActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.AddressApis;
 import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.widget.panel.PayPanel;
+import com.wuyou.user.view.activity.ServeWayChooseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,49 +157,59 @@ public class NewOrderActivity extends BaseActivity {
     }
 
     private void createSuccess(String orderId) {
-        PayPanel payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
-            @Override
-            public void onPayFinish() {
-                finishStack(orderId);
-            }
-
-            @Override
-            public void onPayFail(ApiException e) {
-                goDetail(orderId);
-            }
-        });
-        payPanel.setOnDismissListener(() -> goDetail(orderId));
-        payPanel.setData(createOrderAmout.getText().toString().trim(), orderId, "1");
-        payPanel.show();
+        Intent intent = new Intent(getCtx(), PayChooseActivity.class);
+        intent.putExtra(Constant.ORDER_ID, orderId);
+        intent.putExtra(Constant.BACK_FLAG, 1);
+        startActivity(intent);
+        finishStack();
+//        PayPanel payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
+//            @Override
+//            public void onPayFinish() {
+//                finishStack(orderId);
+//            }
+//
+//            @Override
+//            public void onPayFail(ApiException e) {
+//                goDetail(orderId);
+//            }
+//        });
+//        payPanel.setOnDismissListener(() -> goDetail(orderId));
+//        payPanel.setData(createOrderAmout.getText().toString().trim(), orderId, "1");
+//        payPanel.show();
     }
 
     private void goDetail(String orderId) {
         Intent intent = new Intent(getCtx(), OrderDetailActivity.class);
         intent.putExtra(Constant.ORDER_ID, orderId);
         startActivity(intent);
-        finishStack(orderId);
+        finishStack();
     }
 
-    private void finishStack(String orderId) {
+    private void finishStack() {
         finish();
         AppManager.getAppManager().finishActivity(ServeDetailActivity.class);
         AppManager.getAppManager().finishActivity(FastCreateActivity.class);
         AppManager.getAppManager().finishActivity(ServeCategoryListActivity.class);
     }
 
-    @OnClick({R.id.create_order_address_add, R.id.create_order_address_area, R.id.create_order_time_choose})
+    @OnClick({R.id.create_order_address_add, R.id.create_order_address_area, R.id.create_order_time_choose, R.id.create_order_serve_way_choose})
     public void onViewClicked(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.create_order_address_area:
-                Intent intent = new Intent(getCtx(), OrderAddressActivity.class);
+                intent.setClass(getCtx(), OrderAddressActivity.class);
                 startActivityForResult(intent, 200);
                 break;
             case R.id.create_order_address_add:
-                Intent intent1 = new Intent(getCtx(), AddressAddActivity.class);
-                startActivityForResult(intent1, 201);
+                intent.setClass(getCtx(), AddressAddActivity.class);
+                startActivityForResult(intent, 201);
                 break;
             case R.id.create_order_time_choose:
                 chooseServeTime();
+                break;
+            case R.id.create_order_serve_way_choose:
+                intent.setClass(getCtx(), ServeWayChooseActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -291,8 +302,8 @@ public class NewOrderActivity extends BaseActivity {
 
     private ArrayMap<String, List<ServeTimeBean>> timeMap;
 
-    private void getServeTime(String service_id, String shop_id) { //TODO
-        CarefreeRetrofit.getInstance().createApi(ServeApis.class).getAvailableServeTime(QueryMapBuilder.getIns().put("service_id", "1").put("shop_id", "114").buildGet())
+    private void getServeTime(String service_id, String shop_id) {
+        CarefreeRetrofit.getInstance().createApi(ServeApis.class).getAvailableServeTime(QueryMapBuilder.getIns().put("service_id", service_id).put("shop_id", shop_id).buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<ArrayMap<String, List<ServeTimeBean>>>>() {

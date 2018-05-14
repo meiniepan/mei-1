@@ -26,5 +26,6 @@
     <dimen name="dimens_24sp">24sp</dimen>
     <dimen name="dimens_12sp">12sp</dimen>
     <dimen name="dimens_23sp">23sp</dimen>
+    <dimen name="radio_size">28dp</dimen>
 
 </resources>

@@ -115,7 +115,7 @@ public class HelpRobotActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == com.gnway.bangwoba.R.id.goback) {
+        if (v.getId() == R.id.back) {
             if (mWebView.canGoBack()) {
                 mWebView.goBack();
             } else {

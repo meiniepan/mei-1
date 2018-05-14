@@ -9,6 +9,7 @@ import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;
@@ -32,6 +33,14 @@ public class ModifyGenderActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        sGender = getIntent().getIntExtra(Constant.GENDER, 0);
+        if (sGender == 0) {
+            cbMale.setChecked(true);
+        } else if (sGender == 1) {
+            cbFemale.setChecked(true);
+        } else {
+            cbSecret.setChecked(true);
+        }
     }
 
     @Override

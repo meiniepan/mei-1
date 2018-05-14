@@ -32,11 +32,12 @@
     <style name="button_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/button_height</item>
-        <item name="android:layout_marginEnd">@dimen/button_margin</item>
-        <item name="android:layout_marginStart">@dimen/button_margin</item>
+        <item name="android:layout_marginEnd">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginStart">@dimen/activity_horizontal_margin</item>
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:background">@drawable/button_selector</item>
         <item name="android:gravity">center</item>
+        <item name="android:text">@string/yes</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/dimens_16sp</item>
         <item name="android:textStyle">bold</item>

@@ -39,7 +39,7 @@
             <ImageView
                 android:id="@+id/serve_detail_picture"
                 android:layout_width="match_parent"
-                android:layout_height="180dp" />
+                android:layout_height="320dp"/>
 
             <TextView
                 android:id="@+id/serve_detail_title"

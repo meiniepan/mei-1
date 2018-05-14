@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.gs.buluo.common.widget.StatusLayout;
@@ -19,7 +18,6 @@ import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.view.activity.CommentActivity;
 import com.wuyou.user.view.activity.HelpRobotActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
-import com.wuyou.user.view.widget.panel.PayPanel;
 import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,7 +39,6 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     StatusLayout orderListStatus;
     private int type;
     private OrderListAdapter adapter;
-    private PayPanel payPanel;
 
     @Override
     protected int getContentLayout() {
@@ -176,35 +173,24 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     private void dealWithOrangeButtonClick(int position, OrderBean orderBean) {
         switch (orderBean.status) {
             case 1:
-                payPanel = new PayPanel(getActivity(), new PayPanel.OnPayFinishListener() {
-                    @Override
-                    public void onPayFinish() {refreshData();}
-
-                    @Override
-                    public void onPayFail(ApiException e) {ToastUtils.ToastMessage(mCtx,e.getDisplayMessage());}
-                });
-                payPanel.setData(orderBean.amount + "", orderBean.order_id, "1");
-                payPanel.show();
+                Intent intent = new Intent(mCtx, PayChooseActivity.class);
+                intent.putExtra(Constant.ORDER_ID, orderBean.order_id);
+                startActivity(intent);
                 break;
             case 2:
                 if (orderBean.second_payment == 0) {
                     mPresenter.finishOrder(orderBean.order_id);
                 } else { //二次支付
-                    payPanel = new PayPanel(getActivity(), new PayPanel.OnPayFinishListener() {
-                        @Override
-                        public void onPayFinish() {refreshData();}
-
-                        @Override
-                        public void onPayFail(ApiException e) {ToastUtils.ToastMessage(mCtx,e.getDisplayMessage());}
-                    });
-                    payPanel.setData(orderBean.second_payment + "", orderBean.order_id, "2");
-                    payPanel.show();
+                    Intent intent1 = new Intent(mCtx, PayChooseActivity.class);
+                    intent1.putExtra(Constant.ORDER_ID, orderBean.order_id);
+                    intent1.putExtra(Constant.SECOND_PAY, 2);
+                    startActivity(intent1);
                 }
                 break;
             case 3:
-                Intent intent = new Intent(mCtx, CommentActivity.class);
-                intent.putExtra(Constant.ORDER_BEAN, orderBean);
-                startActivityForResult(intent, 201);
+                Intent intent2 = new Intent(mCtx, CommentActivity.class);
+                intent2.putExtra(Constant.ORDER_BEAN, orderBean);
+                startActivityForResult(intent2, 201);
                 break;
         }
     }

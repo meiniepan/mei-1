@@ -40,6 +40,11 @@ public class Constant {
     public static final String FROM = "from";
     public static final String WEB_URL = "web_url";
     public static final String WEB_TYPE = "web_type";
+    public static final String SINGLE_CHOOSE_FLAG = "single_choose_flag";
+    public static final String ORDER_AMOUNT = "order_amount";
+    public static final String SECOND_PAY = "second_pay";
+    public static final String GENDER = "gender";
+    public static final String BACK_FLAG = "back_flag";
 
     public static class Intent {
 

@@ -148,6 +148,8 @@
         <activity
             android:name=".view.activity.WebActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".mvp.order.PayChooseActivity" />
+        <activity android:name=".view.activity.ServeWayChooseActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"
