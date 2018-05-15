@@ -193,7 +193,7 @@
             android:src="@mipmap/arrow_gray" />
     </LinearLayout>
 
-    <include layout="@layout/shadow_line" />
+    <include layout="@layout/split_line" />
 
     <View
         android:layout_width="match_parent"

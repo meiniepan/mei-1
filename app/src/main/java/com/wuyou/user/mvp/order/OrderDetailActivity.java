@@ -226,12 +226,14 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     public void setActionStatus() {
         switch (beanDetail.status) {
             case 1:
+                orderDetailStatus.setTextColor(getResources().getColor(R.color.common_orange));
                 orderDetailPayArea.setVisibility(View.GONE);
                 orderDetailCancel.setVisibility(View.VISIBLE);
                 orderDetailContactStore.setVisibility(View.VISIBLE);
                 orderDetailAction.setVisibility(View.VISIBLE);
                 break;
             case 2:
+                orderDetailStatus.setTextColor(getResources().getColor(R.color.common_orange));
                 orderDetailPayArea.setVisibility(View.VISIBLE);
                 orderDetailCancel.setVisibility(View.GONE);
                 if (beanDetail.can_finish == 1) {
@@ -248,6 +250,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                 }
                 break;
             case 3:
+                orderDetailStatus.setTextColor(getResources().getColor(R.color.common_green));
                 orderDetailAction.setText(R.string.go_comment);
                 orderDetailAction.setBackgroundResource(R.drawable.white_border);
                 orderDetailAction.setVisibility(View.VISIBLE);

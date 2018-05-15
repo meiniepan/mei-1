@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -38,6 +39,9 @@ public class WebActivity extends BaseActivity {
         setUpWebView();
         String url = getIntent().getStringExtra(Constant.WEB_URL);
         int type = getIntent().getIntExtra(Constant.WEB_TYPE, 0);
+        if (type==1){
+            findViewById(R.id.web_top).setVisibility(View.VISIBLE);
+        }
         if (url != null) {
             webView.loadUrl(url);
         }
@@ -93,7 +97,7 @@ public class WebActivity extends BaseActivity {
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onReceivedTitle(WebView view, String title) {
-                tvTitle.setText(title);
+//                tvTitle.setText(title);
             }
         });
 

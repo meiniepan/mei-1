@@ -5,6 +5,7 @@
     android:fitsSystemWindows="true"
     android:clipToPadding="true">
     <RelativeLayout
+        android:id="@+id/web_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
         android:background="@color/night_blue"
@@ -16,7 +17,7 @@
             android:textSize="@dimen/title_size"
             android:textColor="@color/white"
             android:layout_centerInParent="true"
-            android:text="活动"/>
+            android:text="关于我们"/>
         <include layout="@layout/back_black"
             android:id="@+id/back"/>
     </RelativeLayout>

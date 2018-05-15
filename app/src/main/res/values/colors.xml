@@ -27,7 +27,7 @@
     <color name="main_tab">#707070</color>
     <color name="custom_color">#97abea</color>
     <color name="white">#fff</color>
-    <color name="divide_gray">#15000000</color>
+    <color name="divide_gray">#e5e5e5</color>
     <color name="shallow_white">#60ffffff</color>
     <color name="captcha_unuse">#88a5aeb5</color>
 

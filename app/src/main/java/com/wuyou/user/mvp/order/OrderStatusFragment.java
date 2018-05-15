@@ -203,6 +203,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
                                 mPresenter.cancelOrder(0, orderBean.order_id)).setNegativeButton(mCtx.getResources().getString(R.string.cancel), null).create().show();
                 break;
             case 2:
+            case 4:
                 Intent intent = new Intent(mCtx, HelpRobotActivity.class);
                 startActivity(intent);
                 break;

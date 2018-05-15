@@ -108,8 +108,6 @@
         android:text="@string/check_update"
         android:textSize="@dimen/dimens_16sp" />
 
-    <include layout="@layout/split_line_margin" />
-
     <TextView
         android:id="@+id/setting_feedback"
         android:layout_width="match_parent"

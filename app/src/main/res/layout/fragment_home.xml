@@ -177,8 +177,6 @@
                     android:layout_marginTop="10dp"
                     android:visibility="gone" />
 
-                <include layout="@layout/split_line" />
-
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/main_serve_list"
                     android:layout_width="match_parent"

@@ -61,7 +61,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.setting_about:
                 intent.setClass(getCtx(), WebActivity.class);
-                intent.putExtra(Constant.WEB_URL,"http://39.105.52.20:8086/apphtml/about-us.html");
+                intent.putExtra(Constant.WEB_URL, "http://39.105.52.20:8086/apphtml/about-us.html");
+                intent.putExtra(Constant.WEB_TYPE, 1);
                 startActivity(intent);
                 break;
             case R.id.setting_feedback:

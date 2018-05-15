@@ -371,9 +371,9 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 startActivity(intent);
                 break;
             case R.id.home_activity:
-                intent.setClass(mCtx, WebActivity.class);
-                intent.putExtra(Constant.WEB_URL, "http://39.105.52.20:8087");
-                startActivity(intent);
+//                intent.setClass(mCtx, WebActivity.class);
+//                intent.putExtra(Constant.WEB_URL, "http://39.105.52.20:8087");
+//                startActivity(intent);
                 break;
         }
     }

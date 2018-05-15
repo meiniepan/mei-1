@@ -73,7 +73,8 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
                 break;
             case 4:
                 tvStatus.setText(R.string.finished);
-                tvCancel.setVisibility(View.GONE);
+                tvCancel.setText(R.string.ask_help);
+                tvCancel.setVisibility(View.VISIBLE);
                 tvAct.setVisibility(View.GONE);
                 break;
             case 5:

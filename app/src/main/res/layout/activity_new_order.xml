@@ -243,7 +243,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
                     android:layout_marginStart="10dp"
-                    android:text="可预约" />
+                    android:textColor="@color/common_red"
+                    android:text="请选择服务时间" />
 
                 <ImageView
                     android:layout_width="20dp"
