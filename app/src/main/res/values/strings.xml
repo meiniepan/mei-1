@@ -114,4 +114,5 @@
     <string name="total">合计</string>
     <string name="extra_fee">附加费用</string>
     <string name="go_comment">去评价</string>
+    <string name="nickname_wrong">昵称格式不正确</string>
 </resources>

@@ -38,6 +38,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         findViewById(R.id.setting_clear_cache).setOnClickListener(this);
         findViewById(R.id.setting_feedback).setOnClickListener(this);
         findViewById(R.id.setting_update).setOnClickListener(this);
+        findViewById(R.id.setting_about).setOnClickListener(this);
 
         String cacheSize = null;
         try {
@@ -59,7 +60,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.setting_about:
-                ToastUtils.ToastMessage(getCtx(),R.string.no_function);
+                intent.setClass(getCtx(), WebActivity.class);
+                intent.putExtra(Constant.WEB_URL,"http://39.105.52.20:8086/apphtml/about-us.html");
+                startActivity(intent);
                 break;
             case R.id.setting_feedback:
                 intent.setClass(getCtx(), Leaving_message.class);

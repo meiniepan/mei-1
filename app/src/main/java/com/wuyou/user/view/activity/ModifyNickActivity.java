@@ -71,6 +71,12 @@ public class ModifyNickActivity extends BaseActivity {
                             ToastUtils.ToastMessage(getCtx(), getString(R.string.nickname_not_right));
                             return;
                         }
+                        Pattern p = Pattern.compile("^[a-zA-Z0-9_\\-\\u4e00-\\u9fa5]+$");
+                        Matcher m = p.matcher(input);
+                        if (!m.matches()){
+                            ToastUtils.ToastMessage(getCtx(),getString(R.string.nickname_wrong));
+                            return;
+                        }
                         updateInfo("nickname", input);
                         break;
                     case Constant.EMAIL:

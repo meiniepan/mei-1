@@ -144,7 +144,9 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         if (beanDetail.status == 1) orderDetailWarn.setVisibility(View.VISIBLE);
         if (beanDetail.status == 2 && beanDetail.second_payment != 0) {
             orderDetailWarn.setVisibility(View.VISIBLE);
-            orderDetailWarn.setText("待支付附加金额");
+            orderDetailWarn.setText("待支付附加金额 " + data.second_payment+"元");
+        }
+        if (beanDetail.status!=2 &&beanDetail.second_payment!=0){
             findViewById(R.id.order_detail_second_payment_area).setVisibility(View.VISIBLE);
         }
         GlideUtils.loadImage(this, data.service.photo, orderDetailPicture);
@@ -152,14 +154,11 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailStoreName.setText(data.shop.shop_name);
         orderDetailServeName.setText(data.service.service_name);
         orderDetailSecondPayment.setText(CommonUtil.formatPrice(data.second_payment));
-        if (data.second_payment == 0) {
-            findViewById(R.id.order_detail_second_payment_area).setVisibility(View.GONE);
-        }
         orderDetailGoodsNumber.setText(data.number + "");
         orderDetailFee.setText(CommonUtil.formatPrice(data.service.price));
-        orderDetailAmount.setText(CommonUtil.formatPrice(data.total_amount + data.second_payment));
+        orderDetailAmount.setText(CommonUtil.formatPrice(data.total_amount));
         orderDetailName.setText(data.address.name);
-        orderDetailAddress.setText(data.address.city_name + data.address.district + data.address.area + data.address.address);
+        orderDetailAddress.setText(String.format("%s%s%s%s", data.address.city_name, data.address.district, data.address.area, data.address.address));
         orderDetailPhone.setText(data.address.mobile);
 
         orderDetailCreateTime.setText(TribeDateUtils.dateFormat(new Date(data.created_at * 1000)));
