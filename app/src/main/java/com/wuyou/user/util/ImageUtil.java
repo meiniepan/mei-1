@@ -1491,9 +1491,9 @@ public class ImageUtil {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int quality = 100;
         src.compress(Bitmap.CompressFormat.JPEG, quality, baos);
-        while (baos.toByteArray().length > maxByteSize && quality >= 0) {
+        while (baos.toByteArray().length > maxByteSize && quality >= 16) {
             baos.reset();
-            src.compress(Bitmap.CompressFormat.JPEG, quality -= 5, baos);
+            src.compress(Bitmap.CompressFormat.JPEG, quality -= 15, baos);
         }
         if (quality < 0) return null;
         byte[] bytes = baos.toByteArray();

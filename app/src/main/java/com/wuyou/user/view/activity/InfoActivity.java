@@ -1,12 +1,13 @@
 package com.wuyou.user.view.activity;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
@@ -19,13 +20,16 @@ import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.util.ImageUtil;
 import com.wuyou.user.util.RxUtil;
+import com.wuyou.user.util.ThreadPool;
 import com.wuyou.user.util.glide.Glide4Engine;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -33,6 +37,11 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.util.ConvertUtils;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Created by DELL on 2018/3/14.
@@ -52,13 +61,13 @@ public class InfoActivity extends BaseActivity {
     @BindView(R.id.tv_birthday_area)
     TextView tvBirthdayArea;
 
-    private Uri imagePath;
+    private String imagePath;
     private int gender;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
         UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
-        GlideUtils.loadImage(this, userInfo.getAvatar(), infoHead, true);
+        GlideUtils.loadImageNoHolder(this, CarefreeDaoSession.getAvatar(userInfo), infoHead, true);
         tvPhoneArea.setText(CommonUtil.getPhoneWithStar(userInfo.getMobile()));
         showLoadingDialog();
         CarefreeRetrofit.getInstance().createApi(UserApis.class)
@@ -83,8 +92,7 @@ public class InfoActivity extends BaseActivity {
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.info_head:
-                ToastUtils.ToastMessage(getCtx(), R.string.no_function);
-//                chosePhoto();
+                chosePhoto();
                 break;
             case R.id.info_account_area:
                 intent.setClass(getCtx(), ModifyNickActivity.class);
@@ -158,13 +166,16 @@ public class InfoActivity extends BaseActivity {
                 .forResult(Constant.REQUEST_CODE_CHOOSE_IMAGE);
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == Constant.REQUEST_CODE_CHOOSE_IMAGE) {
-                imagePath = Matisse.obtainResult(data).get(0);
-                GlideUtils.loadImage(getCtx(), Matisse.obtainResult(data).get(0).toString(), infoHead, true);
+                imagePath = Matisse.obtainPathResult(data).get(0);
+                GlideUtils.loadImageNoHolder(getCtx(), imagePath, infoHead, true);
+                CarefreeDaoSession.tempAvatar = imagePath;
+                uploadAvatar(imagePath);
             } else if (requestCode == Constant.Intent.REQUEST_NICK) {
                 tvAccountArea.setText(data.getStringExtra("info"));
             } else if (requestCode == Constant.Intent.REQUEST_PHONE) {
@@ -176,6 +187,34 @@ public class InfoActivity extends BaseActivity {
                 tvSexArea.setText(getGenderString(gender));
             }
         }
+    }
+
+    private static final long MAX_NUM_PIXELS_THUMBNAIL = 64 * 64;
+
+    private void uploadAvatar(final String imagePath) {
+        ThreadPool.getIns().execute(() -> {
+            Bitmap bitmap = ImageUtil.getBitmap(new File(imagePath));
+            Bitmap compressBitmap = ImageUtil.compressByQuality(bitmap, MAX_NUM_PIXELS_THUMBNAIL);
+            ImageUtil.save(compressBitmap, imagePath, Bitmap.CompressFormat.JPEG);
+            File file = new File(imagePath);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("avatar", file.getName(), requestFile);
+            CarefreeRetrofit.getInstance().createApi(UserApis.class)
+                    .updateAvatar(CarefreeDaoSession.getInstance().getUserId(), body, QueryMapBuilder.getIns().buildPost())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseSubscriber<BaseResponse>() {
+                        @Override
+                        public void onSuccess(BaseResponse baseResponse) {
+                            CarefreeDaoSession.tempAvatar = null;
+                        }
+
+                        @Override
+                        protected void onFail(ApiException e) {
+                            ToastUtils.ToastMessage(getCtx(), R.string.connect_fail);
+                        }
+                    });
+        });
     }
 
     private String getGenderString(int gender) {
@@ -194,6 +233,6 @@ public class InfoActivity extends BaseActivity {
             tvBirthdayArea.setText(TribeDateUtils.dateFormat5(new Date(Long.parseLong(userInfo.getBirthday()) * 1000)));
         if (userInfo.getEmail() != null) tvEmailArea.setText(userInfo.getEmail());
         if (userInfo.getAvatar() != null)
-            GlideUtils.loadRoundCornerImage(this, userInfo.getAvatar(), infoHead);
+            GlideUtils.loadImageNoHolder(this, CarefreeDaoSession.getAvatar(userInfo), infoHead, true);
     }
 }

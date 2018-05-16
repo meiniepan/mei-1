@@ -46,12 +46,14 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
         switch (item.status) {
             case 1:
                 tvStatus.setText(R.string.wait_pay);
+                tvStatus.setTextColor(tvStatus.getResources().getColor(R.color.common_orange));
                 tvCancel.setText(R.string.cancel_order);
                 tvAct.setVisibility(View.VISIBLE);
                 tvCancel.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 tvStatus.setText(R.string.serving);
+                tvStatus.setTextColor(tvStatus.getResources().getColor(R.color.common_orange));
                 tvCancel.setText(R.string.ask_help);
                 if (item.can_finish == 1) {
                     tvAct.setVisibility(View.VISIBLE);
@@ -67,18 +69,21 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
                 break;
             case 3:
                 tvStatus.setText(R.string.wait_comment);
+                tvStatus.setTextColor(tvStatus.getResources().getColor(R.color.common_green));
                 tvCancel.setText(R.string.comment);
                 tvCancel.setVisibility(View.VISIBLE);
                 tvAct.setVisibility(View.GONE);
                 break;
             case 4:
                 tvStatus.setText(R.string.finished);
+                tvStatus.setTextColor(tvStatus.getResources().getColor(R.color.gray_99));
                 tvCancel.setText(R.string.ask_help);
                 tvCancel.setVisibility(View.VISIBLE);
                 tvAct.setVisibility(View.GONE);
                 break;
             case 5:
                 tvStatus.setText(R.string.canceled);
+                tvStatus.setTextColor(tvStatus.getResources().getColor(R.color.gray_99));
                 tvCancel.setVisibility(View.GONE);
                 tvAct.setVisibility(View.GONE);
                 break;

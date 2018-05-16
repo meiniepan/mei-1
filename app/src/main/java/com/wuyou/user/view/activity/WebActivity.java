@@ -39,7 +39,7 @@ public class WebActivity extends BaseActivity {
         setUpWebView();
         String url = getIntent().getStringExtra(Constant.WEB_URL);
         int type = getIntent().getIntExtra(Constant.WEB_TYPE, 0);
-        if (type==1){
+        if (type == 1) {
             findViewById(R.id.web_top).setVisibility(View.VISIBLE);
         }
         if (url != null) {
@@ -110,7 +110,9 @@ public class WebActivity extends BaseActivity {
     private String loadJSMethod(String methodName) {
         final String[] result = new String[1];
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            webView.evaluateJavascript("javascript:" + methodName, value -> result[0] = value);
+            webView.evaluateJavascript("javascript:" + methodName + "('523','666')", value -> {
+                result[0] = value;
+            });
         } else {
             webView.loadUrl("javascript:" + methodName);
         }
@@ -149,7 +151,13 @@ public class WebActivity extends BaseActivity {
         public void hybridProtocol(String json) {
 //        ToastUtils.ToastMessage(CarefreeApplication.getInstance().getApplicationContext(), message);
             Log.e("Test", "ShareActivity: " + Thread.currentThread());
-            Log.e("Test", "ShareActivity: " + new Gson().fromJson(json, JSBean.class).activityid);
+            JSBean jsBean = new Gson().fromJson(json, JSBean.class);
+            Log.e("Test", "ShareActivity: " + jsBean.activityid);
+            Log.e("Test", "ShareActivity: " + jsBean.cbname);
+            webView.post(() -> {
+                String s = loadJSMethod(jsBean.cbname);
+                Log.e("Test", "run: " + s);
+            });
         }
     }
 }

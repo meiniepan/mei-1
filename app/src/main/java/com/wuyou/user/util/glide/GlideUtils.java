@@ -30,6 +30,15 @@ public class GlideUtils {
         Glide.with(context).load(url).into(imageView);
     }
 
+    public static void loadImageNoHolder(Context context, String url, final ImageView imageView,boolean isCircle) {
+        if (url == null) return;
+        if (isCircle) {
+            Glide.with(context).load(url).apply(RequestOptions.circleCropTransform()).into(imageView);
+        } else {
+            loadImage(context, url, imageView);
+        }
+    }
+
     public static void loadImage(Context context, String url, ImageView imageView, boolean isCircle) {
         if (url == null) return;
         if (isCircle) {

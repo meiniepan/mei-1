@@ -3,6 +3,7 @@ package com.wuyou.user.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import com.gs.buluo.common.widget.LoadingDialog;
@@ -56,7 +57,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onResp(BaseResp baseResp) {
         Log.e(TAG, "onWxPayResp: " + baseResp.toString());
         if (baseResp instanceof PayResp && baseResp.errCode == 0) {
-            EventBus.getDefault().post(new WXPayEvent());
+            new Handler().postDelayed(() -> EventBus.getDefault().post(new WXPayEvent()), 500);
         }
         finish();
     }

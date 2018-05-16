@@ -692,7 +692,7 @@ public class FileTools {
      * @param suffix           文件后缀
      * @return
      */
-    public static Vector<String> GetAllFileName(String fileAbsolutePath, String suffix) {
+    public static Vector<String> getAllFileName(String fileAbsolutePath, String suffix) {
         Vector<String> vecFile = new Vector<String>();
         File file = new File(fileAbsolutePath);
         File[] subFile = file.listFiles();

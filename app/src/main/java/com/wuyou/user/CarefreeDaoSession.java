@@ -10,9 +10,6 @@ import com.wuyou.user.bean.SearchHistoryBeanDao;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.UserInfoDao;
 
-import org.greenrobot.greendao.Property;
-
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,6 +19,7 @@ import java.util.List;
 public class CarefreeDaoSession {
     private static DaoSession daoSession;
     private static CarefreeDaoSession instance;
+    public static String tempAvatar;
 
     private CarefreeDaoSession() {
         DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(CarefreeApplication.getInstance().getApplicationContext(), "carefree.db", null);
@@ -34,6 +32,10 @@ public class CarefreeDaoSession {
             instance = new CarefreeDaoSession();
         }
         return instance;
+    }
+
+    public static String getAvatar(UserInfo info) {
+        return tempAvatar == null ? info.getAvatar() : tempAvatar;
     }
 
     private UserInfoDao getUserInfoDao() {

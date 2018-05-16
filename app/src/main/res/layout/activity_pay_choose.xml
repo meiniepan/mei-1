@@ -58,7 +58,8 @@
                 android:layout_width="@dimen/radio_size"
                 android:layout_height="@dimen/radio_size"
                 android:background="@drawable/btn_radio"
-                android:button="@null" />
+                android:button="@null"
+                android:checked="true"/>
         </LinearLayout>
 
         <LinearLayout
@@ -87,8 +88,7 @@
                 android:layout_width="@dimen/radio_size"
                 android:layout_height="@dimen/radio_size"
                 android:background="@drawable/btn_radio"
-                android:button="@null"
-                android:checked="true" />
+                android:button="@null" />
         </LinearLayout>
     </com.wuyou.user.view.widget.CustomNestRadioGroup>
 

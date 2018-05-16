@@ -45,7 +45,7 @@ public class PayChooseActivity extends BaseActivity {
     CustomNestRadioGroup chooseGroup;
     private String orderId;
     private String secondPay = "1";
-    private int checkedId = R.id.new_order_pay_wx;
+    private int checkedId = R.id.new_order_pay_ali;
     private int backFlag;
 
     @Override
@@ -130,6 +130,8 @@ public class PayChooseActivity extends BaseActivity {
         startActivity(intent);
         finish();
     }
+
+    private int flag = 0;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWXPayFinish(WXPayEvent event) {

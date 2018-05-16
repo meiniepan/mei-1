@@ -81,8 +81,7 @@ public class MineFragment extends BaseFragment {
     }
 
     private void setInfo(UserInfo userInfo) {
-        if (!TextUtils.isEmpty(userInfo.getAvatar()))
-            GlideUtils.loadImage(mCtx, userInfo.getAvatar(), mineHead, true);
+        if (!TextUtils.isEmpty(userInfo.getAvatar())) GlideUtils.loadImageNoHolder(mCtx, CarefreeDaoSession.getAvatar(userInfo), mineHead, true);
         minePhone.setText(userInfo.getMobile());
         mineName.setText(userInfo.getName());
 //            mineSex.setText(userInfo.getGender());
@@ -111,7 +110,12 @@ public class MineFragment extends BaseFragment {
                     CarefreeDaoSession.getInstance().updateUserInfo(info);
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(userInfoBaseResponse -> setInfo(userInfoBaseResponse.data));
+                .subscribe(new BaseSubscriber<BaseResponse<UserInfo>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<UserInfo> userInfoBaseResponse) {
+                        setInfo(userInfoBaseResponse.data);
+                    }
+                });
     }
 
     private void getBalance() {

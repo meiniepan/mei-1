@@ -266,7 +266,6 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
                 setSitesListVisible();
                 break;
             case R.id.map_guide:
-                ToastUtils.ToastMessage(getCtx(), R.string.no_function);
                 break;
         }
     }
@@ -301,7 +300,6 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
             marker.setObject(serveSite);
         }
         adapter.setOnItemClickListener((adapter1, view, position) -> {
-            ToastUtils.ToastMessage(getCtx(), R.string.no_function);
             mAMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(data.get(position).lat, data.get(position).lng)));
             mAMap.moveCamera(CameraUpdateFactory.zoomTo(17));
         });

@@ -6,4 +6,5 @@ package com.wuyou.user.bean;
 
 public class JSBean {
     public String activityid;
+    public String cbname;
 }
