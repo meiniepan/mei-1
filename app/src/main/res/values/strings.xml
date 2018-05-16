@@ -115,4 +115,5 @@
     <string name="extra_fee">附加费用</string>
     <string name="go_comment">去评价</string>
     <string name="nickname_wrong">昵称格式不正确</string>
+    <string name="photo_choose_fail">图片选择失败，请重新选取图片</string>
 </resources>

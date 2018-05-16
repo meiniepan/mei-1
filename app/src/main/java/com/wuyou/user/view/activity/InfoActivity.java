@@ -3,6 +3,7 @@ package com.wuyou.user.view.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,7 +23,6 @@ import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.ImageUtil;
 import com.wuyou.user.util.RxUtil;
-import com.wuyou.user.util.ThreadPool;
 import com.wuyou.user.util.glide.Glide4Engine;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.zhihu.matisse.Matisse;
@@ -37,7 +37,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.util.ConvertUtils;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -61,13 +61,12 @@ public class InfoActivity extends BaseActivity {
     @BindView(R.id.tv_birthday_area)
     TextView tvBirthdayArea;
 
-    private String imagePath;
     private int gender;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
         UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
-        GlideUtils.loadImageNoHolder(this, CarefreeDaoSession.getAvatar(userInfo), infoHead, true);
+        GlideUtils.loadImage(this, CarefreeDaoSession.getAvatar(userInfo), infoHead, true);
         tvPhoneArea.setText(CommonUtil.getPhoneWithStar(userInfo.getMobile()));
         showLoadingDialog();
         CarefreeRetrofit.getInstance().createApi(UserApis.class)
@@ -172,10 +171,14 @@ public class InfoActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == Constant.REQUEST_CODE_CHOOSE_IMAGE) {
-                imagePath = Matisse.obtainPathResult(data).get(0);
-                GlideUtils.loadImageNoHolder(getCtx(), imagePath, infoHead, true);
-                CarefreeDaoSession.tempAvatar = imagePath;
-                uploadAvatar(imagePath);
+                String imagePath = Matisse.obtainPathResult(data).get(0);
+                if (imagePath != null) {
+                    GlideUtils.loadImageNoHolder(getCtx(), imagePath, infoHead, true);
+                    CarefreeDaoSession.tempAvatar = imagePath;
+                    uploadAvatar(imagePath);
+                } else {
+                    ToastUtils.ToastMessage(getCtx(), getString(R.string.photo_choose_fail));
+                }
             } else if (requestCode == Constant.Intent.REQUEST_NICK) {
                 tvAccountArea.setText(data.getStringExtra("info"));
             } else if (requestCode == Constant.Intent.REQUEST_PHONE) {
@@ -191,30 +194,31 @@ public class InfoActivity extends BaseActivity {
 
     private static final long MAX_NUM_PIXELS_THUMBNAIL = 64 * 64;
 
-    private void uploadAvatar(final String imagePath) {
-        ThreadPool.getIns().execute(() -> {
-            Bitmap bitmap = ImageUtil.getBitmap(new File(imagePath));
-            Bitmap compressBitmap = ImageUtil.compressByQuality(bitmap, MAX_NUM_PIXELS_THUMBNAIL);
-            ImageUtil.save(compressBitmap, imagePath, Bitmap.CompressFormat.JPEG);
-            File file = new File(imagePath);
-            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("avatar", file.getName(), requestFile);
-            CarefreeRetrofit.getInstance().createApi(UserApis.class)
-                    .updateAvatar(CarefreeDaoSession.getInstance().getUserId(), body, QueryMapBuilder.getIns().buildPost())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new BaseSubscriber<BaseResponse>() {
-                        @Override
-                        public void onSuccess(BaseResponse baseResponse) {
-                            CarefreeDaoSession.tempAvatar = null;
-                        }
+    private void uploadAvatar(final String path) {
+        Observable.just(path)
+                .flatMap(imagePath -> {
+                    Log.e("Test", "apply: " + Thread.currentThread());
+                    Bitmap bitmap = ImageUtil.getBitmap(new File(imagePath));
+                    Bitmap compressBitmap = ImageUtil.compressByQuality(bitmap, MAX_NUM_PIXELS_THUMBNAIL);
+                    ImageUtil.save(compressBitmap, imagePath, Bitmap.CompressFormat.JPEG);
+                    File file = new File(imagePath);
+                    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                    MultipartBody.Part body = MultipartBody.Part.createFormData("avatar", file.getName(), requestFile);
+                    return CarefreeRetrofit.getInstance().createApi(UserApis.class).updateAvatar(CarefreeDaoSession.getInstance().getUserId(), body, QueryMapBuilder.getIns().buildPost());
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new BaseSubscriber<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse baseResponse) {
+                        CarefreeDaoSession.tempAvatar = null;
+                    }
 
-                        @Override
-                        protected void onFail(ApiException e) {
-                            ToastUtils.ToastMessage(getCtx(), R.string.connect_fail);
-                        }
-                    });
-        });
+                    @Override
+                    protected void onFail(ApiException e) {
+                        ToastUtils.ToastMessage(getCtx(), R.string.connect_fail);
+                    }
+                });
     }
 
     private String getGenderString(int gender) {

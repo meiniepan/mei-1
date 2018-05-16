@@ -54,25 +54,10 @@ public class ShareBottomBoard extends Dialog implements View.OnClickListener {
         if (homeVideoBean == null) return;
         switch (v.getId()) {
             case R.id.share_board_wx:
-//                ShareUtil.shareMedia(mCtx, SharePlatform.WX);
+                ShareUtil.shareMedia(mCtx, SharePlatform.WX, homeVideoBean.title, "", homeVideoBean.video, homeVideoBean.preview, new CustomShareListener());
                 break;
             case R.id.share_board_moment:
-                ShareUtil.shareMedia(mCtx, SharePlatform.WX_TIMELINE, homeVideoBean.title, "", homeVideoBean.video, homeVideoBean.preview, new ShareListener() {
-                    @Override
-                    public void shareSuccess() {
-                        ToastUtils.ToastMessage(mCtx,"分享成功");
-                    }
-
-                    @Override
-                    public void shareFailure(Exception e) {
-                        ToastUtils.ToastMessage(mCtx,"分享失败");
-                    }
-
-                    @Override
-                    public void shareCancel() {
-                        ToastUtils.ToastMessage(mCtx,"分享取消");
-                    }
-                });
+                ShareUtil.shareMedia(mCtx, SharePlatform.WX_TIMELINE, homeVideoBean.title, "", homeVideoBean.video, homeVideoBean.preview, new CustomShareListener());
                 break;
             case R.id.share_cancel:
                 dismiss();
@@ -82,5 +67,22 @@ public class ShareBottomBoard extends Dialog implements View.OnClickListener {
 
     public void setData(HomeVideoBean data) {
         this.homeVideoBean = data;
+    }
+
+    class CustomShareListener extends ShareListener {
+        @Override
+        public void shareSuccess() {
+            ToastUtils.ToastMessage(mCtx, "分享成功");
+        }
+
+        @Override
+        public void shareFailure(Exception e) {
+            ToastUtils.ToastMessage(mCtx, "分享失败");
+        }
+
+        @Override
+        public void shareCancel() {
+            ToastUtils.ToastMessage(mCtx, "分享取消");
+        }
     }
 }
