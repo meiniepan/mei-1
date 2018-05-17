@@ -239,7 +239,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
 
                     @Override
                     protected void onFail(ApiException e) {
-                        ToastUtils.ToastMessage(mCtx,getString(R.string.get_community_fail));
+                        ToastUtils.ToastMessage(mCtx, getString(R.string.get_community_fail));
                     }
                 });
     }
@@ -371,9 +371,13 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 startActivity(intent);
                 break;
             case R.id.home_activity:
-//                intent.setClass(mCtx, WebActivity.class);
-//                intent.putExtra(Constant.WEB_URL, "http://192.168.0.102");
-//                startActivity(intent);
+                intent.setClass(mCtx, WebActivity.class);
+                if (CarefreeDaoSession.getInstance().getUserInfo() == null) {
+                    intent.putExtra(Constant.WEB_URL, "http://192.168.0.102");
+                } else {
+                    intent.putExtra(Constant.WEB_URL, "http://192.168.0.102?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
+                }
+                startActivity(intent);
                 break;
         }
     }

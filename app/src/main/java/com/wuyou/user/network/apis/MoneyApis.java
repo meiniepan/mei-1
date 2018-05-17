@@ -33,6 +33,10 @@ public interface MoneyApis {
     Observable<BaseResponse<WxPayResponse>> getWXPayOrderInfo(
             @Path("order_id") String orderId, @QueryMap SortedTreeMap<String, String> map);
 
+    @GET("wx_pay/activity_order/{order_id}")
+    Observable<BaseResponse<WxPayResponse>> getActivityWXPayOrderInfo(
+            @Path("order_id") String orderId, @QueryMap SortedTreeMap<String, String> map);
+
 
     @FormUrlEncoded
     @POST("login")

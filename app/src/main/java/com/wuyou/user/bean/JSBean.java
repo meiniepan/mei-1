@@ -7,4 +7,19 @@ package com.wuyou.user.bean;
 public class JSBean {
     public String activityid;
     public String cbname;
+    public String methodname;
+    public String order_id;
+//    public String UserLogin;
+//    public String AppGoBack;
+//    public String ShareActivity;
+//    public String GoApplayPage;
+
+    @Override
+    public String toString() {
+        return "JSBean{" +
+                "activityid='" + activityid + '\'' +
+                ", cbname='" + cbname + '\'' +
+                ", methodname='" + methodname + '\'' +
+                '}';
+    }
 }

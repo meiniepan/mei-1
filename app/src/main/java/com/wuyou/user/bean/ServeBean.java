@@ -14,6 +14,7 @@ public class ServeBean implements Parcelable {
     public String service_name;
     public float price;
     public String sold;
+    public String visiting_fee;
     public String lng;
     public String lat;
     public String high_praise;
@@ -39,6 +40,7 @@ public class ServeBean implements Parcelable {
         dest.writeString(this.service_name);
         dest.writeFloat(this.price);
         dest.writeString(this.sold);
+        dest.writeString(this.visiting_fee);
         dest.writeString(this.lng);
         dest.writeString(this.lat);
         dest.writeString(this.high_praise);
@@ -56,6 +58,7 @@ public class ServeBean implements Parcelable {
         this.service_name = in.readString();
         this.price = in.readFloat();
         this.sold = in.readString();
+        this.visiting_fee = in.readString();
         this.lng = in.readString();
         this.lat = in.readString();
         this.high_praise = in.readString();

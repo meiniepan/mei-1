@@ -1,8 +1,11 @@
 package com.wuyou.user.view.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,12 +18,35 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.gs.buluo.common.network.BaseResponse;
+import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.ToastUtils;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.wuyou.user.CarefreeApplication;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.JSBean;
+import com.wuyou.user.bean.NativeToJsBean;
+import com.wuyou.user.bean.response.WxPayResponse;
+import com.wuyou.user.event.WXPayEvent;
+import com.wuyou.user.mvp.login.LoginActivity;
+import com.wuyou.user.network.CarefreeRetrofit;
+import com.wuyou.user.network.apis.MoneyApis;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import me.shaohui.shareutil.ShareUtil;
+import me.shaohui.shareutil.share.ShareListener;
+import me.shaohui.shareutil.share.SharePlatform;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
 
@@ -32,10 +58,11 @@ public class WebActivity extends BaseActivity {
     WebView webView;
     @BindView(R.id.web_title)
     TextView tvTitle;
+    private JSBean jsBean;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        setBarColor(R.color.common_dark);
+        EventBus.getDefault().register(this);
         setUpWebView();
         String url = getIntent().getStringExtra(Constant.WEB_URL);
         int type = getIntent().getIntExtra(Constant.WEB_TYPE, 0);
@@ -64,7 +91,6 @@ public class WebActivity extends BaseActivity {
 //        webView.requestFocus();
 //        webView.requestFocus(View.FOCUS_DOWN|View.FOCUS_UP);
         webView.setWebViewClient(new WebViewClient() {
-
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 Log.e("Test", "onPageStarted: " + url);
@@ -72,12 +98,10 @@ public class WebActivity extends BaseActivity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                Log.e("Test", "onPageFinished: " + Thread.currentThread());
             }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.e("Test", "shouldOverrideUrlLoading: " + url);
                 view.loadUrl(url);
                 return true;
             }
@@ -103,18 +127,20 @@ public class WebActivity extends BaseActivity {
 
 
         //js调用本地方法
-        webView.addJavascriptInterface(new JSCallJavaInterface(), "root");
+        webView.addJavascriptInterface(new JSCallNativeInterface(), "root");
     }
 
 
-    private String loadJSMethod(String methodName) {
+    private String loadJSMethod(String methodName, String json) {
         final String[] result = new String[1];
+        String js = "javascript:" + methodName + "(" + json + ")";
+        Log.e("Test", "loadJSMethod: " + js);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            webView.evaluateJavascript("javascript:" + methodName + "('523','666')", value -> {
+            webView.evaluateJavascript(js, value -> {
                 result[0] = value;
             });
         } else {
-            webView.loadUrl("javascript:" + methodName);
+            webView.loadUrl(js);
         }
         return result[0];
     }
@@ -136,6 +162,7 @@ public class WebActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
         webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
         webView.clearHistory();
 
@@ -145,19 +172,94 @@ public class WebActivity extends BaseActivity {
         super.onDestroy();
     }
 
-
-    private class JSCallJavaInterface {
+    private class JSCallNativeInterface {
         @JavascriptInterface
         public void hybridProtocol(String json) {
-//        ToastUtils.ToastMessage(CarefreeApplication.getInstance().getApplicationContext(), message);
-            Log.e("Test", "ShareActivity: " + Thread.currentThread());
-            JSBean jsBean = new Gson().fromJson(json, JSBean.class);
-            Log.e("Test", "ShareActivity: " + jsBean.activityid);
-            Log.e("Test", "ShareActivity: " + jsBean.cbname);
-            webView.post(() -> {
-                String s = loadJSMethod(jsBean.cbname);
-                Log.e("Test", "run: " + s);
-            });
+            jsBean = new Gson().fromJson(json, JSBean.class);
+            Log.e("Test", "JSCallNativeInterface: " + jsBean.toString());
+            Intent intent = new Intent();
+            if (TextUtils.equals(jsBean.methodname, "UserLogin")) {
+                intent.setClass(getCtx(), LoginActivity.class);
+                startActivityForResult(intent, 201);
+            } else if (TextUtils.equals(jsBean.methodname, "AppGoBack")) {
+                finish();
+            } else if (TextUtils.equals(jsBean.methodname, "GoApplyPage")) {
+                payInWx(jsBean.order_id);
+            } else if (TextUtils.equals(jsBean.methodname, "ShareActivity")) {
+//                webView.post(WebActivity.this::doShare);
+                NativeToJsBean bean = new NativeToJsBean();
+                bean.apply_status = "1";
+                webView.post(() -> loadJSMethod(jsBean.cbname, new Gson().toJson(bean)));
+            }
         }
     }
+
+    private IWXAPI msgApi;
+
+    private void payInWx(String order_id) {
+        msgApi = WXAPIFactory.createWXAPI(CarefreeApplication.getInstance().getApplicationContext(), null);
+        msgApi.registerApp(Constant.WX_ID);
+        CarefreeRetrofit.getInstance().createApi(MoneyApis.class).getActivityWXPayOrderInfo(order_id, QueryMapBuilder.getIns()
+                .put("uid", CarefreeDaoSession.getInstance().getUserId())
+                .put("pay_type", "APP")
+                .put("is_mini_program", "0").buildGet())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse<WxPayResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<WxPayResponse> baseResponseBaseResponse) {
+                        doPay(baseResponseBaseResponse.data);
+                    }
+                });
+    }
+
+    private void doPay(WxPayResponse data) {
+        PayReq request = new PayReq();
+        request.appId = data.appid;
+        request.partnerId = data.mch_id;
+        request.prepayId = data.prepay_id;
+        request.packageValue = "Sign=WXPay";
+        request.nonceStr = data.nonce_str;
+        request.timeStamp = data.timestamp;
+        request.sign = data.sign;
+        msgApi.sendReq(request);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onWXPayFinish(WXPayEvent event) {
+        NativeToJsBean bean = new NativeToJsBean();
+        bean.apply_status = "1";
+        webView.post(() -> loadJSMethod(jsBean.cbname, new Gson().toJson(bean)));
+    }
+
+    private void doShare() {
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        ShareUtil.shareMedia(getCtx(), SharePlatform.WX, "活动", "快来参加活动吧，老铁！", webView.getUrl(), bmp, new ShareListener() {
+            @Override
+            public void shareSuccess() {
+                ToastUtils.ToastMessage(getCtx(), R.string.share_success);
+            }
+
+            @Override
+            public void shareFailure(Exception e) {
+
+            }
+
+            @Override
+            public void shareCancel() {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == 201) {
+            NativeToJsBean bean = new NativeToJsBean();
+            bean.Authorization = CarefreeDaoSession.getInstance().getUserInfo().getToken();
+            bean.user_id = CarefreeDaoSession.getInstance().getUserId();
+            webView.post(() -> loadJSMethod(jsBean.cbname, new Gson().toJson(bean)));
+        }
+    }
+
 }

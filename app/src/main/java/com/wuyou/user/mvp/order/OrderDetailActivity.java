@@ -155,6 +155,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailServeName.setText(data.service.service_name);
         orderDetailSecondPayment.setText(CommonUtil.formatPrice(data.second_payment));
         orderDetailGoodsNumber.setText(data.number + "");
+        orderDetailOtherFee.setText(data.service.visiting_fee);
         orderDetailFee.setText(CommonUtil.formatPrice(data.service.price));
         orderDetailAmount.setText(CommonUtil.formatPrice(data.total_amount));
         orderDetailName.setText(data.address.name);

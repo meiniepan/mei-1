@@ -14,12 +14,12 @@
 
     <include layout="@layout/split_line" />
 
-    <com.yinglan.alphatabs.AlphaTabsIndicator
+    <com.wuyou.user.view.widget.bottom.AlphaTabsIndicator
         android:id="@+id/main_tab"
         android:layout_width="match_parent"
         android:layout_height="55dp">
 
-        <com.yinglan.alphatabs.AlphaTabView
+        <com.wuyou.user.view.widget.bottom.AlphaTabView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -30,7 +30,7 @@
             app:textColorNormal="@color/common_dark"
             app:textColorSelected="@color/night_blue" />
 
-        <com.yinglan.alphatabs.AlphaTabView
+        <com.wuyou.user.view.widget.bottom.AlphaTabView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -41,7 +41,7 @@
             app:textColorNormal="@color/common_dark"
             app:textColorSelected="@color/night_blue" />
 
-        <com.yinglan.alphatabs.AlphaTabView
+        <com.wuyou.user.view.widget.bottom.AlphaTabView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -52,7 +52,7 @@
             app:textColorNormal="@color/common_dark"
             app:textColorSelected="@color/night_blue" />
 
-        <com.yinglan.alphatabs.AlphaTabView
+        <com.wuyou.user.view.widget.bottom.AlphaTabView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -62,5 +62,5 @@
             app:tabText="@string/main_mine"
             app:textColorNormal="@color/common_dark"
             app:textColorSelected="@color/night_blue" />
-    </com.yinglan.alphatabs.AlphaTabsIndicator>
+    </com.wuyou.user.view.widget.bottom.AlphaTabsIndicator>
 </LinearLayout>

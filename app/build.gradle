@@ -99,7 +99,6 @@ android {
         annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
         compile "com.android.support:design:$supportLibVersion"
         compile "com.android.support:cardview-v7:$supportLibVersion"
-        compile 'com.yinglan.alphatabs:library:1.0.8'
         compile 'com.youth.banner:banner:1.4.9'
         compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
         compile 'org.greenrobot:greendao:3.2.2'

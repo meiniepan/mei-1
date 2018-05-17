@@ -23,8 +23,8 @@ import com.wuyou.user.mvp.mine.MineFragment;
 import com.wuyou.user.mvp.order.OrderFragment;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.UnScrollViewPager;
-import com.yinglan.alphatabs.AlphaTabView;
-import com.yinglan.alphatabs.AlphaTabsIndicator;
+import com.wuyou.user.view.widget.bottom.AlphaTabView;
+import com.wuyou.user.view.widget.bottom.AlphaTabsIndicator;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

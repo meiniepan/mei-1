@@ -45,6 +45,7 @@ public class Constant {
     public static final String SECOND_PAY = "second_pay";
     public static final String GENDER = "gender";
     public static final String BACK_FLAG = "back_flag";
+    public static final String SOURCE_FLAG = "source_flag";
 
     public static class Intent {
 
