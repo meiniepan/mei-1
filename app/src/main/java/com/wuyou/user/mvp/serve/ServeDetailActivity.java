@@ -21,7 +21,6 @@ import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.activity.MainActivity;
 import com.wuyou.user.view.widget.panel.GoodsChoosePanel;
 
 import org.jsoup.Jsoup;
@@ -114,7 +113,7 @@ public class ServeDetailActivity extends BaseActivity {
         serveDetailTitle.setText(serviceDetail.title);
         serveDetailCount.setText(serviceDetail.sold);
         serveDetailPrice.setText(CommonUtil.formatPrice(serviceDetail.price));
-        serveDetailUnit.setText(serviceDetail.unit);
+        serveDetailUnit.setText("/" + serviceDetail.unit);
         serveDetailDescription.loadDataWithBaseURL(null, getNewContent(serviceDetail.content), "text/html", "utf-8", null);
         serveDetailDescription.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         serveDetailStore.setText(serviceDetail.shop_name);

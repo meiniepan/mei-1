@@ -1,10 +1,15 @@
 package com.wuyou.user.view.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -36,6 +41,7 @@ import com.wuyou.user.event.WXPayEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
+import com.wuyou.user.util.CommonUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -82,6 +88,9 @@ public class WebActivity extends BaseActivity {
         webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
         webSettings.setJavaScriptEnabled(true);
         webSettings.setLightTouchEnabled(true);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSettings.setDomStorageEnabled(false);
         webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
         webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -102,8 +111,19 @@ public class WebActivity extends BaseActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
+                Log.e("Test", "shouldOverrideUrlLoading: " + url);
+                try {
+                    if (url.startsWith("http:") || url.startsWith("https:")) {
+                        view.loadUrl(url);
+                        return true;
+                    } else {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                        return true;
+                    }
+                } catch (Exception e) { //防止crash (如果手机上没有安装处理某个scheme开头的url的APP, 会导致crash)
+                    return false;
+                }
             }
 
             @Override
@@ -186,10 +206,21 @@ public class WebActivity extends BaseActivity {
             } else if (TextUtils.equals(jsBean.methodname, "GoApplyPage")) {
                 payInWx(jsBean.order_id);
             } else if (TextUtils.equals(jsBean.methodname, "ShareActivity")) {
-//                webView.post(WebActivity.this::doShare);
-                NativeToJsBean bean = new NativeToJsBean();
-                bean.apply_status = "1";
-                webView.post(() -> loadJSMethod(jsBean.cbname, new Gson().toJson(bean)));
+                webView.post(() -> doShare(jsBean.cbname, jsBean.activityUrl, jsBean.activityTitle));
+            } else if (TextUtils.equals(jsBean.methodname, "SaveQCode")) {
+                saveQRCode();
+            }
+        }
+    }
+
+    private void saveQRCode() {
+        if (ContextCompat.checkSelfPermission(getCtx(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(WebActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
+        } else {
+            if (CommonUtil.createQRImage(jsBean.ImgUrl)) {
+                ToastUtils.ToastMessage(getCtx(), R.string.save_success);
+            } else {
+                ToastUtils.ToastMessage(getCtx(), R.string.save_fail);
             }
         }
     }
@@ -228,26 +259,32 @@ public class WebActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWXPayFinish(WXPayEvent event) {
         NativeToJsBean bean = new NativeToJsBean();
-        bean.apply_status = "1";
+        if (event.errCode == 0) {
+            bean.apply_status = "1";
+        } else {
+            bean.apply_status = "2";
+        }
         webView.post(() -> loadJSMethod(jsBean.cbname, new Gson().toJson(bean)));
     }
 
-    private void doShare() {
+    private void doShare(String callback, String activityUrl, String activityTitle) {
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        ShareUtil.shareMedia(getCtx(), SharePlatform.WX, "活动", "快来参加活动吧，老铁！", webView.getUrl(), bmp, new ShareListener() {
+        NativeToJsBean bean = new NativeToJsBean();
+        ShareUtil.shareMedia(getCtx(), SharePlatform.WX, activityTitle, getString(R.string.share_activity), activityUrl, bmp, new ShareListener() {
             @Override
             public void shareSuccess() {
-                ToastUtils.ToastMessage(getCtx(), R.string.share_success);
+                bean.apply_status = "1";
+                loadJSMethod(callback, new Gson().toJson(bean));
             }
 
             @Override
             public void shareFailure(Exception e) {
-
+                bean.apply_status = "2";
+                loadJSMethod(callback, new Gson().toJson(bean));
             }
 
             @Override
             public void shareCancel() {
-
             }
         });
     }

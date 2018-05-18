@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -29,6 +30,7 @@ import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.bean.ActivityBean;
 import com.wuyou.user.bean.CommunityBean;
 import com.wuyou.user.bean.HomeVideoBean;
 import com.wuyou.user.bean.OrderBean;
@@ -37,6 +39,7 @@ import com.wuyou.user.bean.response.CategoryListResponse;
 import com.wuyou.user.bean.response.CategoryParent;
 import com.wuyou.user.bean.response.CommunityListResponse;
 import com.wuyou.user.bean.response.HomeVideoResponse;
+import com.wuyou.user.bean.response.ListResponse;
 import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.event.AddressEvent;
 import com.wuyou.user.event.LoginEvent;
@@ -46,6 +49,7 @@ import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.JZVideoPlayerFullscreen;
+import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.HomeMapActivity;
 import com.wuyou.user.view.activity.SearchActivity;
@@ -90,6 +94,8 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     TextView homeAddress;
     @BindView(R.id.home_order_message)
     MarqueeTextView homeOrderMessage;
+    @BindView(R.id.home_activity)
+    ImageView homeActivity;
 
     @BindView(R.id.home_order_area)
     View homeOrderArea;
@@ -120,6 +126,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         initVideo();
         initLocationAndGetData();
         getOrderMessage();
+        getActivityData();
         homeRefresh.setOnRefreshListener(() -> {
             getOrderMessage();
         });
@@ -378,6 +385,14 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                     intent.putExtra(Constant.WEB_URL, "http://192.168.0.102?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
                 }
                 startActivity(intent);
+//                String s = "gegrqwwwwwd";
+//                CommonUtil.createQRImage(s);
+//                Uri contentUri = FileProvider.getUriForFile(CarefreeApplication.getInstance().getApplicationContext(), "com.wuyou.user.FileProvider", CarefreeApplication.getInstance().file);
+//                Intent intent1 = new Intent(Intent.ACTION_VIEW);
+//                intent1.setDataAndType(contentUri, "image/*");
+//                intent1.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//                startActivity(intent1);
+//                mCtx.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri));
                 break;
         }
     }
@@ -418,5 +433,26 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         ShareBottomBoard bottomBoard = new ShareBottomBoard(mCtx);
         bottomBoard.setData(homeVideoBean1);
         bottomBoard.show();
+    }
+
+    public void getActivityData() {
+        CarefreeRetrofit.getInstance().createApi(HomeApis.class).getActivityData(QueryMapBuilder.getIns().buildGet())
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<BaseResponse<ListResponse<ActivityBean>>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<ListResponse<ActivityBean>> listResponseBaseResponse) {
+                        setActivityData(listResponseBaseResponse.data.list);
+                    }
+                });
+
+    }
+
+    private ActivityBean activityBean;
+
+    public void setActivityData(List<ActivityBean> activityData) {
+        if (activityData != null && activityData.size() > 0) {
+            activityBean = activityData.get(0);
+            GlideUtils.loadImage(mCtx, activityBean.image, homeActivity);
+        }
     }
 }

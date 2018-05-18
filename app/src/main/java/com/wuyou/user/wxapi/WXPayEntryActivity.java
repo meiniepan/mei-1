@@ -56,8 +56,8 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onResp(BaseResp baseResp) {
         Log.e(TAG, "onWxPayResp: " + baseResp.toString());
-        if (baseResp instanceof PayResp && baseResp.errCode == 0) {
-            new Handler().postDelayed(() -> EventBus.getDefault().post(new WXPayEvent()), 500);
+        if (baseResp instanceof PayResp) {
+            new Handler().postDelayed(() -> EventBus.getDefault().post(new WXPayEvent(baseResp.errCode)), 500);
         }
         finish();
     }

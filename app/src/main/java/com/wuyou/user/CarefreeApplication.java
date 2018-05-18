@@ -10,6 +10,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.UserInfoDao;
 
+import java.io.File;
 import java.util.List;
 
 /**

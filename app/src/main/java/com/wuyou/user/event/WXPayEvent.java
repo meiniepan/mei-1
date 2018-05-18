@@ -5,4 +5,9 @@ package com.wuyou.user.event;
  */
 
 public class WXPayEvent {
+    public int errCode;
+
+    public WXPayEvent(int errCode) {
+        this.errCode = errCode;
+    }
 }

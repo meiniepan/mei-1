@@ -3,6 +3,7 @@ package com.wuyou.user.util;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,12 +12,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.RequiresApi;
+import android.support.v4.os.EnvironmentCompat;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.InputFilter;
@@ -30,6 +35,10 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.RecycleViewDivider;
@@ -50,14 +59,53 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Hashtable;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.os.Environment.DIRECTORY_DCIM;
 
 /**
  * Created by hjn on 2016/11/10.
  */
 public class CommonUtil {
+
+    private static final int QR_WIDTH = DensityUtils.dip2px(CarefreeApplication.getInstance().getApplicationContext(), 200);
+    private static final int QR_HEIGHT = DensityUtils.dip2px(CarefreeApplication.getInstance().getApplicationContext(), 200);
+
+    public static boolean createQRImage(String url) {
+        Bitmap bitmap;
+        try {
+            if (url == null || "".equals(url) || url.length() < 1) {
+                return false;
+            }
+            Hashtable<EncodeHintType, String> hints = new Hashtable<>();
+            hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+            BitMatrix bitMatrix = new QRCodeWriter().encode(url, BarcodeFormat.QR_CODE, QR_WIDTH, QR_HEIGHT, hints);
+            int[] pixels = new int[QR_WIDTH * QR_HEIGHT];
+            for (int y = 0; y < QR_HEIGHT; y++) {
+                for (int x = 0; x < QR_WIDTH; x++) {
+                    if (bitMatrix.get(x, y)) {
+                        pixels[y * QR_WIDTH + x] = 0xff000000;
+                    } else {
+                        pixels[y * QR_WIDTH + x] = 0xffffffff;
+                    }
+                }
+            }
+            bitmap = Bitmap.createBitmap(QR_WIDTH, QR_HEIGHT, Bitmap.Config.RGB_565);
+            bitmap.setPixels(pixels, 0, QR_WIDTH, 0, 0, QR_WIDTH, QR_HEIGHT);
+            String s = MediaStore.Images.Media.insertImage(CarefreeApplication.getInstance().getApplicationContext().getContentResolver(), bitmap, "title", "description");
+            Uri uri = Uri.parse(s);
+            CarefreeApplication.getInstance().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+//            saveBitmap2file(bitmap, "qr.jpg");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static String formatPrice(float price) {
         NumberFormat nf = new DecimalFormat("0.00");
         return nf.format(price);
@@ -367,6 +415,21 @@ public class CommonUtil {
         return sb.toString();
     }
 
+    private static File createImageFile(String imageFileName) {
+        // Create an image file name
+        File storageDir;
+        storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+//            storageDir = mContext.get().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        // Avoid joining path components manually
+        File tempFile = new File(storageDir, imageFileName);
+
+        // Handle the situation that user's external storage is not ready
+        if (!Environment.MEDIA_MOUNTED.equals(EnvironmentCompat.getStorageState(tempFile))) {
+            return null;
+        }
+        return tempFile;
+    }
 
     public static File saveBitmap2file(Bitmap bmp, String desFileName) {
         Bitmap.CompressFormat format = Bitmap.CompressFormat.JPEG;
@@ -384,16 +447,15 @@ public class CommonUtil {
 
     public static File getFileDir(String desFileName) {
         try {
-            File dir = new File(CarefreeApplication.getInstance().getFilePath() + desFileName);
+            File dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM).toString(), desFileName);
             if (!dir.exists()) {
                 dir.createNewFile();
             }
             return dir;
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
-            return new File(CarefreeApplication.getInstance().getApplicationContext().getFilesDir() + desFileName);
+            return new File(CarefreeApplication.getInstance().getApplicationContext().getFilesDir(), desFileName);
         }
-
     }
 
     public static Bitmap compressBitmap(Bitmap image) {

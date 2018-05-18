@@ -1,6 +1,7 @@
 package com.wuyou.user.util;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,8 +33,6 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
-
-import com.wuyou.user.CarefreeApplication;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -277,12 +276,11 @@ public class ImageUtil {
     /**
      * 获取bitmap
      *
-     * @param resId   资源id
+     * @param resId 资源id
      * @return bitmap
      */
-    public static Bitmap getBitmap( int resId) {
-        if (CarefreeApplication.getInstance().getApplicationContext() == null) return null;
-        InputStream is = CarefreeApplication.getInstance().getApplicationContext().getResources().openRawResource(resId);
+    public static Bitmap getBitmap(Context context, int resId) {
+        InputStream is = context.getResources().openRawResource(resId);
         return BitmapFactory.decodeStream(is);
     }
 
@@ -294,11 +292,10 @@ public class ImageUtil {
      * @param maxHeight 最大高度
      * @return bitmap
      */
-    public static Bitmap getBitmap(int resId, int maxWidth, int maxHeight) {
-        if (CarefreeApplication.getInstance().getApplicationContext() == null) return null;
+    public static Bitmap getBitmap(Context context, int resId, int maxWidth, int maxHeight) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        InputStream is = CarefreeApplication.getInstance().getApplicationContext().getResources().openRawResource(resId);
+        InputStream is = context.getResources().openRawResource(resId);
         BitmapFactory.decodeStream(is, null, options);
         options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);
         options.inJustDecodeBounds = false;
@@ -654,26 +651,27 @@ public class ImageUtil {
      * 快速模糊
      * <p>先缩小原图，对小图进行模糊，再放大回原先尺寸</p>
      *
-     * @param src     源图片
-     * @param scale   缩小倍数(0...1)
-     * @param radius  模糊半径
+     * @param src    源图片
+     * @param scale  缩小倍数(0...1)
+     * @param radius 模糊半径
      * @return 模糊后的图片
      */
-    public static Bitmap fastBlur( Bitmap src, float scale, float radius) {
-        return fastBlur(src, scale, radius, false);
+    public static Bitmap fastBlur(Context context, Bitmap src, float scale, float radius) {
+        return fastBlur(context, src, scale, radius, false);
     }
 
     /**
      * 快速模糊
      * <p>先缩小原图，对小图进行模糊，再放大回原先尺寸</p>
      *
+     * @param context
      * @param src     源图片
      * @param scale   缩小倍数(0...1)
      * @param radius  模糊半径
      * @param recycle 是否回收
      * @return 模糊后的图片
      */
-    public static Bitmap fastBlur( Bitmap src, float scale, float radius, boolean recycle) {
+    public static Bitmap fastBlur(Context context, Bitmap src, float scale, float radius, boolean recycle) {
         if (isEmptyBitmap(src)) return null;
         int width = src.getWidth();
         int height = src.getHeight();
@@ -689,7 +687,7 @@ public class ImageUtil {
         canvas.scale(scale, scale);
         canvas.drawBitmap(scaleBitmap, 0, 0, paint);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            scaleBitmap = renderScriptBlur(scaleBitmap, radius);
+            scaleBitmap = renderScriptBlur(context, scaleBitmap, radius);
         } else {
             scaleBitmap = stackBlur(scaleBitmap, (int) radius, true);
         }
@@ -704,16 +702,16 @@ public class ImageUtil {
      * renderScript模糊图片
      * <p>API大于17</p>
      *
-     * @param src     源图片
-     * @param radius  模糊度(0...25)
+     * @param src    源图片
+     * @param radius 模糊度(0...25)
      * @return 模糊后的图片
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public static Bitmap renderScriptBlur( Bitmap src, float radius) {
+    public static Bitmap renderScriptBlur(Context context, Bitmap src, float radius) {
         if (isEmptyBitmap(src)) return null;
         RenderScript rs = null;
         try {
-            rs = RenderScript.create(CarefreeApplication.getInstance().getApplicationContext());
+            rs = RenderScript.create(context);
             rs.setMessageHandler(new RenderScript.RSMessageHandler());
             Allocation input = Allocation.createFromBitmap(rs, src, Allocation.MipmapControl.MIPMAP_NONE, Allocation
                     .USAGE_SCRIPT);
@@ -1570,7 +1568,7 @@ public class ImageUtil {
      * Resize the bitmap
      *
      * @param bitmap 图片引用
-     * @param width 宽度
+     * @param width  宽度
      * @param height 高度
      * @return 缩放之后的图片引用
      */

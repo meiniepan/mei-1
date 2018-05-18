@@ -1,6 +1,5 @@
 package com.wuyou.user.view.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -66,7 +65,7 @@ public class SearchActivity extends BaseActivity {
         adapter = new ServeListAdapter(this, R.layout.item_serve_list);
         searchList.setAdapter(adapter);
         adapter.bindToRecyclerView(searchList);
-//        adapter.setOnLoadMoreListener(this::getMore, searchList);
+        adapter.setOnLoadMoreListener(this::getMore, searchList);
         adapter.setOnItemClickListener((adapter, view, position) -> goDetail((ServeBean) adapter.getData().get(position)));
 
         SearchRecyclerViewAdapter historyAdapter = new SearchRecyclerViewAdapter(CarefreeDaoSession.getInstance().getHistoryRecords());
@@ -125,6 +124,9 @@ public class SearchActivity extends BaseActivity {
                         }
                         adapter.setNewData(list);
                         startId = list.get(list.size() - 1).service_id;
+                        if (listBaseResponse.data.has_more == 0) {
+                            adapter.loadMoreEnd(true);
+                        }
                     }
 
                     @Override
@@ -155,6 +157,9 @@ public class SearchActivity extends BaseActivity {
                         List<ServeBean> list = listBaseResponse.data.list;
                         adapter.addData(list);
                         startId = list.get(list.size() - 1).service_id;
+                        if (listBaseResponse.data.has_more == 0) {
+                            adapter.loadMoreEnd(true);
+                        }
                     }
 
                     @Override

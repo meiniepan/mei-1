@@ -135,7 +135,7 @@ public class PayChooseActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWXPayFinish(WXPayEvent event) {
-        doNext();
+        if (event.errCode == 0) doNext();
     }
 
     public void doPay(View view) {
