@@ -34,6 +34,7 @@ import com.wuyou.user.bean.ActivityBean;
 import com.wuyou.user.bean.CommunityBean;
 import com.wuyou.user.bean.HomeVideoBean;
 import com.wuyou.user.bean.OrderBean;
+import com.wuyou.user.bean.ShareBean;
 import com.wuyou.user.bean.response.CategoryChild;
 import com.wuyou.user.bean.response.CategoryListResponse;
 import com.wuyou.user.bean.response.CategoryParent;
@@ -107,6 +108,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     private List<CommunityBean> communityBeans;
     private List<HomeVideoBean> videoData;
     private HomeVideoBean homeVideoBean1;
+    private HomeVideoBean homeVideoBean2;
 
     @Override
     protected int getContentLayout() {
@@ -351,7 +353,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
             GlideUtils.loadRoundCornerImage(mCtx, homeVideoBean1.preview, video1.thumbImageView);
             video1.addShareListener(this);
 
-            HomeVideoBean homeVideoBean2 = videoData.get(1);
+            homeVideoBean2 = videoData.get(1);
             video2.setUp(homeVideoBean2.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean2.title);
             homeVideoTitle2.setText(homeVideoBean2.title);
             GlideUtils.loadRoundCornerImage(mCtx, homeVideoBean2.preview, video2.thumbImageView);
@@ -380,9 +382,9 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
             case R.id.home_activity:
                 intent.setClass(mCtx, WebActivity.class);
                 if (CarefreeDaoSession.getInstance().getUserInfo() == null) {
-                    intent.putExtra(Constant.WEB_URL, "http://192.168.0.102");
+                    intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL);
                 } else {
-                    intent.putExtra(Constant.WEB_URL, "http://192.168.0.102?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
+                    intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL + "?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
                 }
                 startActivity(intent);
 //                String s = "gegrqwwwwwd";
@@ -429,10 +431,26 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
 
 
     @Override
-    public void onShare(int platform) {
+    public void onShare(String url, int platform) {
         ShareBottomBoard bottomBoard = new ShareBottomBoard(mCtx);
-        bottomBoard.setData(homeVideoBean1);
+        if (TextUtils.equals(url, homeVideoBean1.video)) {
+            bottomBoard.setData(copyToShare(homeVideoBean1));
+        } else {
+            bottomBoard.setData(copyToShare(homeVideoBean2));
+        }
         bottomBoard.show();
+        bottomBoard.setOnDismissListener(dialog -> getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION));
+    }
+
+    private ShareBean copyToShare(HomeVideoBean homeVideoBean) {
+        ShareBean shareBean = new ShareBean();
+        shareBean.targetUrl = homeVideoBean.video;
+        shareBean.miniPath = ""; //TODO
+        shareBean.miniType = 0;
+        shareBean.preview = homeVideoBean.preview;
+        shareBean.summary = homeVideoBean.summary;
+        shareBean.title = homeVideoBean.title;
+        return null;
     }
 
     public void getActivityData() {
@@ -444,7 +462,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                         setActivityData(listResponseBaseResponse.data.list);
                     }
                 });
-
     }
 
     private ActivityBean activityBean;

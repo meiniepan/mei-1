@@ -44,6 +44,16 @@ public class DefaultShareInstance implements ShareInstance {
     }
 
     @Override
+    public void shareMini(int platform, String title, String targetUrl, String summary, String miniId, String miniPath, int miniType, ShareImageObject shareImageObject, Activity activity, ShareListener listener) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, String.format("%s %s", title, targetUrl));
+        sendIntent.setType("text/plain");
+        activity.startActivity(Intent.createChooser(sendIntent,
+                activity.getResources().getString(R.string.vista_share_title)));
+    }
+
+    @Override
     public void shareImage(int platform, final ShareImageObject shareImageObject,
             final Activity activity, final ShareListener listener) {
         Observable.fromEmitter(new Action1<Emitter<Uri>>() {

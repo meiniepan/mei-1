@@ -21,5 +21,4 @@ public class SharePlatform {
     public static final int WX_TIMELINE = 4;
     public static final int WEIBO = 5;
 
-
 }

@@ -26,6 +26,7 @@ import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.InfoActivity;
 import com.wuyou.user.view.activity.SettingActivity;
+import com.wuyou.user.view.activity.WebActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -81,7 +82,8 @@ public class MineFragment extends BaseFragment {
     }
 
     private void setInfo(UserInfo userInfo) {
-        if (!TextUtils.isEmpty(userInfo.getAvatar())) GlideUtils.loadImageNoHolder(mCtx, CarefreeDaoSession.getAvatar(userInfo), mineHead, true);
+        if (!TextUtils.isEmpty(userInfo.getAvatar()))
+            GlideUtils.loadImageNoHolder(mCtx, CarefreeDaoSession.getAvatar(userInfo), mineHead, true);
         minePhone.setText(userInfo.getMobile());
         mineName.setText(userInfo.getName());
 //            mineSex.setText(userInfo.getGender());
@@ -148,8 +150,12 @@ public class MineFragment extends BaseFragment {
                 intent.putExtra(Constant.ADDRESS_SOURCE, 1);
                 startActivity(intent);
                 break;
-            case R.id.mine_card:
             case R.id.mine_activity:
+                intent.setClass(mCtx, WebActivity.class);
+                intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL + "activity_annal?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
+                startActivity(intent);
+                break;
+            case R.id.mine_card:
             case R.id.mine_recharge:
                 ToastUtils.ToastMessage(mCtx, R.string.no_function);
                 break;

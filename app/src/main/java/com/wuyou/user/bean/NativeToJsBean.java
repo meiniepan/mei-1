@@ -6,6 +6,6 @@ package com.wuyou.user.bean;
 
 public class NativeToJsBean {
     public String Authorization;
-    public String user_id;
-    public String apply_status;
+    public String UserId;
+    public String ApplyStatus;
 }

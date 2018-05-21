@@ -93,6 +93,11 @@ public class QQShareInstance implements ShareInstance {
     }
 
     @Override
+    public void shareMini(int platform, String title, String targetUrl, String summary, String miniId, String miniPath, int miniType, ShareImageObject shareImageObject, Activity activity, ShareListener listener) {
+
+    }
+
+    @Override
     public void shareImage(final int platform, final ShareImageObject shareImageObject,
             final Activity activity, final ShareListener listener) {
         Observable.fromEmitter(new Action1<Emitter<String>>() {

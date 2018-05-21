@@ -59,6 +59,7 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
         title = findViewById(R.id.title);
         soundView.setOnClickListener(this);
         shareView.setOnClickListener(this);
+        findViewById(R.id.back).setOnClickListener(this);
         setLikeState();
     }
 
@@ -132,12 +133,14 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
             liked = !liked;
             setLikeState();
         } else if (i == R.id.player_share) {
-            onShareListener.onShare(SharePlatform.WX_TIMELINE);
+            onShareListener.onShare(getCurrentUrl().toString(),SharePlatform.WX_TIMELINE);
+        }else if (i ==R.id.back){
+            backPress();
         }
     }
 
     public interface OnShareListener {
-        void onShare(int platform);
+        void onShare(String url, int platform);
     }
 
     public static OnShareListener onShareListener;

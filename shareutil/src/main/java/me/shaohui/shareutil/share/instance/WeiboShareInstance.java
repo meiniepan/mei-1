@@ -64,6 +64,11 @@ public class WeiboShareInstance implements ShareInstance {
     }
 
     @Override
+    public void shareMini(int platform, String title, String targetUrl, String summary, String miniId, String miniPath, int miniType, ShareImageObject shareImageObject, Activity activity, ShareListener listener) {
+
+    }
+
+    @Override
     public void shareImage(int platform, ShareImageObject shareImageObject, Activity activity,
             ShareListener listener) {
         shareTextOrImage(shareImageObject, null, activity, listener);

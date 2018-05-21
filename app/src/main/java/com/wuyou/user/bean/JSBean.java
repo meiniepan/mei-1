@@ -5,22 +5,22 @@ package com.wuyou.user.bean;
  */
 
 public class JSBean {
-    public String activityid;
-    public String cbname;
-    public String methodname;
-    public String order_id;
-    public String activityUrl;
-    public String activityTitle;
+    public String ActivityId;
+    public String CallBackName;
+    public String MethodName ;
+    public String OrderId;
+    public String ActivityUrl;
+    public String ActivityTitle;
 
     @Override
     public String toString() {
         return "JSBean{" +
-                "activityid='" + activityid + '\'' +
-                ", cbname='" + cbname + '\'' +
-                ", methodname='" + methodname + '\'' +
-                ", order_id='" + order_id + '\'' +
-                ", activityUrl='" + activityUrl + '\'' +
-                ", activityTitle='" + activityTitle + '\'' +
+                "ActivityId='" + ActivityId + '\'' +
+                ", CallBackName='" + CallBackName + '\'' +
+                ", methodname='" + MethodName + '\'' +
+                ", order_id='" + OrderId + '\'' +
+                ", activityUrl='" + ActivityUrl + '\'' +
+                ", ActivityTitle='" + ActivityTitle + '\'' +
                 ", ImgUrl='" + ImgUrl + '\'' +
                 '}';
     }

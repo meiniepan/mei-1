@@ -23,10 +23,12 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.gs.buluo.common.BaseApplication;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.ToastUtils;
+import com.gs.buluo.common.utils.Utils;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -36,12 +38,14 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.JSBean;
 import com.wuyou.user.bean.NativeToJsBean;
+import com.wuyou.user.bean.ShareBean;
 import com.wuyou.user.bean.response.WxPayResponse;
 import com.wuyou.user.event.WXPayEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.view.widget.panel.ShareBottomBoard;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -50,9 +54,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import me.shaohui.shareutil.ShareUtil;
 import me.shaohui.shareutil.share.ShareListener;
-import me.shaohui.shareutil.share.SharePlatform;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
 
@@ -70,7 +72,7 @@ public class WebActivity extends BaseActivity {
     protected void bindView(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         setUpWebView();
-        String url = getIntent().getStringExtra(Constant.WEB_URL);
+        String url = getIntent().getStringExtra(Constant.WEB_INTENT);
         int type = getIntent().getIntExtra(Constant.WEB_TYPE, 0);
         if (type == 1) {
             findViewById(R.id.web_top).setVisibility(View.VISIBLE);
@@ -93,6 +95,8 @@ public class WebActivity extends BaseActivity {
         webSettings.setDomStorageEnabled(false);
         webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
         webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
+        String deviceInfo = Utils.getDeviceInfo(BaseApplication.getInstance().getApplicationContext()) + " app/Android";
+        webSettings.setUserAgentString(deviceInfo);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
@@ -198,16 +202,16 @@ public class WebActivity extends BaseActivity {
             jsBean = new Gson().fromJson(json, JSBean.class);
             Log.e("Test", "JSCallNativeInterface: " + jsBean.toString());
             Intent intent = new Intent();
-            if (TextUtils.equals(jsBean.methodname, "UserLogin")) {
+            if (TextUtils.equals(jsBean.MethodName, "UserLogin")) {
                 intent.setClass(getCtx(), LoginActivity.class);
                 startActivityForResult(intent, 201);
-            } else if (TextUtils.equals(jsBean.methodname, "AppGoBack")) {
+            } else if (TextUtils.equals(jsBean.MethodName, "AppGoBack")) {
                 finish();
-            } else if (TextUtils.equals(jsBean.methodname, "GoApplyPage")) {
-                payInWx(jsBean.order_id);
-            } else if (TextUtils.equals(jsBean.methodname, "ShareActivity")) {
-                webView.post(() -> doShare(jsBean.cbname, jsBean.activityUrl, jsBean.activityTitle));
-            } else if (TextUtils.equals(jsBean.methodname, "SaveQCode")) {
+            } else if (TextUtils.equals(jsBean.MethodName, "GoApplyPage")) {
+                payInWx(jsBean.OrderId);
+            } else if (TextUtils.equals(jsBean.MethodName, "ShareActivity")) {
+                webView.post(() -> doShare(jsBean.CallBackName, jsBean.ActivityUrl, jsBean.ActivityTitle));
+            } else if (TextUtils.equals(jsBean.MethodName, "SaveQCode")) {
                 saveQRCode();
             }
         }
@@ -260,26 +264,35 @@ public class WebActivity extends BaseActivity {
     public void onWXPayFinish(WXPayEvent event) {
         NativeToJsBean bean = new NativeToJsBean();
         if (event.errCode == 0) {
-            bean.apply_status = "1";
+            bean.ApplyStatus = "1";
         } else {
-            bean.apply_status = "2";
+            bean.ApplyStatus = "2";
         }
-        webView.post(() -> loadJSMethod(jsBean.cbname, new Gson().toJson(bean)));
+        webView.post(() -> loadJSMethod(jsBean.CallBackName, new Gson().toJson(bean)));
     }
 
     private void doShare(String callback, String activityUrl, String activityTitle) {
+        NativeToJsBean nativeToJsBean = new NativeToJsBean();
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        NativeToJsBean bean = new NativeToJsBean();
-        ShareUtil.shareMedia(getCtx(), SharePlatform.WX, activityTitle, getString(R.string.share_activity), activityUrl, bmp, new ShareListener() {
+        ShareBottomBoard bottomBoard = new ShareBottomBoard(this);
+        ShareBean bean = new ShareBean();
+        bean.previewBitmap = bmp;
+        bean.miniPath = "pages/index/index";
+        bean.miniType = 0;
+        bean.summary = activityTitle;
+        bean.targetUrl = activityUrl;
+        bean.title = getString(R.string.share_activity);
+        bottomBoard.setData(bean);
+        bottomBoard.addShareListener(new ShareListener() {
             @Override
             public void shareSuccess() {
-                bean.apply_status = "1";
+                nativeToJsBean.ApplyStatus = "1";
                 loadJSMethod(callback, new Gson().toJson(bean));
             }
 
             @Override
             public void shareFailure(Exception e) {
-                bean.apply_status = "2";
+                nativeToJsBean.ApplyStatus = "2";
                 loadJSMethod(callback, new Gson().toJson(bean));
             }
 
@@ -287,6 +300,7 @@ public class WebActivity extends BaseActivity {
             public void shareCancel() {
             }
         });
+        bottomBoard.show();
     }
 
     @Override
@@ -294,8 +308,8 @@ public class WebActivity extends BaseActivity {
         if (resultCode == RESULT_OK && requestCode == 201) {
             NativeToJsBean bean = new NativeToJsBean();
             bean.Authorization = CarefreeDaoSession.getInstance().getUserInfo().getToken();
-            bean.user_id = CarefreeDaoSession.getInstance().getUserId();
-            webView.post(() -> loadJSMethod(jsBean.cbname, new Gson().toJson(bean)));
+            bean.UserId = CarefreeDaoSession.getInstance().getUserId();
+            webView.post(() -> loadJSMethod(jsBean.CallBackName, new Gson().toJson(bean)));
         }
     }
 

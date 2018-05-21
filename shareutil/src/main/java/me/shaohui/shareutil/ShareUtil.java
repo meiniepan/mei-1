@@ -8,14 +8,15 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
 import java.util.List;
 import java.util.Locale;
 
-import me.shaohui.shareutil.login.LoginPlatform;
 import me.shaohui.shareutil.share.ShareImageObject;
 import me.shaohui.shareutil.share.ShareListener;
 import me.shaohui.shareutil.share.SharePlatform;
@@ -24,6 +25,7 @@ import me.shaohui.shareutil.share.instance.QQShareInstance;
 import me.shaohui.shareutil.share.instance.ShareInstance;
 import me.shaohui.shareutil.share.instance.WeiboShareInstance;
 import me.shaohui.shareutil.share.instance.WxShareInstance;
+
 import static me.shaohui.shareutil.ShareLogger.INFO;
 
 /**
@@ -33,7 +35,7 @@ import static me.shaohui.shareutil.ShareLogger.INFO;
 public class ShareUtil {
     /**
      * 测试case
-     *
+     * <p>
      * 1. 本地图片 vs 网络图片
      * 2. 图片大小限制
      * 3. 文字长度限制
@@ -48,6 +50,7 @@ public class ShareUtil {
     private final static int TYPE_IMAGE = 1;
     private final static int TYPE_TEXT = 2;
     private final static int TYPE_MEDIA = 3;
+    private final static int TYPE_MINI = 4;
 
     private static int mType;
     private static int mPlatform;
@@ -56,10 +59,12 @@ public class ShareUtil {
     private static String mTitle;
     private static String mSummary;
     private static String mTargetUrl;
+    private static String mMiniId;
+    private static String mMiniPath;
+    private static int mMiniType; // 正式版:0，测试版:1，体验版:2
 
     static void action(Activity activity) {
         mShareInstance = getShareInstance(mPlatform, activity);
-
         // 防止之后调用 NullPointException
         if (mShareListener == null) {
             activity.finish();
@@ -83,11 +88,15 @@ public class ShareUtil {
                 mShareInstance.shareMedia(mPlatform, mTitle, mTargetUrl, mSummary,
                         mShareImageObject, activity, mShareListener);
                 break;
+            case TYPE_MINI:
+                mShareInstance.shareMini(mPlatform, mTitle, mTargetUrl, mSummary, mMiniId, mMiniPath, mMiniType,
+                        mShareImageObject, activity, mShareListener);
+                break;
         }
     }
 
     public static void shareText(Context context, @SharePlatform.Platform int platform, String text,
-            ShareListener listener) {
+                                 ShareListener listener) {
         mType = TYPE_TEXT;
         mText = text;
         mPlatform = platform;
@@ -97,7 +106,7 @@ public class ShareUtil {
     }
 
     public static void shareImage(Context context, @SharePlatform.Platform final int platform,
-            final String urlOrPath, ShareListener listener) {
+                                  final String urlOrPath, ShareListener listener) {
         mType = TYPE_IMAGE;
         mPlatform = platform;
         mShareImageObject = new ShareImageObject(urlOrPath);
@@ -107,7 +116,7 @@ public class ShareUtil {
     }
 
     public static void shareImage(Context context, @SharePlatform.Platform final int platform,
-            final Bitmap bitmap, ShareListener listener) {
+                                  final Bitmap bitmap, ShareListener listener) {
         mType = TYPE_IMAGE;
         mPlatform = platform;
         mShareImageObject = new ShareImageObject(bitmap);
@@ -117,7 +126,7 @@ public class ShareUtil {
     }
 
     public static void shareMedia(Context context, @SharePlatform.Platform int platform,
-            String title, String summary, String targetUrl, Bitmap thumb, ShareListener listener) {
+                                  String title, String summary, String targetUrl, Bitmap thumb, ShareListener listener) {
         mType = TYPE_MEDIA;
         mPlatform = platform;
         mShareImageObject = new ShareImageObject(thumb);
@@ -130,8 +139,8 @@ public class ShareUtil {
     }
 
     public static void shareMedia(Context context, @SharePlatform.Platform int platform,
-            String title, String summary, String targetUrl, String thumbUrlOrPath,
-            ShareListener listener) {
+                                  String title, String summary, String targetUrl, String thumbUrlOrPath,
+                                  ShareListener listener) {
         mType = TYPE_MEDIA;
         mPlatform = platform;
         mShareImageObject = new ShareImageObject(thumbUrlOrPath);
@@ -140,6 +149,41 @@ public class ShareUtil {
         mTitle = title;
         mShareListener = buildProxyListener(listener);
 
+        context.startActivity(_ShareActivity.newInstance(context, TYPE));
+    }
+
+
+    public static void shareMini(Context context, @SharePlatform.Platform int platform,
+                                 String title, String summary, String targetUrl, Bitmap thumbUrlOrPath,
+                                 String miniId, String miniPath, int miniType,
+                                 ShareListener listener) {
+        mType = TYPE_MINI;
+        mPlatform = platform;
+        mShareImageObject = new ShareImageObject(thumbUrlOrPath);
+        mSummary = summary;
+        mTargetUrl = targetUrl;
+        mTitle = title;
+        mShareListener = buildProxyListener(listener);
+        mMiniId = miniId;
+        mMiniPath = miniPath;
+        mMiniType = miniType;
+        context.startActivity(_ShareActivity.newInstance(context, TYPE));
+    }
+
+    public static void shareMini(Context context, @SharePlatform.Platform int platform,
+                                 String title, String summary, String targetUrl, String thumbUrlOrPath,
+                                 String miniId, String miniPath, int miniType,
+                                 ShareListener listener) {
+        mType = TYPE_MINI;
+        mPlatform = platform;
+        mShareImageObject = new ShareImageObject(thumbUrlOrPath);
+        mSummary = summary;
+        mTargetUrl = targetUrl;
+        mTitle = title;
+        mShareListener = buildProxyListener(listener);
+        mMiniId = miniId;
+        mMiniPath = miniPath;
+        mMiniType = miniType;
         context.startActivity(_ShareActivity.newInstance(context, TYPE));
     }
 
@@ -161,7 +205,7 @@ public class ShareUtil {
     }
 
     private static ShareInstance getShareInstance(@SharePlatform.Platform int platform,
-            Context context) {
+                                                  Context context) {
         switch (platform) {
             case SharePlatform.WX:
             case SharePlatform.WX_TIMELINE:
@@ -246,7 +290,7 @@ public class ShareUtil {
         IWXAPI api = WXAPIFactory.createWXAPI(context, ShareManager.CONFIG.getWxId(), true);
         return api.isWXAppInstalled();
     }
-    
+
     private static class ShareListenerProxy extends ShareListener {
 
         private final ShareListener mShareListener;

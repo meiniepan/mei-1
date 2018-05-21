@@ -10,9 +10,10 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.gs.buluo.common.utils.ToastUtils;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.HomeVideoBean;
-import com.wuyou.user.util.WechatShareModel;
+import com.wuyou.user.bean.ShareBean;
 
 import butterknife.ButterKnife;
 import me.shaohui.shareutil.ShareUtil;
@@ -24,11 +25,10 @@ import me.shaohui.shareutil.share.SharePlatform;
  */
 public class ShareBottomBoard extends Dialog implements View.OnClickListener {
     Context mCtx;
-    private WechatShareModel shareModel;
-    private HomeVideoBean homeVideoBean;
+    private ShareBean shareMediaBean;
 
     public ShareBottomBoard(Context context) {
-        super(context, R.style.my_dialog);
+        super(context, R.style.bottom_dialog);
         mCtx = context;
         initView();
     }
@@ -51,13 +51,25 @@ public class ShareBottomBoard extends Dialog implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (homeVideoBean == null) return;
+        if (shareMediaBean == null) return;
         switch (v.getId()) {
             case R.id.share_board_wx:
-                ShareUtil.shareMedia(mCtx, SharePlatform.WX, homeVideoBean.title, "", homeVideoBean.video, homeVideoBean.preview, new CustomShareListener());
+                dismiss();
+                if (shareMediaBean.preview != null) {
+                    ShareUtil.shareMini(mCtx, SharePlatform.WX, shareMediaBean.title, shareMediaBean.summary, shareMediaBean.targetUrl, shareMediaBean.preview
+                            , Constant.WX_MINI_ID, shareMediaBean.miniPath, shareMediaBean.miniType, customShareListener);
+                } else {
+                    ShareUtil.shareMini(mCtx, SharePlatform.WX, shareMediaBean.title, shareMediaBean.summary, shareMediaBean.targetUrl, shareMediaBean.previewBitmap
+                            , Constant.WX_MINI_ID, shareMediaBean.miniPath, shareMediaBean.miniType, customShareListener);
+                }
                 break;
             case R.id.share_board_moment:
-                ShareUtil.shareMedia(mCtx, SharePlatform.WX_TIMELINE, homeVideoBean.title, "", homeVideoBean.video, homeVideoBean.preview, new CustomShareListener());
+                dismiss();
+                if (shareMediaBean.preview != null) {
+                    ShareUtil.shareMedia(mCtx, SharePlatform.WX_TIMELINE, shareMediaBean.title, shareMediaBean.summary, shareMediaBean.targetUrl, shareMediaBean.preview, customShareListener);
+                } else {
+                    ShareUtil.shareMedia(mCtx, SharePlatform.WX_TIMELINE, shareMediaBean.title, shareMediaBean.summary, shareMediaBean.targetUrl, shareMediaBean.previewBitmap, customShareListener);
+                }
                 break;
             case R.id.share_cancel:
                 dismiss();
@@ -65,11 +77,17 @@ public class ShareBottomBoard extends Dialog implements View.OnClickListener {
         }
     }
 
-    public void setData(HomeVideoBean data) {
-        this.homeVideoBean = data;
+    private ShareListener customShareListener = new CustomShareListener();
+
+    public void addShareListener(ShareListener customShareListener) {
+        this.customShareListener = customShareListener;
     }
 
-    class CustomShareListener extends ShareListener {
+    public void setData(ShareBean data) {
+        this.shareMediaBean = data;
+    }
+
+    public class CustomShareListener extends ShareListener {
         @Override
         public void shareSuccess() {
             ToastUtils.ToastMessage(mCtx, "分享成功");

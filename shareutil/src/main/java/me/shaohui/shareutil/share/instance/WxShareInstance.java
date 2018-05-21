@@ -5,20 +5,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.text.TextUtils;
-import android.util.Log;
 import android.util.Pair;
-import com.tencent.mm.sdk.modelbase.BaseReq;
-import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXImageObject;
-import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXTextObject;
-import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXImageObject;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
+import com.tencent.mm.opensdk.modelmsg.WXTextObject;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
 import me.shaohui.shareutil.ShareUtil;
 import me.shaohui.shareutil.share.ImageDecoder;
 import me.shaohui.shareutil.share.ShareImageObject;
@@ -110,8 +110,57 @@ public class WxShareInstance implements ShareInstance {
     }
 
     @Override
+    public void shareMini(final int platform, final String title, final String targetUrl, final String summary, final String miniId, final String miniPath, final int miniType, final ShareImageObject shareImageObject, final Activity activity, final ShareListener listener) {
+        Observable.fromEmitter(new Action1<Emitter<byte[]>>() {
+            @Override
+            public void call(Emitter<byte[]> emitter) {
+                try {
+                    String imagePath = ImageDecoder.decode(activity, shareImageObject);
+                    emitter.onNext(ImageDecoder.compress2Byte(imagePath, TARGET_SIZE, THUMB_SIZE));
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            }
+        }, Emitter.BackpressureMode.DROP)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnRequest(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        listener.shareRequest();
+                    }
+                })
+                .subscribe(new Action1<byte[]>() {
+                    @Override
+                    public void call(byte[] bytes) {
+                        WXMiniProgramObject miniProgramObj = new WXMiniProgramObject();
+                        miniProgramObj.webpageUrl = targetUrl; // 兼容低版本的网页链接
+                        miniProgramObj.miniprogramType = miniType;// 正式版:0，测试版:1，体验版:2
+                        miniProgramObj.userName = miniId;     // 小程序原始id
+                        miniProgramObj.path = miniPath;            //小程序页面路径
+                        WXMediaMessage msg = new WXMediaMessage(miniProgramObj);
+                        msg.title = title;                    // 小程序消息title
+                        msg.description = summary;               // 小程序消息desc
+                        msg.thumbData = bytes;
+
+                        SendMessageToWX.Req req = new SendMessageToWX.Req();
+                        req.transaction = buildTransaction("webpage");
+                        req.message = msg;
+                        req.scene = SendMessageToWX.Req.WXSceneSession;  // 目前支持会话
+                        mIWXAPI.sendReq(req);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        activity.finish();
+                        listener.shareFailure(new Exception(throwable));
+                    }
+                });
+    }
+
+    @Override
     public void shareImage(final int platform, final ShareImageObject shareImageObject,
-            final Activity activity, final ShareListener listener) {
+                           final Activity activity, final ShareListener listener) {
         Observable.fromEmitter(new Action1<Emitter<Pair<Bitmap, byte[]>>>() {
             @Override
             public void call(Emitter<Pair<Bitmap, byte[]>> emitter) {

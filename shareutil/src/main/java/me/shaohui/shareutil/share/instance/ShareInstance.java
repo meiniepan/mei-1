@@ -3,6 +3,9 @@ package me.shaohui.shareutil.share.instance;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+
+import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
+
 import me.shaohui.shareutil.share.ShareImageObject;
 import me.shaohui.shareutil.share.ShareListener;
 
@@ -15,10 +18,13 @@ public interface ShareInstance {
     void shareText(int platform, String text, Activity activity, ShareListener listener);
 
     void shareMedia(int platform, String title, String targetUrl, String summary,
-            ShareImageObject shareImageObject, Activity activity, ShareListener listener);
+                    ShareImageObject shareImageObject, Activity activity, ShareListener listener);
+
+    void shareMini(int platform, String title, String targetUrl, String summary, String miniId, String miniPath, int miniType,
+                   ShareImageObject shareImageObject, Activity activity, ShareListener listener);
 
     void shareImage(int platform, ShareImageObject shareImageObject, Activity activity,
-            ShareListener listener);
+                    ShareListener listener);
 
     void handleResult(Intent data);
 
