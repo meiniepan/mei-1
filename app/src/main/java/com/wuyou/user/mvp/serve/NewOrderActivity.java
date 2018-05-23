@@ -26,7 +26,7 @@ import com.wuyou.user.bean.AddressBean;
 import com.wuyou.user.bean.OrderIdBean;
 import com.wuyou.user.bean.ServeDetailBean;
 import com.wuyou.user.bean.response.AddressListResponse;
-import com.wuyou.user.bean.response.ServeTimeBean;
+import com.wuyou.user.bean.ServeTimeBean;
 import com.wuyou.user.mvp.address.AddressAddActivity;
 import com.wuyou.user.mvp.order.OrderAddressActivity;
 import com.wuyou.user.mvp.order.OrderDetailActivity;

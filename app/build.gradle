@@ -3,7 +3,8 @@ apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.0"
-    def API_URL;
+    def API_URL
+    def WEB_URL
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             if ("true" == IS_TEST) {
@@ -37,18 +38,22 @@ android {
     buildTypes {
         if ("true" == IS_TEST) {
             API_URL = DUBUG_SERVER_URL
+            WEB_URL = DUBUG_WEB_URL
         } else {
             API_URL = RELEASE_SERVER_URL
+            WEB_URL = RELEASE_WEB_URL
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', 'API_SERVER_URL', API_URL
+            buildConfigField 'String', 'API_WEB_URL', WEB_URL
             signingConfig signingConfigs.release
             debuggable true
         }
         debug {
             buildConfigField 'String', 'API_SERVER_URL', API_URL
+            buildConfigField 'String', 'API_WEB_URL', WEB_URL
             signingConfig signingConfigs.release
             debuggable true
         }
@@ -90,7 +95,7 @@ android {
     ext {
         supportLibVersion = '28.0.0'
     }
- 
+    //微信 和Glide库 见module
     dependencies {
         compile fileTree(include: ['*.jar'], dir: 'libs')
         testCompile 'junit:junit:4.12'
@@ -113,7 +118,6 @@ android {
         compile project(path: ':shareutil')
         compile 'com.tencent.bugly:crashreport:latest.release'
         implementation files('libs/alipaySdk-20180403.jar')
-        compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
         implementation('com.zhihu.android:matisse:0.5.0-alpha4') {
             exclude group: 'com.android.support'
         }//知乎图片选择器

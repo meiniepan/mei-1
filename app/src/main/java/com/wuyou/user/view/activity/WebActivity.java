@@ -279,21 +279,21 @@ public class WebActivity extends BaseActivity {
         bean.previewBitmap = bmp;
         bean.miniPath = "pages/index/index";
         bean.miniType = 0;
-        bean.summary = activityTitle;
+        bean.summary = getString(R.string.share_activity);
         bean.targetUrl = activityUrl;
-        bean.title = getString(R.string.share_activity);
+        bean.title = activityTitle;
         bottomBoard.setData(bean);
         bottomBoard.addShareListener(new ShareListener() {
             @Override
             public void shareSuccess() {
-                nativeToJsBean.ApplyStatus = "1";
-                loadJSMethod(callback, new Gson().toJson(bean));
+                nativeToJsBean.ShareStatus = "1";
+                loadJSMethod(callback, new Gson().toJson(nativeToJsBean));
             }
 
             @Override
             public void shareFailure(Exception e) {
-                nativeToJsBean.ApplyStatus = "2";
-                loadJSMethod(callback, new Gson().toJson(bean));
+                nativeToJsBean.ShareStatus = "2";
+                loadJSMethod(callback, new Gson().toJson(nativeToJsBean));
             }
 
             @Override

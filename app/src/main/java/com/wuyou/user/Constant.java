@@ -11,7 +11,8 @@ public class Constant {
     public static final String WX = "wx";
     public static final String WX_MOMENT = "wx_moment";
 
-    public static final String WEB_URL = "http://192.168.0.102/";
+    public static final String WEB_URL = BuildConfig.API_WEB_URL;
+//    public static final String WEB_URL = "http://192.168.0.102/";
     public static final String BASE_URL = BuildConfig.API_SERVER_URL;
     public static final String INPUT_PHONE_FLAG = "input_phone_sign";
     public static final String PHONE = "phone";

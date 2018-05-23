@@ -181,21 +181,22 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
     @Override
     public void playOnThisJzvd() {
         //退出全屏和小窗的方法
-        Log.i(TAG, "playOnThisJzvd " + " [" + this.hashCode() + "] ");
-        //1.清空全屏和小窗的jzvd.
-
-        currentState = JZVideoPlayerManager.getSecondFloor().currentState;
-        currentUrlMapIndex = JZVideoPlayerManager.getSecondFloor().currentUrlMapIndex;
-        clearFloatScreen();
-        //2.在本jzvd上播放,推出全屏要暂停
-        if (currentState == CURRENT_STATE_PLAYING) {
-            JZMediaManager.pause();
-            onStatePause();
-        }
-        setState(currentState);
-//        removeTextureView();
-        addTextureView();
-        setSmallState();
+        quitFullscreenOrTinyWindow();
+//        Log.i(TAG, "playOnThisJzvd " + " [" + this.hashCode() + "] ");
+//        //1.清空全屏和小窗的jzvd.
+//
+//        currentState = JZVideoPlayerManager.getSecondFloor().currentState;
+//        currentUrlMapIndex = JZVideoPlayerManager.getSecondFloor().currentUrlMapIndex;
+//        clearFloatScreen();
+//        //2.在本jzvd上播放,推出全屏要暂停
+//        if (currentState == CURRENT_STATE_PLAYING) {
+//            JZMediaManager.pause();
+//            onStatePause();
+//        }
+//        setState(currentState);
+////        removeTextureView();
+//        addTextureView();
+//        setSmallState();
     }
 
     @Override

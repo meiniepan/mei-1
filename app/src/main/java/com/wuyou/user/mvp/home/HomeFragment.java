@@ -2,6 +2,7 @@ package com.wuyou.user.mvp.home;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -63,6 +64,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 
 import butterknife.BindView;
@@ -387,14 +391,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                     intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL + "?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
                 }
                 startActivity(intent);
-//                String s = "gegrqwwwwwd";
-//                CommonUtil.createQRImage(s);
-//                Uri contentUri = FileProvider.getUriForFile(CarefreeApplication.getInstance().getApplicationContext(), "com.wuyou.user.FileProvider", CarefreeApplication.getInstance().file);
-//                Intent intent1 = new Intent(Intent.ACTION_VIEW);
-//                intent1.setDataAndType(contentUri, "image/*");
-//                intent1.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-//                startActivity(intent1);
-//                mCtx.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri));
                 break;
         }
     }
@@ -450,7 +446,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         shareBean.preview = homeVideoBean.preview;
         shareBean.summary = homeVideoBean.summary;
         shareBean.title = homeVideoBean.title;
-        return null;
+        return shareBean;
     }
 
     public void getActivityData() {

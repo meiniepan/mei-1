@@ -8,4 +8,5 @@ public class NativeToJsBean {
     public String Authorization;
     public String UserId;
     public String ApplyStatus;
+    public String ShareStatus;
 }

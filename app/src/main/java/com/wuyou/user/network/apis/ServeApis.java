@@ -10,7 +10,7 @@ import com.wuyou.user.bean.ServeLevelBean;
 import com.wuyou.user.bean.response.CategoryListResponse;
 import com.wuyou.user.bean.response.ListResponse;
 import com.wuyou.user.bean.response.ServeListResponse;
-import com.wuyou.user.bean.response.ServeTimeBean;
+import com.wuyou.user.bean.ServeTimeBean;
 
 import java.util.List;
 
