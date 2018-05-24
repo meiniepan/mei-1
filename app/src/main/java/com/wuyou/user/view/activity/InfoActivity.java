@@ -213,11 +213,6 @@ public class InfoActivity extends BaseActivity {
                     public void onSuccess(BaseResponse baseResponse) {
                         CarefreeDaoSession.tempAvatar = null;
                     }
-
-                    @Override
-                    protected void onFail(ApiException e) {
-                        ToastUtils.ToastMessage(getCtx(), R.string.connect_fail);
-                    }
                 });
     }
 

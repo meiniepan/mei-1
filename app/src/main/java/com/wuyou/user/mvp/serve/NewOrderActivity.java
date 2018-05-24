@@ -25,8 +25,8 @@ import com.wuyou.user.R;
 import com.wuyou.user.bean.AddressBean;
 import com.wuyou.user.bean.OrderIdBean;
 import com.wuyou.user.bean.ServeDetailBean;
-import com.wuyou.user.bean.response.AddressListResponse;
 import com.wuyou.user.bean.ServeTimeBean;
+import com.wuyou.user.bean.response.AddressListResponse;
 import com.wuyou.user.mvp.address.AddressAddActivity;
 import com.wuyou.user.mvp.order.OrderAddressActivity;
 import com.wuyou.user.mvp.order.OrderDetailActivity;
@@ -242,9 +242,7 @@ public class NewOrderActivity extends BaseActivity {
                 secondData = new ArrayList<>();
                 List<ServeTimeBean> timeBeans = timeMap.get(firstData.get(firstIndex));
                 for (ServeTimeBean bean : timeBeans) {
-                    if (bean.status == 1) {
-                        secondData.add(bean.time + "(时间段已被选)");
-                    } else {
+                    if (bean.status != 1) {
                         secondData.add(bean.time);
                     }
                 }

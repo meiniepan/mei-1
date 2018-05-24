@@ -14,6 +14,7 @@ import com.wuyou.user.bean.OrderBean;
 import com.wuyou.user.bean.OrderBeanDetail;
 import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.event.LoginEvent;
+import com.wuyou.user.event.OrderEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.view.activity.CommentActivity;
 import com.wuyou.user.view.activity.HelpRobotActivity;
@@ -93,6 +94,11 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
             mPresenter.getOrder(type);
             orderList.setRefreshEnable(true);
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void orderChagedEvent(OrderEvent event) {
+        refreshData();
     }
 
     @Override

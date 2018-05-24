@@ -17,6 +17,7 @@ import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.response.WxPayResponse;
+import com.wuyou.user.event.OrderEvent;
 import com.wuyou.user.event.WXPayEvent;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
@@ -125,6 +126,7 @@ public class PayChooseActivity extends BaseActivity {
     }
 
     private void doNext() {
+        EventBus.getDefault().post(new OrderEvent());
         Intent intent = new Intent(getCtx(), PayFinishActivity.class);
         intent.putExtra(Constant.ORDER_ID, orderId);
         startActivity(intent);

@@ -14,8 +14,11 @@ import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBean;
+import com.wuyou.user.event.OrderEvent;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.OrderApis;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -56,6 +59,7 @@ public class CommentActivity extends BaseActivity {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
                         ToastUtils.ToastMessage(getCtx(), "评价成功");
+                        EventBus.getDefault().post(new OrderEvent());
                         Intent intent = new Intent(getCtx(), MainActivity.class);
                         startActivity(intent);
                     }

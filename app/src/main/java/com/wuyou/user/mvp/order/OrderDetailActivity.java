@@ -15,12 +15,15 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBeanDetail;
 import com.wuyou.user.bean.response.OrderListResponse;
+import com.wuyou.user.event.OrderEvent;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.CommentActivity;
 import com.wuyou.user.view.activity.HelpRobotActivity;
 import com.wuyou.user.view.activity.MainActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Date;
 
@@ -120,11 +123,13 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
 
     @Override
     public void finishOrderSuccess() {
+        EventBus.getDefault().post(new OrderEvent());
         finish();
     }
 
     @Override
     public void cancelSuccess(int position) {
+        EventBus.getDefault().post(new OrderEvent());
         ToastUtils.ToastMessage(getCtx(), R.string.cancel_success);
         finish();
     }
