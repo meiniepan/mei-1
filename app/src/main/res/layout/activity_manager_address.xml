@@ -39,7 +39,7 @@
         android:id="@+id/address_manager_status"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:emptyDrawable="@mipmap/img_housekeeping"
+        app:emptyDrawable="@mipmap/empty_address"
         app:errorDrawable="@mipmap/net_error">
 
         <android.support.v7.widget.RecyclerView

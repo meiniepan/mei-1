@@ -72,7 +72,7 @@
             android:id="@+id/address_status"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:emptyDrawable="@mipmap/img_housekeeping"
+            app:emptyDrawable="@mipmap/empty_address"
             app:errorDrawable="@mipmap/net_error"
             app:loginDrawable="@mipmap/login_status">
 

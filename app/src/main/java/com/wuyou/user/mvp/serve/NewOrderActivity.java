@@ -246,6 +246,9 @@ public class NewOrderActivity extends BaseActivity {
                         secondData.add(bean.time);
                     }
                 }
+                if (secondData.size() == 0) {
+                    secondData.add("当日已无可预约时间");
+                }
                 return secondData;
             }
 

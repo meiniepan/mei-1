@@ -3,10 +3,13 @@ package com.wuyou.user.mvp.help;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 
 import com.gnway.bangwoba.activity.Leaving_message;
 import com.gnway.bangwoba.global.Variable;
+import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.service.HelpChatService;
 import com.wuyou.user.view.activity.HelpRobotActivity;
@@ -19,9 +22,6 @@ import butterknife.OnClick;
  */
 
 public class HelpFragment extends BaseFragment {
-
-    private Intent serviceIntent;
-
     @Override
     protected int getContentLayout() {
         return R.layout.fragment_help;
@@ -44,17 +44,16 @@ public class HelpFragment extends BaseFragment {
     }
 
     private void initHelpService() {
-//        Variable.AgentId = aid.getText().toString();
-//        String s = name.getText().toString().toLowerCase();
-//        String substring = s.substring( Variable.AgentId.length());
-        Variable.AgentId = "139971";
-        String s = "123456789789";
-        String substring = s.substring(Variable.AgentId.length());
-        Variable.loginUser = "u4_" + Variable.AgentId + substring;
+        Variable.AgentId = Constant.HELP_SERVE_AGENT_ID;
+        if (CarefreeDaoSession.getInstance().getUserInfo() != null) {
+            Variable.loginUser = "u4_" + CarefreeDaoSession.getInstance().getUserInfo().getMobile();
+        } else {
+            Variable.loginUser = "u4_" + Settings.System.getString(mCtx.getContentResolver(), Settings.Secure.ANDROID_ID).substring(0, 11);
+        }
     }
 
     private void startService() {
-        serviceIntent = new Intent(mCtx, HelpChatService.class);
+        Intent serviceIntent = new Intent(mCtx, HelpChatService.class);
         mCtx.startService(serviceIntent);
     }
 

@@ -149,9 +149,9 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         if (beanDetail.status == 1) orderDetailWarn.setVisibility(View.VISIBLE);
         if (beanDetail.status == 2 && beanDetail.second_payment != 0) {
             orderDetailWarn.setVisibility(View.VISIBLE);
-            orderDetailWarn.setText("待支付附加金额 " + data.second_payment+"元");
+            orderDetailWarn.setText("待支付附加金额 " + data.second_payment + "元");
         }
-        if (beanDetail.status!=2 &&beanDetail.second_payment!=0){
+        if (beanDetail.status != 2 && beanDetail.second_payment != 0) {
             findViewById(R.id.order_detail_second_payment_area).setVisibility(View.VISIBLE);
         }
         GlideUtils.loadImage(this, data.service.photo, orderDetailPicture);
