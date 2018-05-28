@@ -37,37 +37,39 @@
             android:orientation="vertical">
 
             <include layout="@layout/split_area" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:paddingStart="@dimen/activity_horizontal_margin"
-                android:paddingEnd="@dimen/activity_horizontal_margin">
+                android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/order_status"/>
+                    android:text="@string/order_status" />
+
                 <TextView
                     android:id="@+id/order_detail_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/common_orange"
-                    android:textSize="@dimen/dimens_18sp"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/common_orange"
+                    android:textSize="@dimen/dimens_18sp" />
 
                 <TextView
                     android:id="@+id/order_detail_un_pay_warn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/order_detail_status"
+                    android:layout_marginTop="2dp"
                     android:text="请在半小时内支付，否则将自动关闭"
                     android:textColor="@color/common_red"
                     android:textSize="@dimen/dimens_12sp"
-                    android:visibility="gone"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="2dp"
-                    android:layout_below="@+id/order_detail_status"/>
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
@@ -77,12 +79,12 @@
                 android:id="@+id/order_detail_store_name"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_height"
+                android:drawablePadding="8dp"
+                android:drawableStart="@mipmap/serve_item"
                 android:gravity="center_vertical"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:paddingStart="@dimen/activity_horizontal_margin"
                 android:text="服务站名称"
-                android:drawablePadding="8dp"
-                android:drawableStart="@mipmap/create_order_state_icon"
                 android:textColor="@color/black" />
 
             <include layout="@layout/split_line_margin" />
@@ -97,8 +99,8 @@
                     android:id="@+id/order_detail_picture"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
-                    android:scaleType="centerCrop"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop" />
 
                 <TextView
                     android:id="@+id/order_detail_serve_name"
@@ -109,6 +111,7 @@
                     android:layout_toEndOf="@+id/order_detail_picture"
                     android:ellipsize="end"
                     android:maxLines="2" />
+
                 <TextView
                     android:id="@+id/order_detail_goods_number"
                     android:layout_width="wrap_content"
@@ -118,6 +121,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginEnd="20dp"
                     android:text="1" />
+
                 <TextView
                     android:id="@+id/text_x"
                     android:layout_width="wrap_content"
@@ -130,10 +134,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="数量"
-                    android:layout_toStartOf="@+id/text_x"
                     android:layout_alignTop="@+id/order_detail_goods_number"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@+id/text_x"
+                    android:text="数量" />
             </RelativeLayout>
 
             <include layout="@layout/split_line_margin" />
@@ -151,8 +155,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/common_gray"
-                    android:text="@string/serve_fee" />
+                    android:text="@string/serve_fee"
+                    android:textColor="@color/common_gray" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -182,8 +186,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/common_gray"
-                    android:text="@string/door_serve_fee" />
+                    android:text="@string/door_serve_fee"
+                    android:textColor="@color/common_gray" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -207,16 +211,16 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="gone"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin">
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/common_gray"
-                    android:text="@string/extra_fee" />
+                    android:text="@string/extra_fee"
+                    android:textColor="@color/common_gray" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -272,25 +276,30 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingEnd="@dimen/activity_horizontal_margin">
+
                 <ImageView
                     android:layout_width="44dp"
                     android:layout_height="44dp"
-                    android:src="@mipmap/person"/>
+                    android:src="@mipmap/person" />
+
                 <TextView
                     android:id="@+id/order_detail_name"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
                 <ImageView
                     android:layout_width="44dp"
                     android:layout_height="44dp"
-                    android:src="@mipmap/phone"/>
+                    android:src="@mipmap/phone" />
+
                 <TextView
                     android:id="@+id/order_detail_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="13333333333"/>
+                    android:text="13333333333" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -532,6 +541,7 @@
                 android:background="@color/tint_bg" />
         </LinearLayout>
     </ScrollView>
+
     <LinearLayout
         android:id="@+id/order_detail_bottom"
         android:layout_width="match_parent"
@@ -540,6 +550,7 @@
         android:gravity="center_vertical|end"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:paddingStart="@dimen/activity_horizontal_margin">
+
         <TextView
             android:id="@+id/order_detail_contact_store"
             android:layout_width="@dimen/short_button_width"
@@ -553,22 +564,23 @@
             android:id="@+id/order_detail_cancel"
             android:layout_width="60dp"
             android:layout_height="@dimen/short_button_height"
+            android:layout_marginStart="80dp"
             android:background="@drawable/white_border"
             android:gravity="center"
             android:text="@string/cancel"
-            android:visibility="gone"
             android:textColor="@color/white"
-            android:layout_marginStart="80dp"/>
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/order_detail_action"
             android:layout_width="@dimen/short_button_width"
             android:layout_height="@dimen/short_button_height"
             android:layout_marginStart="12dp"
-            android:visibility="gone"
             android:background="@drawable/pay_selector"
             android:gravity="center"
             android:text="@string/go_pay"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="gone" />
 
     </LinearLayout>
 

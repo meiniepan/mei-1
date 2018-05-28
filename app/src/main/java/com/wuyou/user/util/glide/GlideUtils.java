@@ -22,7 +22,9 @@ import static com.bumptech.glide.load.Key.CHARSET;
 public class GlideUtils {
     public static void loadImage(Context context, String url, final ImageView imageView) {
         if (url == null) return;
-        Glide.with(context).load(url).apply(RequestOptions.placeholderOf(R.mipmap.default_pic)).into(imageView);
+        RequestOptions options = new RequestOptions();
+        options.placeholder(R.mipmap.default_pic);
+        Glide.with(context).load(url).apply(options).into(imageView);
     }
 
     public static void loadImageNoHolder(Context context, String url, final ImageView imageView) {
@@ -30,10 +32,12 @@ public class GlideUtils {
         Glide.with(context).load(url).into(imageView);
     }
 
-    public static void loadImageNoHolder(Context context, String url, final ImageView imageView,boolean isCircle) {
+    public static void loadImageNoHolder(Context context, String url, final ImageView imageView, boolean isCircle) {
         if (url == null) return;
         if (isCircle) {
-            Glide.with(context).load(url).apply(RequestOptions.circleCropTransform()).into(imageView);
+            RequestOptions options = new RequestOptions();
+            options.apply(RequestOptions.circleCropTransform());
+            Glide.with(context).load(url).apply(options).into(imageView);
         } else {
             loadImage(context, url, imageView);
         }
@@ -42,7 +46,9 @@ public class GlideUtils {
     public static void loadImage(Context context, String url, ImageView imageView, boolean isCircle) {
         if (url == null) return;
         if (isCircle) {
-            Glide.with(context).load(url).apply(RequestOptions.placeholderOf(R.mipmap.default_pic).apply(RequestOptions.circleCropTransform())).into(imageView);
+            RequestOptions options = new RequestOptions();
+            options.placeholder(R.mipmap.default_pic).apply(RequestOptions.circleCropTransform());
+            Glide.with(context).load(url).apply(options).into(imageView);
         } else {
             loadImage(context, url, imageView);
         }

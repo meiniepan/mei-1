@@ -46,7 +46,6 @@ public class MainActivity extends BaseActivity {
     List<BaseFragment> fragments = new ArrayList<>();
 
     private long mKeyTime = 0;
-    private OrderFragment orderFragment;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -64,7 +63,7 @@ public class MainActivity extends BaseActivity {
 //        QMUIStatusBarHelper.translucent(this,getResources().getColor(R.color.night_blue));
 //        QMUIStatusBarHelper.setStatusBarLightMode(this);
         fragments.add(new HomeFragment());
-        orderFragment = new OrderFragment();
+        OrderFragment orderFragment = new OrderFragment();
         fragments.add(orderFragment);
         fragments.add(new HelpFragment());
         fragments.add(new MineFragment());
