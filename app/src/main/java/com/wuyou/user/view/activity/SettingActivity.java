@@ -11,6 +11,7 @@ import com.gnway.bangwoba.activity.Leaving_message;
 import com.gs.buluo.common.utils.DataCleanManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
+import com.tencent.bugly.beta.Beta;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -79,8 +80,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 }).setNegativeButton(getCtx().getString(R.string.cancel), null).create().show();
                 break;
             case R.id.setting_update:
-//                checkUpdate();
-                ToastUtils.ToastMessage(getCtx(), R.string.no_function);
+                checkUpdate();
                 break;
             case R.id.exit:
                 customAlertDialog = new CustomAlertDialog.Builder(this).setTitle(R.string.prompt).setMessage("您确定要退出登录吗?")
@@ -89,6 +89,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 customAlertDialog.show();
                 break;
         }
+    }
+
+    private void checkUpdate() {
+        Beta.checkUpgrade(true,false);
     }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)

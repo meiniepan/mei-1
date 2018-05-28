@@ -6,9 +6,14 @@ import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
 import com.gs.buluo.common.BaseApplication;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.UserInfoDao;
+import com.wuyou.user.mvp.login.LoginActivity;
+import com.wuyou.user.view.activity.MainActivity;
+import com.wuyou.user.view.activity.SettingActivity;
 
 import java.io.File;
 import java.util.List;
@@ -23,8 +28,18 @@ public class CarefreeApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        CrashReport.initCrashReport(getApplicationContext(), "079415cb31", false);
+//        CrashReport.initCrashReport(getApplicationContext(), "079415cb31", false);
+        initBuglyUpgrade();
     }
+
+    private void initBuglyUpgrade() {
+        Beta.upgradeDialogLayoutId = R.layout.upgrade_dialog;
+        Beta.canShowUpgradeActs.add(MainActivity.class);
+        Beta.canShowUpgradeActs.add(LoginActivity.class);
+        Beta.canShowUpgradeActs.add(SettingActivity.class);
+        Bugly.init(getApplicationContext(), "ba97fc54df", false);
+    }
+
 
     public static synchronized CarefreeApplication getInstance() {
         return instance;
