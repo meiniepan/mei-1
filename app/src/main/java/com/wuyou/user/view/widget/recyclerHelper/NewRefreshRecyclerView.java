@@ -36,7 +36,7 @@ public class NewRefreshRecyclerView extends FrameLayout {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.my_swipe);
         mSwipeRefreshLayout.setEnabled(false);
-        setSwipeRefreshColorsFromRes(R.color.main_tab, R.color.custom_color, R.color.custom_color_shallow);
+        setSwipeRefreshColorsFromRes(R.color.main_tab, R.color.custom_color, R.color.night_blue);
     }
 
     public RecyclerView getRecyclerView(){

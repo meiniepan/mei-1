@@ -12,6 +12,7 @@ public class Constant {
     public static final String WX_MOMENT = "wx_moment";
     public static final String HELP_SERVE_AGENT_ID="181385";
 
+    public static final String ABOUT_US_URL = "https://ulaidao.iwantmei.com/apphtml/about-us.html";
     public static final String WEB_URL = BuildConfig.API_WEB_URL;
 //    public static final String WEB_URL = "http://192.168.0.102/";
     public static final String BASE_URL = BuildConfig.API_SERVER_URL;
