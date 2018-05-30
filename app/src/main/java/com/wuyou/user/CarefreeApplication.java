@@ -26,7 +26,6 @@ public class CarefreeApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
-//        CrashReport.initCrashReport(getApplicationContext(), "079415cb31", false);
         initBuglyUpgrade();
     }
 
