@@ -1,9 +1,7 @@
 package com.wuyou.user.view.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +22,6 @@ import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
-import com.wuyou.user.util.ImageUtil;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 
@@ -37,7 +34,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.util.ConvertUtils;
-import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -229,18 +225,12 @@ public class InfoActivity extends BaseActivity {
 
     private static final long MAX_NUM_PIXELS_THUMBNAIL = 64 * 64;
 
-    private void uploadAvatar(final String path) {
-        Observable.just(path)
-                .flatMap(imagePath -> {
-                    Log.e("Test", "apply: " + Thread.currentThread());
-                    Bitmap bitmap = ImageUtil.getBitmap(new File(imagePath));
-                    Bitmap compressBitmap = ImageUtil.compressByQuality(bitmap, MAX_NUM_PIXELS_THUMBNAIL);
-                    ImageUtil.save(compressBitmap, imagePath, Bitmap.CompressFormat.JPEG);
-                    File file = new File(imagePath);
-                    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                    MultipartBody.Part body = MultipartBody.Part.createFormData("avatar", file.getName(), requestFile);
-                    return CarefreeRetrofit.getInstance().createApi(UserApis.class).updateAvatar(CarefreeDaoSession.getInstance().getUserId(), body, QueryMapBuilder.getIns().buildPost());
-                })
+    private void uploadAvatar(String path) {
+        CarefreeDaoSession.tempAvatar = path;
+        File file = new File(path);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("avatar", file.getName(), requestFile);
+        CarefreeRetrofit.getInstance().createApi(UserApis.class).updateAvatar(CarefreeDaoSession.getInstance().getUserId(), body, QueryMapBuilder.getIns().buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe(new BaseSubscriber<BaseResponse>() {

@@ -39,7 +39,6 @@ public class Constant {
     public static final String ORDER_BEAN = "order_bean";
     public static final String FIRST_START = "first_install";
     public static final String ADDRESS_SOURCE = "address_source";
-    public static final int REQUEST_CODE_CHOOSE_IMAGE = 205;
     public static final String NICK = "nick";
     public static final String EMAIL = "email";
     public static final String FROM = "from";
@@ -50,7 +49,6 @@ public class Constant {
     public static final String BACK_FLAG = "back_flag";
 
     public static class Intent {
-
         public static int REQUEST_NICK = 206;
         public static int REQUEST_PHONE = 207;
         public static int REQUEST_EMAIL = 208;
