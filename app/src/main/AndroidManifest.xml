@@ -162,28 +162,6 @@
 
         <service android:name="com.amap.api.location.APSService" />
         <service android:name=".service.HelpChatService" />
-
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.wuyou.user.FileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-
-        <provider
-            android:name=".util.BuglyFileProvider"
-            android:authorities="${applicationId}.fileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true"
-            tools:replace="name,authorities,exported,grantUriPermissions">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"
-                tools:replace="name,resource" />
-        </provider>
     </application>
 
 </manifest>
