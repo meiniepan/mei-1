@@ -11,6 +11,6 @@
     <string name="tab_two_text">通讯录</string>
     <string name="tab_three_text">发现</string>
     <string name="tab_four_text">我</string>
-    <string name="leaving">留言</string>
+    <string name="leaving">反馈</string>
     <string name="robot_dialogue">智能机器人对话</string>
 </resources>

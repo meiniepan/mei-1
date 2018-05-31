@@ -41,11 +41,13 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/title_height"
                 android:layout_weight=".7"
+                android:visibility="gone"
                 app:tabIndicatorColor="@color/night_blue" />
         </com.wuyou.user.view.widget.InterceptLinearLayout>
         <TextView
             android:id="@+id/warn_area"
             android:layout_width="150dp"
+            android:visibility="gone"
             android:layout_height="50dp"
             android:layout_gravity="end|center"/>
     </FrameLayout>

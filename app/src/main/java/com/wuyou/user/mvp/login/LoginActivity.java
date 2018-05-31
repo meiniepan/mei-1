@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.View;
 
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.R;
@@ -32,32 +31,32 @@ public class LoginActivity extends BaseActivity {
 
     private void initView() {
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-            //此方法用来显示tab上的名字
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return mTitle[position % mTitle.length];
-            }
+//            //此方法用来显示tab上的名字
+//            @Override
+//            public CharSequence getPageTitle(int position) {
+//                return mTitle[position % mTitle.length];
+//            }
 
             @Override
             public Fragment getItem(int position) {
                 //创建Fragment并返回
                 Fragment fragment = null;
-                if (position == 0) {
-                    fragment = new PhoneLoginFragment();
-                } else if (position == 1) {
-                    fragment = new AccountLoginFragment();
-                }
+//                if (position == 0) {
+                fragment = new PhoneLoginFragment();
+//                } else if (position == 1) {
+//                    fragment = new AccountLoginFragment();
+//                }
                 return fragment;
             }
 
             @Override
             public int getCount() {
-                return 2;
+                return 1;
             }
         });
         //将ViewPager关联到TabLayout上
         mTabLayout.setupWithViewPager(mViewPager);
-        findViewById(R.id.warn_area).setOnClickListener(v -> ToastUtils.ToastMessage(getCtx(),R.string.no_function));
+        findViewById(R.id.warn_area).setOnClickListener(v -> ToastUtils.ToastMessage(getCtx(), R.string.no_function));
     }
 
     @Override

@@ -27,7 +27,6 @@ import com.amap.api.maps.model.MyLocationStyle;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.DensityUtils;
-import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.ServeSitesAdapter;
 import com.wuyou.user.bean.ServeSites;
@@ -116,7 +115,7 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
         mAMap = mapView.getMap();
         mAMap = mapView.getMap();
         mAMap.getUiSettings().setRotateGesturesEnabled(false);
-        mAMap.moveCamera(CameraUpdateFactory.zoomTo(17));
+        mAMap.moveCamera(CameraUpdateFactory.zoomTo(12));
 
         setUpMap();
     }
@@ -260,7 +259,7 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
         switch (view.getId()) {
             case R.id.map_location:
                 mAMap.moveCamera(CameraUpdateFactory.changeLatLng(centerLatLng));
-                mAMap.moveCamera(CameraUpdateFactory.zoomTo(17));
+                mAMap.moveCamera(CameraUpdateFactory.zoomTo(12));
                 break;
             case R.id.map_around:
                 setSitesListVisible();
@@ -301,7 +300,7 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
         }
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             mAMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(data.get(position).lat, data.get(position).lng)));
-            mAMap.moveCamera(CameraUpdateFactory.zoomTo(17));
+            mAMap.moveCamera(CameraUpdateFactory.zoomTo(15));
         });
     }
 }

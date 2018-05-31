@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
-        android:text="没注册过的手机号将自动注册为无忧用户"
+        android:text="未注册过的手机号将自动注册为来到用户"
         android:textSize="@dimen/dimens_16sp" />
 
 </LinearLayout>
