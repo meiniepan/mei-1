@@ -2,7 +2,6 @@ package com.wuyou.user.mvp.home;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -64,9 +63,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.List;
 
 import butterknife.BindView;
@@ -396,7 +392,10 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     }
 
     public void getOrderMessage() {
-        if (CarefreeDaoSession.getInstance().getUserInfo() == null) return;
+        if (CarefreeDaoSession.getInstance().getUserInfo() == null) {
+            homeRefresh.setRefreshing(false);
+            return;
+        }
         CarefreeRetrofit.getInstance().createApi(OrderApis.class).getOrderList(QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).put("status", "2").put("startId", "0").put("flag", "1").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
