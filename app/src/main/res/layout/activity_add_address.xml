@@ -23,14 +23,14 @@
             android:textSize="@dimen/title_size" />
 
         <TextView
-            android:id="@+id/address_edit_save"
+            android:id="@+id/address_edit_delete"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:gravity="center"
-            android:text="@string/save"
+            android:text="@string/delete"
             android:textColor="@color/white" />
 
         <include
@@ -176,10 +176,9 @@
     <include layout="@layout/split_line" />
 
     <Button
-        android:id="@+id/address_edit_delete"
+        android:id="@+id/address_edit_save"
         style="@style/button_style"
-        android:background="@drawable/red_radius_button"
-        android:text="删除地址" />
+        android:text="保存" />
 
     <View
         android:layout_width="match_parent"

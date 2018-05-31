@@ -75,7 +75,7 @@
                 android:id="@+id/serve_category_sort_price_mark"
                 android:layout_width="14dp"
                 android:layout_height="14dp"
-                android:src="@mipmap/arrow_black_down" />
+                android:src="@mipmap/order_sort_default" />
         </LinearLayout>
 
         <LinearLayout

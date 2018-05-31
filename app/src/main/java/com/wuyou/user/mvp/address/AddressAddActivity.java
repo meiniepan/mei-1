@@ -45,7 +45,7 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
     @BindView(R.id.address_edit_phone)
     EditText addressEditPhone;
     @BindView(R.id.address_edit_delete)
-    Button addressEditDelete;
+    TextView addressEditDelete;
     private int flag;
     private double lat;
     private double lng;

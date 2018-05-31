@@ -259,6 +259,9 @@ public class NewOrderActivity extends BaseActivity {
             }
         };
         LinkagePicker picker = new LinkagePicker(this, provider);
+        picker.setTextColor(getResources().getColor(R.color.night_blue));
+        picker.setSubmitTextColor(getResources().getColor(R.color.night_blue));
+        picker.setCancelTextColor(getResources().getColor(R.color.night_blue));
         picker.setCycleDisable(true);
         picker.setUseWeight(true);
 //        picker.setLabel("小时制", "点");

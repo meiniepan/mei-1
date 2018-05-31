@@ -123,7 +123,7 @@ public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, 
             case R.id.serve_category_sort_default:
                 if (sortStatus != 0) {
                     sortStatus = 0;
-                    sortPriceMark.setImageResource(R.mipmap.arrow_black_down);
+                    sortPriceMark.setImageResource(R.mipmap.order_sort_default);
                     serveCategoryStatus.showProgressView();
                     mPresenter.getServe(categoryId, sortStatus, 0);
                 }
@@ -143,7 +143,7 @@ public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, 
             case R.id.serve_category_sort_sale:
                 if (sortStatus != 2) {
                     sortStatus = 2;
-                    sortPriceMark.setImageResource(R.mipmap.arrow_black_down);
+                    sortPriceMark.setImageResource(R.mipmap.order_sort_default);
                     serveCategoryStatus.showProgressView();
                     mPresenter.getServe(categoryId, sortStatus, 0);
                 }
