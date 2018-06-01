@@ -29,7 +29,7 @@ import me.shaohui.shareutil.share.SharePlatform;
 public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
     Context context;
     private ImageView upvoteView;
-    private TextView soundView;
+    private ImageView soundView;
     private TextView title;
     private ImageView shareView;
     private boolean quite = false;
@@ -124,9 +124,11 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
         } else if (i == R.id.player_sound) {
             if (quite) {
                 setVolume(1f);
+                soundView.setImageResource(R.mipmap.sound);
                 quite = false;
             } else {
                 setVolume(0f);
+                soundView.setImageResource(R.mipmap.no_sound);
                 quite = true;
             }
         } else if (i == R.id.player_upvote) {
