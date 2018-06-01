@@ -1,12 +1,11 @@
 package com.wuyou.user.adapter;
 
 import android.support.annotation.Nullable;
-import android.text.style.TtsSpan;
 
+import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
+import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.ServeSites;
-import com.wuyou.user.view.widget.recyclerHelper.BaseHolder;
-import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 
 import java.text.DecimalFormat;
 import java.util.List;

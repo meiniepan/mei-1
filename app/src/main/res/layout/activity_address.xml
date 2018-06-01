@@ -63,25 +63,14 @@
 
     <include layout="@layout/split_line" />
 
-    <FrameLayout
+
+    <com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView
+        android:id="@+id/address_list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <com.gs.buluo.common.widget.StatusLayout
-            android:id="@+id/address_status"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:emptyDrawable="@mipmap/empty_address"
-            app:errorDrawable="@mipmap/net_error"
-            app:loginDrawable="@mipmap/login_status">
-
-            <com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView
-                android:id="@+id/address_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.gs.buluo.common.widget.StatusLayout>
-    </FrameLayout>
+        android:layout_height="match_parent"
+        app:emptyDrawable="@mipmap/empty_address"
+        app:errorDrawable="@mipmap/net_error"
+        app:loginDrawable="@mipmap/login_status" />
 
     <include layout="@layout/split_line" />
 

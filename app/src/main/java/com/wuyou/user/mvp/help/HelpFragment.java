@@ -37,26 +37,6 @@ public class HelpFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void fetchData() {
-        initHelpService();
-        startService();
-    }
-
-    private void initHelpService() {
-        Variable.AgentId = Constant.HELP_SERVE_AGENT_ID;
-        if (CarefreeDaoSession.getInstance().getUserInfo() != null) {
-            Variable.loginUser = "u4_" + CarefreeDaoSession.getInstance().getUserInfo().getMobile();
-        } else {
-            Variable.loginUser = "u4_" + Settings.System.getString(mCtx.getContentResolver(), Settings.Secure.ANDROID_ID).substring(0, 11);
-        }
-    }
-
-    private void startService() {
-        Intent serviceIntent = new Intent(mCtx, HelpChatService.class);
-        mCtx.startService(serviceIntent);
-    }
-
     @OnClick({R.id.help_chat, R.id.help_leave_msg, R.id.help_dialog})
     public void onViewClicked(View view) {
         Intent intent = new Intent();

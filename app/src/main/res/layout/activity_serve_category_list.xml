@@ -103,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:emptyDrawable="@mipmap/img_housekeeping"
+        app:emptyDrawable="@mipmap/status_empty_order"
         app:errorDrawable="@mipmap/net_error">
 
         <android.support.v7.widget.RecyclerView

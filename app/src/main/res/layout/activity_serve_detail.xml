@@ -39,6 +39,7 @@
             <ImageView
                 android:id="@+id/serve_detail_picture"
                 android:layout_width="match_parent"
+                android:scaleType="centerCrop"
                 android:layout_height="320dp"/>
 
             <TextView
@@ -101,7 +102,7 @@
                     android:textSize="@dimen/dimens_16sp" />
             </LinearLayout>
 
-            <include layout="@layout/split_line" />
+            <include layout="@layout/split_line_margin" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -114,7 +115,7 @@
                 android:text="商家已备案，可放心选购"
                 android:textColor="@color/night_blue" />
 
-            <include layout="@layout/split_line" />
+            <include layout="@layout/split_line_margin" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -148,7 +149,8 @@
 
                 <TextView
                     android:id="@+id/create_order_serve_point"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -162,8 +164,17 @@
                     android:visibility="gone" />
             </LinearLayout>
 
-            <include layout="@layout/split_line" />
+            <include layout="@layout/split_line_margin" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_height"
+                android:text="服务详情"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin_end"/>
+
+            <include layout="@layout/split_line_margin" />
             <WebView
                 android:id="@+id/serve_detail_description"
                 android:layout_width="match_parent"
@@ -317,6 +328,7 @@
 
     <Button
         style="@style/button_style"
+        android:background="@color/night_blue"
         android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"

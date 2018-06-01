@@ -4,9 +4,9 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.amap.api.services.core.PoiItem;
+import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
+import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
-import com.wuyou.user.view.widget.recyclerHelper.BaseHolder;
-import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 
 import java.util.List;
 

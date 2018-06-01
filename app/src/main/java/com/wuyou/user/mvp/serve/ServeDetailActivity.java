@@ -117,7 +117,7 @@ public class ServeDetailActivity extends BaseActivity {
         serveDetailDescription.loadDataWithBaseURL(null, getNewContent(serviceDetail.content), "text/html", "utf-8", null);
         serveDetailDescription.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         serveDetailStore.setText(serviceDetail.shop_name);
-        createOrderServePoint.setText(serviceDetail.high_praise);
+        createOrderServePoint.setText("好评"+serviceDetail.high_praise);
         serveDetailCommentStar.setRating(serviceDetail.star / 2);
         serveDetailCommentStarCount.setText(serviceDetail.star / 2 + "");
     }

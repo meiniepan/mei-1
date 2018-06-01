@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.gs.buluo.common.widget.StatusLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/order_list_layout"
+    <com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView
+        android:id="@+id/order_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:emptyDrawable="@mipmap/img_housekeeping"
+        android:layout_height="wrap_content"
+        app:emptyDrawable="@mipmap/status_empty_order"
         app:errorDrawable="@mipmap/net_error"
-        app:loginDrawable="@mipmap/login_status">
+        app:loginDrawable="@mipmap/login_status" />
 
-        <com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView
-            android:id="@+id/order_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.gs.buluo.common.widget.StatusLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/tint_bg"/>
+        android:background="@color/tint_bg" />
 </LinearLayout>

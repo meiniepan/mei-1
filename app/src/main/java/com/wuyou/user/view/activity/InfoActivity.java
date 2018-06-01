@@ -122,7 +122,7 @@ public class InfoActivity extends BaseActivity {
         picker.setSelectedItem(1980, 1, 1);
         picker.setTextColor(getResources().getColor(R.color.night_blue));
         picker.setSubmitTextColor(getResources().getColor(R.color.night_blue));
-        picker.setCancelTextColor(getResources().getColor(R.color.night_blue));
+        picker.setCancelTextColor(getResources().getColor(R.color.common_gray));
         calendar.setTime(new Date(System.currentTimeMillis() + 24 * 3600 * 1000));
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;

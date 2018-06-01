@@ -3,11 +3,11 @@ package com.wuyou.user.mvp.serve;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
+import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.ServeBean;
 import com.wuyou.user.util.glide.GlideUtils;
-import com.wuyou.user.view.widget.recyclerHelper.BaseHolder;
-import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 
 import io.techery.properratingbar.ProperRatingBar;
 
@@ -26,7 +26,7 @@ public class ServeListAdapter extends BaseQuickAdapter<ServeBean, BaseHolder> {
     @Override
     protected void convert(BaseHolder helper, ServeBean item) {
         ImageView imageView = helper.getView(R.id.serve_item_picture);
-        GlideUtils.loadImage(context, item.image, imageView);
+        GlideUtils.loadRoundCornerImage(context, item.image, imageView);
         helper.setText(R.id.serve_item_name, item.service_name)
                 .setText(R.id.serve_item_count, item.sold)
                 .setText(R.id.serve_item_price, "￥" + item.price + "/" + item.unit)

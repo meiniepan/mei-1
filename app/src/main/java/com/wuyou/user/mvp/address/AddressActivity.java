@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.gs.buluo.common.utils.DensityUtils;
-import com.gs.buluo.common.widget.StatusLayout;
+import com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -20,7 +20,6 @@ import com.wuyou.user.event.AddressEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -37,9 +36,7 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
     @BindView(R.id.address_title)
     TextView addressTitle;
     @BindView(R.id.address_list)
-    NewRefreshRecyclerView addressList;
-    @BindView(R.id.address_status)
-    StatusLayout addressStatus;
+    RefreshRecyclerView addressList;
     private AddressListAdapter adapter;
     private ArrayList<AddressBean> addressData;
 
@@ -58,24 +55,24 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
         });
 
         if (null == CarefreeDaoSession.getInstance().getUserId()) {
-            addressStatus.showLoginView(getString(R.string.no_login));
+            addressList.getStatusLayout().showLoginView(getString(R.string.no_login));
         }
-        addressStatus.setErrorContentViewMargin(0, -DensityUtils.dip2px(this, 80), 0, 0);
-        addressStatus.setEmptyContentViewMargin(0, -DensityUtils.dip2px(this, 80), 0, 0);
+        addressList.getStatusLayout().setErrorContentViewMargin(0, -DensityUtils.dip2px(this, 80), 0, 0);
+        addressList.getStatusLayout().setEmptyContentViewMargin(0, -DensityUtils.dip2px(this, 80), 0, 0);
     }
 
     private void setUpStatus() {
-        addressStatus.getErrorActView().setText(getString(R.string.reload));
-        addressStatus.setErrorAction(v -> mPresenter.getAddress());
+        addressList.getStatusLayout().getErrorActView().setText(getString(R.string.reload));
+        addressList.getStatusLayout().setErrorAction(v -> mPresenter.getAddress());
 
-        addressStatus.setLoginAction(v -> {
+        addressList.getStatusLayout().setLoginAction(v -> {
             Intent intent = new Intent(getCtx(), LoginActivity.class);
             startActivity(intent);
         });
-        addressStatus.getLoginActView().setText(R.string.login_now);
+        addressList.getStatusLayout().getLoginActView().setText(R.string.login_now);
 
-        addressStatus.getEmptyActView().setText(R.string.add_address);
-        addressStatus.setEmptyAction(v -> {
+        addressList.getStatusLayout().getEmptyActView().setText(R.string.add_address);
+        addressList.getStatusLayout().setEmptyAction(v -> {
             Intent intent = new Intent(getCtx(), AddressAddActivity.class);
             startActivity(intent);
         });
@@ -124,18 +121,18 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
     protected void onResume() {
         super.onResume();
         if (null == CarefreeDaoSession.getInstance().getUserInfo()) return;
-        addressStatus.showProgressView();
+        addressList.getStatusLayout().showProgressView();
         mPresenter.getAddress();
     }
 
     @Override
     public void getAddressSuccess(AddressListResponse list) {
-        addressStatus.showContentView();
+        addressList.getStatusLayout().showContentView();
         addressData = new ArrayList<>();
         addressData.addAll(list.list);
         adapter.setNewData(addressData);
         if (adapter.getData().size() == 0) {
-            addressStatus.showEmptyView(getString(R.string.no_address));
+            addressList.getStatusLayout().showEmptyView(getString(R.string.no_address));
         } else {
             CarefreeDaoSession.getInstance().saveDefaultAddress(list.list.get(0));
         }
@@ -155,6 +152,6 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
 
     @Override
     public void showError(String message, int res) {
-        addressStatus.showErrorView(message);
+        addressList.getStatusLayout().showErrorView(message);
     }
 }

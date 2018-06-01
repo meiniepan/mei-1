@@ -98,10 +98,9 @@
                 android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:paddingStart="@dimen/activity_horizontal_margin" />
 
-            <Button
+            <TextView
                 android:id="@+id/search_clear"
                 style="@style/button_style"
-                android:onClick="clearHistory"
                 android:text="清除历史搜索"
                 android:layout_marginBottom="20dp"/>
         </LinearLayout>

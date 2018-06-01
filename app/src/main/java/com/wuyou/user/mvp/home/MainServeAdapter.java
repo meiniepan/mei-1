@@ -7,13 +7,13 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
+import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
+import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.response.CategoryParent;
 import com.wuyou.user.mvp.serve.ServeCategoryListActivity;
 import com.wuyou.user.util.glide.GlideUtils;
-import com.wuyou.user.view.widget.recyclerHelper.BaseHolder;
-import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 
 import java.util.List;
 

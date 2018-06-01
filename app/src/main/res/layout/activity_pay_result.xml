@@ -12,6 +12,7 @@
         android:background="@color/night_blue">
 
         <TextView
+            android:id="@+id/pay_finish_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -43,8 +44,9 @@
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:background="@drawable/orange_border"
+            android:background="@drawable/night_blue_border"
             android:gravity="center"
+            android:textColor="@color/night_blue"
             android:text="查看订单详情" />
 
         <TextView

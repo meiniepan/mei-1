@@ -24,7 +24,7 @@
     <string name="exit_login">退出登录</string>
     <string name="setting">设置</string>
     <string name="prompt">提示</string>
-    <string name="send_captcha">发送验证码</string>
+    <string name="send_captcha">获取验证码</string>
     <string name="input_phone">输入手机号</string>
     <string name="next">下一步</string>
     <string name="input_captcha">输入手机验证码</string>

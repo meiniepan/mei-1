@@ -350,13 +350,13 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
             homeVideoBean1 = videoData.get(0);
             video1.setUp(homeVideoBean1.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean1.title);
             homeVideoTitle1.setText(homeVideoBean1.title);
-            GlideUtils.loadRoundCornerImage(mCtx, homeVideoBean1.preview, video1.thumbImageView);
+            GlideUtils.loadImage(mCtx, homeVideoBean1.preview, video1.thumbImageView);
             video1.addShareListener(this);
 
             homeVideoBean2 = videoData.get(1);
             video2.setUp(homeVideoBean2.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean2.title);
             homeVideoTitle2.setText(homeVideoBean2.title);
-            GlideUtils.loadRoundCornerImage(mCtx, homeVideoBean2.preview, video2.thumbImageView);
+            GlideUtils.loadImage(mCtx, homeVideoBean2.preview, video2.thumbImageView);
         } else {
             ToastUtils.ToastMessage(mCtx, "获取视频信息失败" + videoData);
         }

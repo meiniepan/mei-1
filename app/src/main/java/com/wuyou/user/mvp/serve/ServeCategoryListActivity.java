@@ -51,7 +51,7 @@ public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, 
         categoryId = i.getStringExtra(Constant.CATEGORY_ID);
         serveCategory.setText(i.getStringExtra(Constant.CATEGORY_NAME));
         serveList.setLayoutManager(new LinearLayoutManager(getCtx()));
-        serveList.addItemDecoration(CommonUtil.getRecyclerDivider(this));
+        serveList.addItemDecoration(CommonUtil.getRecyclerDivider(this,8));
         adapter = new ServeListAdapter(getCtx(), R.layout.item_serve_list);
         serveList.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter, view, position) -> {

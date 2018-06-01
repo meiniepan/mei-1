@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
+import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
+import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.CityBean;
@@ -16,8 +18,6 @@ import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.AddressApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.widget.recyclerHelper.BaseHolder;
-import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 
 import java.util.List;
 

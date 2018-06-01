@@ -3,7 +3,7 @@
     android:layout_width="80dp"
     android:layout_height="30dp"
     android:text="@string/send_captcha"
-    android:textColor="#fff"
+    android:textColor="@color/night_blue"
     android:gravity="center"
     android:background="@drawable/captcha_selector"
     android:layout_centerVertical="true" />

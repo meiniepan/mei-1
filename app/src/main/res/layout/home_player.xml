@@ -21,7 +21,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="#000000"
-        android:scaleType="fitCenter" />
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:id="@+id/layout_bottom"
@@ -115,9 +115,10 @@
 
         <ImageView
             android:id="@+id/back"
-            android:layout_width="23dp"
-            android:layout_height="match_parent"
+            android:layout_width="20dp"
+            android:layout_height="15dp"
             android:layout_alignParentLeft="true"
+            android:visibility="gone"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:scaleType="centerInside"

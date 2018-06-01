@@ -69,10 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp" />
 
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="20dp"
-            android:src="@mipmap/arrow_gray" />
+        <include layout="@layout/next_layout" />
     </LinearLayout>
 
     <include layout="@layout/split_line_margin" />
@@ -98,10 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp" />
 
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="20dp"
-            android:src="@mipmap/arrow_gray" />
+        <include layout="@layout/next_layout" />
     </LinearLayout>
     <include layout="@layout/split_line_margin" />
 
@@ -127,10 +121,7 @@
             android:text="未填写"
             android:layout_marginEnd="10dp" />
 
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="20dp"
-            android:src="@mipmap/arrow_gray" />
+        <include layout="@layout/next_layout" />
     </LinearLayout>
 
     <include layout="@layout/split_line_margin" />
@@ -157,10 +148,7 @@
             android:text="未填写"
             android:layout_marginEnd="10dp" />
 
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="20dp"
-            android:src="@mipmap/arrow_gray" />
+        <include layout="@layout/next_layout" />
     </LinearLayout>
 
     <include layout="@layout/split_line_margin" />
@@ -187,10 +175,7 @@
             android:text="未填写"
             android:layout_marginEnd="10dp" />
 
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="20dp"
-            android:src="@mipmap/arrow_gray" />
+        <include layout="@layout/next_layout" />
     </LinearLayout>
 
     <include layout="@layout/split_line" />

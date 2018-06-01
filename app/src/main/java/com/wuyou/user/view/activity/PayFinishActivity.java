@@ -28,6 +28,8 @@ import butterknife.OnClick;
 public class PayFinishActivity extends BaseActivity {
     @BindView(R.id.pay_finish_title)
     TextView payFinishTitle;
+    @BindView(R.id.pay_finish_top)
+    TextView payFinishTop;
     private String targetId;
 
     @Override
@@ -40,6 +42,7 @@ public class PayFinishActivity extends BaseActivity {
                     public void onSuccess(BaseResponse<SimpleResponse> response) {
                         if (response.data.is_paid != 1) {
                             payFinishTitle.setText("支付未完成，请到订单详情查看");
+                            payFinishTop.setText("支付未完成");
                         }
                     }
 

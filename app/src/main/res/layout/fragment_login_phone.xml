@@ -76,6 +76,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
         android:text="未注册过的手机号将自动注册为来到用户"
-        android:textSize="@dimen/dimens_16sp" />
+        android:textSize="@dimen/dimens_12sp" />
 
 </LinearLayout>

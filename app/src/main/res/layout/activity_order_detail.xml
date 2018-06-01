@@ -529,11 +529,7 @@
                         android:layout_marginStart="30dp"
                         android:textColor="@color/common_gray" />
                 </LinearLayout>
-
-
             </LinearLayout>
-
-            <include layout="@layout/shadow_line" />
 
             <View
                 android:layout_width="match_parent"

@@ -6,12 +6,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
+import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBean;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
-import com.wuyou.user.view.widget.recyclerHelper.BaseHolder;
-import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
                 .setText(R.id.order_item_price, CommonUtil.formatPrice(item.amount));
 
         ImageView imageView = helper.getView(R.id.order_item_picture);
-        GlideUtils.loadImage(mCtx, item.service.photo, imageView);
+        GlideUtils.loadRoundCornerImage(mCtx, item.service.photo, imageView);
 
         TextView tvStatus = helper.getView(R.id.order_item_status);
         TextView tvAct = helper.getView(R.id.order_item_orange);
@@ -50,6 +50,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
                 tvCancel.setText(R.string.cancel_order);
                 tvAct.setVisibility(View.VISIBLE);
                 tvCancel.setVisibility(View.VISIBLE);
+                tvAct.setText(R.string.go_pay);
                 break;
             case 2:
                 tvStatus.setText(R.string.serving);

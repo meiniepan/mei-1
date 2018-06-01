@@ -29,10 +29,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.SearchHistoryBean;
 import com.wuyou.user.util.KeyboardUtils;
-import com.wuyou.user.view.widget.recyclerHelper.BaseQuickAdapter;
 
 
 public class CustomSearchView extends LinearLayout {

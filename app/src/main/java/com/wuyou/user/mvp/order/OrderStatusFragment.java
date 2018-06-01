@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
-import com.gs.buluo.common.widget.StatusLayout;
+import com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -19,7 +19,6 @@ import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.view.activity.CommentActivity;
 import com.wuyou.user.view.activity.HelpRobotActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
-import com.wuyou.user.view.widget.recyclerHelper.NewRefreshRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,9 +34,7 @@ import butterknife.BindView;
 
 public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderContract.Presenter> implements OrderContract.View {
     @BindView(R.id.order_list)
-    NewRefreshRecyclerView orderList;
-    @BindView(R.id.order_list_layout)
-    StatusLayout orderListStatus;
+    RefreshRecyclerView orderList;
     private int type;
     private OrderListAdapter adapter;
 
@@ -72,14 +69,14 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     }
 
     public void setUpStatus() {
-        orderListStatus.getEmptyActView().setVisibility(View.GONE);
-        orderListStatus.setLoginAction(v -> {
+        orderList.getStatusLayout().getEmptyActView().setVisibility(View.GONE);
+        orderList.getStatusLayout().setLoginAction(v -> {
             Intent intent = new Intent(mCtx, LoginActivity.class);
             startActivity(intent);
         });
-        orderListStatus.getLoginActView().setText(R.string.login_now);
-        orderListStatus.setErrorAction(v -> {
-            orderListStatus.showProgressView();
+        orderList.getStatusLayout().getLoginActView().setText(R.string.login_now);
+        orderList.getStatusLayout().setErrorAction(v -> {
+            orderList.getStatusLayout().showProgressView();
             mPresenter.getOrder(type);
         });
     }
@@ -87,12 +84,12 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginEvent(LoginEvent event) {
         if (CarefreeDaoSession.getInstance().getUserId() == null) {
-            orderListStatus.showLoginView(getString(R.string.no_login));
-            orderList.setRefreshEnable(false);
+            orderList.getStatusLayout().showLoginView(getString(R.string.no_login));
+            orderList.getStatusLayout().setEnabled(false);
         } else {
-            orderListStatus.showProgressView();
+            orderList.getStatusLayout().showProgressView();
             mPresenter.getOrder(type);
-            orderList.setRefreshEnable(true);
+            orderList.getRefreshLayout().setEnabled(true);
         }
     }
 
@@ -104,10 +101,10 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     @Override
     public void fetchData() {
         if (CarefreeDaoSession.getInstance().getUserId() == null) {
-            orderListStatus.showLoginView(getString(R.string.no_login));
+            orderList.getStatusLayout().showLoginView(getString(R.string.no_login));
             return;
         }
-        orderListStatus.showProgressView();
+        orderList.getStatusLayout().showProgressView();
         mPresenter.getOrder(type);
     }
 
@@ -116,16 +113,17 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     }
 
     private void refreshData() {
-        orderListStatus.showProgressView();
+        orderList.getStatusLayout().showProgressView();
         mPresenter.getOrder(type);
     }
 
     @Override
     public void showError(String message, int res) {
+        orderList.getRefreshLayout().setRefreshing(false);
         if (res == 100) {
             ToastUtils.ToastMessage(mCtx, R.string.connect_fail);
         } else {
-            orderListStatus.showErrorView(getString(R.string.connect_fail));
+            orderList.getStatusLayout().showErrorView(getString(R.string.connect_fail));
         }
     }
 
@@ -136,12 +134,12 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
 
     @Override
     public void getOrderSuccess(OrderListResponse response) {
-        orderListStatus.showContentView();
+        orderList.getStatusLayout().showContentView();
         orderList.setRefreshFinished();
         adapter.clearData();
         adapter.setNewData(response.list);
         if (adapter.getData().size() == 0) {
-            orderListStatus.showEmptyView(getString(R.string.no_order_yet));
+            orderList.getStatusLayout().showEmptyView(getString(R.string.no_order_yet));
         }
         if (response.has_more == 0) adapter.loadMoreEnd(true);
     }

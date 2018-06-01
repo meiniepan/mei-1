@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebSettings;
@@ -14,7 +15,10 @@ import android.webkit.WebViewClient;
 import com.gnway.bangwoba.activity.Bw8WebView;
 import com.gnway.bangwoba.activity.ChatActivity;
 import com.gnway.bangwoba.global.Variable;
+import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.service.HelpChatService;
 
 /**
  * Created by DELL on 2018/3/22.
@@ -26,10 +30,26 @@ public class HelpRobotActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        initHelpService();
+        startService();
         mWebView = findViewById(R.id.robot_web_view);
         findViewById(R.id.back).setOnClickListener(this);
         settingWebView();
         mWebView.loadUrl(url);
+    }
+
+    private void initHelpService() {
+        Variable.AgentId = Constant.HELP_SERVE_AGENT_ID;
+        if (CarefreeDaoSession.getInstance().getUserInfo() != null) {
+            Variable.loginUser = "u4_" + CarefreeDaoSession.getInstance().getUserInfo().getMobile();
+        } else {
+            Variable.loginUser = "u4_" + Settings.System.getString(getContentResolver(), Settings.Secure.ANDROID_ID).substring(0, 11);
+        }
+    }
+
+    private void startService() {
+        Intent serviceIntent = new Intent(this, HelpChatService.class);
+        startService(serviceIntent);
     }
 
     @Override
