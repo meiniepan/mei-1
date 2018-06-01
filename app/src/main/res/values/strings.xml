@@ -122,4 +122,6 @@
     <string name="share_activity">这个活动不错哦,推荐给你,快来参加吧!</string>
     <string name="wx_circle">朋友圈</string>
     <string name="mine_score">我的积分</string>
+    <string name="gained_score_record">获取积分记录</string>
+    <string name="consume_score_record">获取积分记录</string>
 </resources>
