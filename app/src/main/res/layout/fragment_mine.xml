@@ -145,6 +145,30 @@
             android:src="@mipmap/arrow_gray" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/mine_score"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="18dp"
+        android:paddingEnd="@dimen/activity_horizontal_margin">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@mipmap/score_icon" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="20dp"
+            android:text="@string/mine_score" />
+
+        <include layout="@layout/next_layout" />
+    </LinearLayout>
+
     <include layout="@layout/split_line_margin" />
 
     <LinearLayout
@@ -193,7 +217,7 @@
         <include layout="@layout/next_layout" />
     </LinearLayout>
 
-    <include layout="@layout/split_line_margin" />
+    <include layout="@layout/split_area" />
 
     <LinearLayout
         android:id="@+id/mine_setting"

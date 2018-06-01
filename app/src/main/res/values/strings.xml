@@ -121,4 +121,5 @@
     <string name="save_fail">保存失败，请重试</string>
     <string name="share_activity">这个活动不错哦,推荐给你,快来参加吧!</string>
     <string name="wx_circle">朋友圈</string>
+    <string name="mine_score">我的积分</string>
 </resources>
