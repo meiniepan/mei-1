@@ -124,4 +124,6 @@
     <string name="mine_score">我的积分</string>
     <string name="gained_score_record">获取积分记录</string>
     <string name="consume_score_record">获取积分记录</string>
+    <string name="total_gained_score">共获取积分</string>
+    <string name="total_consume_score">共消耗积分</string>
 </resources>

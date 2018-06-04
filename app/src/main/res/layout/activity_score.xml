@@ -60,6 +60,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/score_obtain"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -89,6 +90,7 @@
             android:background="@color/divide_gray" />
 
         <LinearLayout
+            android:id="@+id/score_consumed"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

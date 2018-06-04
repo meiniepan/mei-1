@@ -11,7 +11,6 @@ public class Constant {
     public static final String WX = "wx";
     public static final String WX_MOMENT = "wx_moment";
     public static final String HELP_SERVE_AGENT_ID = "181385";
-
     public static String BASE_URL = "https://stage.api.iwantmei.com/customer/v1/";
     public static  String WEB_URL = "https://stage.activity.iwantmei.com/";
     public static  String SP_BASE_URL = "base_url";
@@ -47,6 +46,7 @@ public class Constant {
     public static final String FROM = "from";
     public static final String WEB_INTENT = "web_url";
     public static final String WEB_TYPE = "web_type";
+    public static final String SCORE_FLAG = "score_flag";
     public static final String SECOND_PAY = "second_pay";
     public static final String GENDER = "gender";
     public static final String BACK_FLAG = "back_flag";

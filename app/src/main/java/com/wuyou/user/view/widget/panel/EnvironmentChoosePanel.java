@@ -54,7 +54,7 @@ public class EnvironmentChoosePanel extends Dialog {
     public void setEnv(int env) {
         switch (env) {
             case R.id.env_dev:
-                Constant.WEB_URL = "https://dev.activity.iwantmei.com/";
+                Constant.WEB_URL = "http://192.168.1.187/";
                 Constant.BASE_URL = "https://develop.api.iwantmei.com/customer/v1/";
                 break;
             case R.id.env_test:

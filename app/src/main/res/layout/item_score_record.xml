@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:paddingEnd="@dimen/activity_horizontal_margin_end"
-    android:paddingStart="@dimen/activity_horizontal_margin">
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/item_score_record_title"
