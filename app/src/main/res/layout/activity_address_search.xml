@@ -3,8 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
@@ -41,8 +40,7 @@
     <com.gs.buluo.common.widget.StatusLayout
         android:id="@+id/address_search_status"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/tint_bg">
+        android:layout_height="match_parent">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/address_search_list"
             android:layout_width="match_parent"

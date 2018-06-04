@@ -8,13 +8,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:background="@color/mine_bg" />
+        android:background="@color/night_blue" />
 
     <RelativeLayout
         android:id="@+id/mine_info"
         android:layout_width="match_parent"
         android:layout_height="146dp"
-        android:background="@color/mine_bg">
+        android:background="@color/night_blue">
 
         <ImageView
             android:id="@+id/mine_head"
@@ -82,7 +82,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@color/white"
+        android:background="#FFF"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -115,8 +115,6 @@
             android:text="充值"
             android:visibility="gone" />
     </LinearLayout>
-
-    <include layout="@layout/shadow_line" />
 
     <include layout="@layout/split_area" />
 
@@ -152,6 +150,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="18dp"
+        android:background="@color/white"
         android:paddingEnd="@dimen/activity_horizontal_margin">
 
         <ImageView
@@ -177,6 +176,7 @@
         android:layout_height="@dimen/common_height"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@color/white"
         android:paddingEnd="@dimen/activity_horizontal_margin">
 
         <ImageView
@@ -201,6 +201,7 @@
         android:layout_height="@dimen/common_height"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@color/white"
         android:paddingEnd="@dimen/activity_horizontal_margin">
 
         <ImageView
@@ -225,6 +226,7 @@
         android:layout_height="@dimen/common_height"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@color/white"
         android:paddingEnd="@dimen/activity_horizontal_margin">
 
         <ImageView

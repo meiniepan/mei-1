@@ -154,8 +154,7 @@
         <activity android:name=".mvp.order.PayChooseActivity" />
         <activity android:name=".view.activity.ServeWayChooseActivity" />
         <activity android:name=".mvp.score.ScoreActivity" />
-        <activity android:name=".mvp.score.ScoreGainedRecordActivity" />
-        <activity android:name=".mvp.score.ScoreConsumeRecordActivity" />
+        <activity android:name=".mvp.score.ScoreRecordActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"

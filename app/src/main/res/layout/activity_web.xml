@@ -8,8 +8,8 @@
         android:id="@+id/web_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        android:background="@color/night_blue"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:background="@color/night_blue">
         <TextView
             android:id="@+id/web_title"
             android:layout_width="wrap_content"

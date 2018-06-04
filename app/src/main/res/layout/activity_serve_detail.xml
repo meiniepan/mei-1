@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -39,8 +39,8 @@
             <ImageView
                 android:id="@+id/serve_detail_picture"
                 android:layout_width="match_parent"
-                android:scaleType="centerCrop"
-                android:layout_height="320dp"/>
+                android:layout_height="320dp"
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/serve_detail_title"
@@ -70,9 +70,9 @@
 
                 <TextView
                     android:id="@+id/serve_detail_price"
-                    android:text="0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="0"
                     android:textColor="@color/common_red"
                     android:textSize="@dimen/dimens_16sp" />
 
@@ -144,16 +144,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="4.9"
-                    android:visibility="gone"
-                    android:textColor="@color/common_gray" />
+                    android:textColor="@color/common_gray"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/create_order_serve_point"
                     android:layout_width="match_parent"
-                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:gravity="end"
                     android:text="好评 98%"
                     android:textColor="@color/common_gray" />
 
@@ -169,12 +169,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_height"
-                android:text="服务详情"
                 android:gravity="center_vertical"
+                android:paddingEnd="@dimen/activity_horizontal_margin_end"
                 android:paddingStart="@dimen/activity_horizontal_margin"
-                android:paddingEnd="@dimen/activity_horizontal_margin_end"/>
+                android:text="服务详情" />
 
             <include layout="@layout/split_line_margin" />
+
             <WebView
                 android:id="@+id/serve_detail_description"
                 android:layout_width="match_parent"
@@ -191,9 +192,9 @@
                 android:layout_height="@dimen/common_height"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="gone"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
-                android:paddingStart="@dimen/activity_horizontal_margin">
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -328,10 +329,10 @@
 
     <Button
         style="@style/button_style"
-        android:background="@color/night_blue"
         android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
+        android:background="@color/night_blue"
         android:onClick="buyNow"
         android:text="@string/buy_now" />
 </LinearLayout>

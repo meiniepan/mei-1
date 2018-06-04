@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <View
         android:layout_width="match_parent"
@@ -164,7 +164,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"/>
 
-                <include layout="@layout/split_line_margin" />
+                <include layout="@layout/split_area" />
                 <TextView
                     android:id="@+id/home_current_location"
                     android:layout_width="match_parent"
@@ -182,8 +182,7 @@
                     android:id="@+id/main_serve_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/white" />
+                    android:layout_marginTop="10dp" />
             </LinearLayout>
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>

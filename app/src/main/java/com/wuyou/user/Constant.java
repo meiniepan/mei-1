@@ -10,12 +10,15 @@ public class Constant {
     public static final java.lang.String WX_MINI_ID = "gh_90f9fc78ea34";
     public static final String WX = "wx";
     public static final String WX_MOMENT = "wx_moment";
-    public static final String HELP_SERVE_AGENT_ID="181385";
+    public static final String HELP_SERVE_AGENT_ID = "181385";
 
+    public static String BASE_URL = "https://stage.api.iwantmei.com/customer/v1/";
+    public static  String WEB_URL = "https://stage.activity.iwantmei.com/";
+    public static  String SP_BASE_URL = "base_url";
+    public static  String SP_WEB_URL = "web_url";
+
+    //    public static final String WEB_URL = "http://192.168.0.102/";
     public static final String ABOUT_US_URL = "https://ulaidao.iwantmei.com/apphtml/about-us.html";
-    public static final String WEB_URL = BuildConfig.API_WEB_URL;
-//    public static final String WEB_URL = "http://192.168.0.102/";
-    public static final String BASE_URL = BuildConfig.API_SERVER_URL;
     public static final String INPUT_PHONE_FLAG = "input_phone_sign";
     public static final String PHONE = "phone";
     public static final String CAPTCHA = "captcha";

@@ -2,31 +2,36 @@ package com.wuyou.user;
 
 import android.content.Context;
 import android.support.multidex.MultiDex;
+import android.text.TextUtils;
 
 import com.gs.buluo.common.BaseApplication;
+import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
-import com.tencent.bugly.crashreport.CrashReport;
-import com.wuyou.user.bean.UserInfo;
-import com.wuyou.user.bean.UserInfoDao;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.view.activity.MainActivity;
 import com.wuyou.user.view.activity.SettingActivity;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * Created by hjn on 2016/11/1.
  */
 public class CarefreeApplication extends BaseApplication {
     private static CarefreeApplication instance;
+    private String webUrl;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
+        initUrl();
         initBuglyUpgrade();
+    }
+
+    private void initUrl() {
+        String baseUrl = SharePreferenceManager.getInstance(this).getStringValue(Constant.SP_BASE_URL);
+        if (!TextUtils.isEmpty(baseUrl)) Constant.BASE_URL = baseUrl;
+        webUrl = SharePreferenceManager.getInstance(this).getStringValue(Constant.SP_WEB_URL);
+        if (!TextUtils.isEmpty(webUrl)) Constant.WEB_URL = webUrl;
     }
 
     private void initBuglyUpgrade() {

@@ -3,7 +3,6 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -42,6 +41,7 @@
         android:id="@+id/address_edit_city_click"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
+        android:background="@color/white"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="center_vertical"
@@ -72,6 +72,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/activity_horizontal_margin"
@@ -102,6 +103,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/activity_horizontal_margin"
@@ -127,6 +129,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/activity_horizontal_margin"
@@ -152,6 +155,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/activity_horizontal_margin"
@@ -179,9 +183,4 @@
         android:id="@+id/address_edit_save"
         style="@style/button_style"
         android:text="保存" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/tint_bg" />
 </LinearLayout>

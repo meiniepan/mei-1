@@ -9,6 +9,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.adapter.OrderFragmentAdapter;
 import com.wuyou.user.bean.TabEntity;
 import com.wuyou.user.view.fragment.BaseFragment;
+import com.wuyou.user.view.widget.panel.EnvironmentChoosePanel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,6 +48,8 @@ public class OrderFragment extends BaseFragment {
         OrderFragmentAdapter adapter = new OrderFragmentAdapter(getActivity().getSupportFragmentManager(), Arrays.asList(titles));
         orderPager.setAdapter(adapter);
         orderTab.setupWithViewPager(orderPager);
+
+        getActivity().findViewById(R.id.back_door).setOnClickListener(v -> showChangeEnvironment());
     }
 
     @Override
@@ -58,5 +61,22 @@ public class OrderFragment extends BaseFragment {
         if (orderPager == null) return;
         if (orderPager.getCurrentItem() != 1)
             orderPager.setCurrentItem(item);
+    }
+
+    private int clickTime = 0;
+    private long firstTime = 0;
+
+    private void showChangeEnvironment() {
+        if (clickTime == 0) {
+            firstTime = System.currentTimeMillis();
+        }
+        clickTime++;
+        if (clickTime == 5) {
+            long nowTime = System.currentTimeMillis();
+            if (nowTime - firstTime <= 2000) {
+                EnvironmentChoosePanel choosePanel = new EnvironmentChoosePanel(getContext());
+                choosePanel.show();
+            }
+        }
     }
 }

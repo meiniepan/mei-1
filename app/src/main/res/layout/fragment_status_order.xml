@@ -12,9 +12,4 @@
         app:emptyDrawable="@mipmap/status_empty_order"
         app:errorDrawable="@mipmap/net_error"
         app:loginDrawable="@mipmap/login_status" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/tint_bg" />
 </LinearLayout>

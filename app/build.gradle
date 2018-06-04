@@ -46,8 +46,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', 'API_SERVER_URL', API_URL
-            buildConfigField 'String', 'API_WEB_URL', WEB_URL
+//            buildConfigField 'String', 'API_SERVER_URL', API_URL
+//            buildConfigField 'String', 'API_WEB_URL', WEB_URL
             signingConfig signingConfigs.release
             debuggable true
         }
@@ -99,7 +99,7 @@ android {
     dependencies {
         compile fileTree(include: ['*.jar'], dir: 'libs')
         testCompile 'junit:junit:4.12'
-        compile 'com.github.ngreedy:tribe_lib:3.0.7'
+        compile 'com.github.ngreedy:tribe_lib:3.0.8'
         compile 'com.jakewharton:butterknife:8.8.1'
         annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
         compile "com.android.support:design:$supportLibVersion"
