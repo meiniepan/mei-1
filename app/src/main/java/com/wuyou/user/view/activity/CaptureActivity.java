@@ -31,6 +31,7 @@ import com.google.zxing.NotFoundException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
+import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.R;
 import com.wuyou.user.util.zxing.camera.CameraManager;
@@ -431,14 +432,7 @@ public class CaptureActivity extends BaseActivity implements Callback {
     }
 
     private void handleQRResult(String result) {
-        Log.e(TAG, "handleQRResult: " + result);
-        if (!result.contains("pay://stores/")) {
-            Toast.makeText(getApplicationContext(), "图片格式有误", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-        String mResult = result.split("pay://stores/")[1];
-        //todo
+        ToastUtils.ToastMessage(getCtx(),result);
 //        Intent intent = new Intent(CaptureActivity.this, MainActivity.class);
 //        intent.putExtra(Constant.STORE_ID, mResult);
 //        startActivity(intent);

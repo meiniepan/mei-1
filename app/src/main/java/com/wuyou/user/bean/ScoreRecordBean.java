@@ -5,4 +5,7 @@ package com.wuyou.user.bean;
  */
 
 public class ScoreRecordBean {
+    public String points;
+    public String source;
+    public String created_at;
 }

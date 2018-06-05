@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.widget.RadarView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -24,7 +25,6 @@ public class ScoreActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-
     }
 
     @Override

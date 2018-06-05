@@ -78,10 +78,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="8dp"
                 android:text="获取的积分"
-                android:textColor="@color/common_gray"
-                android:layout_marginBottom="10dp"/>
+                android:textColor="@color/common_gray" />
         </LinearLayout>
 
         <View
@@ -254,8 +254,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="vertical"
         android:layout_marginTop="10dp"
+        android:background="@mipmap/score_ad"
         android:gravity="center_horizontal"
-        android:background="@mipmap/score_ad"/>
+        android:orientation="vertical" />
 </LinearLayout>

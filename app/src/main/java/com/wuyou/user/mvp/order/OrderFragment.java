@@ -79,4 +79,11 @@ public class OrderFragment extends BaseFragment {
             }
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        clickTime = 0;
+        firstTime = 0;
+    }
 }

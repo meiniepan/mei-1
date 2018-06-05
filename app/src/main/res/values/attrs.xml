@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CustomSearchView">
-        <attr name="hintText" format="string"/>
-        <attr name="backIcon" format="reference"/>
-        <attr name="oneKeyCleanIcon" format="reference"/>
-        <attr name="historyIcon" format="reference"/>
+        <attr name="hintText" format="string" />
+        <attr name="backIcon" format="reference" />
+        <attr name="oneKeyCleanIcon" format="reference" />
+        <attr name="historyIcon" format="reference" />
         <attr name="defaultState" format="enum">
-            <enum name="close" value="0"/>
-            <enum name="open" value="1"/>
+            <enum name="close" value="0" />
+            <enum name="open" value="1" />
         </attr>
-        <attr name="historyTextColor" format="color"/>
-        <attr name="inputView_height" format="dimension"/>
+        <attr name="historyTextColor" format="color" />
+        <attr name="inputView_height" format="dimension" />
 
     </declare-styleable>
 
@@ -22,6 +22,33 @@
         <attr name="textColorNormal" format="color" />
         <attr name="textColorSelected" format="color" />
         <attr name="badgeBackgroundColor" format="color" />
-        <attr name="paddingTexwithIcon" format="dimension"/>
+        <attr name="paddingTexwithIcon" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RadarView">
+        <attr name="android:textSize" />
+        <attr name="android:textColor" />
+        <attr name="android:text" />
+        <attr name="labelTextSize" format="dimension" />
+        <attr name="labelTextColor" format="color" />
+        <attr name="labelText" format="string" />
+        <attr name="format" format="string" />
+        <attr name="sideColor" format="color" />
+        <attr name="outsideBackgroundColor" format="color" />
+        <attr name="insideBackgroundColor" format="color" />
+        <attr name="duration" format="integer" />
+        <attr name="textOffsetY" format="dimension" />
+        <attr name="labelTextOffsetY" format="dimension" />
+
+        <attr name="circleColor" format="color" />
+        <attr name="lineColor" format="color" />
+        <attr name="showLine" format="boolean" />
+        <attr name="rotate" format="integer" />
+        <attr name="showLabel" format="boolean" />
+        <attr name="showText" format="boolean" />
+        <attr name="scanTime" format="integer" />
+        <attr name="insideStrokeWidth" format="dimension" />
+        <attr name="outsideStrokeWidth" format="dimension" />
+        <attr name="lineStrokeWidth" format="dimension" />
     </declare-styleable>
 </resources>

@@ -111,6 +111,7 @@ public class WebActivity extends BaseActivity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
+                Log.e("Carefree", "onPageFinished: !!!!!!!!!!!!!"+url);
             }
 
             @Override

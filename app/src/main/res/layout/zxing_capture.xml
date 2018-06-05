@@ -11,12 +11,10 @@
         android:layout_height="fill_parent"
         android:layout_gravity="center"/>
 
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        android:background="@color/common_dark">
+        android:background="@color/night_blue">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -38,7 +36,7 @@
 
     </RelativeLayout>
 
-    <com.gs.buluo.app.utils.zxing.view.ViewfinderView
+    <com.wuyou.user.util.zxing.view.ViewfinderView
         android:id="@+id/viewfinder_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

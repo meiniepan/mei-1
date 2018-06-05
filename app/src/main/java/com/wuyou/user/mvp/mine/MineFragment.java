@@ -25,6 +25,7 @@ import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
+import com.wuyou.user.view.activity.CaptureActivity;
 import com.wuyou.user.view.activity.InfoActivity;
 import com.wuyou.user.view.activity.SettingActivity;
 import com.wuyou.user.view.activity.WebActivity;
@@ -134,7 +135,7 @@ public class MineFragment extends BaseFragment {
                 });
     }
 
-    @OnClick({R.id.mine_setting, R.id.mine_recharge, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info,R.id.mine_score})
+    @OnClick({R.id.mine_setting, R.id.mine_recharge, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_head})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -165,7 +166,11 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.mine_score:
-                intent.setClass(mCtx,ScoreActivity.class);
+                intent.setClass(mCtx, ScoreActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.mine_head:
+                intent.setClass(mCtx, CaptureActivity.class);
                 startActivity(intent);
                 break;
         }
