@@ -35,6 +35,8 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
         public final static Property Address = new Property(8, String.class, "address", false, "ADDRESS");
         public final static Property Email = new Property(9, String.class, "email", false, "EMAIL");
         public final static Property Birthday = new Property(10, String.class, "birthday", false, "BIRTHDAY");
+        public final static Property Received_points = new Property(11, long.class, "received_points", false, "RECEIVED_POINTS");
+        public final static Property Out_points = new Property(12, long.class, "out_points", false, "OUT_POINTS");
     }
 
     private final AddressConverter addressConverter = new AddressConverter();
@@ -61,7 +63,9 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
                 "\"GENDER\" TEXT," + // 7: gender
                 "\"ADDRESS\" TEXT," + // 8: address
                 "\"EMAIL\" TEXT," + // 9: email
-                "\"BIRTHDAY\" TEXT);"); // 10: birthday
+                "\"BIRTHDAY\" TEXT," + // 10: birthday
+                "\"RECEIVED_POINTS\" INTEGER NOT NULL ," + // 11: received_points
+                "\"OUT_POINTS\" INTEGER NOT NULL );"); // 12: out_points
     }
 
     /** Drops the underlying database table. */
@@ -128,6 +132,8 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
         if (birthday != null) {
             stmt.bindString(11, birthday);
         }
+        stmt.bindLong(12, entity.getReceived_points());
+        stmt.bindLong(13, entity.getOut_points());
     }
 
     @Override
@@ -188,6 +194,8 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
         if (birthday != null) {
             stmt.bindString(11, birthday);
         }
+        stmt.bindLong(12, entity.getReceived_points());
+        stmt.bindLong(13, entity.getOut_points());
     }
 
     @Override
@@ -208,7 +216,9 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // gender
             cursor.isNull(offset + 8) ? null : addressConverter.convertToEntityProperty(cursor.getString(offset + 8)), // address
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // email
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10) // birthday
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // birthday
+            cursor.getLong(offset + 11), // received_points
+            cursor.getLong(offset + 12) // out_points
         );
         return entity;
     }
@@ -226,6 +236,8 @@ public class UserInfoDao extends AbstractDao<UserInfo, Long> {
         entity.setAddress(cursor.isNull(offset + 8) ? null : addressConverter.convertToEntityProperty(cursor.getString(offset + 8)));
         entity.setEmail(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setBirthday(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setReceived_points(cursor.getLong(offset + 11));
+        entity.setOut_points(cursor.getLong(offset + 12));
      }
     
     @Override

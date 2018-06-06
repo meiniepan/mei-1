@@ -160,10 +160,11 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".mvp.score.ScoreRecordActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".mvp.score.SignUpActivity"
+        <activity android:name=".mvp.score.SignInActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".view.activity.CaptureActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".mvp.score.SignInSuccessActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"

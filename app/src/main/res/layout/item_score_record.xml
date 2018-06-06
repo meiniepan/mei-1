@@ -20,6 +20,7 @@
         tool:text="线下签到" />
 
     <TextView
+        android:id="@+id/item_score_record_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
@@ -28,7 +29,9 @@
         app:layout_constraintTop_toBottomOf="@+id/item_score_record_title"
         tool:text="2018" />
 
+
     <TextView
+        android:id="@+id/item_score_record_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/night_blue"
@@ -37,5 +40,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tool:text="+1" />
+        tool:text="1" />
+
+
+    <TextView
+        android:id="@+id/item_score_record_point_flag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/night_blue"
+        android:textSize="@dimen/dimens_20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@+id/item_score_record_point"
+        app:layout_constraintEnd_toStartOf="@+id/item_score_record_point"
+        android:text="+"/>
 </android.support.constraint.ConstraintLayout>

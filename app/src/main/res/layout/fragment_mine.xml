@@ -11,9 +11,32 @@
         android:background="@color/night_blue" />
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/night_blue">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/mine"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_size" />
+
+        <ImageView
+            android:id="@+id/mine_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_end"
+            android:src="@mipmap/scan_icon" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/mine_info"
         android:layout_width="match_parent"
-        android:layout_height="146dp"
+        android:layout_height="116dp"
         android:background="@color/night_blue">
 
         <ImageView
@@ -81,7 +104,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:background="#FFF"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -103,17 +126,12 @@
             android:textStyle="bold"
             tools:text="60.00" />
 
-        <TextView
-            android:id="@+id/mine_recharge"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:background="@drawable/night_blue_border"
-            android:gravity="center"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
-            android:text="充值"
-            android:visibility="gone" />
+        <ImageView
+            android:id="@+id/mine_warn"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@mipmap/mine_warn"
+            android:layout_marginEnd="10dp"/>
     </LinearLayout>
 
     <include layout="@layout/split_area" />
@@ -144,14 +162,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/mine_score"
+        android:id="@+id/mine_sign_in"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="18dp"
-        android:background="@color/white"
-        android:paddingEnd="@dimen/activity_horizontal_margin">
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="18dp">
 
         <ImageView
             android:layout_width="16dp"
@@ -161,8 +179,33 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:text="@string/daily_sign" />
+
+        <include layout="@layout/next_layout" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mine_score"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="18dp">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@mipmap/score_icon" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
             android:text="@string/mine_score" />
 
         <include layout="@layout/next_layout" />
@@ -174,9 +217,9 @@
         android:id="@+id/mine_address"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="@color/white"
         android:paddingEnd="@dimen/activity_horizontal_margin">
 
         <ImageView
@@ -199,9 +242,9 @@
         android:id="@+id/mine_activity"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="@color/white"
         android:paddingEnd="@dimen/activity_horizontal_margin">
 
         <ImageView
@@ -224,9 +267,9 @@
         android:id="@+id/mine_setting"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="@color/white"
         android:paddingEnd="@dimen/activity_horizontal_margin">
 
         <ImageView

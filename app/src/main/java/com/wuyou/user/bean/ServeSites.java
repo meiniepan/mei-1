@@ -20,4 +20,5 @@ public class ServeSites {
     public Double lng;
     public Double lat;
     public float distance;
+    public String introduce;
 }

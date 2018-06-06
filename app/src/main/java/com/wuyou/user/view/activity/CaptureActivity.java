@@ -16,7 +16,6 @@ import android.os.Looper;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
@@ -31,9 +30,19 @@ import com.google.zxing.NotFoundException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
+import com.gs.buluo.common.network.BaseResponse;
+import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
+import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.bean.PointBean;
+import com.wuyou.user.mvp.score.SignInSuccessActivity;
+import com.wuyou.user.network.CarefreeRetrofit;
+import com.wuyou.user.network.apis.ScoreApis;
+import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.zxing.camera.CameraManager;
 import com.wuyou.user.util.zxing.decoding.CaptureActivityHandler;
 import com.wuyou.user.util.zxing.decoding.InactivityTimer;
@@ -432,11 +441,29 @@ public class CaptureActivity extends BaseActivity implements Callback {
     }
 
     private void handleQRResult(String result) {
-        ToastUtils.ToastMessage(getCtx(),result);
+        ToastUtils.ToastMessage(getCtx(), result);
 //        Intent intent = new Intent(CaptureActivity.this, MainActivity.class);
 //        intent.putExtra(Constant.STORE_ID, mResult);
 //        startActivity(intent);
+        if (result.contains("signIn://")) {
+            signIn();
+        }
         finish();
+    }
+
+    private void signIn() {
+        showLoadingDialog();
+        CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
+                .signIn(QueryMapBuilder.getIns().put("uid", CarefreeDaoSession.getInstance().getUserId()).buildPost())
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<BaseResponse<PointBean>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<PointBean> pointBeanBaseResponse) {
+                        Intent intent = new Intent(getCtx(), SignInSuccessActivity.class);
+                        intent.putExtra(Constant.SIGN_POINT, pointBeanBaseResponse.data.point);
+                        startActivity(intent);
+                    }
+                });
     }
 
     private static Bitmap resizeBmp(Bitmap bitmap, float scale) {

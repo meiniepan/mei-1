@@ -11,6 +11,7 @@ import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.ToastUtils;
+import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -20,6 +21,7 @@ import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.score.ScoreActivity;
+import com.wuyou.user.mvp.score.SignInActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.UserApis;
@@ -56,10 +58,10 @@ public class MineFragment extends BaseFragment {
     TextView minePhone;
     @BindView(R.id.mine_balance)
     TextView mineBalance;
-    @BindView(R.id.mine_recharge)
-    TextView mineRecharge;
     @BindView(R.id.mine_login)
     TextView mineLogin;
+    private long totalScore = -1;
+    private long consumeScore;
 
     @Override
     protected int getContentLayout() {
@@ -89,6 +91,8 @@ public class MineFragment extends BaseFragment {
         minePhone.setText(userInfo.getMobile());
         mineName.setText(userInfo.getName());
 //            mineSex.setText(userInfo.getGender());
+        totalScore = userInfo.getReceived_points();
+        consumeScore = userInfo.getOut_points();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -135,7 +139,7 @@ public class MineFragment extends BaseFragment {
                 });
     }
 
-    @OnClick({R.id.mine_setting, R.id.mine_recharge, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_head})
+    @OnClick({R.id.mine_setting, R.id.mine_warn, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_head, R.id.mine_scan, R.id.mine_sign_in})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -158,7 +162,6 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.mine_card:
-            case R.id.mine_recharge:
                 ToastUtils.ToastMessage(mCtx, R.string.no_function);
                 break;
             case R.id.mine_info:
@@ -166,12 +169,28 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.mine_score:
+                if (totalScore == -1) {
+                    ToastUtils.ToastMessage(mCtx, R.string.connect_fail);
+                    return;
+                }
                 intent.setClass(mCtx, ScoreActivity.class);
                 startActivity(intent);
                 break;
             case R.id.mine_head:
                 intent.setClass(mCtx, CaptureActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.mine_scan:
+                intent.setClass(mCtx, CaptureActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.mine_sign_in:
+                intent.setClass(mCtx, SignInActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.mine_warn:
+                new CustomAlertDialog.Builder(mCtx).setTitle(R.string.prompt).setMessage(R.string.mine_warn)
+                        .setPositiveButton("确定", (dialog, which) -> {}).create().show();
                 break;
         }
     }

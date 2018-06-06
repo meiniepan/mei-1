@@ -37,10 +37,14 @@ public class UserInfo {
     private String email;
     private String birthday;
 
-    @Generated(hash = 1762817972)
+    private long received_points;
+
+    private long out_points;
+
+    @Generated(hash = 29014789)
     public UserInfo(Long mid, String nickname, String mobile, String uid, String avatar,
             String token, String password, String gender, AddressBean address, String email,
-            String birthday) {
+            String birthday, long received_points, long out_points) {
         this.mid = mid;
         this.nickname = nickname;
         this.mobile = mobile;
@@ -52,6 +56,8 @@ public class UserInfo {
         this.address = address;
         this.email = email;
         this.birthday = birthday;
+        this.received_points = received_points;
+        this.out_points = out_points;
     }
 
     @Generated(hash = 1279772520)
@@ -154,6 +160,23 @@ public class UserInfo {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
+    public long getReceived_points() {
+        return received_points;
+    }
+
+    public void setReceived_points(long received_points) {
+        this.received_points = received_points;
+    }
+
+    public long getOut_points() {
+        return out_points;
+    }
+
+    public void setOut_points(long out_points) {
+        this.out_points = out_points;
+    }
+
 
     public static class AddressConverter implements PropertyConverter<AddressBean, String> {
 

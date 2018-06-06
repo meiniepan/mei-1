@@ -24,7 +24,9 @@
     <color name="login_unuse">#30627db9</color>
     <color name="login_press">#445781</color>
 
+
     <color name="main_tab">#707070</color>
+    <color name="main_blue">#5379FE</color>
     <color name="divide_gray">#e5e5e5</color>
     <color name="shallow_white">#60ffffff</color>
     <color name="captcha_unuse">#88a5aeb5</color>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/sign_in_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/dimens_18sp"
+        android:text="签到获积分"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="60dp"/>
+
+    <TextView
+        android:id="@+id/sign_in_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="10dp"
+        tool:text="按时艰苦的哈就开始打卡的贺卡就会看到就按实际打款了巨大路上看见的卡拉ask来得及啊里"
+        android:textColor="@color/common_gray"
+        android:textSize="@dimen/dimens_12sp"/>
+
+    <TextView
+        android:id="@+id/sign_in"
+        android:layout_width="106dp"
+        android:layout_height="106dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:text="签到"
+        android:enabled="false"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@drawable/sign_selector" />
+
+    <TextView
+        android:id="@+id/sign_arrange_spot"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="定位中"/>
+
+    <TextView
+        android:id="@+id/sign_re_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/night_blue"
+        android:text="重新定位"/>
+</LinearLayout>

@@ -2,6 +2,7 @@ package com.wuyou.user.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -70,6 +72,39 @@ import static android.os.Environment.DIRECTORY_DCIM;
  * Created by hjn on 2016/11/10.
  */
 public class CommonUtil {
+
+    public static boolean isLocationOpen(final Context context) {
+        LocationManager locationManager
+                = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        if (gps || network) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isGpsOpen(final Context context) {
+        LocationManager locationManager
+                = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        return gps;
+    }
+
+
+    public static void openGPS(Context context) {
+        Intent GPSIntent = new Intent();
+        GPSIntent.setClassName("com.android.settings",
+                "com.android.settings.widget.SettingsAppWidgetProvider");
+        GPSIntent.addCategory("android.intent.category.ALTERNATIVE");
+        GPSIntent.setData(Uri.parse("custom:3"));
+        try {
+            PendingIntent.getBroadcast(context, 0, GPSIntent, 0).send();
+        } catch (PendingIntent.CanceledException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private static final int QR_WIDTH = DensityUtils.dip2px(CarefreeApplication.getInstance().getApplicationContext(), 200);
     private static final int QR_HEIGHT = DensityUtils.dip2px(CarefreeApplication.getInstance().getApplicationContext(), 200);
@@ -539,9 +574,11 @@ public class CommonUtil {
     public static RecycleViewDivider getRecyclerDivider(Context context) {
         return new RecycleViewDivider(context, LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(context, 0.5f), context.getResources().getColor(R.color.tint_bg));
     }
-    public static RecycleViewDivider getRecyclerDivider(Context context,float px) {
+
+    public static RecycleViewDivider getRecyclerDivider(Context context, float px) {
         return new RecycleViewDivider(context, LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(context, px), context.getResources().getColor(R.color.tint_bg));
     }
+
     public static String getPhoneWithStar(String mobile) {
         if (mobile.length() == 11) {
             return mobile.substring(0, 3) + "****" + mobile.substring(7);

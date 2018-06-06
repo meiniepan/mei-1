@@ -32,6 +32,7 @@
     <string name="completing_info">完善账户信息</string>
     <string name="login_now">马上登录</string>
     <string name="edit_psw">请输入密码</string>
+    <string name="mine">我的</string>
     <string name="show_psw">显示密码</string>
     <string name="new_regist">新用户注册</string>
     <string name="set_nickname">设置账户昵称</string>
@@ -126,5 +127,11 @@
     <string name="consume_score_record">获取积分记录</string>
     <string name="total_gained_score">共获取积分</string>
     <string name="total_consume_score">共消耗积分</string>
-    <string name="sign_up">签到</string>
+    <string name="sign_in">签到</string>
+    <string name="sign_success">签到成功</string>
+    <string name="sign_record">签到记录</string>
+    <string name="get_sign_record_fail">获取签到记录失败</string>
+    <string name="daily_sign">每日签到</string>
+    <string name="mine_warn">用户新手礼,仅用于抵扣平台交易所产生的手续费(每笔交易自动扣除), 不可提现,不可以用于其他支付。</string>
+
 </resources>

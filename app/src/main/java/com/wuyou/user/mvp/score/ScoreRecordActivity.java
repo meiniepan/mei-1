@@ -1,5 +1,6 @@
 package com.wuyou.user.mvp.score;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -44,26 +45,30 @@ public class ScoreRecordActivity extends BaseActivity {
         return R.layout.activity_score_record;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        scoreRecordList.getStatusLayout().setEmptyContentViewMargin(0, -200, 0, 0);
         flag = getIntent().getIntExtra(Constant.SCORE_FLAG, 0);
-        adapter = new ScoreRecordAdapter(R.layout.item_score_record);
+        adapter = new ScoreRecordAdapter(R.layout.item_score_record, flag);
         scoreRecordList.setAdapter(adapter);
         scoreRecordList.getRecyclerView().addItemDecoration(CommonUtil.getRecyclerDivider(this));
-        scoreRecordList.setRefreshAction(() -> getObtainRecord());
         if (flag == 0) {
             scoreRecordTitle.setText(R.string.gained_score_record);
             scoreRecordFlag.setText(R.string.total_gained_score);
             getObtainRecord();
+            scoreRecordList.setRefreshAction(this::getObtainRecord);
+            adapter.setOnLoadMoreListener(() -> getMoreObtain(), scoreRecordList.getRecyclerView());
         } else {
             scoreRecordTitle.setText(R.string.consume_score_record);
             scoreRecordFlag.setText(R.string.total_consume_score);
+            scoreRecordList.showEmptyView("暂无消耗积分记录");
         }
-
-        scoreRecordList.showEmptyView("暂无积分记录");
+        scoreAmount.setText(getIntent().getLongExtra(Constant.SCORE_AMOUNT, 0) + "");
     }
 
     public void getObtainRecord() {
+        scoreRecordList.getRefreshLayout().setRefreshing(false);
         CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
                 .getScoreRecordList(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("start_id", "0").buildGet())
                 .compose(RxUtil.switchSchedulers())
@@ -80,6 +85,29 @@ public class ScoreRecordActivity extends BaseActivity {
     }
 
     public void setData(List<ScoreRecordBean> data) {
+        scoreRecordList.showContentView();
         adapter.setNewData(data);
+        if (data == null || data.size() == 0) {
+            scoreRecordList.showEmptyView("暂无积分记录");
+            return;
+        }
+        obtainStartId = data.get(data.size() - 1).id;
+    }
+
+    private String obtainStartId;
+
+    public void getMoreObtain() {
+        CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
+                .getScoreRecordList(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("start_id", obtainStartId).buildGet())
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<BaseResponse<ListResponse<ScoreRecordBean>>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<ListResponse<ScoreRecordBean>> listResponseBaseResponse) {
+                        adapter.addData(listResponseBaseResponse.data.list);
+                        if (listResponseBaseResponse.data.has_more == 0) {
+                            adapter.loadMoreEnd(true);
+                        }
+                    }
+                });
     }
 }
