@@ -78,6 +78,7 @@ public class WebActivity extends BaseActivity {
             findViewById(R.id.web_top).setVisibility(View.VISIBLE);
         }
         if (url != null) {
+            showLoadingDialog();
             webView.loadUrl(url);
         }
     }
@@ -106,11 +107,11 @@ public class WebActivity extends BaseActivity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                Log.e("Test", "onPageStarted: " + url);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
+                dismissDialog();
                 Log.e("Carefree", "onPageFinished: !!!!!!!!!!!!!"+url);
             }
 

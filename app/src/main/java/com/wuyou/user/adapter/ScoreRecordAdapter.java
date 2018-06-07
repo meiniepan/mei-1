@@ -25,6 +25,6 @@ public class ScoreRecordAdapter extends BaseQuickAdapter<ScoreRecordBean, BaseHo
         helper.setText(R.id.item_score_record_title, (bean.source))
                 .setText(R.id.item_score_record_point, bean.points)
                 .setText(R.id.item_score_record_point_flag, flag == 0 ? "+" : "-")
-                .setText(R.id.item_score_record_time, TribeDateUtils.dateFormat(new Date(bean.created_at * 1000)));
+                .setText(R.id.item_score_record_time, TribeDateUtils.dateFormat7(new Date(bean.created_at * 1000)));
     }
 }

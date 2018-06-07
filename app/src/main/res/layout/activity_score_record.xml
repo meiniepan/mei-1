@@ -55,7 +55,7 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView
+    <com.wuyou.user.view.widget.CarefreeRecyclerView
         android:id="@+id/score_record_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

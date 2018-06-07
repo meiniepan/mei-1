@@ -446,6 +446,8 @@ public class CaptureActivity extends BaseActivity implements Callback {
 //        startActivity(intent);
         if (result.contains("signIn://")) {
             signIn();
+        }else {
+            ToastUtils.ToastMessage(getCtx(),getString(R.string.wrong_qr_code));
         }
     }
 

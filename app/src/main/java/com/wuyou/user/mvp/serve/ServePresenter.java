@@ -40,7 +40,7 @@ public class ServePresenter extends ServeContract.Presenter {
                     public void onSuccess(BaseResponse<ServeListResponse> orderListResponseBaseResponse) {
                         ServeListResponse r = orderListResponseBaseResponse.data;
                         mView.getServeSuccess(r);
-                        if (r.list.size() > 0) startId = r.list.get(0).service_id;
+                        if (r.list.size() > 0) startId = r.list.get(r.list.size() - 1).service_id;
                     }
 
                     @Override
@@ -62,7 +62,7 @@ public class ServePresenter extends ServeContract.Presenter {
                     public void onSuccess(BaseResponse<ServeListResponse> orderListResponseBaseResponse) {
                         ServeListResponse data = orderListResponseBaseResponse.data;
                         mView.loadMore(data);
-                        if (data.list.size() > 0) startId = data.list.get(0).service_id;
+                        if (data.list.size() > 0) startId = data.list.get(data.list.size()-1).service_id;
                     }
 
                     @Override

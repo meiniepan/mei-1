@@ -133,5 +133,6 @@
     <string name="get_sign_record_fail">获取签到记录失败</string>
     <string name="daily_sign">每日签到</string>
     <string name="mine_warn">用户新手礼,仅用于抵扣平台交易所产生的手续费(每笔交易自动扣除), 不可提现,不可以用于其他支付。</string>
+    <string name="wrong_qr_code">对不起，该二维码无效</string>
 
 </resources>

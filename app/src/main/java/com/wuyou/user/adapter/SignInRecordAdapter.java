@@ -19,6 +19,6 @@ public class SignInRecordAdapter extends BaseQuickAdapter<SignRecordBean, BaseHo
 
     @Override
     protected void convert(BaseHolder helper, SignRecordBean signRecordBean) {
-        helper.setText(R.id.item_sign_in_time, TribeDateUtils.dateFormat(new Date(signRecordBean.created_at * 1000)));
+        helper.setText(R.id.item_sign_in_time, TribeDateUtils.dateFormat7(new Date(signRecordBean.created_at * 1000)));
     }
 }

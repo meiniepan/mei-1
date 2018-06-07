@@ -25,23 +25,25 @@ import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
  * Created by hjn on 2017/7/10.
  */
 
-public class RefreshRecyclerView extends FrameLayout {
+public class CarefreeRecyclerView extends FrameLayout {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     private BaseQuickAdapter mAdapter;
     private StatusLayout statusLayout;
 
-    public RefreshRecyclerView(Context context) {
+    public CarefreeRecyclerView(Context context) {
         this(context, null);
     }
 
-    public RefreshRecyclerView(Context context, @Nullable AttributeSet attrs) {
+    public CarefreeRecyclerView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
         init(context, attrs);
     }
@@ -63,7 +65,7 @@ public class RefreshRecyclerView extends FrameLayout {
         statusLayout.getLoginImageView().setImageDrawable(loginDrawable);
     }
 
-    public RefreshRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public CarefreeRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         View view = inflate(context, R.layout.common_status_refresh_recycler, this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -143,9 +145,11 @@ public class RefreshRecyclerView extends FrameLayout {
     public String emptyMessage;
     public String startId;
 
-    public <T extends BaseItemBean> void getDataFirst(Observable<BaseResponse<ListResponse<T>>> observable) {
+    public <T extends BaseItemBean> void getData(Observable<BaseResponse<ListResponse<T>>> firstObservable) {
+        mSwipeRefreshLayout.setRefreshing(false);
         statusLayout.showProgressView();
-        observable.compose(RxUtil.switchSchedulers())
+        firstObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<ListResponse<T>>>() {
                     @Override
                     public void onSuccess(BaseResponse<ListResponse<T>> listResponseBaseResponse) {
@@ -189,5 +193,13 @@ public class RefreshRecyclerView extends FrameLayout {
                         mAdapter.loadMoreFail();
                     }
                 });
+    }
+
+    public void setLoadMoreListener(BaseQuickAdapter.RequestLoadMoreListener loadMoreListener) {
+        mAdapter.setOnLoadMoreListener(loadMoreListener, mRecyclerView);
+    }
+
+    public <T extends BaseItemBean> void activeRefresh(Observable<BaseResponse<ListResponse<T>>> observable) {
+        setRefreshAction(() -> getData(observable));
     }
 }
