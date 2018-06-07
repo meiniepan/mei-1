@@ -68,11 +68,11 @@ public class CarefreeRecyclerView extends FrameLayout {
     public CarefreeRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         View view = inflate(context, R.layout.common_status_refresh_recycler, this);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mRecyclerView = view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(CommonUtil.getRecyclerDivider(context));
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.recycler_swipe);
-        statusLayout = (StatusLayout) view.findViewById(R.id.recycler_status);
+        mSwipeRefreshLayout = view.findViewById(R.id.recycler_swipe);
+        statusLayout = view.findViewById(R.id.recycler_status);
         mSwipeRefreshLayout.setEnabled(false);
         setSwipeRefreshColorsFromRes(R.color.common_custom_color, R.color.common_custom_color_shallow, R.color.common_night_blue);
     }
@@ -94,12 +94,7 @@ public class CarefreeRecyclerView extends FrameLayout {
 
     public void setRefreshAction(final OnRefreshListener action) {
         mSwipeRefreshLayout.setEnabled(true);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                action.onAction();
-            }
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(() -> action.onAction());
     }
 
     //刷新完成先调

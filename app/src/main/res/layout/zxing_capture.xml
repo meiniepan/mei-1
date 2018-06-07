@@ -53,6 +53,7 @@
             android:id="@+id/iv_qr_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:src="@mipmap/qr_pic"/>
         <ImageView
             android:id="@+id/iv_qr_flash"

@@ -223,7 +223,7 @@ public class CaptureActivity extends BaseActivity implements Callback {
 
     public void handleDecode(Result obj, Bitmap barcode) {
         inactivityTimer.onActivity();
-        viewfinderView.drawResultBitmap(barcode);
+//        viewfinderView.drawResultBitmap(barcode);// 背景变色
         playBeepSoundAndVibrate();
         String result = obj.getText();
         handleQRResult(result);
@@ -440,14 +440,13 @@ public class CaptureActivity extends BaseActivity implements Callback {
         return formart;
     }
 
+
     private void handleQRResult(String result) {
-//        Intent intent = new Intent(CaptureActivity.this, MainActivity.class);
-//        intent.putExtra(Constant.STORE_ID, mResult);
-//        startActivity(intent);
         if (result.contains("signIn://")) {
             signIn();
-        }else {
-            ToastUtils.ToastMessage(getCtx(),getString(R.string.wrong_qr_code));
+        } else {
+            ToastUtils.ToastMessage(getCtx(), getString(R.string.wrong_qr_code));
+            if (handler != null) previewView.postDelayed(() -> handler.restartDecode(), 3000);
         }
     }
 
