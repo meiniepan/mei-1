@@ -58,13 +58,16 @@ public class ScoreRecordActivity extends BaseActivity {
             scoreRecordFlag.setText(R.string.total_gained_score);
             getObtainRecord();
             scoreRecordList.setRefreshAction(this::getObtainRecord);
-            adapter.setOnLoadMoreListener(() -> getMoreObtain(), scoreRecordList.getRecyclerView());
+            adapter.setOnLoadMoreListener(this::getMoreObtain, scoreRecordList.getRecyclerView());
         } else {
             scoreRecordTitle.setText(R.string.consume_score_record);
             scoreRecordFlag.setText(R.string.total_consume_score);
             scoreRecordList.showEmptyView("暂无消耗积分记录");
         }
         scoreAmount.setText(getIntent().getLongExtra(Constant.SCORE_AMOUNT, 0) + "");
+
+
+
     }
 
     public void getObtainRecord() {
@@ -98,15 +101,17 @@ public class ScoreRecordActivity extends BaseActivity {
 
     public void getMoreObtain() {
         CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
-                .getScoreRecordList(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("start_id", obtainStartId).buildGet())
+                .getScoreRecordList(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("start_id", obtainStartId).put("flag", "2").buildGet())
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<BaseResponse<ListResponse<ScoreRecordBean>>>() {
                     @Override
                     public void onSuccess(BaseResponse<ListResponse<ScoreRecordBean>> listResponseBaseResponse) {
-                        adapter.addData(listResponseBaseResponse.data.list);
+                        List<ScoreRecordBean> list = listResponseBaseResponse.data.list;
+                        adapter.addData(list);
                         if (listResponseBaseResponse.data.has_more == 0) {
                             adapter.loadMoreEnd(true);
                         }
+                        obtainStartId = list.get(list.size() - 1).id;
                     }
                 });
     }

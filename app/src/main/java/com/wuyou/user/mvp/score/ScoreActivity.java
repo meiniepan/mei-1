@@ -15,6 +15,7 @@ import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.activity.CaptureActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -68,26 +69,30 @@ public class ScoreActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.score_obtain, R.id.score_consumed, R.id.score_sign})
+    @OnClick({R.id.score_obtain, R.id.score_consumed})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.score_obtain:
                 intent.setClass(getCtx(), ScoreRecordActivity.class);
                 intent.putExtra(Constant.SCORE_FLAG, 0);
-                intent.putExtra(Constant.SCORE_AMOUNT,totalScore);
+                intent.putExtra(Constant.SCORE_AMOUNT, totalScore);
                 startActivity(intent);
                 break;
             case R.id.score_consumed:
                 intent.setClass(getCtx(), ScoreRecordActivity.class);
                 intent.putExtra(Constant.SCORE_FLAG, 1);
-                intent.putExtra(Constant.SCORE_AMOUNT,consumeScore);
+                intent.putExtra(Constant.SCORE_AMOUNT, consumeScore);
                 startActivity(intent);
                 break;
-            case R.id.score_sign:
-                intent.setClass(getCtx(), SignInActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.score_sign:
+//                intent.setClass(getCtx(), SignInActivity.class);
+//                startActivity(intent);
+//                break;
+//            case R.id.score_scan:
+//                intent.setClass(getCtx(), CaptureActivity.class);
+//                startActivity(intent);
+//                break;
         }
     }
 }

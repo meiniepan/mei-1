@@ -18,6 +18,8 @@ import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.fragment.BaseFragment;
 
+import java.util.List;
+
 import butterknife.BindView;
 
 /**
@@ -39,6 +41,12 @@ public class SignInRecordFragment extends BaseFragment {
         signInRecord.getRecyclerView().addItemDecoration(CommonUtil.getRecyclerDivider(mCtx));
         adapter = new SignInRecordAdapter(R.layout.item_sign_in_record);
         signInRecord.setAdapter(adapter);
+        adapter.setOnLoadMoreListener(this::loadMore, signInRecord.getRecyclerView());
+    }
+
+    @Override
+    protected void loadDataWhenVisible() {
+        super.loadDataWhenVisible();
         signInRecord.showProgressView();
         CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
                 .getSignInRecord(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("flag", "1").put("start_id", "0").buildGet())
@@ -63,23 +71,23 @@ public class SignInRecordFragment extends BaseFragment {
                         signInRecord.showErrorView(getString(R.string.get_sign_record_fail));
                     }
                 });
-
-        adapter.setOnLoadMoreListener(this::loadMore, signInRecord.getRecyclerView());
     }
 
     private String startId;
 
     private void loadMore() {
         CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
-                .getSignInRecord(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("flag", "1").put("start_id", startId).buildGet())
+                .getSignInRecord(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("flag", "2").put("start_id", startId).buildGet())
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<BaseResponse<ListResponse<SignRecordBean>>>() {
                     @Override
                     public void onSuccess(BaseResponse<ListResponse<SignRecordBean>> listResponseBaseResponse) {
-                        adapter.addData(listResponseBaseResponse.data.list);
+                        List<SignRecordBean> list = listResponseBaseResponse.data.list;
+                        adapter.addData(list);
                         if (listResponseBaseResponse.data.has_more == 0) {
                             adapter.loadMoreEnd(true);
                         }
+                        startId = adapter.getData().get(list.size() - 1).id;
                     }
 
                     @Override

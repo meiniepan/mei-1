@@ -441,14 +441,12 @@ public class CaptureActivity extends BaseActivity implements Callback {
     }
 
     private void handleQRResult(String result) {
-        ToastUtils.ToastMessage(getCtx(), result);
 //        Intent intent = new Intent(CaptureActivity.this, MainActivity.class);
 //        intent.putExtra(Constant.STORE_ID, mResult);
 //        startActivity(intent);
         if (result.contains("signIn://")) {
             signIn();
         }
-        finish();
     }
 
     private void signIn() {
@@ -462,6 +460,7 @@ public class CaptureActivity extends BaseActivity implements Callback {
                         Intent intent = new Intent(getCtx(), SignInSuccessActivity.class);
                         intent.putExtra(Constant.SIGN_POINT, pointBeanBaseResponse.data.point);
                         startActivity(intent);
+                        finish();
                     }
                 });
     }

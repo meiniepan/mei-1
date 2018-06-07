@@ -147,8 +147,7 @@ public class SearchActivity extends BaseActivity {
                 .searchServe(QueryMapBuilder.getIns()
                         .put("keyword", searchText)
                         .put("start_id", startId)
-                        .put("flag", "1")
-                        .put("size", "10")
+                        .put("flag", "2")
                         .buildGet())
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<BaseResponse<ListResponse<ServeBean>>>() {

@@ -14,12 +14,12 @@ import butterknife.BindView;
  */
 
 public class SignInSuccessActivity extends BaseActivity {
-    @BindView(R.id.score_record_title)
-    TextView scoreRecordTitle;
+    @BindView(R.id.sign_success_title)
+    TextView scoreSuccessTitle;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        scoreRecordTitle.setText("积分 + " + getIntent().getStringExtra(Constant.SIGN_POINT));
+        scoreSuccessTitle.setText("积分 + " + getIntent().getStringExtra(Constant.SIGN_POINT));
     }
 
     @Override

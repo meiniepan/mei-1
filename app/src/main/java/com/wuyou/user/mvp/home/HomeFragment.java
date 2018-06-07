@@ -129,9 +129,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         initLocationAndGetData();
         getOrderMessage();
         getActivityData();
-        homeRefresh.setOnRefreshListener(() -> {
-            getOrderMessage();
-        });
+        homeRefresh.setOnRefreshListener(this::getOrderMessage);
     }
 
     private void setCacheData() {

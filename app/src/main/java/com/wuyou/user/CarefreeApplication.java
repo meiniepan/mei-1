@@ -17,6 +17,7 @@ import com.wuyou.user.view.activity.SettingActivity;
  */
 public class CarefreeApplication extends BaseApplication {
     private static CarefreeApplication instance;
+    public long lastSignTime;
     private String webUrl;
 
     @Override

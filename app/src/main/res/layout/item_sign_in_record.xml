@@ -4,7 +4,9 @@
     android:layout_height="@dimen/common_height"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin_end">
 
     <TextView
         android:id="@+id/item_sign_in_time"

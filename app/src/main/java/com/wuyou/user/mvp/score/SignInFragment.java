@@ -13,6 +13,7 @@ import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.ToastUtils;
+import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.PointBean;
@@ -89,16 +90,21 @@ public class SignInFragment extends BaseFragment {
     }
 
     private void signUp() {
-        showLoadingDialog();
-        CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
-                .signIn(QueryMapBuilder.getIns().put("uid", CarefreeDaoSession.getInstance().getUserId()).buildPost())
-                .compose(RxUtil.switchSchedulers())
-                .subscribe(new BaseSubscriber<BaseResponse<PointBean>>() {
-                    @Override
-                    public void onSuccess(BaseResponse<PointBean> baseResponse) {
-                        ToastUtils.ToastMessage(mCtx, R.string.sign_success);
-                    }
-                });
+        if (System.currentTimeMillis() - CarefreeApplication.getInstance().lastSignTime >= 60 * 1000) {
+            showLoadingDialog();
+            CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
+                    .signIn(QueryMapBuilder.getIns().put("uid", CarefreeDaoSession.getInstance().getUserId()).buildPost())
+                    .compose(RxUtil.switchSchedulers())
+                    .subscribe(new BaseSubscriber<BaseResponse<PointBean>>() {
+                        @Override
+                        public void onSuccess(BaseResponse<PointBean> baseResponse) {
+                            ToastUtils.ToastMessage(mCtx, R.string.sign_success);
+                            CarefreeApplication.getInstance().lastSignTime = System.currentTimeMillis();
+                        }
+                    });
+        } else {
+            ToastUtils.ToastMessage(mCtx, "您签到太频繁，请稍后再试");
+        }
     }
 
     private LatLng centerLatLng;
@@ -119,7 +125,7 @@ public class SignInFragment extends BaseFragment {
                             nearSite = serveSites;
                         }
                     }
-                    if (minDistance < 500) {    //TODO 100米内可签到？
+                    if (minDistance < 200) {    //TODO 100米内可签到？
                         return nearSite;
                     } else {
                         return new ServeSites();
