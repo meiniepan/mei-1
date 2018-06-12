@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -62,6 +63,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,6 +74,19 @@ import static android.os.Environment.DIRECTORY_DCIM;
  * Created by hjn on 2016/11/10.
  */
 public class CommonUtil {
+    public static  boolean isAppInstalled(Context context,String packageName){
+        PackageManager pm = context.getPackageManager();
+        if (pm == null) {
+            return false;
+        }
+        List<PackageInfo> packageInfos = pm.getInstalledPackages(0);
+        for (PackageInfo info : packageInfos) {
+            if (TextUtils.equals(info.packageName.toLowerCase(), packageName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static boolean isLocationOpen(final Context context) {
         LocationManager locationManager

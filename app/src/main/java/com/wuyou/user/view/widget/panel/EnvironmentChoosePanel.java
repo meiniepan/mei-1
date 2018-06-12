@@ -39,7 +39,7 @@ public class EnvironmentChoosePanel extends Dialog {
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        params.height = DensityUtils.dip2px(getContext(), 300);
+        params.height = ViewGroup.LayoutParams.MATCH_PARENT;
         params.gravity = Gravity.BOTTOM;
         window.setAttributes(params);
 
@@ -54,7 +54,7 @@ public class EnvironmentChoosePanel extends Dialog {
     public void setEnv(int env) {
         switch (env) {
             case R.id.env_dev:
-                Constant.WEB_URL = "http://192.168.1.187/";
+                Constant.WEB_URL = "http://192.168.1.22/";
                 Constant.BASE_URL = "https://develop.api.iwantmei.com/customer/v1/";
                 break;
             case R.id.env_test:

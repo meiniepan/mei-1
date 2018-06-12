@@ -91,20 +91,20 @@ public class InfoActivity extends BaseActivity {
                 break;
             case R.id.info_account_area:
                 intent.setClass(getCtx(), ModifyNickActivity.class);
-                startActivityForResult(intent.putExtra(Constant.FROM, Constant.NICK), Constant.Intent.REQUEST_NICK);
+                startActivityForResult(intent.putExtra(Constant.FROM, Constant.NICK), Constant.REQUEST_NICK);
                 break;
             case R.id.info_phone_area:
                 intent.setClass(getCtx(), ModifyPhoneActivity.class);
-                startActivityForResult(intent.putExtra(Constant.FROM, Constant.PHONE), Constant.Intent.REQUEST_PHONE);
+                startActivityForResult(intent.putExtra(Constant.FROM, Constant.PHONE), Constant.REQUEST_PHONE);
                 break;
             case R.id.info_email_area:
                 intent.setClass(getCtx(), ModifyNickActivity.class);
-                startActivityForResult(intent.putExtra(Constant.FROM, Constant.EMAIL), Constant.Intent.REQUEST_EMAIL);
+                startActivityForResult(intent.putExtra(Constant.FROM, Constant.EMAIL), Constant.REQUEST_EMAIL);
                 break;
             case R.id.info_sex_area:
                 intent.setClass(getCtx(), ModifyGenderActivity.class);
                 intent.putExtra(Constant.GENDER, gender);
-                startActivityForResult(intent, Constant.Intent.REQUEST_GENDER);
+                startActivityForResult(intent, Constant.REQUEST_GENDER);
                 break;
             case R.id.info_birthday_area:
                 chooseBirthday();
@@ -213,13 +213,13 @@ public class InfoActivity extends BaseActivity {
                 }
                 GlideUtils.loadImageNoHolder(getCtx(), path, infoHead, true);
                 uploadAvatar(path);
-            } else if (requestCode == Constant.Intent.REQUEST_NICK) {
+            } else if (requestCode == Constant.REQUEST_NICK) {
                 tvAccountArea.setText(data.getStringExtra("info"));
-            } else if (requestCode == Constant.Intent.REQUEST_PHONE) {
+            } else if (requestCode == Constant.REQUEST_PHONE) {
                 tvPhoneArea.setText(CommonUtil.getPhoneWithStar(data.getStringExtra("info")));
-            } else if (requestCode == Constant.Intent.REQUEST_EMAIL) {
+            } else if (requestCode == Constant.REQUEST_EMAIL) {
                 tvEmailArea.setText(data.getStringExtra("info"));
-            } else if (requestCode == Constant.Intent.REQUEST_GENDER) {
+            } else if (requestCode == Constant.REQUEST_GENDER) {
                 gender = data.getIntExtra("info", 0);
                 tvSexArea.setText(getGenderString(gender));
             }

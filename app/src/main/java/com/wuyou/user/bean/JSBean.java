@@ -11,16 +11,18 @@ public class JSBean {
     public String OrderId;
     public String ActivityUrl;
     public String ActivityTitle;
+    public String Address;
 
     @Override
     public String toString() {
         return "JSBean{" +
                 "ActivityId='" + ActivityId + '\'' +
                 ", CallBackName='" + CallBackName + '\'' +
-                ", methodname='" + MethodName + '\'' +
-                ", order_id='" + OrderId + '\'' +
-                ", activityUrl='" + ActivityUrl + '\'' +
+                ", MethodName='" + MethodName + '\'' +
+                ", OrderId='" + OrderId + '\'' +
+                ", ActivityUrl='" + ActivityUrl + '\'' +
                 ", ActivityTitle='" + ActivityTitle + '\'' +
+                ", Address='" + Address + '\'' +
                 ", ImgUrl='" + ImgUrl + '\'' +
                 '}';
     }

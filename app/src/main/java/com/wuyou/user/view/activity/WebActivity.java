@@ -22,6 +22,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.amap.api.services.geocoder.GeocodeQuery;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.google.gson.Gson;
 import com.gs.buluo.common.BaseApplication;
 import com.gs.buluo.common.network.BaseResponse;
@@ -112,12 +116,11 @@ public class WebActivity extends BaseActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 dismissDialog();
-                Log.e("Carefree", "onPageFinished: !!!!!!!!!!!!!"+url);
             }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.e("Test", "shouldOverrideUrlLoading: " + url);
+                Log.e("Carefree", "shouldOverrideUrlLoading: " + url);
                 try {
                     if (url.startsWith("http:") || url.startsWith("https:")) {
                         view.loadUrl(url);
@@ -215,6 +218,8 @@ public class WebActivity extends BaseActivity {
                 webView.post(() -> doShare(jsBean.CallBackName, jsBean.ActivityUrl, jsBean.ActivityTitle));
             } else if (TextUtils.equals(jsBean.MethodName, "SaveQCode")) {
                 saveQRCode();
+            } else if (TextUtils.equals(jsBean.MethodName, "MapRoute")) {
+                doGeoSearch(jsBean.Address);
             }
         }
     }
@@ -303,6 +308,22 @@ public class WebActivity extends BaseActivity {
             }
         });
         bottomBoard.show();
+    }
+
+    private void doGeoSearch(String address) {
+        GeocodeSearch geocoderSearch = new GeocodeSearch(this);
+        GeocodeQuery query = new GeocodeQuery(address, "");
+        geocoderSearch.getFromLocationNameAsyn(query);
+        geocoderSearch.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
+            @Override
+            public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+            }
+
+            @Override
+            public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+                Log.e("Carefree", "onGeocodeSearched: " + geocodeResult);
+            }
+        });
     }
 
     @Override

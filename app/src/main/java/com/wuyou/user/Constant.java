@@ -13,9 +13,12 @@ public class Constant {
     public static final String HELP_SERVE_AGENT_ID = "181385";
     public static final String SIGN_POINT = "sign_point";
     public static String BASE_URL = "https://api.iwantmei.com/customer/v1/";
-    public static  String WEB_URL = "";
-    public static  String SP_BASE_URL = "base_url";
-    public static  String SP_WEB_URL = "web_url";
+    public static String WEB_URL = "";
+    public static String SP_BASE_URL = "base_url";
+    public static String SP_WEB_URL = "web_url";
+    public final static String BAIDU_PACKAGENAME = "com.baidu.baidumap";
+    public final static String GAODE_PACKAGENAME = "com.autonavi.minimap";
+    public final static String TENCENT_PACKAGENAME = "com.tencent.map";
 
     //    public static final String WEB_URL = "http://192.168.0.102/";
     public static final String ABOUT_US_URL = "https://ulaidao.iwantmei.com/apphtml/about-us.html";
@@ -53,10 +56,8 @@ public class Constant {
     public static final String GENDER = "gender";
     public static final String BACK_FLAG = "back_flag";
 
-    public static class Intent {
-        public static int REQUEST_NICK = 206;
-        public static int REQUEST_PHONE = 207;
-        public static int REQUEST_EMAIL = 208;
-        public static int REQUEST_GENDER = 209;
-    }
+    public static int REQUEST_NICK = 206;
+    public static int REQUEST_PHONE = 207;
+    public static int REQUEST_EMAIL = 208;
+    public static int REQUEST_GENDER = 209;
 }

@@ -89,7 +89,7 @@ public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, 
         serveCategoryStatus.showContentView();
         adapter.setNewData(response.list);
         if (adapter.getData().size() == 0) {
-            serveCategoryStatus.showEmptyView("尚无当前种类服务");
+            serveCategoryStatus.showEmptyView("暂无当前分类服务");
             return;
         }
         if (response.has_more == 0) adapter.loadMoreEnd(true);

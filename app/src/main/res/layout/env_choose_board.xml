@@ -2,14 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <com.wuyou.user.view.widget.CustomNestRadioGroup
         android:id="@+id/env_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/activity_horizontal_margin">
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:background="@color/white">
 
         <RadioButton
             android:id="@+id/env_dev"
@@ -38,5 +42,6 @@
     <Button
         android:id="@+id/env_login"
         style="@style/button_style"
-        android:text="选完得重新登录" />
+        android:text="选完得重新登录"
+        android:layout_marginBottom="20dp"/>
 </LinearLayout>

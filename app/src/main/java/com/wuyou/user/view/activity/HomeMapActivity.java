@@ -1,7 +1,9 @@
 package com.wuyou.user.view.activity;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,13 +29,17 @@ import com.amap.api.maps.model.MyLocationStyle;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.DensityUtils;
+import com.gs.buluo.common.utils.ToastUtils;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.ServeSitesAdapter;
 import com.wuyou.user.bean.ServeSites;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.util.GpsUtils;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -72,6 +78,7 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
 
     private MarkerOptions markerOption = null;
     private BitmapDescriptor ICON_RED = BitmapDescriptorFactory.fromResource(R.mipmap.red_mark);
+    private ServeSites serveSite;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -85,9 +92,6 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
                 .subscribeOn(Schedulers.io())
                 .map(listResponseBaseResponse -> {
                     List<ServeSites> serveSites = listResponseBaseResponse.data.list;
-//                    serveSites.get(1).lat = 39.9d;
-//                    serveSites.get(1).lng = 116.4654d;
-
                     Collections.sort(serveSites, (o1, o2) -> {
                         LatLng latLng1 = new LatLng(o1.lat, o1.lng);
                         LatLng latLng2 = new LatLng(o2.lat, o2.lng);
@@ -146,6 +150,7 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
             @Override
             public boolean onMarkerClick(Marker marker) {
                 ServeSites serveSites = (ServeSites) marker.getObject();
+                serveSite = serveSites;
                 showSiteInfo(serveSites);
                 return true;
             }
@@ -265,7 +270,49 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
                 setSitesListVisible();
                 break;
             case R.id.map_guide:
+                startGuide();
                 break;
+        }
+    }
+
+    private void startGuide() {
+        if (serveSite == null) return;
+        if (CommonUtil.isAppInstalled(this, Constant.GAODE_PACKAGENAME)) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            Uri uri = Uri.parse("amapuri://route/plan?sourceApplication=" + getResources().getString(R.string.app_name) +
+                    "&dname=" + serveSite.name + "&dlat=" + serveSite.lat + "&dlon=" + serveSite.lng + "&dev=0&t=1");
+            intent.setData(uri);
+            startActivity(intent);
+        } else if (CommonUtil.isAppInstalled(this, Constant.TENCENT_PACKAGENAME)) {
+            String downloadUri = "http://softroute.map.qq.com/downloadfile?cid=00001";
+            String baseUrl = "qqmap://map/";
+            String drivePlan = "routeplan?type=drive&from=&fromcoord=&to=&tocoord=" + serveSite.lat + "," + serveSite.lng + "&policy=1";
+            String tencnetUri = baseUrl + drivePlan + "&referer=" + getResources().getString(R.string.app_name);
+            Intent intent;
+            try {
+                intent = Intent.parseUri(tencnetUri, 0);
+                startActivity(intent);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        } else if (CommonUtil.isAppInstalled(this, Constant.BAIDU_PACKAGENAME)) {
+            double[] baiduLoc = GpsUtils.gcj02_To_Bd09(serveSite.lat, serveSite.lng);
+            try {
+                Intent intent = Intent.parseUri("intent://map/direction?" +
+                        "destination=latlng:" + baiduLoc[0] + "," + baiduLoc[1] + "|name:我的目的地" +
+                        "&mode=driving" + "&region=" + "&src=" + getResources().getString(R.string.app_name) +
+                        "#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end", 0);
+                startActivity(intent);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        } else {
+            ToastUtils.ToastMessage(getCtx(), "检测到您当前无相关地图应用，请先下载安装");
+            Uri uri = Uri.parse("market://details?id=com.autonavi.minimap");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         }
     }
 
@@ -299,7 +346,8 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
             marker.setObject(serveSite);
         }
         adapter.setOnItemClickListener((adapter1, view, position) -> {
-            mAMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(data.get(position).lat, data.get(position).lng)));
+            serveSite = data.get(position);
+            mAMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(data.get(position).lat, serveSite.lng)));
             mAMap.moveCamera(CameraUpdateFactory.zoomTo(15));
         });
     }
