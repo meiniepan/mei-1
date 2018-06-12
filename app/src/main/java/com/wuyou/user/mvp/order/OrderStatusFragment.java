@@ -100,6 +100,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
 
     @Override
     public void fetchData() {
+        type = getArguments().getInt("h");
         if (CarefreeDaoSession.getInstance().getUserId() == null) {
             orderList.getStatusLayout().showLoginView(getString(R.string.no_login));
             return;
