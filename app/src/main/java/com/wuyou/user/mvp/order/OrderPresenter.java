@@ -73,12 +73,12 @@ public class OrderPresenter extends OrderContract.Presenter {
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
-                        mView.cancelSuccess(position);
+                        if (isAttach()) mView.cancelSuccess(position);
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
-                        mView.showError(e.getDisplayMessage(), e.getCode());
+                        if (isAttach()) mView.showError(e.getDisplayMessage(), e.getCode());
                     }
                 });
     }
@@ -92,12 +92,12 @@ public class OrderPresenter extends OrderContract.Presenter {
                 .subscribe(new BaseSubscriber<BaseResponse<OrderBeanDetail>>() {
                     @Override
                     public void onSuccess(BaseResponse<OrderBeanDetail> orderResponse) {
-                        mView.getOrderDetailSuccess(orderResponse.data);
+                        if (isAttach()) mView.getOrderDetailSuccess(orderResponse.data);
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
-                        mView.showError(e.getDisplayMessage(), e.getCode());
+                        if (isAttach()) mView.showError(e.getDisplayMessage(), e.getCode());
                     }
                 });
 
@@ -112,12 +112,12 @@ public class OrderPresenter extends OrderContract.Presenter {
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
-                        mView.finishOrderSuccess();
+                        if (isAttach()) mView.finishOrderSuccess();
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
-                        mView.showError(e.getDisplayMessage(), 100);
+                        if (isAttach())mView.showError(e.getDisplayMessage(), 100);
                     }
                 });
     }

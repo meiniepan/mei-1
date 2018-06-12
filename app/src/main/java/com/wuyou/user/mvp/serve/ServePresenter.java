@@ -39,13 +39,13 @@ public class ServePresenter extends ServeContract.Presenter {
                     @Override
                     public void onSuccess(BaseResponse<ServeListResponse> orderListResponseBaseResponse) {
                         ServeListResponse r = orderListResponseBaseResponse.data;
-                        mView.getServeSuccess(r);
+                        if (isAttach()) mView.getServeSuccess(r);
                         if (r.list.size() > 0) startId = r.list.get(r.list.size() - 1).service_id;
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
-                        mView.showError(e.getDisplayMessage(), e.getCode());
+                        if (isAttach())mView.showError(e.getDisplayMessage(), e.getCode());
                     }
                 });
     }
@@ -61,13 +61,13 @@ public class ServePresenter extends ServeContract.Presenter {
                     @Override
                     public void onSuccess(BaseResponse<ServeListResponse> orderListResponseBaseResponse) {
                         ServeListResponse data = orderListResponseBaseResponse.data;
-                        mView.loadMore(data);
+                        if (isAttach())mView.loadMore(data);
                         if (data.list.size() > 0) startId = data.list.get(data.list.size()-1).service_id;
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
-                        mView.loadMoreFail(e.getDisplayMessage(), e.getCode());
+                        if (isAttach())mView.loadMoreFail(e.getDisplayMessage(), e.getCode());
                     }
                 });
     }

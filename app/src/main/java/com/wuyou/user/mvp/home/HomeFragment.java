@@ -378,6 +378,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 startActivity(intent);
                 break;
             case R.id.home_activity:
+                if (TextUtils.isEmpty(Constant.WEB_URL)) return;
                 intent.setClass(mCtx, WebActivity.class);
                 if (CarefreeDaoSession.getInstance().getUserInfo() == null) {
                     intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL);
@@ -463,6 +464,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         if (activityData != null && activityData.size() > 0) {
             activityBean = activityData.get(0);
             GlideUtils.loadImage(mCtx, activityBean.image, homeActivity);
+            Constant.WEB_URL = activityBean.link;
         }
     }
 }

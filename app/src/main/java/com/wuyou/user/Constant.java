@@ -12,8 +12,8 @@ public class Constant {
     public static final String WX_MOMENT = "wx_moment";
     public static final String HELP_SERVE_AGENT_ID = "181385";
     public static final String SIGN_POINT = "sign_point";
-    public static String BASE_URL = "https://stage.api.iwantmei.com/customer/v1/";
-    public static  String WEB_URL = "https://stage.activity.iwantmei.com/";
+    public static String BASE_URL = "https://api.iwantmei.com/customer/v1/";
+    public static  String WEB_URL = "";
     public static  String SP_BASE_URL = "base_url";
     public static  String SP_WEB_URL = "web_url";
 

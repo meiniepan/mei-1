@@ -125,7 +125,7 @@ public class SignInFragment extends BaseFragment {
                             nearSite = serveSites;
                         }
                     }
-                    if (minDistance < 200) {    //TODO 100米内可签到？
+                    if (minDistance < 100) {
                         return nearSite;
                     } else {
                         return new ServeSites();
@@ -143,7 +143,7 @@ public class SignInFragment extends BaseFragment {
     public void setSiteInfo(ServeSites siteInfo) {
         if (isDetached()) return;
         if (siteInfo.name == null) {
-            signArrangeSpot.setText("对不起，您不在签到范围内");
+            signArrangeSpot.setText("对不起，您不在签到范围内 \n 如果定位不准确，请打开wifi开关重新定位");
             signReLocation.setText("重新定位");
             signIn.setEnabled(false);
         } else {

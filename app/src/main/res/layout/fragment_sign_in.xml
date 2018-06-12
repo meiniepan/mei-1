@@ -42,7 +42,9 @@
         android:id="@+id/sign_arrange_spot"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.5"
         android:layout_height="wrap_content"
         android:text="定位中"/>
 

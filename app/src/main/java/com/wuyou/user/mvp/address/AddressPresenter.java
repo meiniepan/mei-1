@@ -30,12 +30,12 @@ public class AddressPresenter extends AddressConstract.Presenter {
                 .subscribe(new BaseSubscriber<BaseResponse<AddressListResponse>>() {
                     @Override
                     public void onSuccess(BaseResponse<AddressListResponse> addressListResponseBaseResponse) {
-                        mView.getAddressSuccess(addressListResponseBaseResponse.data);
+                        if (isAttach())mView.getAddressSuccess(addressListResponseBaseResponse.data);
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
-                        mView.showError(e.getDisplayMessage(), e.getCode());
+                        if (isAttach())mView.showError(e.getDisplayMessage(), e.getCode());
                     }
                 });
     }
@@ -58,7 +58,7 @@ public class AddressPresenter extends AddressConstract.Presenter {
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override
                     public void onSuccess(BaseResponse baseResponse) {
-                        mView.deleteSuccess(position);
+                        if (isAttach()) mView.deleteSuccess(position);
                     }
                 });
     }
@@ -77,7 +77,7 @@ public class AddressPresenter extends AddressConstract.Presenter {
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override
                     public void onSuccess(BaseResponse addressIdBaseResponse) {
-                        mView.updateSuccess(addressBean);
+                        if (isAttach())mView.updateSuccess(addressBean);
                     }
                 });
     }
@@ -107,7 +107,7 @@ public class AddressPresenter extends AddressConstract.Presenter {
                     @Override
                     public void onSuccess(BaseResponse<AddressId> addressIdBaseResponse) {
                         addressBean.id = addressIdBaseResponse.data.address_id;
-                        mView.addSuccess(addressBean);
+                        if (isAttach()) mView.addSuccess(addressBean);
                     }
                 });
     }

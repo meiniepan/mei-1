@@ -168,18 +168,16 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingStart="18dp">
+        android:paddingEnd="@dimen/activity_horizontal_margin">
 
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:src="@mipmap/score_icon" />
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:src="@mipmap/mine_sign_icon" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_weight="1"
             android:text="@string/daily_sign" />
 
