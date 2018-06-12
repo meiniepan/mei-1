@@ -22,6 +22,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.geocoder.GeocodeQuery;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
@@ -49,11 +50,14 @@ import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.util.GpsUtils;
 import com.wuyou.user.view.widget.panel.ShareBottomBoard;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.net.URISyntaxException;
 
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -322,8 +326,51 @@ public class WebActivity extends BaseActivity {
             @Override
             public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
                 Log.e("Carefree", "onGeocodeSearched: " + geocodeResult);
+                if (geocodeResult.getGeocodeAddressList().size() == 0) return;
+
+                startGuide(geocodeResult.getGeocodeAddressList().get(0).getBuilding(), geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint());
             }
         });
+    }
+
+    private void startGuide(String building, LatLonPoint latLonPoint) {
+        if (CommonUtil.isAppInstalled(this, Constant.GAODE_PACKAGENAME)) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            Uri uri = Uri.parse("amapuri://route/plan?sourceApplication=" + getResources().getString(R.string.app_name) +
+                    "&dname=" + building + "&dlat=" + latLonPoint.getLatitude() + "&dlon=" + latLonPoint.getLongitude() + "&dev=0&t=1");
+            intent.setData(uri);
+            startActivity(intent);
+        } else if (CommonUtil.isAppInstalled(this, Constant.TENCENT_PACKAGENAME)) {
+            String downloadUri = "http://softroute.map.qq.com/downloadfile?cid=00001";
+            String baseUrl = "qqmap://map/";
+            String drivePlan = "routeplan?type=drive&from=&fromcoord=&to=&tocoord=" + latLonPoint.getLatitude() + "," + latLonPoint.getLongitude() + "&policy=1";
+            String tencnetUri = baseUrl + drivePlan + "&referer=" + getResources().getString(R.string.app_name);
+            Intent intent;
+            try {
+                intent = Intent.parseUri(tencnetUri, 0);
+                startActivity(intent);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        } else if (CommonUtil.isAppInstalled(this, Constant.BAIDU_PACKAGENAME)) {
+            double[] baiduLoc = GpsUtils.gcj02_To_Bd09(latLonPoint.getLatitude(), latLonPoint.getLongitude());
+            try {
+                Intent intent = Intent.parseUri("intent://map/direction?" +
+                        "destination=latlng:" + baiduLoc[0] + "," + baiduLoc[1] + "|name:我的目的地" +
+                        "&mode=driving" + "&region=" + "&src=" + getResources().getString(R.string.app_name) +
+                        "#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end", 0);
+                startActivity(intent);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        } else {
+            ToastUtils.ToastMessage(getCtx(), "检测到您当前无相关地图应用，请先下载安装");
+            Uri uri = Uri.parse("market://details?id=com.autonavi.minimap");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
     }
 
     @Override
