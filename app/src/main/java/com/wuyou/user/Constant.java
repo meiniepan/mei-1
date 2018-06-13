@@ -17,8 +17,11 @@ public class Constant {
     public static String SP_BASE_URL = "base_url";
     public static String SP_WEB_URL = "web_url";
     public final static String BAIDU_PACKAGENAME = "com.baidu.baidumap";
+    public final static String BAIDU_MAP = "百度地图";
     public final static String GAODE_PACKAGENAME = "com.autonavi.minimap";
+    public final static String GAODE_MAP = "高德地图";
     public final static String TENCENT_PACKAGENAME = "com.tencent.map";
+    public final static String TENCENT_MAP = "腾讯地图";
 
     //    public static final String WEB_URL = "http://192.168.0.102/";
     public static final String ABOUT_US_URL = "https://ulaidao.iwantmei.com/apphtml/about-us.html";

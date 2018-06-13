@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_height"
+        android:text="请选择地图"
+        android:gravity="center"
+        android:textSize="@dimen/dimens_16sp"/>
+    <include layout="@layout/split_line"/>
+
+    <ListView
+        android:id="@+id/bottom_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/divide_gray"
+        android:dividerHeight="0.5dp"/>
+</LinearLayout>

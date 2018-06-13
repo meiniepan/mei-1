@@ -43,6 +43,7 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.JSBean;
 import com.wuyou.user.bean.NativeToJsBean;
+import com.wuyou.user.bean.ServeSites;
 import com.wuyou.user.bean.ShareBean;
 import com.wuyou.user.bean.response.WxPayResponse;
 import com.wuyou.user.event.WXPayEvent;
@@ -52,12 +53,14 @@ import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.GpsUtils;
 import com.wuyou.user.view.widget.panel.ShareBottomBoard;
+import com.wuyou.user.view.widget.panel.SingleBottomChoosePanel;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -327,25 +330,51 @@ public class WebActivity extends BaseActivity {
             public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
                 Log.e("Carefree", "onGeocodeSearched: " + geocodeResult);
                 if (geocodeResult.getGeocodeAddressList().size() == 0) return;
-
                 startGuide(geocodeResult.getGeocodeAddressList().get(0).getBuilding(), geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint());
             }
         });
     }
 
     private void startGuide(String building, LatLonPoint latLonPoint) {
+        ServeSites serveSite = new ServeSites();
+        serveSite.name = building;
+        serveSite.lat = latLonPoint.getLatitude();
+        serveSite.lng = latLonPoint.getLongitude();
+        ArrayList<String> list = new ArrayList<>();
         if (CommonUtil.isAppInstalled(this, Constant.GAODE_PACKAGENAME)) {
+            list.add(Constant.GAODE_MAP);
+        }
+        if (CommonUtil.isAppInstalled(this, Constant.TENCENT_PACKAGENAME)) {
+            list.add(Constant.TENCENT_MAP);
+        }
+        if (CommonUtil.isAppInstalled(this, Constant.BAIDU_PACKAGENAME)) {
+            list.add(Constant.BAIDU_MAP);
+        }
+        if (list.size() == 0) {
+            ToastUtils.ToastMessage(getCtx(), "检测到您当前无相关地图应用，请先下载安装");
+            Uri uri = Uri.parse("market://details?id=com.autonavi.minimap");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        } else if (list.size() == 1) {
+            doGuide(list.get(0), serveSite);
+        } else {
+            showChooseDialog(list, serveSite);
+        }
+    }
+
+    private void doGuide(String map, ServeSites serveSite) {
+        if (Constant.GAODE_MAP.equals(map)) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_VIEW);
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             Uri uri = Uri.parse("amapuri://route/plan?sourceApplication=" + getResources().getString(R.string.app_name) +
-                    "&dname=" + building + "&dlat=" + latLonPoint.getLatitude() + "&dlon=" + latLonPoint.getLongitude() + "&dev=0&t=1");
+                    "&dname=" + serveSite.name + "&dlat=" + serveSite.lat + "&dlon=" + serveSite.lng + "&dev=0&t=1");
             intent.setData(uri);
             startActivity(intent);
-        } else if (CommonUtil.isAppInstalled(this, Constant.TENCENT_PACKAGENAME)) {
-            String downloadUri = "http://softroute.map.qq.com/downloadfile?cid=00001";
+
+        } else if (Constant.TENCENT_MAP.equals(map)) {
             String baseUrl = "qqmap://map/";
-            String drivePlan = "routeplan?type=drive&from=&fromcoord=&to=&tocoord=" + latLonPoint.getLatitude() + "," + latLonPoint.getLongitude() + "&policy=1";
+            String drivePlan = "routeplan?type=drive&from=&fromcoord=&to="+serveSite.name+"&tocoord=" + serveSite.lat + "," + serveSite.lng +"&policy=1";
             String tencnetUri = baseUrl + drivePlan + "&referer=" + getResources().getString(R.string.app_name);
             Intent intent;
             try {
@@ -354,23 +383,24 @@ public class WebActivity extends BaseActivity {
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
-        } else if (CommonUtil.isAppInstalled(this, Constant.BAIDU_PACKAGENAME)) {
-            double[] baiduLoc = GpsUtils.gcj02_To_Bd09(latLonPoint.getLatitude(), latLonPoint.getLongitude());
+        } else if (Constant.BAIDU_MAP.equals(map)) {
+            double[] baiduLoc = GpsUtils.gcj02_To_Bd09(serveSite.lat, serveSite.lng);
             try {
                 Intent intent = Intent.parseUri("intent://map/direction?" +
-                        "destination=latlng:" + baiduLoc[0] + "," + baiduLoc[1] + "|name:我的目的地" +
+                        "destination=latlng:" + baiduLoc[0] + "," + baiduLoc[1] + "|name:" + serveSite.name +
                         "&mode=driving" + "&region=" + "&src=" + getResources().getString(R.string.app_name) +
                         "#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end", 0);
                 startActivity(intent);
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
-        } else {
-            ToastUtils.ToastMessage(getCtx(), "检测到您当前无相关地图应用，请先下载安装");
-            Uri uri = Uri.parse("market://details?id=com.autonavi.minimap");
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
         }
+    }
+
+    private void showChooseDialog(ArrayList<String> list, ServeSites serveSite) {
+        SingleBottomChoosePanel panel = new SingleBottomChoosePanel(this, list);
+        panel.setServeSite(serveSite);
+        panel.show();
     }
 
     @Override
