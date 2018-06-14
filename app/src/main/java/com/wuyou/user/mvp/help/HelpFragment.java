@@ -3,15 +3,12 @@ package com.wuyou.user.mvp.help;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
 
 import com.gnway.bangwoba.activity.Leaving_message;
-import com.gnway.bangwoba.global.Variable;
-import com.wuyou.user.CarefreeDaoSession;
-import com.wuyou.user.Constant;
+import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.R;
-import com.wuyou.user.service.HelpChatService;
+import com.wuyou.user.util.NetTool;
 import com.wuyou.user.view.activity.HelpRobotActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
@@ -39,6 +36,10 @@ public class HelpFragment extends BaseFragment {
 
     @OnClick({R.id.help_chat, R.id.help_leave_msg, R.id.help_dialog})
     public void onViewClicked(View view) {
+        if (!NetTool.isConnected(mCtx)) {
+            ToastUtils.ToastMessage(mCtx, R.string.no_network);
+            return;
+        }
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.help_chat:

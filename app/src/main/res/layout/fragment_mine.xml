@@ -45,7 +45,7 @@
             android:layout_height="60dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
-            android:src="@mipmap/default_head" />
+            android:background="@mipmap/default_head"/>
 
         <TextView
             android:id="@+id/mine_name"

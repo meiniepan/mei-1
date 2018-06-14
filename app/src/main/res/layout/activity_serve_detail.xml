@@ -55,7 +55,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal"
                 android:paddingEnd="@dimen/activity_horizontal_margin"
@@ -102,7 +101,55 @@
                     android:textSize="@dimen/dimens_16sp" />
             </LinearLayout>
 
-            <include layout="@layout/split_line_margin" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin_end"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="原价: ￥"
+                    android:textColor="@color/common_gray" />
+
+                <TextView
+                    android:id="@+id/serve_detail_origin_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/text1"
+                    android:text="33"
+                    android:textColor="@color/common_gray" />
+
+                <TextView
+                    android:id="@+id/serve_detail_unit_origin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/serve_detail_origin_price"
+                    android:text="/次"
+                    android:textColor="@color/common_gray" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0.5dp"
+                    android:layout_alignEnd="@+id/serve_detail_unit_origin"
+                    android:layout_alignStart="@+id/text1"
+                    android:layout_centerInParent="true"
+                    android:background="@color/common_gray" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.75dp"
+                android:layout_marginEnd="@dimen/line_horizontal_margin"
+                android:layout_marginStart="@dimen/line_horizontal_margin"
+                android:layout_marginTop="16dp"
+                android:background="@color/divide_gray" />
 
             <TextView
                 android:layout_width="match_parent"

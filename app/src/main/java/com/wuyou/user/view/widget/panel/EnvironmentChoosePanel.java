@@ -10,12 +10,10 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.gs.buluo.common.network.TokenEvent;
-import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.view.widget.CustomNestRadioGroup;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,6 +44,13 @@ public class EnvironmentChoosePanel extends Dialog {
         CustomNestRadioGroup radioGroup = rootView.findViewById(R.id.env_group);
 
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> setEnv(checkedId));
+
+        if (Constant.BASE_URL.equals("https://develop.api.iwantmei.com/customer/v1/"))
+            radioGroup.check(R.id.env_dev);
+        else if (Constant.BASE_URL.equals("https://stage.api.iwantmei.com/customer/v1/"))
+            radioGroup.check(R.id.env_test);
+        else if (Constant.BASE_URL.equals("https://api.iwantmei.com/customer/v1/"))
+            radioGroup.check(R.id.env_online);
 
         findViewById(R.id.env_login).setOnClickListener(v -> EventBus.getDefault().post(new TokenEvent()));
     }

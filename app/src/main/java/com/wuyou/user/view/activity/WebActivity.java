@@ -52,6 +52,7 @@ import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.GpsUtils;
+import com.wuyou.user.util.NetTool;
 import com.wuyou.user.view.widget.panel.ShareBottomBoard;
 import com.wuyou.user.view.widget.panel.SingleBottomChoosePanel;
 
@@ -96,7 +97,11 @@ public class WebActivity extends BaseActivity {
 
     private void setUpWebView() {
         WebSettings webSettings = webView.getSettings();
-        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        if (NetTool.isConnected(this)) {
+            webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        } else {
+            webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        }
         //设置自适应屏幕，两者合用
         webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
         webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
@@ -127,7 +132,6 @@ public class WebActivity extends BaseActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.e("Carefree", "shouldOverrideUrlLoading: " + url);
                 try {
                     if (url.startsWith("http:") || url.startsWith("https:")) {
                         view.loadUrl(url);
@@ -144,8 +148,7 @@ public class WebActivity extends BaseActivity {
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                ToastUtils.ToastMessage(getCtx(), R.string.connect_fail);
-                Log.e("Test", "onReceivedError: " + errorCode + "..." + description);
+                Log.e("Carefree", "onReceivedError: " + errorCode + "..." + description);
                 switch (errorCode) {
                     case 404:
                     case 500:
@@ -330,7 +333,7 @@ public class WebActivity extends BaseActivity {
             public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
                 Log.e("Carefree", "onGeocodeSearched: " + geocodeResult);
                 if (geocodeResult.getGeocodeAddressList().size() == 0) return;
-                startGuide(geocodeResult.getGeocodeAddressList().get(0).getBuilding(), geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint());
+                startGuide(address, geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint());
             }
         });
     }
@@ -374,7 +377,7 @@ public class WebActivity extends BaseActivity {
 
         } else if (Constant.TENCENT_MAP.equals(map)) {
             String baseUrl = "qqmap://map/";
-            String drivePlan = "routeplan?type=drive&from=&fromcoord=&to="+serveSite.name+"&tocoord=" + serveSite.lat + "," + serveSite.lng +"&policy=1";
+            String drivePlan = "routeplan?type=drive&from=&fromcoord=&to=" + serveSite.name + "&tocoord=" + serveSite.lat + "," + serveSite.lng + "&policy=1";
             String tencnetUri = baseUrl + drivePlan + "&referer=" + getResources().getString(R.string.app_name);
             Intent intent;
             try {

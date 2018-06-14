@@ -2,10 +2,12 @@ package com.wuyou.user.mvp.serve;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,6 +31,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.techery.properratingbar.ProperRatingBar;
@@ -64,6 +67,16 @@ public class ServeDetailActivity extends BaseActivity {
     TextView serveDetailCommentContent;
     @BindView(R.id.serve_detail_known)
     ListView serveDetailKnown;
+    @BindView(R.id.serve_detail_origin_price)
+    TextView serveDetailOriginPrice;
+    @BindView(R.id.serve_detail_unit_origin)
+    TextView serveDetailUnitOrigin;
+    @BindView(R.id.serve_detail_store_area)
+    LinearLayout serveDetailStoreArea;
+    @BindView(R.id.serve_detail_comment_area)
+    LinearLayout serveDetailCommentArea;
+    @BindView(R.id.serve_detail_comment_pictures)
+    RecyclerView serveDetailCommentPictures;
     private ServeDetailBean serviceDetail;
 
     @Override
@@ -114,10 +127,11 @@ public class ServeDetailActivity extends BaseActivity {
         serveDetailCount.setText(serviceDetail.sold);
         serveDetailPrice.setText(CommonUtil.formatPrice(serviceDetail.price));
         serveDetailUnit.setText("/" + serviceDetail.unit);
+        serveDetailUnitOrigin.setText("/" + serviceDetail.unit);
         serveDetailDescription.loadDataWithBaseURL(null, getNewContent(serviceDetail.content), "text/html", "utf-8", null);
         serveDetailDescription.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         serveDetailStore.setText(serviceDetail.shop_name);
-        createOrderServePoint.setText("好评"+serviceDetail.high_praise);
+        createOrderServePoint.setText("好评" + serviceDetail.high_praise);
         serveDetailCommentStar.setRating(serviceDetail.star / 2);
         serveDetailCommentStarCount.setText(serviceDetail.star / 2 + "");
     }

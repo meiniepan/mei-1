@@ -129,7 +129,10 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         initLocationAndGetData();
         getOrderMessage();
         getActivityData();
-        homeRefresh.setOnRefreshListener(this::getOrderMessage);
+        homeRefresh.setOnRefreshListener(() -> {
+            getOrderMessage();
+            if (location == null && mLocationClient != null) mLocationClient.startLocation();
+        });
     }
 
     private void setCacheData() {
@@ -362,7 +365,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
 
     @OnClick({R.id.home_location_area, R.id.home_map, R.id.home_search, R.id.home_activity})
     public void onViewClicked(View view) {
-        if (location == null) return;
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.home_location_area:

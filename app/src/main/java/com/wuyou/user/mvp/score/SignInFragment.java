@@ -21,7 +21,7 @@ import com.wuyou.user.bean.ServeSites;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.network.apis.ScoreApis;
-import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.util.NetTool;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.fragment.BaseFragment;
 
@@ -54,7 +54,7 @@ public class SignInFragment extends BaseFragment {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        CommonUtil.openGPS(mCtx);
+        NetTool.openGPS(mCtx);
         initLocationAndGetData();
         mRootView.findViewById(R.id.sign_in).setOnClickListener(v -> signUp());
         mRootView.findViewById(R.id.sign_re_location).setOnClickListener(v -> {

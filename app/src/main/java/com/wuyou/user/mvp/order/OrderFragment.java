@@ -95,7 +95,7 @@ public class OrderFragment extends BaseFragment {
                 } else if (position == 3) {
 
                     fragment = fragment4;
-                }else if (position == 4) {
+                } else if (position == 4) {
 
                     fragment = fragment5;
                 }
@@ -137,6 +137,8 @@ public class OrderFragment extends BaseFragment {
             if (nowTime - firstTime <= 2000) {
                 EnvironmentChoosePanel choosePanel = new EnvironmentChoosePanel(getContext());
                 choosePanel.show();
+                clickTime = 0;
+                firstTime = 0;
             }
         }
     }

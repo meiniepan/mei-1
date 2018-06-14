@@ -313,7 +313,7 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
 
         } else if (Constant.TENCENT_MAP.equals(map)) {
             String baseUrl = "qqmap://map/";
-            String drivePlan = "routeplan?type=drive&from=&fromcoord=&to="+serveSite.name+"&tocoord=" + serveSite.lat + "," + serveSite.lng +"&policy=1";
+            String drivePlan = "routeplan?type=drive&from=&fromcoord=&to=" + serveSite.name + "&tocoord=" + serveSite.lat + "," + serveSite.lng + "&policy=1";
             String tencnetUri = baseUrl + drivePlan + "&referer=" + getResources().getString(R.string.app_name);
             Intent intent;
             try {

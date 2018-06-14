@@ -22,7 +22,7 @@ public class ServeSitesAdapter extends BaseQuickAdapter<ServeSites, BaseHolder> 
     @Override
     protected void convert(BaseHolder helper, ServeSites item) {
         helper.setText(R.id.site_item_name, item.name)
-                .setText(R.id.site_item_address, item.city_name + item.community_name + item.address);
+                .setText(R.id.site_item_address, item.city_name + item.county_name + item.town_name + item.community_name + item.address);
         if (item.distance > 1000) {
             helper.setText(R.id.site_item_distance, new DecimalFormat("#.00").format(item.distance / 1000.0f) + "km");
         } else {
