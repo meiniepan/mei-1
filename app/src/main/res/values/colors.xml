@@ -14,6 +14,7 @@
     <color name="tint_bg">#f5f5f5</color>
     <color name="search_bg">#ebebeb</color>
     <color name="common_red">#ff4b4b</color>
+    <color name="shallow_red">#20ff4b4b</color>
     <color name="mine_bg">#5678fb</color>
 
     <color name="common_orange">#ff904b</color>

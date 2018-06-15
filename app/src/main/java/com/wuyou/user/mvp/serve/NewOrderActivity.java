@@ -137,7 +137,7 @@ public class NewOrderActivity extends BaseActivity {
                         .put("address_id", defaultAddress.id)
                         .put("service_time", serveTime)
                         .put("service_date", serveDate)
-                        .put("service_mode",  "1")          //TODO
+                        .put("service_mode", "1")          //TODO
                         .put("number", bean.number + "")
                         .put("total_amount", bean.price * bean.number + bean.visiting_fee + "")
                         .buildPost())

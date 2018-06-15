@@ -30,7 +30,7 @@
             android:background="#000"/>
 
 
-        <include layout="@layout/back_black"
+        <include layout="@layout/back_white"
             android:id="@+id/scan_back"/>
 
 

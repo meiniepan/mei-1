@@ -93,11 +93,15 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     @Override
     protected void bindView(Bundle savedInstanceState) {
         orderId = getIntent().getStringExtra(Constant.ORDER_ID);
-        showLoadingDialog();
-        mPresenter.getOrderDetail(orderId);
-        findViewById(R.id.back).setOnClickListener(v -> back());
+        setTitleText(R.string.order_detail);
+        getStatusData();
     }
 
+    @Override
+    protected void getStatusData() {
+        super.getStatusData();
+        mPresenter.getOrderDetail(orderId);
+    }
 
     @Override
     protected int getContentLayout() {
@@ -136,11 +140,12 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
 
     @Override
     public void showError(String message, int res) {
-        ToastUtils.ToastMessage(getCtx(), R.string.connect_fail);
+        baseStatusLayout.showErrorView(message);
     }
 
     @Override
     public void getOrderDetailSuccess(OrderBeanDetail bean) {
+        baseStatusLayout.showContentView();
         setData(bean);
     }
 

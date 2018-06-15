@@ -23,7 +23,7 @@
 
         <include
             android:id="@+id/back"
-            layout="@layout/back_black" />
+            layout="@layout/back_white" />
 
         <ImageView
             android:layout_width="44dp"

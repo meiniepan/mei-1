@@ -8,18 +8,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewStub;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.gs.buluo.common.utils.AppManager;
 import com.gs.buluo.common.utils.SystemBarTintManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.LoadingDialog;
-import com.wuyou.user.CarefreeApplication;
+import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.mvp.BasePresenter;
@@ -27,7 +27,6 @@ import com.wuyou.user.mvp.IBaseView;
 import com.wuyou.user.mvp.login.LoginActivity;
 
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 
 /**
@@ -36,35 +35,91 @@ import butterknife.Unbinder;
 public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<V>> extends AppCompatActivity implements IBaseView {
     View mRoot;
     protected P mPresenter;
-    protected Toolbar mToolbar;
     private int color = R.color.night_blue;
-    private Unbinder bind;
+    private View titleIconView;
+    private View titleTextLayout;
+    private TextView titleTextView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        init();
-        AppManager.getAppManager().addActivity(this);
-        setExplode();//new Slide()  new Fade()
         mPresenter = getPresenter();
         if (mPresenter != null) {
             mPresenter.attach((V) this);
         }
-        mRoot = createView();
-        setContentView(mRoot);
-        mToolbar = findViewById(getToolBarId());
-
-//        setSupportActionBar(mToolbar);
-        View backView = findViewById(R.id.back);
-        if (backView != null) {
-            backView.setOnClickListener(view -> finish());
-        }
+        super.onCreate(savedInstanceState);
+        init();
+        AppManager.getAppManager().addActivity(this);
+        setExplode();//new Slide()  new Fade()
+        initContentView(R.layout.layout_base_activity);
         bindView(savedInstanceState);
-        try {
-            initSystemBar(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        initSystemBar(this);
+    }
+
+    private void initContentView(int layout_base_activity) {
+        setContentView(layout_base_activity);
+        findViewById(R.id.back_base).setOnClickListener(v -> onBackPressed());
+        titleIconView = findViewById(R.id.iv_title_icon);
+        titleTextView = findViewById(R.id.base_tv_title);
+        titleTextLayout = findViewById(R.id.base_title_layout);
+        baseStatusLayout = findViewById(R.id.id_status);
+        baseStatusLayout.setErrorAction(v -> getStatusData());
+        createView();
+    }
+
+    protected void getStatusData() {
+        baseStatusLayout.showProgressView();
+    }
+
+    protected void disableFitSystemWindow() {
+        findViewById(R.id.base_root).setFitsSystemWindows(false);
+    }
+
+    protected void setTitleVisiable(int type) {
+        titleTextLayout.setVisibility(type);
+    }
+
+    protected void setTitleIcon(int resId, View.OnClickListener listener) {
+        titleIconView.setVisibility(View.VISIBLE);
+        titleIconView.setBackgroundResource(resId);
+        titleIconView.setOnClickListener(listener);
+    }
+
+    protected void setTitleText(String title) {
+        titleTextLayout.setVisibility(View.VISIBLE);
+        titleTextView.setText(title);
+    }
+
+    protected void setTitleText(int titleId) {
+        titleTextLayout.setVisibility(View.VISIBLE);
+        titleTextView.setText(titleId);
+    }
+
+    protected void setBackVisiable(int type) {
+        findViewById(R.id.back).setVisibility(type);
+    }
+
+    public StatusLayout baseStatusLayout;
+
+    protected void showErrMessage(String message) {
+        baseStatusLayout.showErrorView(message);
+    }
+
+    protected void showErrMessage(int msgId) {
+        baseStatusLayout.showErrorView(getString(msgId));
+    }
+
+    protected void showErrMessage() {
+        baseStatusLayout.showErrorView(null);
+    }
+
+    private void createView() {
+        ViewStub viewStub = findViewById(R.id.id_stub);
+        viewStub.setLayoutResource(getContentLayout());
+        mRoot = viewStub.inflate();
+        View back = mRoot.findViewById(R.id.back);
+        if (back != null)
+            back.setOnClickListener(v -> onBackPressed());
+        ButterKnife.bind(this);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -79,17 +134,8 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
 
     }
 
-    private View createView() {
-        View view = LayoutInflater.from(this).inflate(getContentLayout(), null);
-        bind = ButterKnife.bind(this, view);
-        return view;
-    }
-
     @Override
     protected void onDestroy() {
-        if (bind != null) {
-            bind.unbind();
-        }
         AppManager.getAppManager().finishActivity(this);
         if (mPresenter != null) {
             mPresenter.detachView();
@@ -163,7 +209,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
 
     protected boolean checkUser(Context context) {
         if (CarefreeDaoSession.getInstance().getUserId() == null) {
-            ToastUtils.ToastMessage(context,R.string.please_login);
+            ToastUtils.ToastMessage(context, R.string.please_login);
             Intent intent = new Intent(context, LoginActivity.class);
             startActivity(intent);
             return false;
@@ -177,7 +223,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
 
     @Override
     public void showError(String message, int res) {
-        ToastUtils.ToastMessage(getCtx(),R.string.connect_fail);
+        ToastUtils.ToastMessage(getCtx(), R.string.connect_fail);
     }
 
     //    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -188,13 +234,8 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
 //        Beta.checkUpgrade(false, false);
 //    }
 
-
     protected Context getCtx() {
         return this;
-    }
-
-    public int getToolBarId() {
-        return 0;
     }
 }
 

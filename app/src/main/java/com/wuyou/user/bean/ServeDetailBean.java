@@ -3,7 +3,9 @@ package com.wuyou.user.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by hjn on 2018/2/7.
@@ -31,7 +33,7 @@ public class ServeDetailBean implements Parcelable {
      * shop_name : 重庆鸡公煲
      * recorded : 1
      */
-
+    public List<String> images;
     public String service_id;
     public String service_name;
     public String title;
@@ -39,18 +41,23 @@ public class ServeDetailBean implements Parcelable {
     public float price;
     public int visiting_fee;
     public int stock;
+    public int has_specification;
     public String start_at;
     public String end_at;
     public String content;
     public int star;
     public String high_praise;
-    public HashMap<String, String> mode;
+    public List<ServeMode> mode;
     public String shop_id;
     public String shop_name;
     public int recorded;
     public String id;
     public String sold;
     public String unit;
+    public String advert_word;
+    public float market_price;
+    public List<ServeStandard> specification;
+    public String standardId;
 
     public int number;
 
@@ -64,50 +71,62 @@ public class ServeDetailBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringList(this.images);
         dest.writeString(this.service_id);
         dest.writeString(this.service_name);
         dest.writeString(this.title);
         dest.writeString(this.photo);
         dest.writeFloat(this.price);
         dest.writeInt(this.visiting_fee);
-        dest.writeString(this.unit);
         dest.writeInt(this.stock);
+        dest.writeInt(this.has_specification);
         dest.writeString(this.start_at);
         dest.writeString(this.end_at);
         dest.writeString(this.content);
         dest.writeInt(this.star);
         dest.writeString(this.high_praise);
-        dest.writeSerializable(this.mode);
+        dest.writeList(this.mode);
         dest.writeString(this.shop_id);
         dest.writeString(this.shop_name);
         dest.writeInt(this.recorded);
         dest.writeString(this.id);
         dest.writeString(this.sold);
         dest.writeString(this.unit);
+        dest.writeString(this.advert_word);
+        dest.writeFloat(this.market_price);
+        dest.writeList(this.specification);
+        dest.writeString(this.standardId);
         dest.writeInt(this.number);
     }
 
     protected ServeDetailBean(Parcel in) {
+        this.images = in.createStringArrayList();
         this.service_id = in.readString();
         this.service_name = in.readString();
         this.title = in.readString();
         this.photo = in.readString();
         this.price = in.readFloat();
         this.visiting_fee = in.readInt();
-        this.unit = in.readString();
         this.stock = in.readInt();
+        this.has_specification = in.readInt();
         this.start_at = in.readString();
         this.end_at = in.readString();
         this.content = in.readString();
         this.star = in.readInt();
         this.high_praise = in.readString();
-        this.mode = (HashMap<String, String>) in.readSerializable();
+        this.mode = new ArrayList<ServeMode>();
+        in.readList(this.mode, ServeMode.class.getClassLoader());
         this.shop_id = in.readString();
         this.shop_name = in.readString();
         this.recorded = in.readInt();
         this.id = in.readString();
         this.sold = in.readString();
         this.unit = in.readString();
+        this.advert_word = in.readString();
+        this.market_price = in.readFloat();
+        this.specification = new ArrayList<ServeStandard>();
+        in.readList(this.specification, ServeStandard.class.getClassLoader());
+        this.standardId = in.readString();
         this.number = in.readInt();
     }
 

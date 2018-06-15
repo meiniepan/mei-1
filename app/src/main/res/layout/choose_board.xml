@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent"
@@ -18,7 +19,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="100dp"
             android:layout_below="@+id/transparent"
             android:layout_marginTop="6dp"
             android:background="@color/white"
@@ -32,7 +33,8 @@
                 android:layout_marginStart="130dp"
                 android:layout_marginTop="20dp"
                 android:maxLines="2"
-                android:text="商品标题" />
+                android:text="商品标题"
+                android:textSize="@dimen/dimens_18sp" />
 
             <TextView
                 android:id="@+id/choose_board_price"
@@ -40,9 +42,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/choose_board_title"
                 android:layout_below="@+id/choose_board_title"
-                android:layout_marginTop="10dp"
-                android:text="￥99/小时"
-                android:textColor="@color/common_red" />
+                android:layout_marginTop="20dp"
+                android:textColor="@color/common_red"
+                android:textSize="@dimen/dimens_16sp" />
 
             <LinearLayout
                 android:id="@+id/goods_remain"
@@ -55,15 +57,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="剩余库存:"
-                    android:textColor="@color/common_gray" />
+                    android:textColor="@color/common_gray"
+                    android:textSize="@dimen/dimens_16sp" />
 
                 <TextView
                     android:id="@+id/goods_board_choose_remain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="99"
-                    android:textColor="@color/common_gray" />
+                    android:textColor="@color/common_gray"
+                    android:textSize="@dimen/dimens_16sp"
+                    tool:text="99" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -76,68 +80,25 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/goods_board_repertory"
+        android:id="@+id/choose_board_level_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <include layout="@layout/split_line" />
 
-        <RelativeLayout
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/activity_horizontal_margin"
-            android:paddingStart="@dimen/activity_horizontal_margin">
-
-            <TextView
-                android:id="@+id/goods_standard_type1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="规格1"
-                android:textSize="@dimen/dimens_16sp" />
-        </RelativeLayout>
-
         <android.support.v7.widget.RecyclerView
-            android:visibility="gone"
             android:id="@+id/goods_level1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="6dp"/>
 
         <include layout="@layout/split_line" />
-
-        <LinearLayout
-            android:id="@+id/level2_view"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/goods_standard_type2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="10dp"
-                android:text="规格2"
-                android:textSize="@dimen/dimens_16sp" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/goods_level2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="50dp" />
-
-            <include layout="@layout/split_line" />
-        </LinearLayout>
     </LinearLayout>
 
     <RelativeLayout
@@ -154,7 +115,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="数量"
-            android:textColor="#000"
+            android:textColor="@color/common_dark"
             android:textSize="@dimen/dimens_16sp" />
 
         <LinearLayout
@@ -211,8 +172,8 @@
     <Button
         android:id="@+id/goods_board_finish"
         style="@style/button_style"
-        android:text="@string/next"
-        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"/>
+        android:layout_marginTop="0dp"
+        android:text="@string/confirm_buy" />
 </LinearLayout>

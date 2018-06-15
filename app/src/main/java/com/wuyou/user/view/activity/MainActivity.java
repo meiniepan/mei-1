@@ -58,6 +58,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        disableFitSystemWindow();
         if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
         setBarColor(R.color.transparent);
 //        QMUIStatusBarHelper.translucent(this,getResources().getColor(R.color.night_blue));

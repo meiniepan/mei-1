@@ -21,7 +21,7 @@
 
         <include
             android:id="@+id/back"
-            layout="@layout/back_black" />
+            layout="@layout/back_white" />
     </RelativeLayout>
 
     <TextView

@@ -134,5 +134,6 @@
     <string name="mine_warn">用户新手礼,仅用于抵扣平台交易所产生的手续费(每笔交易自动扣除), 不可提现,不可以用于其他支付。</string>
     <string name="wrong_qr_code">对不起，该二维码无效</string>
     <string name="no_network">当前无网络连接，请稍后再试</string>
+    <string name="confirm_buy">确认购买</string>
 
 </resources>
