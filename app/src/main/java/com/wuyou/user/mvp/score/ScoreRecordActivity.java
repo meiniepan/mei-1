@@ -49,7 +49,7 @@ public class ScoreRecordActivity extends BaseActivity {
             scoreRecordFlag.setText(R.string.total_gained_score);
             scoreRecordList.activeRefresh(CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
                     .getScoreRecordList(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("start_id", "0").buildGet()));
-            scoreRecordList.getData(CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
+            scoreRecordList.initData(CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
                     .getScoreRecordList(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("start_id", "0").buildGet()));
             scoreRecordList.setLoadMoreListener(() -> scoreRecordList.getDataMore(CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
                     .getScoreRecordList(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("start_id", scoreRecordList.startId).put("flag", "2").buildGet())));

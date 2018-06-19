@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by DELL on 2018/3/13.
  */
 
-public class ServeStandard implements Parcelable {
+public class ServeStandard implements Parcelable, Cloneable {
     public String id;
     public String name;
     public float price;
@@ -15,6 +15,16 @@ public class ServeStandard implements Parcelable {
     public String photo;
 
     public ServeStandard() {
+    }
+
+    @Override
+    public ServeStandard clone() {
+        try {
+            return (ServeStandard) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return new ServeStandard();
     }
 
     @Override

@@ -162,20 +162,6 @@ public class NewOrderActivity extends BaseActivity {
         intent.putExtra(Constant.BACK_FLAG, 1);
         startActivity(intent);
         finishStack();
-//        PayPanel payPanel = new PayPanel(this, new PayPanel.OnPayFinishListener() {
-//            @Override
-//            public void onPayFinish() {
-//                finishStack(orderId);
-//            }
-//
-//            @Override
-//            public void onPayFail(ApiException e) {
-//                goDetail(orderId);
-//            }
-//        });
-//        payPanel.setOnDismissListener(() -> goDetail(orderId));
-//        payPanel.setData(createOrderAmout.getText().toString().trim(), orderId, "1");
-//        payPanel.show();
     }
 
     private void goDetail(String orderId) {
@@ -271,10 +257,6 @@ public class NewOrderActivity extends BaseActivity {
         picker.setOnStringPickListener(new LinkagePicker.OnStringPickListener() {
             @Override
             public void onPicked(String first, String second, String third) {
-                if (second.contains("被选")) {
-                    ToastUtils.ToastMessage(getCtx(), "该时间段已被选");
-                    return;
-                }
                 createOrderServeTime.setText(first + "  " + second);
                 serveDate = first;
                 serveTime = second;
@@ -330,8 +312,8 @@ public class NewOrderActivity extends BaseActivity {
                         ArrayList<AddressBean> list = addressListResponseBaseResponse.data.list;
                         if (list.size() > 0) {
                             defaultAddress = list.get(0);
-                            setAddressInfo();
                         }
+                        setAddressInfo();
                     }
                 });
     }

@@ -24,8 +24,8 @@ public class GoodsLevel1Adapter1 extends BaseQuickAdapter<ServeStandard, BaseHol
         TextView textView = baseHolder.getView(R.id.goods_level_item_text);
         textView.setText(goodsStandard.name);
         if (goodsStandard.stock == 0) {
-            textView.setBackgroundResource(R.drawable.gray_border);
-            textView.setTextColor(textView.getResources().getColor(R.color.common_gray));
+            textView.setBackgroundResource(R.drawable.gray_round_bg);
+            textView.setTextColor(textView.getResources().getColor(R.color.white));
         } else if (baseHolder.getAdapterPosition()==selectedPos) {
             textView.setBackgroundResource(R.drawable.login_normal);
             textView.setTextColor(textView.getResources().getColor(R.color.white));

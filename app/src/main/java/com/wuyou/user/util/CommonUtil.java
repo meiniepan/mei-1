@@ -2,7 +2,6 @@ package com.wuyou.user.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -12,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -74,7 +72,17 @@ import static android.os.Environment.DIRECTORY_DCIM;
  * Created by hjn on 2016/11/10.
  */
 public class CommonUtil {
-    public static  boolean isAppInstalled(Context context,String packageName){
+
+    public static boolean checkNetworkNoConnected(Context context) {
+        if (!NetTool.isConnected(context)) {
+            ToastUtils.ToastMessage(context, R.string.not_connect);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean isAppInstalled(Context context, String packageName) {
         PackageManager pm = context.getPackageManager();
         if (pm == null) {
             return false;

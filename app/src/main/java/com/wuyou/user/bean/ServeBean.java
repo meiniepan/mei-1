@@ -3,6 +3,8 @@ package com.wuyou.user.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by hjn on 2018/2/6.
  */
@@ -23,6 +25,8 @@ public class ServeBean implements Parcelable {
     public String photo;
     public String image;
     public String unit;
+    public int has_specification;
+    public List<ServeStandard> specification;
 
     public ServeBean() {
     }
@@ -49,6 +53,8 @@ public class ServeBean implements Parcelable {
         dest.writeString(this.photo);
         dest.writeString(this.image);
         dest.writeString(this.unit);
+        dest.writeInt(this.has_specification);
+        dest.writeTypedList(this.specification);
     }
 
     protected ServeBean(Parcel in) {
@@ -67,6 +73,8 @@ public class ServeBean implements Parcelable {
         this.photo = in.readString();
         this.image = in.readString();
         this.unit = in.readString();
+        this.has_specification = in.readInt();
+        this.specification = in.createTypedArrayList(ServeStandard.CREATOR);
     }
 
     public static final Creator<ServeBean> CREATOR = new Creator<ServeBean>() {

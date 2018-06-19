@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
@@ -15,7 +16,6 @@ import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.activity.CaptureActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,6 +38,7 @@ public class ScoreActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        baseStatusLayout.setErrorAction(v -> getInfo());
     }
 
     @Override
@@ -47,18 +48,25 @@ public class ScoreActivity extends BaseActivity {
     }
 
     public void getInfo() {
+        baseStatusLayout.showProgressView();
         CarefreeRetrofit.getInstance().createApi(UserApis.class).getUserInfo(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<UserInfo>>() {
                     @Override
                     public void onSuccess(BaseResponse<UserInfo> userInfoBaseResponse) {
+                        baseStatusLayout.showContentView();
                         totalScore = userInfoBaseResponse.data.getReceived_points();
                         consumeScore = userInfoBaseResponse.data.getOut_points();
                         long availableScore = totalScore - consumeScore;
                         scoreAvailable.setText(availableScore + "");
                         scoreObtainText.setText(totalScore + "");
                         scoreConsumedText.setText(consumeScore + "");
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        baseStatusLayout.showErrorView();
                     }
                 });
     }

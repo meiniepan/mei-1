@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:clipToPadding="true"
-    android:layout_height="match_parent">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:background="@color/white">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
@@ -17,35 +21,52 @@
             android:textColor="@color/white"
             android:textSize="@dimen/title_size" />
 
-
         <include
             android:id="@+id/back"
             layout="@layout/back_white" />
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/address_search"
-        android:drawableStart="@mipmap/search_small"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:imeOptions="actionSearch"
-        android:singleLine="true"
-        android:hint="请输入小区，写字楼名称"
-        android:background="@color/tint_bg"
-        android:textColor="@color/common_dark"
-        android:layout_margin="10dp"/>
 
-    <include layout="@layout/split_line"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/gray_round_bg"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@mipmap/location_search" />
+
+        <EditText
+            android:id="@+id/address_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:background="@null"
+            android:hint="请输入小区，写字楼名称"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:textColor="@color/common_dark" />
+    </LinearLayout>
 
     <com.gs.buluo.common.widget.StatusLayout
         android:id="@+id/address_search_status"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:emptyDrawable="@mipmap/cry_face"
+        app:errorDrawable="@mipmap/net_error">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/address_search_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"/>
+            android:background="@color/white" />
     </com.gs.buluo.common.widget.StatusLayout>
 
 </LinearLayout>

@@ -49,6 +49,7 @@ import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.network.apis.ServeApis;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.JZVideoPlayerFullscreen;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideUtils;
@@ -380,6 +381,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 startActivity(intent);
                 break;
             case R.id.home_activity:
+                if (CommonUtil.checkNetworkNoConnected(mCtx)) return;
                 if (TextUtils.isEmpty(Constant.WEB_URL)) return;
                 intent.setClass(mCtx, WebActivity.class);
                 if (CarefreeDaoSession.getInstance().getUserInfo() == null) {

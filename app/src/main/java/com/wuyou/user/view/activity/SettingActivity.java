@@ -17,6 +17,7 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
+import com.wuyou.user.util.CommonUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -61,12 +62,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.setting_about:
+                if (CommonUtil.checkNetworkNoConnected(this))return;
                 intent.setClass(getCtx(), WebActivity.class);
                 intent.putExtra(Constant.WEB_INTENT, Constant.ABOUT_US_URL);
                 intent.putExtra(Constant.WEB_TYPE, 1);
                 startActivity(intent);
                 break;
             case R.id.setting_feedback:
+                if (CommonUtil.checkNetworkNoConnected(this))return;
                 intent.setClass(getCtx(), Leaving_message.class);
                 startActivity(intent);
                 break;

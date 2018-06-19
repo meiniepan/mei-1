@@ -136,11 +136,15 @@ public class CarefreeRecyclerView extends FrameLayout {
         statusLayout.showProgressView();
     }
 
-
     public String emptyMessage;
     public String startId;
 
-    public <T extends BaseItemBean> void getData(Observable<BaseResponse<ListResponse<T>>> firstObservable) {
+    public <T extends BaseItemBean> void initData(Observable<BaseResponse<ListResponse<T>>> firstObservable) {
+        getData(firstObservable);
+        statusLayout.setErrorAction(v -> getData(firstObservable));
+    }
+
+    private <T extends BaseItemBean> void getData(Observable<BaseResponse<ListResponse<T>>> firstObservable) {
         mSwipeRefreshLayout.setRefreshing(false);
         statusLayout.showProgressView();
         firstObservable.subscribeOn(Schedulers.io())

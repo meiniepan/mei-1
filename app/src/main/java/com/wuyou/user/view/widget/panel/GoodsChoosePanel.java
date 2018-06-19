@@ -57,22 +57,28 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener {
 
     public void setData(ServeDetailBean entity, String price) {
         defaultEntity = entity;
-        setLevelOneData(entity.specification);
         GlideUtils.loadRoundCornerImage(getContext(), entity.photo, mIcon);
         boardTitle.setText(entity.title);
         mRemainNumber.setText(entity.stock + "");
         boardPrice.setText("¥ " + price + "/" + defaultEntity.unit);
-        if (defaultEntity.has_specification == 1)
+        if (defaultEntity.has_specification == 1) {
             findViewById(R.id.choose_board_level_layout).setVisibility(View.VISIBLE);
+            setLevelOneData(entity.specification);
+        }
     }
 
     private void setLevelOneData(List<ServeStandard> standards) {
-        ServeStandard serveStandard = standards.get(0);
-        serveStandard.name = "氨基酸的理解ask来得及撒扩大斯科拉绝对是阿瑟东撒的";
-        standards.add(serveStandard);
+        ServeStandard serveStandard = standards.get(0).clone();
+        serveStandard.name = "氨基酸的理解ask来";
         serveStandard.stock = 0;
-        serveStandard.name = "i基金切忌琼文炯气温为哦亲我姐哦";
         standards.add(serveStandard);
+        ServeStandard serveStandard1 = serveStandard.clone();
+        serveStandard1.name = "i基金切忌琼文炯气温为哦亲我姐哦";
+        serveStandard1.stock = 10;
+        standards.add(serveStandard1);
+        ServeStandard serveStandard2 = serveStandard.clone();
+        serveStandard2.name = "飒飒的让他恢复和投放广告风格风格的歌";
+        standards.add(serveStandard2);
         final GoodsLevel1Adapter1 adapter1 = new GoodsLevel1Adapter1(R.layout.goods_level_item, standards);
         leve1View1.setAdapter(adapter1);
         adapter1.setOnItemClickListener((baseQuickAdapter, view, i) -> {
@@ -162,7 +168,7 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener {
 
     private void accountOrder() {
         defaultEntity.number = nowNum;
-        defaultEntity.standardId = selectedStandard.id;
+        if (selectedStandard != null) defaultEntity.standardId = selectedStandard.id;
         Intent intent = new Intent(getContext(), NewOrderActivity.class);
         intent.putExtra(Constant.SERVE_BEAN, defaultEntity);
         getContext().startActivity(intent);

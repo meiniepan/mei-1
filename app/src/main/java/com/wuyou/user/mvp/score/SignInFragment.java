@@ -9,6 +9,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
+import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
@@ -23,6 +24,7 @@ import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.network.apis.ScoreApis;
 import com.wuyou.user.util.NetTool;
 import com.wuyou.user.util.RxUtil;
+import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
 import java.util.List;
@@ -58,6 +60,12 @@ public class SignInFragment extends BaseFragment {
         initLocationAndGetData();
         mRootView.findViewById(R.id.sign_in).setOnClickListener(v -> signUp());
         mRootView.findViewById(R.id.sign_re_location).setOnClickListener(v -> {
+            signReLocation.setText("定位中...");
+            mLocationClient.startLocation();
+        });
+
+        ((BaseActivity)getActivity()).baseStatusLayout.setErrorAction(v->{
+            ((BaseActivity)getActivity()).baseStatusLayout.showProgressView();
             signReLocation.setText("定位中...");
             mLocationClient.startLocation();
         });
@@ -135,7 +143,13 @@ public class SignInFragment extends BaseFragment {
                 .subscribe(new BaseSubscriber<ServeSites>() {
                     @Override
                     public void onSuccess(ServeSites serveSites) {
+                        ((BaseActivity)getActivity()).baseStatusLayout.showContentView();
                         setSiteInfo(serveSites);
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        ((BaseActivity)getActivity()).baseStatusLayout.showErrorView();
                     }
                 });
     }

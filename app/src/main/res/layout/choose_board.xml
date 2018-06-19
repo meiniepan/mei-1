@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="130dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:maxLines="2"
                 android:text="商品标题"
                 android:textSize="@dimen/dimens_18sp" />
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/choose_board_title"
                 android:layout_below="@+id/choose_board_title"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/common_red"
                 android:textSize="@dimen/dimens_16sp" />
 

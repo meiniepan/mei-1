@@ -32,11 +32,17 @@ public class SignInRecordFragment extends BaseFragment {
         signInRecord.setAdapter(adapter);
         signInRecord.setLoadMoreListener(() -> signInRecord.getDataMore(CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
                 .getSignInRecord(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("flag", "2").put("start_id", signInRecord.startId).buildGet())));
+
+        signInRecord.getStatusLayout().setErrorAction(v -> getData());
+    }
+
+    private void getData() {
+        signInRecord.initData(CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
+                .getSignInRecord(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("flag", "1").put("start_id", "0").buildGet()));
     }
 
     @Override
     protected void loadDataWhenVisible() {
-        signInRecord.getData(CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
-                .getSignInRecord(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("flag", "1").put("start_id", "0").buildGet()));
+        getData();
     }
 }
