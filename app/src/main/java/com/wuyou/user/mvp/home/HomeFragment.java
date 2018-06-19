@@ -373,6 +373,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 startActivity(intent);
                 break;
             case R.id.home_map:
+                if (CommonUtil.checkNetworkNoConnected(mCtx)) return;
                 intent.setClass(mCtx, HomeMapActivity.class);
                 startActivity(intent);
                 break;

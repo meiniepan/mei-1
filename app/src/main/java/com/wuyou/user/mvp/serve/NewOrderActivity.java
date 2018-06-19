@@ -228,7 +228,7 @@ public class NewOrderActivity extends BaseActivity {
                 secondData = new ArrayList<>();
                 List<ServeTimeBean> timeBeans = timeMap.get(firstData.get(firstIndex));
                 for (ServeTimeBean bean : timeBeans) {
-                    if (bean.status != 1) {
+                    if (bean.status != 0) {
                         secondData.add(bean.time);
                     }
                 }

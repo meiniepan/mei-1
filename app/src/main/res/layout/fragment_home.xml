@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@color/white">
 
@@ -37,7 +38,7 @@
                 android:layout_marginStart="4dp"
                 android:ellipsize="end"
                 android:maxLength="10"
-                android:text="北京"
+                tool:text="北京"
                 android:textColor="@color/white"
                 android:textSize="@dimen/dimens_16sp" />
 
@@ -159,6 +160,7 @@
                     android:id="@+id/home_activity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxHeight="150dp"
                     android:src="@mipmap/home_activity"
                     android:scaleType="fitCenter"
                     android:layout_marginTop="10dp"

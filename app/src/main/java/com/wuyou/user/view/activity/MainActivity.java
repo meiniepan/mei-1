@@ -3,6 +3,7 @@ package com.wuyou.user.view.activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.NotificationManagerCompat;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -58,6 +59,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        NotificationManagerCompat.from(this).areNotificationsEnabled();
         disableFitSystemWindow();
         if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
         setBarColor(R.color.transparent);

@@ -40,6 +40,7 @@ public class CarefreeApplication extends BaseApplication {
         Beta.canShowUpgradeActs.add(MainActivity.class);
         Beta.canShowUpgradeActs.add(LoginActivity.class);
         Beta.canShowUpgradeActs.add(SettingActivity.class);
+        Beta.autoDownloadOnWifi = true;
         Bugly.init(getApplicationContext(), "ba97fc54df", false);
     }
 

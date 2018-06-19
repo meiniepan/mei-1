@@ -157,6 +157,7 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.mine_activity:
+                if (CommonUtil.checkNetworkNoConnected(mCtx)) return;
                 intent.setClass(mCtx, WebActivity.class);
                 intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL + "activity_annal?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
                 startActivity(intent);
@@ -190,7 +191,8 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.mine_warn:
                 new CustomAlertDialog.Builder(mCtx).setTitle(R.string.prompt).setMessage(R.string.mine_warn)
-                        .setPositiveButton("确定", (dialog, which) -> {}).create().show();
+                        .setPositiveButton("确定", (dialog, which) -> {
+                        }).create().show();
                 break;
         }
     }

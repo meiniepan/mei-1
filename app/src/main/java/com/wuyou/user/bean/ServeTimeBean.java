@@ -5,6 +5,8 @@ package com.wuyou.user.bean;
  */
 
 public class ServeTimeBean {
+    public String id;
     public String time;
     public int status;
+    public int stock;
 }

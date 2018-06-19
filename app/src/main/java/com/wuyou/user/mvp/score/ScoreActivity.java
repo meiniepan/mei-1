@@ -38,6 +38,7 @@ public class ScoreActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitle(R.string.mine_score);
         baseStatusLayout.setErrorAction(v -> getInfo());
     }
 
@@ -56,6 +57,7 @@ public class ScoreActivity extends BaseActivity {
                     @Override
                     public void onSuccess(BaseResponse<UserInfo> userInfoBaseResponse) {
                         baseStatusLayout.showContentView();
+
                         totalScore = userInfoBaseResponse.data.getReceived_points();
                         consumeScore = userInfoBaseResponse.data.getOut_points();
                         long availableScore = totalScore - consumeScore;
