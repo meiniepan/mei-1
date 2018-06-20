@@ -7,24 +7,25 @@ import android.os.Parcelable;
  * Created by DELL on 2018/3/13.
  */
 
-public class ServeStandard implements Parcelable, Cloneable {
+public class ServeSpecification implements Parcelable, Cloneable {
     public String id;
     public String name;
     public float price;
     public int stock;
     public String photo;
+    public String sales;
 
-    public ServeStandard() {
+    public ServeSpecification() {
     }
 
     @Override
-    public ServeStandard clone() {
+    public ServeSpecification clone() {
         try {
-            return (ServeStandard) super.clone();
+            return (ServeSpecification) super.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        return new ServeStandard();
+        return new ServeSpecification();
     }
 
     @Override
@@ -39,25 +40,27 @@ public class ServeStandard implements Parcelable, Cloneable {
         dest.writeFloat(this.price);
         dest.writeInt(this.stock);
         dest.writeString(this.photo);
+        dest.writeString(this.sales);
     }
 
-    protected ServeStandard(Parcel in) {
+    protected ServeSpecification(Parcel in) {
         this.id = in.readString();
         this.name = in.readString();
         this.price = in.readFloat();
         this.stock = in.readInt();
         this.photo = in.readString();
+        this.sales = in.readString();
     }
 
-    public static final Creator<ServeStandard> CREATOR = new Creator<ServeStandard>() {
+    public static final Creator<ServeSpecification> CREATOR = new Creator<ServeSpecification>() {
         @Override
-        public ServeStandard createFromParcel(Parcel source) {
-            return new ServeStandard(source);
+        public ServeSpecification createFromParcel(Parcel source) {
+            return new ServeSpecification(source);
         }
 
         @Override
-        public ServeStandard[] newArray(int size) {
-            return new ServeStandard[size];
+        public ServeSpecification[] newArray(int size) {
+            return new ServeSpecification[size];
         }
     };
 }

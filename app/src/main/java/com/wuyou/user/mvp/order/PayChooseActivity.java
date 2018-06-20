@@ -67,6 +67,7 @@ public class PayChooseActivity extends BaseActivity {
 
     private void back() {
         if (backFlag == 1) {
+            EventBus.getDefault().post(new OrderEvent());
             Intent intent = new Intent(getCtx(), OrderDetailActivity.class);
             intent.putExtra(Constant.ORDER_ID, orderId);
             startActivity(intent);

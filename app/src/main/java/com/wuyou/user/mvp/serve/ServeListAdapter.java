@@ -7,7 +7,7 @@ import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.ServeBean;
-import com.wuyou.user.bean.ServeStandard;
+import com.wuyou.user.bean.ServeSpecification;
 import com.wuyou.user.util.glide.GlideUtils;
 
 import java.util.List;
@@ -46,15 +46,15 @@ public class ServeListAdapter extends BaseQuickAdapter<ServeBean, BaseHolder> {
     }
 
     public void setPriceRange(BaseHolder helper, ServeBean serveBean) {
-        List<ServeStandard> serveStandards = serveBean.specification;
-        float minPrice = serveStandards.get(0).price;
-        float maxPrice = serveStandards.get(0).price;
-        for (ServeStandard serveStandard : serveStandards) {
-            if (serveStandard.price < minPrice) {
-                minPrice = serveStandard.price;
+        List<ServeSpecification> serveSpecifications = serveBean.specification;
+        float minPrice = serveSpecifications.get(0).price;
+        float maxPrice = serveSpecifications.get(0).price;
+        for (ServeSpecification serveSpecification : serveSpecifications) {
+            if (serveSpecification.price < minPrice) {
+                minPrice = serveSpecification.price;
             }
-            if (serveStandard.price > maxPrice) {
-                maxPrice = serveStandard.price;
+            if (serveSpecification.price > maxPrice) {
+                maxPrice = serveSpecification.price;
             }
         }
         if (minPrice == maxPrice || minPrice == 0) {

@@ -160,7 +160,7 @@
             <include layout="@layout/split_area" />
 
             <LinearLayout
-                android:id="@+id/serve_detail_standard_layout"
+                android:id="@+id/serve_detail_specification_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_height"
                 android:gravity="center_vertical"
@@ -175,7 +175,7 @@
                     android:textColor="@color/common_gray" />
 
                 <TextView
-                    android:id="@+id/serve_detail_standard"
+                    android:id="@+id/serve_detail_specification"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"

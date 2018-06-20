@@ -31,6 +31,7 @@ public class Constant {
     public static final String ORDER_ID = "order_id";
     public static final String SERVE_ID = "serve_id";
     public static final String CATEGORY_ID = "category_id";
+    public static final String SERVE_MODES = "serve_modes";
     public static final String MAIN_FLAG = "main_flag";
     public static final String SERVE_BEAN = "serve_bean";
     public static final String CATEGORY_NAME = "category";
@@ -38,6 +39,7 @@ public class Constant {
     public static final String ADDRESS_EDIT_FLAG = "address_edit_flag";
     public static final String ADDRESS_LOCATION_FLAG = "address_location_flag";
     public static final String ADDRESS_RESULT = "address_result";
+    public static final String SERVE_MODE = "serve_mode";
     public static final String CATEGORY_CACHE = "category_cache";
     public static final String CACHE_COMMUNITY = "cache_community";
     public static final String CITY = "city_id";

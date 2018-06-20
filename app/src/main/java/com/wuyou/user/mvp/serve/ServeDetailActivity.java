@@ -19,7 +19,7 @@ import com.gs.buluo.common.network.QueryMapBuilder;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.ServeDetailBean;
-import com.wuyou.user.bean.ServeStandard;
+import com.wuyou.user.bean.ServeSpecification;
 import com.wuyou.user.mvp.store.StoreDetailActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.ServeApis;
@@ -88,10 +88,10 @@ public class ServeDetailActivity extends BaseActivity {
     TextView serveDetailOnSale;
     @BindView(R.id.serve_detail_origin_price_layout)
     RelativeLayout serveDetailOriginPriceLayout;
-    @BindView(R.id.serve_detail_standard)
-    TextView serveDetailStandard;
-    @BindView(R.id.serve_detail_standard_layout)
-    LinearLayout serveDetailStandardLayout;
+    @BindView(R.id.serve_detail_specification)
+    TextView serveDetailSpecification;
+    @BindView(R.id.serve_detail_specification_layout)
+    LinearLayout serveDetailSpecificationLayout;
     private ServeDetailBean serviceDetail;
     private String id;
 
@@ -109,7 +109,7 @@ public class ServeDetailActivity extends BaseActivity {
             startActivity(intent);
         });
 
-        serveDetailStandardLayout.setOnClickListener(v -> buyNow(serveDetailStandardLayout));
+        serveDetailSpecificationLayout.setOnClickListener(v -> buyNow(serveDetailSpecificationLayout));
         getStatusData();
     }
 
@@ -154,7 +154,7 @@ public class ServeDetailActivity extends BaseActivity {
         serveDetailCount.setText(serviceDetail.sold);
         if (serviceDetail.has_specification == 0) {
             serveDetailPrice.setText(CommonUtil.formatPrice(serviceDetail.price));
-            serveDetailStandardLayout.setVisibility(View.GONE);
+            serveDetailSpecificationLayout.setVisibility(View.GONE);
         } else {
             setPriceRange(serviceDetail.specification);
         }
@@ -177,23 +177,24 @@ public class ServeDetailActivity extends BaseActivity {
 
         panel = new GoodsChoosePanel(this);
         panel.setData(serviceDetail, serveDetailPrice.getText().toString().trim());
-        panel.addShowInDetailListener(goodsStandard -> {
-            serveDetailPrice.setText(CommonUtil.formatPrice(goodsStandard.price));
-            serveDetailStandard.setText(goodsStandard.name);
+        panel.addShowInDetailListener(goodsSpecification -> {
+            serveDetailPrice.setText(CommonUtil.formatPrice(goodsSpecification.price));
+            serveDetailSpecification.setText(goodsSpecification.name);
+            serveDetailCount.setText(goodsSpecification.sales);
         });
     }
 
     private GoodsChoosePanel panel;
 
-    public void setPriceRange(List<ServeStandard> serveStandards) {
-        float minPrice = serveStandards.get(0).price;
-        float maxPrice = serveStandards.get(0).price;
-        for (ServeStandard serveStandard : serveStandards) {
-            if (serveStandard.price < minPrice) {
-                minPrice = serveStandard.price;
+    public void setPriceRange(List<ServeSpecification> serveSpecifications) {
+        float minPrice = serveSpecifications.get(0).price;
+        float maxPrice = serveSpecifications.get(0).price;
+        for (ServeSpecification serveSpecification : serveSpecifications) {
+            if (serveSpecification.price < minPrice) {
+                minPrice = serveSpecification.price;
             }
-            if (serveStandard.price > maxPrice) {
-                maxPrice = serveStandard.price;
+            if (serveSpecification.price > maxPrice) {
+                maxPrice = serveSpecification.price;
             }
         }
         if (minPrice == maxPrice || minPrice == 0) {

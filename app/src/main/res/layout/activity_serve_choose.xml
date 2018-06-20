@@ -35,31 +35,10 @@
 
     <include layout="@layout/split_line_margin" />
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/serve_mode_recycler"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center_vertical"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin">
-
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/door_serve" />
-
-
-        <RadioButton
-            android:id="@+id/new_order_pay_ali"
-            android:layout_width="@dimen/radio_size"
-            android:layout_height="@dimen/radio_size"
-            android:background="@drawable/btn_radio"
-            android:button="@null"
-            android:checked="true" />
-    </LinearLayout>
-
+        android:layout_height="wrap_content"/>
     <Button
         style="@style/button_style"
         android:onClick="confirmWay" />

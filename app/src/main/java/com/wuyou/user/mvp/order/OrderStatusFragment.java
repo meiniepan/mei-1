@@ -99,7 +99,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     }
 
     @Override
-    public void fetchData() {
+    protected void loadDataWhenVisible() {
         type = getArguments().getInt("h");
         if (CarefreeDaoSession.getInstance().getUserId() == null) {
             orderList.getStatusLayout().showLoginView(getString(R.string.no_login));
@@ -204,8 +204,11 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
         switch (orderBean.status) {
             case 1:
                 new CustomAlertDialog.Builder(mCtx).setTitle(R.string.prompt).setMessage("确认取消?")
-                        .setPositiveButton(mCtx.getString(R.string.yes), (dialog, which) ->
-                                mPresenter.cancelOrder(0, orderBean.order_id)).setNegativeButton(mCtx.getResources().getString(R.string.cancel), null).create().show();
+                        .setPositiveButton(mCtx.getString(R.string.yes), (dialog, which) -> {
+                            showLoadingDialog();
+                            mPresenter.cancelOrder(position, orderBean.order_id);
+                        })
+                        .setNegativeButton(mCtx.getResources().getString(R.string.cancel), null).create().show();
                 break;
             case 2:
             case 4:

@@ -77,6 +77,8 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     TextView orderDetailServeName;
     @BindView(R.id.order_detail_goods_number)
     TextView orderDetailGoodsNumber;
+    @BindView(R.id.order_detail_goods_specification)
+    TextView orderDetailGoodsSpecification;
     @BindView(R.id.order_detail_fee)
     TextView orderDetailFee;
     @BindView(R.id.order_detail_other_fee)
@@ -166,12 +168,16 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailSecondPayment.setText(CommonUtil.formatPrice(data.second_payment));
         orderDetailGoodsNumber.setText(data.number + "");
         orderDetailOtherFee.setText(data.service.visiting_fee);
-        orderDetailFee.setText(CommonUtil.formatPrice(data.service.price));
         orderDetailAmount.setText(CommonUtil.formatPrice(data.total_amount));
         orderDetailName.setText(data.address.name);
         orderDetailAddress.setText(String.format("%s%s%s%s", data.address.city_name, data.address.district, data.address.area, data.address.address));
         orderDetailPhone.setText(data.address.mobile);
-
+        if (data.specification.id != null) {
+            orderDetailGoodsSpecification.setText(data.specification.name);
+            orderDetailFee.setText(CommonUtil.formatPrice(data.specification.price * data.number));
+        } else {
+            orderDetailFee.setText(CommonUtil.formatPrice(data.service.price * data.number));
+        }
         orderDetailCreateTime.setText(TribeDateUtils.dateFormat(new Date(data.created_at * 1000)));
         orderDetailNumber.setText(data.order_number);
         orderDetailServeWay.setText(data.service_mode);

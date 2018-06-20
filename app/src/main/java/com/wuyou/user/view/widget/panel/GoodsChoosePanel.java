@@ -18,7 +18,7 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.GoodsLevel1Adapter1;
 import com.wuyou.user.bean.ServeDetailBean;
-import com.wuyou.user.bean.ServeStandard;
+import com.wuyou.user.bean.ServeSpecification;
 import com.wuyou.user.mvp.serve.NewOrderActivity;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
@@ -47,7 +47,7 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener {
     TextView boardTitle;
 
     private int nowNum = 1;
-    private ServeStandard selectedStandard;
+    private ServeSpecification selectedSpecification;
     private ServeDetailBean defaultEntity;
 
     public GoodsChoosePanel(Context context) {
@@ -67,13 +67,13 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener {
         }
     }
 
-    private void setLevelOneData(List<ServeStandard> standards) {
-        final GoodsLevel1Adapter1 adapter1 = new GoodsLevel1Adapter1(R.layout.goods_level_item, standards);
+    private void setLevelOneData(List<ServeSpecification> specifications) {
+        final GoodsLevel1Adapter1 adapter1 = new GoodsLevel1Adapter1(R.layout.goods_level_item, specifications);
         leve1View1.setAdapter(adapter1);
         adapter1.setOnItemClickListener((baseQuickAdapter, view, i) -> {
-            ServeStandard chooseData = standards.get(i);
+            ServeSpecification chooseData = specifications.get(i);
             if (chooseData.stock == 0) return;
-            selectedStandard = chooseData;
+            selectedSpecification = chooseData;
             adapter1.selectedPos = i;
             adapter1.notifyDataSetChanged();
             onShowInDetailListener.onShow(chooseData);
@@ -81,7 +81,7 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener {
         });
     }
 
-    public void setChooseData(ServeStandard chooseData) {
+    public void setChooseData(ServeSpecification chooseData) {
         GlideUtils.loadRoundCornerImage(getContext(), chooseData.photo, mIcon, 10);
         boardTitle.setText(chooseData.name);
         boardPrice.setText("¥ " + CommonUtil.formatPrice(chooseData.price) + "/" + defaultEntity.unit);
@@ -108,8 +108,11 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.goods_board_add:
-                if (selectedStandard == null) return;
-                if (nowNum >= selectedStandard.stock) {
+                if (selectedSpecification == null && nowNum >= defaultEntity.stock) {
+                    ToastUtils.ToastMessage(getContext(), getContext().getString(R.string.not_enough_goods));
+                    return;
+                }
+                if (selectedSpecification != null && nowNum >= selectedSpecification.stock) {
                     ToastUtils.ToastMessage(getContext(), getContext().getString(R.string.not_enough_goods));
                     return;
                 }
@@ -124,11 +127,11 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener {
                 break;
             case R.id.goods_board_finish:
                 if (defaultEntity.has_specification == 1) {
-                    if (selectedStandard == null) {
+                    if (selectedSpecification == null) {
                         ToastUtils.ToastMessage(getContext(), "请选择规格");
                         return;
                     }
-                    if (nowNum > selectedStandard.stock) {
+                    if (nowNum > selectedSpecification.stock) {
                         ToastUtils.ToastMessage(getContext(), getContext().getString(R.string.not_enough_goods));
                         return;
                     }
@@ -148,7 +151,7 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener {
     private OnShowInDetailListener onShowInDetailListener;
 
     public interface OnShowInDetailListener {
-        void onShow(ServeStandard goodsStandard);
+        void onShow(ServeSpecification goodsSpecification);
     }
 
     public void addShowInDetailListener(OnShowInDetailListener onShowInDetailListener) {
@@ -157,7 +160,7 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener {
 
     private void accountOrder() {
         defaultEntity.number = nowNum;
-        if (selectedStandard != null) defaultEntity.standardId = selectedStandard.id;
+        defaultEntity.spec = selectedSpecification;
         Intent intent = new Intent(getContext(), NewOrderActivity.class);
         intent.putExtra(Constant.SERVE_BEAN, defaultEntity);
         getContext().startActivity(intent);

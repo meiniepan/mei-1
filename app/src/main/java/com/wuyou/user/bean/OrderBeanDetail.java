@@ -34,4 +34,5 @@ public class OrderBeanDetail extends OrderBean {
     public float total_amount;
     public int number;
     public AddressBean address;
+    public ServeSpecification specification;
 }

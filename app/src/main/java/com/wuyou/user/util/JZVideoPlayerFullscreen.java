@@ -17,7 +17,6 @@ import cn.jzvd.JZMediaManager;
 import cn.jzvd.JZUserAction;
 import cn.jzvd.JZUserActionStandard;
 import cn.jzvd.JZUtils;
-import cn.jzvd.JZVideoPlayerManager;
 import cn.jzvd.JZVideoPlayerStandard;
 import me.shaohui.shareutil.share.SharePlatform;
 

@@ -51,13 +51,12 @@ public class ServeDetailBean implements Parcelable {
     public String shop_id;
     public String shop_name;
     public int recorded;
-    public String id;
     public String sold;
     public String unit;
     public String advert_word;
     public float market_price;
-    public List<ServeStandard> specification;
-    public String standardId;
+    public List<ServeSpecification> specification;
+    public ServeSpecification spec;
 
     public int number;
 
@@ -85,17 +84,16 @@ public class ServeDetailBean implements Parcelable {
         dest.writeString(this.content);
         dest.writeInt(this.star);
         dest.writeString(this.high_praise);
-        dest.writeList(this.mode);
+        dest.writeTypedList(this.mode);
         dest.writeString(this.shop_id);
         dest.writeString(this.shop_name);
         dest.writeInt(this.recorded);
-        dest.writeString(this.id);
         dest.writeString(this.sold);
         dest.writeString(this.unit);
         dest.writeString(this.advert_word);
         dest.writeFloat(this.market_price);
-        dest.writeList(this.specification);
-        dest.writeString(this.standardId);
+        dest.writeTypedList(this.specification);
+        dest.writeParcelable(this.spec, flags);
         dest.writeInt(this.number);
     }
 
@@ -114,19 +112,16 @@ public class ServeDetailBean implements Parcelable {
         this.content = in.readString();
         this.star = in.readInt();
         this.high_praise = in.readString();
-        this.mode = new ArrayList<ServeMode>();
-        in.readList(this.mode, ServeMode.class.getClassLoader());
+        this.mode = in.createTypedArrayList(ServeMode.CREATOR);
         this.shop_id = in.readString();
         this.shop_name = in.readString();
         this.recorded = in.readInt();
-        this.id = in.readString();
         this.sold = in.readString();
         this.unit = in.readString();
         this.advert_word = in.readString();
         this.market_price = in.readFloat();
-        this.specification = new ArrayList<ServeStandard>();
-        in.readList(this.specification, ServeStandard.class.getClassLoader());
-        this.standardId = in.readString();
+        this.specification = in.createTypedArrayList(ServeSpecification.CREATOR);
+        this.spec = in.readParcelable(ServeSpecification.class.getClassLoader());
         this.number = in.readInt();
     }
 

@@ -25,6 +25,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.bean.AddressBean;
 import com.wuyou.user.bean.OrderIdBean;
 import com.wuyou.user.bean.ServeDetailBean;
+import com.wuyou.user.bean.ServeMode;
 import com.wuyou.user.bean.ServeTimeBean;
 import com.wuyou.user.bean.response.AddressListResponse;
 import com.wuyou.user.mvp.address.AddressAddActivity;
@@ -35,6 +36,7 @@ import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.AddressApis;
 import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.network.apis.ServeApis;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.ServeWayChooseActivity;
@@ -75,33 +77,29 @@ public class NewOrderActivity extends BaseActivity {
     ImageView createOrderGoodsPicture;
     @BindView(R.id.create_order_goods_name)
     TextView createOrderGoodsName;
-    @BindView(R.id.create_order_goods_standard)
-    TextView createOrderGoodsStandard;
+    @BindView(R.id.create_order_goods_specification)
+    TextView createOrderGoodsSpecification;
     @BindView(R.id.create_order_goods_number)
     TextView createOrderGoodsNumber;
     @BindView(R.id.create_order_serve_way)
     TextView createOrderServeWay;
     @BindView(R.id.create_order_amount)
-    TextView createOrderAmout;
+    TextView createOrderAmount;
     @BindView(R.id.create_order_button)
     Button createOrderButton;
     private ServeDetailBean bean;
 
     private AddressBean defaultAddress;
+    private String specId;
+    private ArrayList<ServeMode> serveModes = new ArrayList<>();
+    private String serveModeId;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
         findViewById(R.id.create_order_address_area).requestFocus();
         Intent intent = getIntent();
         bean = intent.getParcelableExtra(Constant.SERVE_BEAN);
-        if (bean != null) {
-            createOrderGoodsName.setText(bean.title);
-            createOrderGoodsNumber.setText(bean.number + "");
-            createOrderFee.setText(bean.price * bean.number + "");
-            createOrderDoorFee.setText(bean.visiting_fee + "");
-            createOrderAmout.setText(bean.price * bean.number + bean.visiting_fee + "");
-            GlideUtils.loadRoundCornerImage(this, bean.photo, createOrderGoodsPicture, 8);
-        }
+        setServeData();
         defaultAddress = CarefreeDaoSession.getInstance().getDefaultAddress();
         if (defaultAddress == null) {
             getAddressInfo();
@@ -109,6 +107,31 @@ public class NewOrderActivity extends BaseActivity {
             setAddressInfo();
         }
         getServeTime(bean.service_id, bean.shop_id);
+    }
+
+    private void setServeData() {
+        if (bean != null) {
+            createOrderGoodsName.setText(bean.title);
+            createOrderGoodsNumber.setText(bean.number + "");
+            float totalPrice;
+            if (bean.spec != null) {
+                totalPrice = bean.spec.price * bean.number;
+                createOrderGoodsSpecification.setText(bean.spec.name);
+                specId = bean.spec.id;
+            } else {
+                totalPrice = bean.price * bean.number;
+            }
+            createOrderFee.setText(CommonUtil.formatPrice(totalPrice));
+            createOrderDoorFee.setText(CommonUtil.formatPrice(bean.visiting_fee));
+            createOrderAmount.setText(CommonUtil.formatPrice(totalPrice + bean.visiting_fee));
+            GlideUtils.loadRoundCornerImage(this, bean.photo, createOrderGoodsPicture, 8);
+
+            serveModes.addAll(bean.mode);
+            if (serveModes.size() > 0) {
+                createOrderServeWay.setText(serveModes.get(0).name);
+                serveModeId = serveModes.get(0).id;
+            }
+        }
     }
 
     @Override
@@ -130,16 +153,16 @@ public class NewOrderActivity extends BaseActivity {
 
     private void normalCreateOrder() {
         showLoadingDialog();
-        if (bean.service_id != null) bean.id = bean.service_id;
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
                 .createOrder(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("remark", createOrderComment.getText().toString().trim())
                         .put("service_id", bean.service_id)
                         .put("address_id", defaultAddress.id)
-                        .put("service_time", serveTime)
+                        .put("service_time", serveTime.replaceAll(" ", ""))
                         .put("service_date", serveDate)
-                        .put("service_mode", "1")          //TODO
+                        .put("service_mode", serveModeId)
                         .put("number", bean.number + "")
-                        .put("total_amount", bean.price * bean.number + bean.visiting_fee + "")
+                        .put("total_amount", createOrderAmount.getText().toString().trim())
+                        .put("specification_id", specId)
                         .buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -195,7 +218,8 @@ public class NewOrderActivity extends BaseActivity {
                 break;
             case R.id.create_order_serve_way_choose:
                 intent.setClass(getCtx(), ServeWayChooseActivity.class);
-                startActivity(intent);
+                intent.putParcelableArrayListExtra(Constant.SERVE_MODES, serveModes);
+                startActivityForResult(intent, 202);
                 break;
         }
     }
@@ -273,6 +297,10 @@ public class NewOrderActivity extends BaseActivity {
             defaultAddress = data.getParcelableExtra(Constant.ADDRESS_BEAN);
         } else if (resultCode == 204) {
             defaultAddress = data.getParcelableExtra(Constant.ADDRESS_RESULT);
+        } else if (requestCode == 202 && resultCode == RESULT_OK) {
+            ServeMode serveMode = data.getParcelableExtra(Constant.SERVE_MODE);
+            createOrderServeWay.setText(serveMode.name);
+            serveModeId = serveMode.id;
         }
         setAddressInfo();
     }
