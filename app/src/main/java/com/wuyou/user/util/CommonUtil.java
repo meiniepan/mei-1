@@ -75,7 +75,7 @@ public class CommonUtil {
 
     public static boolean checkNetworkNoConnected(Context context) {
         if (!NetTool.isConnected(context)) {
-            ToastUtils.ToastMessage(context, R.string.not_connect);
+            ToastUtils.ToastMessage(context, R.string.connect_fail);
             return true;
         } else {
             return false;

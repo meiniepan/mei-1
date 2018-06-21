@@ -29,6 +29,15 @@
         <item name="android:windowAnimationStyle">@style/ActionSheetDialogAnimation</item>
     </style>
 
+    <style name="zoom_dialog" parent="@style/sheet_dialog">
+        <item name="android:windowAnimationStyle">@style/DialogZoomAnimation</item>
+    </style>
+
+    <style name="DialogZoomAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/home_picture_dialog_scale_in</item>
+        <item name="android:windowExitAnimation">@anim/home_picture_dialog_scale_out</item>
+    </style>
+
     <style name="AppSplash" parent="AppTheme">
         <item name="android:windowBackground">@mipmap/app_start</item>
         <item name="android:windowNoTitle">true</item>

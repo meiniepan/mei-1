@@ -27,7 +27,7 @@
     <dimen name="dimens_28sp">28dp</dimen>
     <dimen name="dimens_20sp">20dp</dimen>
     <dimen name="dimens_24sp">24dp</dimen>
-    <dimen name="dimens_23sp">23sp</dimen>
+    <dimen name="dimens_23sp">23dp</dimen>
     <dimen name="dimens_10sp">10dp</dimen>
 
 </resources>

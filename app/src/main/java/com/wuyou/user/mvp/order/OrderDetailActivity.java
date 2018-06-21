@@ -172,7 +172,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailName.setText(data.address.name);
         orderDetailAddress.setText(String.format("%s%s%s%s", data.address.city_name, data.address.district, data.address.area, data.address.address));
         orderDetailPhone.setText(data.address.mobile);
-        if (data.specification.id != null) {
+        if (data.specification != null && data.specification.id != null) {
             orderDetailGoodsSpecification.setText(data.specification.name);
             orderDetailFee.setText(CommonUtil.formatPrice(data.specification.price * data.number));
         } else {
@@ -220,8 +220,10 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                 break;
             case R.id.order_detail_cancel:
                 new CustomAlertDialog.Builder(getCtx()).setTitle(R.string.prompt).setMessage("确认取消?")
-                        .setPositiveButton(getCtx().getString(R.string.yes), (dialog, which) ->
-                                mPresenter.cancelOrder(0, orderId)).setNegativeButton(getCtx().getResources().getString(R.string.cancel), null).create().show();
+                        .setPositiveButton(getCtx().getString(R.string.yes), (dialog, which) -> {
+                            showLoadingDialog();
+                            mPresenter.cancelOrder(0, orderId);
+                        }).setNegativeButton(getCtx().getResources().getString(R.string.cancel), null).create().show();
                 break;
         }
     }

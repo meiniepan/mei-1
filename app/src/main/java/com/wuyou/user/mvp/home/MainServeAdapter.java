@@ -14,6 +14,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.bean.response.CategoryParent;
 import com.wuyou.user.mvp.serve.ServeCategoryListActivity;
 import com.wuyou.user.util.glide.GlideUtils;
+import com.wuyou.user.view.widget.panel.HomePictureDialog;
 
 import java.util.List;
 
@@ -39,10 +40,19 @@ public class MainServeAdapter extends BaseQuickAdapter<CategoryParent, BaseHolde
         ImageView imageView = helper.getView(R.id.main_serve_parent_picture);
         GlideUtils.loadImage(context, item.icon, imageView);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
+            if (item.sub.get(position).services == 0) {
+                showNoServeDialog();
+                return;
+            }
             Intent intent = new Intent(context, ServeCategoryListActivity.class);
             intent.putExtra(Constant.CATEGORY_ID, item.sub.get(position).id);
             intent.putExtra(Constant.CATEGORY_NAME, item.sub.get(position).name);
             context.startActivity(intent);
         });
+    }
+
+    private void showNoServeDialog() {
+        HomePictureDialog dialog = new HomePictureDialog(mContext);
+        dialog.show();
     }
 }

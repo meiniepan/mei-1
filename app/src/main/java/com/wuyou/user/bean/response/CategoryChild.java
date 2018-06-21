@@ -8,4 +8,5 @@ public class CategoryChild {
     public String id;
     public String name;
     public int position;
+    public int services;
 }
