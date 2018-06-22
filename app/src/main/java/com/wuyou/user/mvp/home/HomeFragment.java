@@ -400,7 +400,8 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
             homeRefresh.setRefreshing(false);
             return;
         }
-        CarefreeRetrofit.getInstance().createApi(OrderApis.class).getOrderList(QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).put("status", "2").put("startId", "0").put("flag", "1").buildGet())
+        CarefreeRetrofit.getInstance().createApi(OrderApis.class).getOrderList(QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId())
+                .put("status", "2").put("startId", "0").put("flag", "1").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {

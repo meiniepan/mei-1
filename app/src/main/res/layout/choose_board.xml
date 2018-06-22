@@ -56,7 +56,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="剩余库存:"
+                    android:text="库存:"
                     android:textColor="@color/common_gray"
                     android:textSize="@dimen/dimens_16sp" />
 

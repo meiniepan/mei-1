@@ -57,7 +57,11 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener {
 
     public void setData(ServeDetailBean entity, String price) {
         defaultEntity = entity;
-        GlideUtils.loadRoundCornerImage(getContext(), entity.photo, mIcon);
+        if (entity.images!=null&&entity.images.size()>0){
+            GlideUtils.loadRoundCornerImage(getContext(), entity.images.get(0), mIcon);
+        }else {
+            GlideUtils.loadRoundCornerImage(getContext(), entity.photo, mIcon);
+        }
         boardTitle.setText(entity.title);
         mRemainNumber.setText(entity.stock + "");
         boardPrice.setText("¥ " + price + "/" + defaultEntity.unit);

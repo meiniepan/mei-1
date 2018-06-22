@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 public class MainServeAdapter extends BaseQuickAdapter<CategoryParent, BaseHolder> {
-    Context context;
+    private Context context;
 
     public MainServeAdapter(int layoutResId, @Nullable List<CategoryParent> data, Context mCtx) {
         super(layoutResId, data);
