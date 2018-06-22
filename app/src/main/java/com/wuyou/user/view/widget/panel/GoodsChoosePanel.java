@@ -57,9 +57,9 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener {
 
     public void setData(ServeDetailBean entity, String price) {
         defaultEntity = entity;
-        if (entity.images!=null&&entity.images.size()>0){
+        if (entity.images != null && entity.images.size() > 0) {
             GlideUtils.loadRoundCornerImage(getContext(), entity.images.get(0), mIcon);
-        }else {
+        } else {
             GlideUtils.loadRoundCornerImage(getContext(), entity.photo, mIcon);
         }
         boardTitle.setText(entity.title);
@@ -86,7 +86,11 @@ public class GoodsChoosePanel extends Dialog implements View.OnClickListener {
     }
 
     public void setChooseData(ServeSpecification chooseData) {
-        GlideUtils.loadRoundCornerImage(getContext(), chooseData.photo, mIcon, 10);
+        if (defaultEntity.images != null && defaultEntity.images.size() > 0) {  //      TODO  取规格图片
+            GlideUtils.loadRoundCornerImage(getContext(), defaultEntity.images.get(0), mIcon);
+        } else {
+            GlideUtils.loadRoundCornerImage(getContext(), defaultEntity.photo, mIcon);
+        }
         boardTitle.setText(chooseData.name);
         boardPrice.setText("¥ " + CommonUtil.formatPrice(chooseData.price) + "/" + defaultEntity.unit);
         mRemainNumber.setText(chooseData.stock + "");

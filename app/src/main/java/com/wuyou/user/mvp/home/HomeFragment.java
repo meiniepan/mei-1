@@ -2,6 +2,7 @@ package com.wuyou.user.mvp.home;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -383,17 +384,23 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 break;
             case R.id.home_activity:
                 if (CommonUtil.checkNetworkNoConnected(mCtx)) return;
-                if (TextUtils.isEmpty(Constant.WEB_URL)) return;
+                if (TextUtils.isEmpty(activityUrl)) return;
                 intent.setClass(mCtx, WebActivity.class);
                 if (CarefreeDaoSession.getInstance().getUserInfo() == null) {
-                    intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL);
+                    intent.putExtra(Constant.WEB_INTENT, activityUrl);
                 } else {
-                    intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL + "?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
+                    Uri uri = Uri.parse(activityUrl);
+                    if (TextUtils.isEmpty(uri.getQuery())){
+                        intent.putExtra(Constant.WEB_INTENT, activityUrl + "?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
+                    }else {
+                        intent.putExtra(Constant.WEB_INTENT, activityUrl + "&user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
+                    }
                 }
                 startActivity(intent);
                 break;
         }
     }
+    private String activityUrl;
 
     public void getOrderMessage() {
         if (CarefreeDaoSession.getInstance().getUserInfo() == null) {
@@ -464,13 +471,11 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 });
     }
 
-    private ActivityBean activityBean;
-
     public void setActivityData(List<ActivityBean> activityData) {
         if (activityData != null && activityData.size() > 0) {
-            activityBean = activityData.get(0);
+            ActivityBean activityBean = activityData.get(0);
             GlideUtils.loadImage(mCtx, activityBean.image, homeActivity);
-            Constant.WEB_URL = activityBean.link;
+            activityUrl = activityBean.link;
         }
     }
 }
