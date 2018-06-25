@@ -28,6 +28,7 @@ public class GuideActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        disableFitSystemWindow();
         setBarColor(R.color.transparent);
         list = new ArrayList<>();
         list.add(R.mipmap.guide_1);

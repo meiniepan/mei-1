@@ -17,6 +17,7 @@ import com.wuyou.user.R;
 public class AppStartActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        disableFitSystemWindow();
         setBarColor(R.color.transparent);
         new Handler().postDelayed(this::jump, 1200);
     }
