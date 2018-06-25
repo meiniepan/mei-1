@@ -228,7 +228,10 @@ public class NewOrderActivity extends BaseActivity {
     private String serveDate;
 
     private void chooseServeTime() {
-        if (timeMap == null) showLoadingDialog();
+        if (timeMap == null) {
+            showLoadingDialog();
+            return;
+        }
         if (timeMap.size() == 0) return;
         ArrayList<String> firstData = new ArrayList<>();
         firstData.addAll(timeMap.keySet());
