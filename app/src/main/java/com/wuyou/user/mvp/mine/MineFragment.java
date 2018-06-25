@@ -139,7 +139,7 @@ public class MineFragment extends BaseFragment {
                 });
     }
 
-    @OnClick({R.id.mine_setting, R.id.mine_warn, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_head, R.id.mine_scan, R.id.mine_sign_in})
+    @OnClick({R.id.mine_setting, R.id.mine_warn, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_scan, R.id.mine_sign_in})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -175,10 +175,6 @@ public class MineFragment extends BaseFragment {
                     return;
                 }
                 intent.setClass(mCtx, ScoreActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.mine_head:
-                intent.setClass(mCtx, CaptureActivity.class);
                 startActivity(intent);
                 break;
             case R.id.mine_scan:
