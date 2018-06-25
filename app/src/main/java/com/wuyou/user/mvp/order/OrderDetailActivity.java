@@ -173,7 +173,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailAddress.setText(String.format("%s%s%s%s", data.address.city_name, data.address.district, data.address.area, data.address.address));
         orderDetailPhone.setText(data.address.mobile);
         if (data.specification != null && data.specification.id != null) {
-            orderDetailGoodsSpecification.setText(data.specification.name);
+            orderDetailGoodsSpecification.setText(String.format("规格：%s", data.specification.name));
             orderDetailFee.setText(CommonUtil.formatPrice(data.specification.price * data.number));
         } else {
             orderDetailFee.setText(CommonUtil.formatPrice(data.service.price * data.number));
