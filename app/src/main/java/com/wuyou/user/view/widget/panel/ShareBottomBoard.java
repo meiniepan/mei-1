@@ -10,9 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.gs.buluo.common.utils.ToastUtils;
-import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.HomeVideoBean;
 import com.wuyou.user.bean.ShareBean;
 
 import butterknife.ButterKnife;
@@ -56,11 +54,11 @@ public class ShareBottomBoard extends Dialog implements View.OnClickListener {
             case R.id.share_board_wx:
                 dismiss();
                 if (shareMediaBean.preview != null) {
-                    ShareUtil.shareMini(mCtx, SharePlatform.WX, shareMediaBean.title, shareMediaBean.summary, shareMediaBean.targetUrl, shareMediaBean.preview
-                            , Constant.WX_MINI_ID, shareMediaBean.miniPath, shareMediaBean.miniType, customShareListener);
+                    ShareUtil.shareMedia(mCtx, SharePlatform.WX, shareMediaBean.title, shareMediaBean.summary, shareMediaBean.targetUrl, shareMediaBean.preview
+                            , customShareListener);
                 } else {
-                    ShareUtil.shareMini(mCtx, SharePlatform.WX, shareMediaBean.title, shareMediaBean.summary, shareMediaBean.targetUrl, shareMediaBean.previewBitmap
-                            , Constant.WX_MINI_ID, shareMediaBean.miniPath, shareMediaBean.miniType, customShareListener);
+                    ShareUtil.shareMedia(mCtx, SharePlatform.WX, shareMediaBean.title, shareMediaBean.summary, shareMediaBean.targetUrl, shareMediaBean.previewBitmap
+                            , customShareListener);
                 }
                 break;
             case R.id.share_board_moment:

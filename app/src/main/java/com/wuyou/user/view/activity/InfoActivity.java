@@ -62,7 +62,7 @@ public class InfoActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
-        GlideUtils.loadImage(this, CarefreeDaoSession.getAvatar(userInfo), infoHead, true);
+        if (CarefreeDaoSession.getAvatar(userInfo) != null) GlideUtils.loadImage(this, CarefreeDaoSession.getAvatar(userInfo), infoHead, true);
         tvPhoneArea.setText(CommonUtil.getPhoneWithStar(userInfo.getMobile()));
         showLoadingDialog();
         CarefreeRetrofit.getInstance().createApi(UserApis.class)
