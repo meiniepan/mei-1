@@ -11,11 +11,13 @@ import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.bean.response.CategoryChild;
 import com.wuyou.user.bean.response.CategoryParent;
 import com.wuyou.user.mvp.serve.ServeCategoryListActivity;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.widget.panel.HomePictureDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,10 +26,12 @@ import java.util.List;
 
 public class MainServeAdapter extends BaseQuickAdapter<CategoryParent, BaseHolder> {
     private Context context;
+    private ArrayList<String> emptyPicureList;
 
-    public MainServeAdapter(int layoutResId, @Nullable List<CategoryParent> data, Context mCtx) {
+    public MainServeAdapter(int layoutResId, @Nullable List<CategoryParent> data, Context mCtx, ArrayList<String> list) {
         super(layoutResId, data);
         context = mCtx;
+        emptyPicureList = list;
     }
 
     @Override
@@ -40,19 +44,20 @@ public class MainServeAdapter extends BaseQuickAdapter<CategoryParent, BaseHolde
         ImageView imageView = helper.getView(R.id.main_serve_parent_picture);
         GlideUtils.loadImage(context, item.icon, imageView);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
-            if (item.sub.get(position).services == 0) {
-                showNoServeDialog();
+            CategoryChild categoryChild = item.sub.get(position);
+            if (categoryChild.services == 0 && emptyPicureList.contains(categoryChild.id)) {
+                showNoServeDialog(categoryChild);
                 return;
             }
             Intent intent = new Intent(context, ServeCategoryListActivity.class);
-            intent.putExtra(Constant.CATEGORY_ID, item.sub.get(position).id);
-            intent.putExtra(Constant.CATEGORY_NAME, item.sub.get(position).name);
+            intent.putExtra(Constant.CATEGORY_ID, categoryChild.id);
+            intent.putExtra(Constant.CATEGORY_NAME, categoryChild.name);
             context.startActivity(intent);
         });
     }
 
-    private void showNoServeDialog() {
-        HomePictureDialog dialog = new HomePictureDialog(mContext);
+    private void showNoServeDialog(CategoryChild item) {
+        HomePictureDialog dialog = new HomePictureDialog(mContext, item);
         dialog.show();
     }
 }

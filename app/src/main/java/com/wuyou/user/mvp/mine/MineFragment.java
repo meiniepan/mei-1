@@ -1,5 +1,6 @@
 package com.wuyou.user.mvp.mine;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.aspect.PermissionCheckAnnotation;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.WalletBalance;
 import com.wuyou.user.event.LoginEvent;
@@ -178,8 +180,10 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.mine_scan:
-                intent.setClass(mCtx, CaptureActivity.class);
-                startActivity(intent);
+                if (askPermission()) {
+                    intent.setClass(mCtx, CaptureActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.mine_sign_in:
                 intent.setClass(mCtx, SignInActivity.class);
@@ -191,5 +195,10 @@ public class MineFragment extends BaseFragment {
                         }).create().show();
                 break;
         }
+    }
+
+    @PermissionCheckAnnotation(value = Manifest.permission.CAMERA)
+    public boolean askPermission() {
+        return true;
     }
 }

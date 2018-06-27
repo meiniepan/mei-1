@@ -224,8 +224,8 @@ public class NewOrderActivity extends BaseActivity {
         }
     }
 
-    private String serveTime;
-    private String serveDate;
+    private String serveTime="";
+    private String serveDate="";
 
     private void chooseServeTime() {
         if (timeMap == null) {

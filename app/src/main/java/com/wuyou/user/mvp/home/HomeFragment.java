@@ -1,5 +1,6 @@
 package com.wuyou.user.mvp.home;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -31,6 +32,7 @@ import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.aspect.PermissionCheckAnnotation;
 import com.wuyou.user.bean.ActivityBean;
 import com.wuyou.user.bean.CommunityBean;
 import com.wuyou.user.bean.HomeVideoBean;
@@ -65,6 +67,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -128,12 +131,18 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
         setCacheData();
         initVideo();
-        initLocationAndGetData();
+        if (askForPermission()) {
+            initLocationAndGetData();
+        }
         getOrderMessage();
         getActivityData();
         homeRefresh.setOnRefreshListener(() -> {
             getOrderMessage();
-            if (location == null && mLocationClient != null) mLocationClient.startLocation();
+            if (location == null && mLocationClient != null) {
+                mLocationClient.startLocation();
+            } else if (mLocationClient == null && askForPermission()) {
+                initLocationAndGetData();
+            }
         });
     }
 
@@ -181,6 +190,11 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
             mLocationClient.startLocation(); //退出登录，重新定位社区
     }
 
+
+    @PermissionCheckAnnotation(value = Manifest.permission.ACCESS_FINE_LOCATION)
+    public boolean askForPermission() {
+        return true;
+    }
 
     private AMapLocationClient mLocationClient = null;
     private AMapLocation location;
@@ -233,7 +247,14 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 categoryChild.position = i;
             }
         }
-        mainServeList.setAdapter(new MainServeAdapter(R.layout.item_main_serve, data, mCtx));
+        ArrayList<String> list  = new ArrayList<>();
+        list.add("35");
+        list.add("38");
+        list.add("39");
+        list.add("46");
+        list.add("52");
+        list.add("53");
+        mainServeList.setAdapter(new MainServeAdapter(R.layout.item_main_serve, data, mCtx,list));
     }
 
     public void getCommunityList() {
@@ -390,9 +411,9 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                     intent.putExtra(Constant.WEB_INTENT, activityUrl);
                 } else {
                     Uri uri = Uri.parse(activityUrl);
-                    if (TextUtils.isEmpty(uri.getQuery())){
+                    if (TextUtils.isEmpty(uri.getQuery())) {
                         intent.putExtra(Constant.WEB_INTENT, activityUrl + "?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
-                    }else {
+                    } else {
                         intent.putExtra(Constant.WEB_INTENT, activityUrl + "&user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
                     }
                 }
@@ -400,6 +421,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 break;
         }
     }
+
     private String activityUrl;
 
     public void getOrderMessage() {
@@ -474,7 +496,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     public void setActivityData(List<ActivityBean> activityData) {
         if (activityData != null && activityData.size() > 0) {
             ActivityBean activityBean = activityData.get(0);
-            GlideUtils.loadImage(mCtx, activityBean.image, homeActivity);
+            GlideUtils.loadImageNoHolder(mCtx, activityBean.image, homeActivity);
             activityUrl = activityBean.link;
         }
     }
