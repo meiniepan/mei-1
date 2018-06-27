@@ -2,8 +2,10 @@ package com.wuyou.user.view.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationManagerCompat;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +18,7 @@ import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.MainPagerAdapter;
+import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.help.HelpFragment;
 import com.wuyou.user.mvp.home.HomeFragment;
@@ -54,11 +57,37 @@ public class MainActivity extends BaseActivity {
         if (flag == 1) {
             viewPager.setCurrentItem(1);
         }
+        String activityUrl = intent.getStringExtra(Constant.ACTIVITY_URL);
+        goActivity(activityUrl);
         super.onNewIntent(intent);
+    }
+
+    private void goActivity(String activityUrl) {
+        if (TextUtils.isEmpty(activityUrl)) {
+            return;
+        }
+        Intent intent = new Intent(getCtx(), WebActivity.class);
+        Uri uri = Uri.parse(activityUrl);
+        UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
+        if (userInfo == null) {
+            if (TextUtils.isEmpty(uri.getQuery())) {
+                intent.putExtra(Constant.WEB_INTENT, activityUrl);
+            } else {
+                intent.putExtra(Constant.WEB_INTENT, activityUrl);
+            }
+        } else {
+            if (TextUtils.isEmpty(uri.getQuery())) {
+                intent.putExtra(Constant.WEB_INTENT, activityUrl + "?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + userInfo.getToken());
+            } else {
+                intent.putExtra(Constant.WEB_INTENT, activityUrl + "&user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + userInfo.getToken());
+            }
+        }
+        startActivity(intent);
     }
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        goActivity(getIntent().getStringExtra(Constant.ACTIVITY_URL));
         NotificationManagerCompat.from(this).areNotificationsEnabled();
         disableFitSystemWindow();
         if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);

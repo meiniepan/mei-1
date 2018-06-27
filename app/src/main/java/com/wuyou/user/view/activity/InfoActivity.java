@@ -2,6 +2,7 @@ package com.wuyou.user.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -62,7 +63,8 @@ public class InfoActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
-        if (CarefreeDaoSession.getAvatar(userInfo) != null) GlideUtils.loadImage(this, CarefreeDaoSession.getAvatar(userInfo), infoHead, true);
+        if (CarefreeDaoSession.getAvatar(userInfo) != null)
+            GlideUtils.loadImage(this, CarefreeDaoSession.getAvatar(userInfo), infoHead, true);
         tvPhoneArea.setText(CommonUtil.getPhoneWithStar(userInfo.getMobile()));
         showLoadingDialog();
         CarefreeRetrofit.getInstance().createApi(UserApis.class)
@@ -251,6 +253,7 @@ public class InfoActivity extends BaseActivity {
     }
 
     public void setUserData(UserInfo userInfo) {
+        Log.e("Carefree", "setUserData: 1111111111111111111111111");
         if (userInfo.getNickname() != null) tvAccountArea.setText(userInfo.getNickname());
         if (userInfo.getGender() != null) {
             gender = Integer.parseInt(userInfo.getGender());

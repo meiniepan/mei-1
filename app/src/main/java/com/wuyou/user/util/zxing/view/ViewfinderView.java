@@ -24,7 +24,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
@@ -60,8 +62,8 @@ public final class ViewfinderView extends View {
 	private final int laserColor;
 	private final int resultPointColor;
 	private int scannerAlpha;
-	private Collection<ResultPoint> possibleResultPoints;
-	private Collection<ResultPoint> lastPossibleResultPoints;
+	private HashSet<ResultPoint> possibleResultPoints;
+	private HashSet<ResultPoint> lastPossibleResultPoints;
     private Bitmap mBmpFrame;
     private Bitmap mBmpLaser;
 
@@ -158,8 +160,9 @@ public final class ViewfinderView extends View {
         canvas.drawBitmap(mBmpLaser,laserSrc,laserDst,paint);
 		lastPos = (lastPos + 6) % frame.height();
 
-		Collection<ResultPoint> currentPossible = possibleResultPoints;
-		Collection<ResultPoint> currentLast = lastPossibleResultPoints;
+		HashSet<ResultPoint> currentPossible = possibleResultPoints;
+		Log.e("Carefree", "onDraw: possibleResultPoints");
+		HashSet<ResultPoint> currentLast = lastPossibleResultPoints;
 
 		if (currentLast != null) {
 			paint.setAlpha(OPAQUE / 2);
@@ -175,6 +178,8 @@ public final class ViewfinderView extends View {
 			paint.setColor(resultPointColor);
 			for (ResultPoint point : currentPossible) {
 				lastPossibleResultPoints.add(point);
+				SystemClock.sleep(2000);
+				Log.e("Carefree", "onDraw: lastPossibleResultPoints.add(point);");
 				canvas.drawCircle(frame.left + point.getX(),
 						frame.top + point.getY(), 6.0f, paint);
 			}

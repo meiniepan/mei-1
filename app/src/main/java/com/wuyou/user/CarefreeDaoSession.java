@@ -66,7 +66,7 @@ public class CarefreeDaoSession {
     public String getUserId() {
         if (TextUtils.isEmpty(uid)) {
             List<UserInfo> userInfos = getUserInfoDao().loadAll();
-            if (userInfos == null || userInfos.size() == 0) return null;
+            if (userInfos == null || userInfos.size() == 0) return uid;
             uid = userInfos.get(0).getUid();
             return uid;
         } else {

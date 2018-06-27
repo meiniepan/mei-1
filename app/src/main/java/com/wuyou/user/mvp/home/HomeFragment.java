@@ -498,6 +498,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
             ActivityBean activityBean = activityData.get(0);
             GlideUtils.loadImageNoHolder(mCtx, activityBean.image, homeActivity);
             activityUrl = activityBean.link;
+            activityUrl = "http://192.168.1.252/";
         }
     }
 }
