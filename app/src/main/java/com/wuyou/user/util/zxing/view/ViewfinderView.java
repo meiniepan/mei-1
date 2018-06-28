@@ -178,8 +178,6 @@ public final class ViewfinderView extends View {
 			paint.setColor(resultPointColor);
 			for (ResultPoint point : currentPossible) {
 				lastPossibleResultPoints.add(point);
-				SystemClock.sleep(2000);
-				Log.e("Carefree", "onDraw: lastPossibleResultPoints.add(point);");
 				canvas.drawCircle(frame.left + point.getX(),
 						frame.top + point.getY(), 6.0f, paint);
 			}

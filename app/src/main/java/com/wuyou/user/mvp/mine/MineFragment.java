@@ -16,7 +16,6 @@ import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.aspect.PermissionCheckAnnotation;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.WalletBalance;
 import com.wuyou.user.event.LoginEvent;
@@ -180,7 +179,7 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.mine_scan:
-                if (askPermission()) {
+                if (askForPermissions(Manifest.permission.CAMERA)) {
                     intent.setClass(mCtx, CaptureActivity.class);
                     startActivity(intent);
                 }
@@ -197,8 +196,9 @@ public class MineFragment extends BaseFragment {
         }
     }
 
-    @PermissionCheckAnnotation(value = Manifest.permission.CAMERA)
-    public boolean askPermission() {
-        return true;
+    @Override
+    protected void permissionGranted() {
+        Intent intent = new Intent(mCtx, CaptureActivity.class);
+        startActivity(intent);
     }
 }

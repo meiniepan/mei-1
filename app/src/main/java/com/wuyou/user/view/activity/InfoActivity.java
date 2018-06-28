@@ -253,7 +253,6 @@ public class InfoActivity extends BaseActivity {
     }
 
     public void setUserData(UserInfo userInfo) {
-        Log.e("Carefree", "setUserData: 1111111111111111111111111");
         if (userInfo.getNickname() != null) tvAccountArea.setText(userInfo.getNickname());
         if (userInfo.getGender() != null) {
             gender = Integer.parseInt(userInfo.getGender());

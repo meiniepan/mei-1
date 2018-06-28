@@ -3,19 +3,25 @@ package com.wuyou.user.view.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.LoadingDialog;
 import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.R;
 import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.mvp.IBaseView;
 import com.wuyou.user.mvp.login.LoginActivity;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -173,5 +179,33 @@ public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<
 
     @Override
     public void showError(String message, int res) {
+    }
+
+    protected boolean askForPermissions(String... permissions) {
+        ArrayList<String> permissionList = new ArrayList<>();
+        for (String permission : permissions) {
+            int selfPermission = ContextCompat.checkSelfPermission(mCtx, permission);
+            if (selfPermission == PackageManager.PERMISSION_DENIED) {
+                permissionList.add(permission);
+            }
+        }
+        if (permissionList.size() > 0) {
+            BaseFragment.this.requestPermissions(permissionList.toArray(new String[]{}), 1);
+        } else {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            permissionGranted();
+        } else {
+            ToastUtils.ToastMessage(mCtx, getString(R.string.permession_denied));
+        }
+    }
+
+    protected void permissionGranted() {
     }
 }

@@ -32,7 +32,6 @@ import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.aspect.PermissionCheckAnnotation;
 import com.wuyou.user.bean.ActivityBean;
 import com.wuyou.user.bean.CommunityBean;
 import com.wuyou.user.bean.HomeVideoBean;
@@ -131,7 +130,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
         setCacheData();
         initVideo();
-        if (askForPermission()) {
+        if (askForPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             initLocationAndGetData();
         }
         getOrderMessage();
@@ -140,10 +139,17 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
             getOrderMessage();
             if (location == null && mLocationClient != null) {
                 mLocationClient.startLocation();
-            } else if (mLocationClient == null && askForPermission()) {
+            } else if (mLocationClient == null && askForPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 initLocationAndGetData();
             }
         });
+    }
+
+    @Override
+    protected void permissionGranted() {
+        if (mLocationClient == null) {
+            initLocationAndGetData();
+        }
     }
 
     private void setCacheData() {
@@ -188,12 +194,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         getOrderMessage();
         if (CarefreeDaoSession.getInstance().getUserInfo() == null)
             mLocationClient.startLocation(); //退出登录，重新定位社区
-    }
-
-
-    @PermissionCheckAnnotation(value = Manifest.permission.ACCESS_FINE_LOCATION)
-    public boolean askForPermission() {
-        return true;
     }
 
     private AMapLocationClient mLocationClient = null;
@@ -247,14 +247,14 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 categoryChild.position = i;
             }
         }
-        ArrayList<String> list  = new ArrayList<>();
+        ArrayList<String> list = new ArrayList<>();
         list.add("35");
         list.add("38");
         list.add("39");
         list.add("46");
         list.add("52");
         list.add("53");
-        mainServeList.setAdapter(new MainServeAdapter(R.layout.item_main_serve, data, mCtx,list));
+        mainServeList.setAdapter(new MainServeAdapter(R.layout.item_main_serve, data, mCtx, list));
     }
 
     public void getCommunityList() {
@@ -498,7 +498,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
             ActivityBean activityBean = activityData.get(0);
             GlideUtils.loadImageNoHolder(mCtx, activityBean.image, homeActivity);
             activityUrl = activityBean.link;
-            activityUrl = "http://192.168.1.252/";
         }
     }
 }

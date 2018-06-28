@@ -43,6 +43,7 @@ public class ServePresenter extends ServeContract.Presenter {
                         ServeListResponse r = orderListResponseBaseResponse.data;
                         if (isAttach()) mView.getServeSuccess(r);
                         if (r.list.size() > 0) {
+                            startId = r.list.get(r.list.size() - 1).service_id;
                             if (key == 0) {
                                 startId = r.list.get(r.list.size() - 1).service_id;
                             } else if (key == 1) {
@@ -64,12 +65,12 @@ public class ServePresenter extends ServeContract.Presenter {
     void getServeMore() {
         QueryMapBuilder mapBuilder = QueryMapBuilder.getIns().put("category_id", serveId).put("flag", 2 + "").put("size", 10 + "")
                 .put("key", key + "").put("sort", sort + "");
+        mapBuilder.put("start_id", startId);
         if (key == 0) {
-            mapBuilder.put("start_id", startId);
         } else if (key == 1) {
-            mapBuilder.put("start_id", startPrice);
+            mapBuilder.put("price", startPrice);
         } else if (key == 2) {
-            mapBuilder.put("start_id", startSale);
+            mapBuilder.put("sale", startSale);
         }
         CarefreeRetrofit.getInstance().createApi(ServeApis.class)
                 .getServeList(mapBuilder.buildGet())

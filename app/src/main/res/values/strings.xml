@@ -119,7 +119,7 @@
     <string name="share_success">分享成功</string>
     <string name="save_success">保存成功</string>
     <string name="save_fail">保存失败，请重试</string>
-    <string name="share_activity">这个活动不错哦,推荐给你,快来参加吧!</string>
+    <string name="share_activity">这个活动不错哦，推荐给你，快来参加吧!</string>
     <string name="wx_circle">朋友圈</string>
     <string name="mine_score">我的积分</string>
     <string name="gained_score_record">获取积分记录</string>
@@ -135,5 +135,6 @@
     <string name="wrong_qr_code">对不起，该二维码无效</string>
     <string name="no_network">当前无网络连接，请稍后再试</string>
     <string name="confirm_buy">确认购买</string>
+    <string name="permession_denied">您禁止了相关权限，某些功能可能无法正常使用</string>
 
 </resources>

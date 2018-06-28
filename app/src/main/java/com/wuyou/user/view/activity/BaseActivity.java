@@ -4,9 +4,13 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Explode;
 import android.view.View;
@@ -25,6 +29,8 @@ import com.wuyou.user.R;
 import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.mvp.IBaseView;
 import com.wuyou.user.mvp.login.LoginActivity;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 
@@ -236,6 +242,35 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
 
     protected Context getCtx() {
         return this;
+    }
+
+    protected boolean askForPermissions(String... permissions) {
+        ArrayList<String> permissionList = new ArrayList<>();
+        for (String permission : permissions) {
+            int selfPermission = ContextCompat.checkSelfPermission(this, permission);
+            if (selfPermission == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else if (selfPermission == PackageManager.PERMISSION_DENIED) {
+                permissionList.add(permission);
+            }
+        }
+        if (permissionList.size() > 0) {
+            ActivityCompat.requestPermissions(this, (String[]) permissionList.toArray(), 1);
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            permissionGranted();
+        } else {
+            ToastUtils.ToastMessage(this, getString(R.string.permession_denied));
+        }
+    }
+
+    protected void permissionGranted() {
     }
 }
 
