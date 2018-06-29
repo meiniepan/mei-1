@@ -30,6 +30,9 @@ public interface ServeApis {
     @GET("services")
     Observable<BaseResponse<ServeListResponse>> getServeList(@QueryMap SortedTreeMap<String, String> map);
 
+    @GET("sorted_services")
+    Observable<BaseResponse<ServeListResponse>> getSortedServeList(@QueryMap SortedTreeMap<String, String> map);
+
     @GET("service/{service_id}")
     Observable<BaseResponse<ServeDetailBean>> getServeDetail(@Path("service_id") String id, @QueryMap SortedTreeMap<String, String> map);
 

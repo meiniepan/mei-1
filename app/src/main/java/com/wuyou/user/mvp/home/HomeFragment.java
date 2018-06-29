@@ -182,10 +182,10 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
 
         String currentCommunityId = getCurrentCommunityId(communityBeans);
         if (!TextUtils.equals(currentCommunityId, communityId)) {
-            Log.e("Test", "onAddressChanged: 社区更改！！！！！！！！！！");
+            Log.e("Carefree", "onAddressChanged:  社区更改！！！！！！！！！！");
             getCommunityData(currentCommunityId);
         } else {
-            Log.e("Test", "onAddressChanged: 社区没变！！！！！！！！！！");
+            Log.e("Carefree", "onAddressChanged: 社区没变！！！！！！！！！！");
         }
     }
 
@@ -220,7 +220,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     }
 
     private void getServeList() {
-        Log.e("Test", "getServeList: 获取服务信息");
+        Log.e("Carefree", "getServeList: 获取服务信息");
         CarefreeRetrofit.getInstance().createApi(ServeApis.class)
                 .getCategoryList(communityId, QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
@@ -299,7 +299,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     private String getCurrentCommunityId(List<CommunityBean> list) {
         CommunityBean currentCommunity = findCurrentCommunity(list);
         if (null == currentCommunity) { // 当前位置没有社区服务点
-            Log.e("Test", "getCurrentCommunityId: 当前位置没有社区服务点!!!!!!");
+            Log.e("Carefree", "getCurrentCommunityId: 当前位置没有社区服务点!!!!!!");
             homeAddress.post(this::showNoMatchAlert);
             if (null == cacheCommunityBean) {
                 handler.post(() -> setCommunityText(currentCommunity));
@@ -308,14 +308,16 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         }
         //有社区服务点之后逻辑
         if (cacheCommunityBean == null) {       //没有缓存，直接存
-            Log.e("Test", "getCurrentCommunityId: 没有缓存，直接展示社区服务点信息");
+            Log.e("Carefree", "getCurrentCommunityId: 没有缓存，直接展示社区服务点信息");
             saveNewCommunity(currentCommunity);
         } else {                                //有缓存，比较之后再存
             if (!TextUtils.equals(currentCommunity.community_id, cacheCommunityBean.community_id)) { //当前社区和缓存社区不同
-                Log.e("Test", "getCurrentCommunityId: 有缓存，当前社区和缓存社区不同");
+                Log.e("Carefree", "getCurrentCommunityId: 有缓存，当前社区和缓存社区不同");
                 handler.post(() -> showLocationChangedAlert(currentCommunity, cacheCommunityBean));
             } else {
-                Log.e("Test", "getCurrentCommunityId: 有缓存，当前社区和缓存社区一样的！！！！！");
+                Log.e("Carefree" +
+                        "、" +
+                        "", "getCurrentCommunityId: 有缓存，当前社区和缓存社区一样的！！！！！");
                 handler.post(() -> setCommunityText(currentCommunity));
             }
         }

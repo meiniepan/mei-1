@@ -17,8 +17,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ServePresenter extends ServeContract.Presenter {
     private String startId;
-    private String startPrice;
-    private String startSale;
     private String serveId;
     private int key;
     private int sort;
@@ -42,59 +40,34 @@ public class ServePresenter extends ServeContract.Presenter {
                     public void onSuccess(BaseResponse<ServeListResponse> orderListResponseBaseResponse) {
                         ServeListResponse r = orderListResponseBaseResponse.data;
                         if (isAttach()) mView.getServeSuccess(r);
-                        if (r.list.size() > 0) {
-                            startId = r.list.get(r.list.size() - 1).service_id;
-                            if (key == 0) {
-                                startId = r.list.get(r.list.size() - 1).service_id;
-                            } else if (key == 1) {
-                                startPrice = r.list.get(r.list.size() - 1).price + "";
-                            } else if (key == 2) {
-                                startSale = r.list.get(r.list.size() - 1).sold + "";
-                            }
-                        }
+                        if (r.list.size() > 0) startId = r.list.get(r.list.size() - 1).service_id;
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
-                        if (isAttach()) mView.showError(e.getDisplayMessage(), e.getCode());
+                        if (isAttach())mView.showError(e.getDisplayMessage(), e.getCode());
                     }
                 });
     }
 
     @Override
     void getServeMore() {
-        QueryMapBuilder mapBuilder = QueryMapBuilder.getIns().put("category_id", serveId).put("flag", 2 + "").put("size", 10 + "")
-                .put("key", key + "").put("sort", sort + "");
-        mapBuilder.put("start_id", startId);
-        if (key == 0) {
-        } else if (key == 1) {
-            mapBuilder.put("price", startPrice);
-        } else if (key == 2) {
-            mapBuilder.put("sale", startSale);
-        }
         CarefreeRetrofit.getInstance().createApi(ServeApis.class)
-                .getServeList(mapBuilder.buildGet())
+                .getServeList(QueryMapBuilder.getIns().put("category_id", serveId).put("flag", 2 + "").put("start_id", startId).put("size", 10 + "")
+                        .put("key", key + "").put("sort", sort + "").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<ServeListResponse>>() {
                     @Override
                     public void onSuccess(BaseResponse<ServeListResponse> orderListResponseBaseResponse) {
                         ServeListResponse data = orderListResponseBaseResponse.data;
-                        if (isAttach()) mView.loadMore(data);
-                        if (data.list.size() > 0) {
-                            if (key == 0) {
-                                startId = data.list.get(data.list.size() - 1).service_id;
-                            } else if (key == 1) {
-                                startPrice = data.list.get(data.list.size() - 1).price + "";
-                            } else if (key == 2) {
-                                startSale = data.list.get(data.list.size() - 1).sold + "";
-                            }
-                        }
+                        if (isAttach())mView.loadMore(data);
+                        if (data.list.size() > 0) startId = data.list.get(data.list.size()-1).service_id;
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
-                        if (isAttach()) mView.loadMoreFail(e.getDisplayMessage(), e.getCode());
+                        if (isAttach())mView.loadMoreFail(e.getDisplayMessage(), e.getCode());
                     }
                 });
     }
