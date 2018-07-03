@@ -315,9 +315,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 Log.e("Carefree", "getCurrentCommunityId: 有缓存，当前社区和缓存社区不同");
                 handler.post(() -> showLocationChangedAlert(currentCommunity, cacheCommunityBean));
             } else {
-                Log.e("Carefree" +
-                        "、" +
-                        "", "getCurrentCommunityId: 有缓存，当前社区和缓存社区一样的！！！！！");
+                Log.e("Carefree", "getCurrentCommunityId: 有缓存，当前社区和缓存社区一样的！！！！！");
                 handler.post(() -> setCommunityText(currentCommunity));
             }
         }
