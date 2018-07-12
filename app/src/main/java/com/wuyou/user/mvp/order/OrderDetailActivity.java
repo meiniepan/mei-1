@@ -2,6 +2,8 @@ package com.wuyou.user.mvp.order;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,9 +13,12 @@ import android.widget.TextView;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.utils.TribeDateUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
+import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
+import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBeanDetail;
+import com.wuyou.user.bean.ServeSpecification;
 import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.event.OrderEvent;
 import com.wuyou.user.util.CommonUtil;
@@ -25,6 +30,7 @@ import com.wuyou.user.view.activity.MainActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -89,6 +95,8 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     LinearLayout orderDetailPayArea;
     @BindView(R.id.order_detail_bottom)
     LinearLayout orderDetailBottom;
+    @BindView(R.id.order_detail_serve_list)
+    RecyclerView orderDetailServeList;
     private String orderId;
     private OrderBeanDetail beanDetail;
 
@@ -161,23 +169,14 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         if (beanDetail.status != 2 && beanDetail.second_payment != 0) {
             findViewById(R.id.order_detail_second_payment_area).setVisibility(View.VISIBLE);
         }
-        GlideUtils.loadRoundCornerImage(this, data.service.photo, orderDetailPicture);
         orderDetailStatus.setText(CommonUtil.getOrderStatusString(data.status));
         orderDetailStoreName.setText(data.shop.shop_name);
-        orderDetailServeName.setText(data.service.service_name);
         orderDetailSecondPayment.setText(CommonUtil.formatPrice(data.second_payment));
-        orderDetailGoodsNumber.setText(data.number + "");
         orderDetailOtherFee.setText(data.service.visiting_fee);
         orderDetailAmount.setText(CommonUtil.formatPrice(data.total_amount));
         orderDetailName.setText(data.address.name);
         orderDetailAddress.setText(String.format("%s%s%s%s", data.address.city_name, data.address.district, data.address.area, data.address.address));
         orderDetailPhone.setText(data.address.mobile);
-        if (data.specification != null && data.specification.id != null) {
-            orderDetailGoodsSpecification.setText(String.format("规格：%s", data.specification.name));
-            orderDetailFee.setText(CommonUtil.formatPrice(data.specification.price * data.number));
-        } else {
-            orderDetailFee.setText(CommonUtil.formatPrice(data.service.price * data.number));
-        }
         orderDetailCreateTime.setText(TribeDateUtils.dateFormat(new Date(data.created_at * 1000)));
         orderDetailNumber.setText(data.order_number);
         orderDetailServeWay.setText(data.service_mode);
@@ -187,6 +186,28 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailPayMethod.setText(data.pay_type);
         orderDetailPayTime.setText(TribeDateUtils.dateFormat(new Date(data.pay_time * 1000)));
 
+        if (data.specification != null && data.specification.id != null) {
+            orderDetailGoodsSpecification.setText(String.format("规格：%s", data.specification.name));
+            orderDetailFee.setText(CommonUtil.formatPrice(data.specification.price * data.number));
+        } else {
+            orderDetailFee.setText(CommonUtil.formatPrice(data.service.price * data.number));
+        }
+        orderDetailGoodsNumber.setText(data.number + "");
+        orderDetailServeName.setText(data.service.service_name);
+        GlideUtils.loadRoundCornerImage(this, data.service.photo, orderDetailPicture);
+
+        if (data.specification != null) {
+            LinearLayoutManager layout = new LinearLayoutManager(this);
+            layout.setAutoMeasureEnabled(true);
+            orderDetailServeList.setLayoutManager(layout);
+            orderDetailServeList.setAdapter(new BaseQuickAdapter<ServeSpecification, BaseHolder>(R.layout.item_order_detail_serve, new ArrayList<>()) {
+                @Override
+                protected void convert(BaseHolder baseHolder, ServeSpecification serveSpecification) {
+                    baseHolder.setText(R.id.order_detail_goods_specification, String.format("规格：%s", serveSpecification.name))
+                            .setText(R.id.order_detail_number, serveSpecification.name);
+                }
+            });
+        }
         setActionStatus();
     }
 

@@ -113,6 +113,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     private List<HomeVideoBean> videoData;
     private HomeVideoBean homeVideoBean1;
     private HomeVideoBean homeVideoBean2;
+    private MainServeAdapter adapter;
 
     @Override
     protected int getContentLayout() {
@@ -121,12 +122,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mCtx);
-        mLinearLayoutManager.setAutoMeasureEnabled(true);
-        mainServeList.setLayoutManager(mLinearLayoutManager);
-        mainServeList.setHasFixedSize(true);
-        mainServeList.setNestedScrollingEnabled(false);
-
+        initServeList();
         if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
         setCacheData();
         initVideo();
@@ -141,8 +137,28 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 mLocationClient.startLocation();
             } else if (mLocationClient == null && askForPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 initLocationAndGetData();
+            } else if (mLocationClient != null && location != null) {
+                getServeList();
             }
         });
+    }
+
+
+    private void initServeList() {
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mCtx);
+        mLinearLayoutManager.setAutoMeasureEnabled(true);
+        mainServeList.setLayoutManager(mLinearLayoutManager);
+        mainServeList.setHasFixedSize(true);
+        mainServeList.setNestedScrollingEnabled(false);
+        ArrayList<String> list = new ArrayList<>();
+        list.add("35");
+        list.add("38");
+        list.add("39");
+        list.add("46");
+        list.add("52");
+        list.add("53");//添加 点击时有特殊图片的服务id
+        adapter = new MainServeAdapter(R.layout.item_main_serve, mCtx, list);
+        mainServeList.setAdapter(adapter);
     }
 
     @Override
@@ -223,8 +239,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         Log.e("Carefree", "getServeList: 获取服务信息");
         CarefreeRetrofit.getInstance().createApi(ServeApis.class)
                 .getCategoryList(communityId, QueryMapBuilder.getIns().buildGet())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<BaseResponse<CategoryListResponse>>() {
                     @Override
                     public void onSuccess(BaseResponse<CategoryListResponse> orderListResponseBaseResponse) {
@@ -247,14 +262,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 categoryChild.position = i;
             }
         }
-        ArrayList<String> list = new ArrayList<>();
-        list.add("35");
-        list.add("38");
-        list.add("39");
-        list.add("46");
-        list.add("52");
-        list.add("53");
-        mainServeList.setAdapter(new MainServeAdapter(R.layout.item_main_serve, data, mCtx, list));
+        adapter.setNewData(data);
     }
 
     public void getCommunityList() {

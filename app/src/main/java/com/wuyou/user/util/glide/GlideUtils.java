@@ -77,14 +77,14 @@ public class GlideUtils {
     public static void loadRoundCornerImage(Context context, String url, ImageView imageView) {
         if (url == null) return;
         RequestOptions options = new RequestOptions();
-        options.optionalTransform(new GlideRoundTransform(context, DensityUtils.dp2px(context, 2), GlideRoundTransform.CornerType.ALL));
+        options.optionalTransform(new GlideRoundTransform(context, 4, GlideRoundTransform.CornerType.ALL));
         Glide.with(context).load(url).apply(options).into(imageView);
     }
 
     public static byte[] loadRoundCornerImageWithBitmap(Context context, String url, ImageView imageView) {
         if (url == null) return null;
         RequestOptions options = new RequestOptions();
-        GlideRoundTransform transformation = new GlideRoundTransform(context, DensityUtils.dp2px(context, 4), GlideRoundTransform.CornerType.ALL);
+        GlideRoundTransform transformation = new GlideRoundTransform(context, 4, GlideRoundTransform.CornerType.ALL);
         options.optionalTransform(transformation);
         Glide.with(context).load(url).apply(options).into(imageView);
         return transformation.getBitmap();

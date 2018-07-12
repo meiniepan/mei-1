@@ -155,7 +155,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
 
     @Override
     public void cancelSuccess(int pos) {
-        adapter.remove(pos);
+        refreshData();
     }
 
 

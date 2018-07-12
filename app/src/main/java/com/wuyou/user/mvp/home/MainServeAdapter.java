@@ -28,8 +28,8 @@ public class MainServeAdapter extends BaseQuickAdapter<CategoryParent, BaseHolde
     private Context context;
     private ArrayList<String> emptyPicureList;
 
-    public MainServeAdapter(int layoutResId, @Nullable List<CategoryParent> data, Context mCtx, ArrayList<String> list) {
-        super(layoutResId, data);
+    public MainServeAdapter(int layoutResId,Context mCtx, ArrayList<String> list) {
+        super(layoutResId);
         context = mCtx;
         emptyPicureList = list;
     }
