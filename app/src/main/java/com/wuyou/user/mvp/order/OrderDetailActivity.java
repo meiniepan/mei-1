@@ -18,7 +18,7 @@ import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.OrderBeanDetail;
-import com.wuyou.user.bean.ServeSpecification;
+import com.wuyou.user.bean.OrderDetailServeBean;
 import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.event.OrderEvent;
 import com.wuyou.user.util.CommonUtil;
@@ -30,7 +30,6 @@ import com.wuyou.user.view.activity.MainActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -77,14 +76,6 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     TextView orderDetailCancel;
     @BindView(R.id.order_detail_store_name)
     TextView orderDetailStoreName;
-    @BindView(R.id.order_detail_picture)
-    ImageView orderDetailPicture;
-    @BindView(R.id.order_detail_serve_name)
-    TextView orderDetailServeName;
-    @BindView(R.id.order_detail_goods_number)
-    TextView orderDetailGoodsNumber;
-    @BindView(R.id.order_detail_goods_specification)
-    TextView orderDetailGoodsSpecification;
     @BindView(R.id.order_detail_fee)
     TextView orderDetailFee;
     @BindView(R.id.order_detail_other_fee)
@@ -159,6 +150,8 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         setData(bean);
     }
 
+    float serveAmount = 0;
+
     public void setData(OrderBeanDetail data) {
         beanDetail = data;
         if (beanDetail.status == 1) orderDetailWarn.setVisibility(View.VISIBLE);
@@ -172,7 +165,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailStatus.setText(CommonUtil.getOrderStatusString(data.status));
         orderDetailStoreName.setText(data.shop.shop_name);
         orderDetailSecondPayment.setText(CommonUtil.formatPrice(data.second_payment));
-        orderDetailOtherFee.setText(data.service.visiting_fee);
+
         orderDetailAmount.setText(CommonUtil.formatPrice(data.total_amount));
         orderDetailName.setText(data.address.name);
         orderDetailAddress.setText(String.format("%s%s%s%s", data.address.city_name, data.address.district, data.address.area, data.address.address));
@@ -186,25 +179,38 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailPayMethod.setText(data.pay_type);
         orderDetailPayTime.setText(TribeDateUtils.dateFormat(new Date(data.pay_time * 1000)));
 
-        if (data.specification != null && data.specification.id != null) {
-            orderDetailGoodsSpecification.setText(String.format("规格：%s", data.specification.name));
-            orderDetailFee.setText(CommonUtil.formatPrice(data.specification.price * data.number));
-        } else {
-            orderDetailFee.setText(CommonUtil.formatPrice(data.service.price * data.number));
-        }
-        orderDetailGoodsNumber.setText(data.number + "");
-        orderDetailServeName.setText(data.service.service_name);
-        GlideUtils.loadRoundCornerImage(this, data.service.photo, orderDetailPicture);
-
-        if (data.specification != null) {
+//        if (data.specification != null && data.specification.id != null) {
+//            orderDetailGoodsSpecification.setText(String.format("规格：%s", data.specification.name));
+//            orderDetailFee.setText(CommonUtil.formatPrice(data.specification.price * data.number));
+//        } else {
+//            orderDetailFee.setText(CommonUtil.formatPrice(data.service.price * data.number));
+//        }
+        if (data.services != null) {
+            float visitingFee = data.services.get(0).visiting_fee;
+            orderDetailOtherFee.setText(CommonUtil.formatPrice(visitingFee));
             LinearLayoutManager layout = new LinearLayoutManager(this);
             layout.setAutoMeasureEnabled(true);
             orderDetailServeList.setLayoutManager(layout);
-            orderDetailServeList.setAdapter(new BaseQuickAdapter<ServeSpecification, BaseHolder>(R.layout.item_order_detail_serve, new ArrayList<>()) {
+            orderDetailServeList.setAdapter(new BaseQuickAdapter<OrderDetailServeBean, BaseHolder>(R.layout.item_order_detail_serve, data.services) {
                 @Override
-                protected void convert(BaseHolder baseHolder, ServeSpecification serveSpecification) {
-                    baseHolder.setText(R.id.order_detail_goods_specification, String.format("规格：%s", serveSpecification.name))
-                            .setText(R.id.order_detail_number, serveSpecification.name);
+                protected void convert(BaseHolder baseHolder, OrderDetailServeBean serveBean) {
+                    float price;
+                    if (serveBean.has_specification == 1) {
+                        price = serveBean.specification.price;
+                        baseHolder.setText(R.id.order_detail_goods_specification, String.format("规格：%s", serveBean.specification.name));
+                    } else {
+                        price = serveBean.price;
+                    }
+                    serveAmount += price;
+                    baseHolder.setText(R.id.order_detail_serve_name, serveBean.service_name)
+                            .setText(R.id.order_detail_goods_number, serveBean.number)
+                            .setText(R.id.order_detail_goods_fee, CommonUtil.formatPrice(price));
+                    ImageView image = baseHolder.getView(R.id.order_detail_picture);
+                    GlideUtils.loadRoundCornerImage(mContext, serveBean.image, image);
+                    if (baseHolder.getAdapterPosition() == data.services.size() - 1) {
+                        orderDetailFee.setText(CommonUtil.formatPrice(serveAmount));
+                        orderDetailAmount.setText(CommonUtil.formatPrice(serveAmount + visitingFee));
+                    }
                 }
             });
         }

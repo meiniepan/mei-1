@@ -24,7 +24,7 @@ public class OrderPresenter extends OrderContract.Presenter {
     @Override
     void getOrder(int type) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .getOrderList(QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).put("status", type + "").put("start_id", 0 + "").put("flag", 1 + "").put("size","10").buildGet())
+                .getOrderList(QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).put("status", type + "").put("start_id", 0 + "").put("flag", 1 + "").put("size", "10").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
@@ -45,7 +45,7 @@ public class OrderPresenter extends OrderContract.Presenter {
     @Override
     void getOrderMore(int type) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .getOrderList(QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).put("status", type + "").put("start_id", startId).put("flag", 2 + "").put("size","10").buildGet())
+                .getOrderList(QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).put("status", type + "").put("start_id", startId).put("flag", 2 + "").put("size", "10").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
@@ -86,7 +86,7 @@ public class OrderPresenter extends OrderContract.Presenter {
     @Override
     void getOrderDetail(String orderId) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .getOrderDetail(orderId, QueryMapBuilder.getIns().buildGet())
+                .getOrderDetail(orderId, QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<OrderBeanDetail>>() {
@@ -117,7 +117,7 @@ public class OrderPresenter extends OrderContract.Presenter {
 
                     @Override
                     protected void onFail(ApiException e) {
-                        if (isAttach())mView.showError(e.getDisplayMessage(), 100);
+                        if (isAttach()) mView.showError(e.getDisplayMessage(), 100);
                     }
                 });
     }

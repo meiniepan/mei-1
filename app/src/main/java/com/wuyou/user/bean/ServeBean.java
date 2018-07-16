@@ -27,6 +27,8 @@ public class ServeBean implements Parcelable {
     public String unit;
     public int has_specification;
     public List<ServeSpecification> specification;
+    public String number;
+    public float amount;
 
     public ServeBean() {
     }
@@ -55,6 +57,8 @@ public class ServeBean implements Parcelable {
         dest.writeString(this.unit);
         dest.writeInt(this.has_specification);
         dest.writeTypedList(this.specification);
+        dest.writeString(this.number);
+        dest.writeFloat(this.amount);
     }
 
     protected ServeBean(Parcel in) {
@@ -75,6 +79,8 @@ public class ServeBean implements Parcelable {
         this.unit = in.readString();
         this.has_specification = in.readInt();
         this.specification = in.createTypedArrayList(ServeSpecification.CREATOR);
+        this.number = in.readString();
+        this.amount = in.readFloat();
     }
 
     public static final Creator<ServeBean> CREATOR = new Creator<ServeBean>() {

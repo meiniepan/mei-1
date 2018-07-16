@@ -1,5 +1,7 @@
 package com.wuyou.user.bean;
 
+import java.util.List;
+
 /**
  * Created by hjn on 2018/2/6.
  */
@@ -34,5 +36,5 @@ public class OrderBeanDetail extends OrderBean {
     public float total_amount;
     public int number;
     public AddressBean address;
-    public ServeSpecification specification;
+    public List<OrderDetailServeBean> services;
 }

@@ -110,6 +110,7 @@ public class WebActivity extends BaseActivity {
         webSettings.setAllowFileAccess(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setDomStorageEnabled(false);
+        webSettings.setTextZoom(100);
         webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
         webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
         String deviceInfo = Utils.getDeviceInfo(BaseApplication.getInstance().getApplicationContext()) + " app/Android";

@@ -30,7 +30,6 @@ public class CarefreeHttpInterceptor implements Interceptor {
                 .host(newBaseUrl.host())
                 .port(newBaseUrl.port())
                 .build();
-
         String query = newFullUrl.encodedQuery();
         if (!TextUtils.isEmpty(query) && !query.contains("sign=")) {
             HttpUrl.Builder newBuilder = newFullUrl.newBuilder();
