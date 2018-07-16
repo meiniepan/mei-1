@@ -13,7 +13,7 @@ import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.OrderBeanDetail;
+import com.wuyou.user.bean.OrderBean;
 import com.wuyou.user.event.OrderEvent;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.OrderApis;
@@ -36,12 +36,14 @@ public class CommentActivity extends BaseActivity {
     ProperRatingBar commentStar;
     @BindView(R.id.comment_anonymous)
     RadioButton anonymousButton;
-    private OrderBeanDetail orderBean;
+    private OrderBean orderBean;
+    private String serveId;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
         orderBean = getIntent().getParcelableExtra(Constant.ORDER_BEAN);
         comment.setText(orderBean.shop.shop_name);
+        serveId = getIntent().getStringExtra(Constant.SERVE_ID);
     }
 
     @Override
@@ -51,7 +53,7 @@ public class CommentActivity extends BaseActivity {
 
     public void submitComment(View view) {
         CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-                .createComment(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("order_id", orderBean.order_id).put("service_id", orderBean.services.get(0).service_id)
+                .createComment(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("order_id", orderBean.order_id).put("service_id", serveId)
                         .put("star", commentStar.getRating() * 2 + "").put("anonymous", anonymousButton.isChecked() ? "1" : "0").buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

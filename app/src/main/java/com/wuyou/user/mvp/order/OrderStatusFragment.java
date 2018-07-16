@@ -195,6 +195,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
             case 3:
                 Intent intent2 = new Intent(mCtx, CommentActivity.class);
                 intent2.putExtra(Constant.ORDER_BEAN, orderBean);
+                intent2.putExtra(Constant.SERVE_ID, orderBean.service.service_id);
                 startActivityForResult(intent2, 201);
                 break;
         }
@@ -218,6 +219,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
             case 3:
                 Intent intent1 = new Intent(mCtx, CommentActivity.class);
                 intent1.putExtra(Constant.ORDER_BEAN, orderBean);
+                intent1.putExtra(Constant.SERVE_ID, orderBean.service.service_id);
                 startActivity(intent1);
                 break;
         }

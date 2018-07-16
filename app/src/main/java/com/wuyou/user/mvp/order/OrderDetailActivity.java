@@ -17,6 +17,7 @@ import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.bean.OrderBean;
 import com.wuyou.user.bean.OrderBeanDetail;
 import com.wuyou.user.bean.OrderDetailServeBean;
 import com.wuyou.user.bean.response.OrderListResponse;
@@ -233,7 +234,9 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                         break;
                     case 3:
                         Intent intent1 = new Intent(getCtx(), CommentActivity.class);
-                        intent1.putExtra(Constant.ORDER_BEAN, beanDetail);
+                        OrderBean orderBean = beanDetail;
+                        intent1.putExtra(Constant.ORDER_BEAN, orderBean);
+                        intent1.putExtra(Constant.SERVE_ID,beanDetail.services.get(0).service_id);
                         startActivity(intent1);
                         break;
                     case 2:
