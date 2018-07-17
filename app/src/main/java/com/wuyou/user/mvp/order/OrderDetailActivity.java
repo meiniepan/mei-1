@@ -156,16 +156,8 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     public void setData(OrderBeanDetail data) {
         beanDetail = data;
         if (beanDetail.status == 1) orderDetailWarn.setVisibility(View.VISIBLE);
-        if (beanDetail.status == 2 && beanDetail.second_payment != 0) {
-            orderDetailWarn.setVisibility(View.VISIBLE);
-            orderDetailWarn.setText("待支付附加金额 " + data.second_payment + "元");
-        }
-        if (beanDetail.status != 2 && beanDetail.second_payment != 0) {
-            findViewById(R.id.order_detail_second_payment_area).setVisibility(View.VISIBLE);
-        }
         orderDetailStatus.setText(CommonUtil.getOrderStatusString(data.status));
         orderDetailStoreName.setText(data.shop.shop_name);
-        orderDetailSecondPayment.setText(CommonUtil.formatPrice(data.second_payment));
 
         orderDetailAmount.setText(CommonUtil.formatPrice(data.total_amount));
         orderDetailName.setText(data.address.name);
@@ -180,12 +172,6 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailPayMethod.setText(data.pay_type);
         orderDetailPayTime.setText(TribeDateUtils.dateFormat(new Date(data.pay_time * 1000)));
 
-//        if (data.specification != null && data.specification.id != null) {
-//            orderDetailGoodsSpecification.setText(String.format("规格：%s", data.specification.name));
-//            orderDetailFee.setText(CommonUtil.formatPrice(data.specification.price * data.number));
-//        } else {
-//            orderDetailFee.setText(CommonUtil.formatPrice(data.service.price * data.number));
-//        }
         if (data.services != null) {
             float visitingFee = data.services.get(0).visiting_fee;
             orderDetailOtherFee.setText(CommonUtil.formatPrice(visitingFee));
@@ -236,15 +222,11 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                         Intent intent1 = new Intent(getCtx(), CommentActivity.class);
                         OrderBean orderBean = beanDetail;
                         intent1.putExtra(Constant.ORDER_BEAN, orderBean);
-                        intent1.putExtra(Constant.SERVE_ID,beanDetail.services.get(0).service_id);
+                        intent1.putExtra(Constant.SERVE_ID, beanDetail.services.get(0).service_id);
                         startActivity(intent1);
                         break;
                     case 2:
-                        if (beanDetail.second_payment == 0) {
-                            mPresenter.finishOrder(orderId);
-                        } else {
-                            paySecond();
-                        }
+                        mPresenter.finishOrder(orderId);
                         break;
                 }
                 break;
@@ -265,13 +247,6 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         startActivity(intent);
     }
 
-    private void paySecond() {
-        Intent intent = new Intent(getCtx(), PayChooseActivity.class);
-        intent.putExtra(Constant.ORDER_ID, beanDetail.order_id);
-        intent.putExtra(Constant.SECOND_PAY, 2);
-        startActivity(intent);
-    }
-
     public void setActionStatus() {
         switch (beanDetail.status) {
             case 1:
@@ -288,11 +263,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                 if (beanDetail.can_finish == 1) {
                     orderDetailContactStore.setVisibility(View.GONE);
                     orderDetailAction.setVisibility(View.VISIBLE);
-                    if (beanDetail.second_payment == 0) {
-                        orderDetailAction.setText(R.string.finish_serve);
-                    } else {
-                        orderDetailAction.setText(R.string.go_pay);
-                    }
+                    orderDetailAction.setText(R.string.finish_serve);
                 } else {
                     orderDetailAction.setVisibility(View.GONE);
                     orderDetailContactStore.setVisibility(View.VISIBLE);

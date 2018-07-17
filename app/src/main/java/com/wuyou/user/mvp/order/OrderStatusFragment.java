@@ -183,14 +183,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
                 startActivity(intent);
                 break;
             case 2:
-                if (orderBean.second_payment == 0) {
-                    mPresenter.finishOrder(orderBean.order_id);
-                } else { //二次支付
-                    Intent intent1 = new Intent(mCtx, PayChooseActivity.class);
-                    intent1.putExtra(Constant.ORDER_ID, orderBean.order_id);
-                    intent1.putExtra(Constant.SECOND_PAY, 2);
-                    startActivity(intent1);
-                }
+                mPresenter.finishOrder(orderBean.order_id);
                 break;
             case 3:
                 Intent intent2 = new Intent(mCtx, CommentActivity.class);

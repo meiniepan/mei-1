@@ -26,7 +26,6 @@ public class OrderBean implements Parcelable {
     public ServeBean service;
     public ShopBean shop;
     public int can_finish;
-    public float second_payment;
 
     public OrderBean() {
     }
@@ -46,7 +45,6 @@ public class OrderBean implements Parcelable {
         dest.writeParcelable(this.service, flags);
         dest.writeParcelable(this.shop, flags);
         dest.writeInt(this.can_finish);
-        dest.writeFloat(this.second_payment);
     }
 
     protected OrderBean(Parcel in) {
@@ -58,7 +56,6 @@ public class OrderBean implements Parcelable {
         this.service = in.readParcelable(ServeBean.class.getClassLoader());
         this.shop = in.readParcelable(ShopBean.class.getClassLoader());
         this.can_finish = in.readInt();
-        this.second_payment = in.readFloat();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

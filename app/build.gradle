@@ -84,14 +84,6 @@ android {
         }
     }
 
-    allprojects {
-        repositories {
-            maven { url "https://jitpack.io" }
-            google()
-            jcenter()
-        }
-    }
-
     //微信 和Glide库 见module
     dependencies {
         compile fileTree(include: ['*.jar'], dir: 'libs')
