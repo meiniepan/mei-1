@@ -152,6 +152,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     }
 
     float serveAmount = 0;
+    float visitingFee = 0;
 
     public void setData(OrderBeanDetail data) {
         beanDetail = data;
@@ -173,8 +174,6 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         orderDetailPayTime.setText(TribeDateUtils.dateFormat(new Date(data.pay_time * 1000)));
 
         if (data.services != null) {
-            float visitingFee = data.services.get(0).visiting_fee;
-            orderDetailOtherFee.setText(CommonUtil.formatPrice(visitingFee));
             LinearLayoutManager layout = new LinearLayoutManager(this);
             layout.setAutoMeasureEnabled(true);
             orderDetailServeList.setLayoutManager(layout);
@@ -188,13 +187,17 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                     } else {
                         price = serveBean.price;
                     }
-                    serveAmount += price;
+                    if (serveBean.stage == 1) {
+                        visitingFee = serveBean.visiting_fee;
+                    }
+                    serveAmount += price * serveBean.number;
                     baseHolder.setText(R.id.order_detail_serve_name, serveBean.service_name)
-                            .setText(R.id.order_detail_goods_number, serveBean.number)
+                            .setText(R.id.order_detail_goods_number, serveBean.number + "")
                             .setText(R.id.order_detail_goods_fee, CommonUtil.formatPrice(price));
                     ImageView image = baseHolder.getView(R.id.order_detail_picture);
                     GlideUtils.loadRoundCornerImage(mContext, serveBean.image, image);
                     if (baseHolder.getAdapterPosition() == data.services.size() - 1) {
+                        orderDetailOtherFee.setText(CommonUtil.formatPrice(visitingFee));
                         orderDetailFee.setText(CommonUtil.formatPrice(serveAmount));
                         orderDetailAmount.setText(CommonUtil.formatPrice(serveAmount + visitingFee));
                     }

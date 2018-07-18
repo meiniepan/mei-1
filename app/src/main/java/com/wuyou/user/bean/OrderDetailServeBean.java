@@ -32,7 +32,7 @@ public class OrderDetailServeBean {
     public String image;
     public int has_specification;
     public ServeSpecification specification;
-    public String number;
+    public int number;
     public float amount;
-    public String stage;
+    public int stage;
 }
