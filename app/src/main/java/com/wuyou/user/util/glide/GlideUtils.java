@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.request.RequestOptions;
-import com.gnway.bangwoba.view.DensityUtils;
 import com.wuyou.user.R;
 
 import java.security.MessageDigest;
@@ -67,25 +66,31 @@ public class GlideUtils {
 
     public static byte[] loadRoundCornerImage(Context context, String url, ImageView imageView, int dp) {
         if (url == null) return null;
-        RequestOptions options = new RequestOptions();
         GlideRoundTransform transformation = new GlideRoundTransform(context, dp, GlideRoundTransform.CornerType.ALL);
-        options.optionalTransform(transformation);
+        RequestOptions options = new RequestOptions().optionalTransform(transformation);
         Glide.with(context).load(url).apply(options).into(imageView);
         return transformation.getBitmap();
     }
 
+    //图片不是centerCrop 裁剪的加载方案
+    public static void loadRoundCornerImageNotCenterCrop(Context context, String url, ImageView imageView) {
+        if (url == null) return;
+        RequestOptions options = new RequestOptions().optionalTransform(new GlideRoundTransform(context, 4, GlideRoundTransform.CornerType.ALL));
+        Glide.with(context).load(url).apply(options).into(imageView);
+    }
+
+
+    //图片是centerCrop 裁剪的加载方案 ,此处因为centerCrop会覆盖掉 GlideTransform的效果
     public static void loadRoundCornerImage(Context context, String url, ImageView imageView) {
         if (url == null) return;
-        RequestOptions options = new RequestOptions();
-        options.optionalTransform(new GlideRoundTransform(context, 4, GlideRoundTransform.CornerType.ALL));
+        RequestOptions options = new RequestOptions().optionalTransform(new GlideCenterCropRoundTransform(context, 4, GlideCenterCropRoundTransform.CornerType.ALL));
         Glide.with(context).load(url).apply(options).into(imageView);
     }
 
     public static byte[] loadRoundCornerImageWithBitmap(Context context, String url, ImageView imageView) {
         if (url == null) return null;
-        RequestOptions options = new RequestOptions();
         GlideRoundTransform transformation = new GlideRoundTransform(context, 4, GlideRoundTransform.CornerType.ALL);
-        options.optionalTransform(transformation);
+        RequestOptions options = new RequestOptions().optionalTransform(transformation);
         Glide.with(context).load(url).apply(options).into(imageView);
         return transformation.getBitmap();
     }

@@ -124,7 +124,7 @@ public class NewOrderActivity extends BaseActivity {
             createOrderFee.setText(CommonUtil.formatPrice(totalPrice));
             createOrderDoorFee.setText(CommonUtil.formatPrice(bean.visiting_fee));
             createOrderAmount.setText(CommonUtil.formatPrice(totalPrice + bean.visiting_fee));
-            GlideUtils.loadRoundCornerImage(this, bean.photo, createOrderGoodsPicture, 8);
+            GlideUtils.loadRoundCornerImage(this, bean.photo, createOrderGoodsPicture);
 
             serveModes.addAll(bean.mode);
             if (serveModes.size() > 0) {
