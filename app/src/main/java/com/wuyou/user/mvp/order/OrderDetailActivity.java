@@ -187,8 +187,12 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
                     } else {
                         price = serveBean.price;
                     }
+                    View secondPaymentFlag = baseHolder.getView(R.id.order_detail_second_payment_flag);
                     if (serveBean.stage == 1) {
                         visitingFee = serveBean.visiting_fee;
+                        secondPaymentFlag.setVisibility(View.GONE);
+                    } else {
+                        secondPaymentFlag.setVisibility(View.VISIBLE);
                     }
                     serveAmount += price * serveBean.number;
                     baseHolder.setText(R.id.order_detail_serve_name, serveBean.service_name)

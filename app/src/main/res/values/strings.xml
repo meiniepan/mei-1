@@ -136,5 +136,6 @@
     <string name="no_network">当前无网络连接，请稍后再试</string>
     <string name="confirm_buy">确认购买</string>
     <string name="permession_denied">您禁止了相关权限，某些功能可能无法正常使用</string>
+    <string name="scan_payment">扫码支付</string>
 
 </resources>

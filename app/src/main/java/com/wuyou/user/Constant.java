@@ -5,6 +5,16 @@ package com.wuyou.user;
  */
 
 public class Constant {
+    public static String BASE_URL = "https://api.iwantmei.com/customer/v1/";
+    public static String WEB_URL = "https://activities.iwantmei.com/";
+
+    public static String ONLINE_BASE_URL = "https://api.iwantmei.com/customer/v1/";
+    public static String ONLINE_WEB_URL = "https://activities.iwantmei.com/";
+    public static String DEV_BASE_URL = "https://develop.api.iwantmei.com/customer/v1/";
+    public static String DEV_WEB_URL = "http://192.168.1.252/";
+    public static String STAGE_BASE_URL = "https://stage.api.iwantmei.com/customer/v1/";
+    public static String STAGE_WEB_URL = "https://stage.activity.iwantmei.com/";
+
     public static final java.lang.String WX_ID = "wx4b8fec36e1c7dc68";
     public static final java.lang.String WX_SECRET = "1caabc2ff8f95959965c7ffc3dbed21d";
     public static final java.lang.String WX_MINI_ID = "gh_90f9fc78ea34";
@@ -13,8 +23,7 @@ public class Constant {
     public static final String HELP_SERVE_AGENT_ID = "181385";
     public static final String SIGN_POINT = "sign_point";
     public static final String ACTIVITY_URL = "activity_url";
-    public static String BASE_URL = "https://api.iwantmei.com/customer/v1/";
-    public static String WEB_URL = "https://activities.iwantmei.com/";
+
     public static String SP_BASE_URL = "base_url";
     public static String SP_WEB_URL = "web_url";
     public final static String BAIDU_PACKAGENAME = "com.baidu.baidumap";

@@ -59,16 +59,16 @@ public class EnvironmentChoosePanel extends Dialog {
     public void setEnv(int env) {
         switch (env) {
             case R.id.env_dev:
-                Constant.WEB_URL = "http://192.168.1.252/";
-                Constant.BASE_URL = "https://develop.api.iwantmei.com/customer/v1/";
+                Constant.WEB_URL = Constant.DEV_WEB_URL;
+                Constant.BASE_URL = Constant.DEV_BASE_URL;
                 break;
             case R.id.env_test:
-                Constant.WEB_URL = "https://stage.activity.iwantmei.com/";
-                Constant.BASE_URL = "https://stage.api.iwantmei.com/customer/v1/";
+                Constant.WEB_URL = Constant.STAGE_WEB_URL;
+                Constant.BASE_URL = Constant.STAGE_BASE_URL;
                 break;
             case R.id.env_online:
-                Constant.WEB_URL = "https://activities.iwantmei.com/";
-                Constant.BASE_URL = "https://api.iwantmei.com/customer/v1/";
+                Constant.WEB_URL = Constant.ONLINE_WEB_URL;
+                Constant.BASE_URL = Constant.ONLINE_BASE_URL;
                 break;
         }
         SharePreferenceManager.getInstance(getContext()).setValue(Constant.SP_BASE_URL, Constant.BASE_URL);
