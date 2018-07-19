@@ -87,6 +87,8 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     LinearLayout orderDetailPayArea;
     @BindView(R.id.order_detail_bottom)
     LinearLayout orderDetailBottom;
+    @BindView(R.id.order_detail_second_pay_time)
+    TextView getOrderDetailSecondPayTime;
     @BindView(R.id.order_detail_serve_list)
     RecyclerView orderDetailServeList;
     private String orderId;
@@ -172,7 +174,10 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         if (!TextUtils.isEmpty(data.serial)) orderDetailBillSerial.setText(data.serial);
         orderDetailPayMethod.setText(data.pay_type);
         orderDetailPayTime.setText(TribeDateUtils.dateFormat(new Date(data.pay_time * 1000)));
-
+        if (data.second_pay_time!=0){
+            findViewById(R.id.order_detail_second_pay_time_layout).setVisibility(View.VISIBLE);
+            getOrderDetailSecondPayTime.setText(TribeDateUtils.dateFormat(new Date(data.second_pay_time * 1000)));
+        }
         if (data.services != null) {
             LinearLayoutManager layout = new LinearLayoutManager(this);
             layout.setAutoMeasureEnabled(true);
