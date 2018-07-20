@@ -198,18 +198,18 @@ public class CommonUtil {
         return reMap;
     }
 
-    public static String getOrderStatusString(int status) {
+    public static String getOrderStatusString(Context context,int status) {
         switch (status) {
             case 1:
-                return "待付款";
+                return context.getString(R.string.wait_pay);
             case 2:
-                return "进行中";
+                return context.getString(R.string.serving);
             case 3:
-                return "待评价";
+                return context.getString(R.string.wait_comment);
             case 4:
-                return "已完成";
+                return context.getString(R.string.finished);
             case 5:
-                return "已取消";
+                return context.getString(R.string.canceled);
         }
         return "";
     }

@@ -159,7 +159,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     public void setData(OrderBeanDetail data) {
         beanDetail = data;
         if (beanDetail.status == 1) orderDetailWarn.setVisibility(View.VISIBLE);
-        orderDetailStatus.setText(CommonUtil.getOrderStatusString(data.status));
+        orderDetailStatus.setText(CommonUtil.getOrderStatusString(this,data.status));
         orderDetailStoreName.setText(data.shop.shop_name);
 
         orderDetailAmount.setText(CommonUtil.formatPrice(data.total_amount));

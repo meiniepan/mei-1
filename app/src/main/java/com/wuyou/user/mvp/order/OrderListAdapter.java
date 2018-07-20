@@ -31,7 +31,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseHolder> {
 
     @Override
     protected void convert(BaseHolder helper, OrderBean item) {
-        helper.setText(R.id.order_item_status, CommonUtil.getOrderStatusString(item.status))
+        helper.setText(R.id.order_item_status, CommonUtil.getOrderStatusString(mCtx,item.status))
                 .setText(R.id.order_item_title, item.service.service_name)
                 .setText(R.id.order_item_spot_name, item.shop.shop_name)
                 .setText(R.id.order_item_number, item.order_number)
