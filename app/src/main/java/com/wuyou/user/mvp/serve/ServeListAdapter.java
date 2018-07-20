@@ -60,7 +60,7 @@ public class ServeListAdapter extends BaseQuickAdapter<ServeBean, BaseHolder> {
         if (minPrice == maxPrice || minPrice == 0) {
             helper.setText(R.id.serve_item_price, "￥" + maxPrice + "/" + serveBean.unit);
         } else {
-            helper.setText(R.id.serve_item_price, "￥" + minPrice + "/" + serveBean.unit + "～" + maxPrice + "/" + serveBean.unit);
+            helper.setText(R.id.serve_item_price, "￥" + minPrice +"～" + maxPrice + "/" + serveBean.unit);
         }
     }
 }
