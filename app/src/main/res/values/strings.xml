@@ -83,7 +83,7 @@
     <string name="reload">重新加载</string>
     <string name="no_order_yet">您目前还没有订单，快去下单吧</string>
     <string name="no_login">您还没有登录</string>
-    <string name="canceled">已取消</string>
+    <string name="canceled">已关闭</string>
     <string name="finish_serve">确认完成</string>
     <string name="please_login">请先登录</string>
     <string name="pay_success">支付成功</string>
