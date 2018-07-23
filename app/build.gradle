@@ -18,8 +18,8 @@ android {
         applicationId "com.wuyou.user"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 9
-        versionName "1.4.2"
+        versionCode 10
+        versionName "1.5.0"
         multiDexEnabled true
     }
     sourceSets {
