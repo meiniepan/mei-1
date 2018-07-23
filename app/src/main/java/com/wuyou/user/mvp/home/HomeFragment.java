@@ -333,7 +333,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     Handler handler = new Handler();
 
     private void showNoMatchAlert() {
-        new CustomAlertDialog.Builder(mCtx).setTitle("提示").setMessage("检测到您当前位置没有服务点").setPositiveButton("知道了", null).create().show();
+//        new CustomAlertDialog.Builder(mCtx).setTitle("提示").setMessage("检测到您当前位置没有服务点").setPositiveButton("知道了", null).create().show();
     }
 
     private void showLocationChangedAlert(CommunityBean currentCommunity, CommunityBean cacheCommunityBean) {
