@@ -9,4 +9,5 @@ public class CategoryChild {
     public String name;
     public int position;
     public int services;
+    public String remind_image;
 }

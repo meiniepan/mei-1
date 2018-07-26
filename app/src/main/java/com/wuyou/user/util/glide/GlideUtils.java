@@ -2,13 +2,21 @@ package com.wuyou.user.util.glide;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.request.RequestFutureTarget;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.wuyou.user.R;
 
 import java.security.MessageDigest;
@@ -21,9 +29,12 @@ import static com.bumptech.glide.load.Key.CHARSET;
 public class GlideUtils {
     public static void loadImage(Context context, String url, final ImageView imageView) {
         if (url == null) return;
-        RequestOptions options = new RequestOptions();
-        options.placeholder(R.mipmap.default_pic);
-        Glide.with(context).load(url).apply(options).into(imageView);
+        Glide.with(context).load(url).apply(new RequestOptions().placeholder(R.mipmap.default_pic)).into(imageView);
+    }
+
+    public static void loadImageWithHolder(Context context, String url, final ImageView imageView, int holderRes) {
+        if (url == null) return;
+        Glide.with(context).load(url).apply(new RequestOptions().placeholder(holderRes)).into(imageView);
     }
 
     public static void loadImageNoHolder(Context context, String url, final ImageView imageView) {
@@ -31,12 +42,34 @@ public class GlideUtils {
         Glide.with(context).load(url).into(imageView);
     }
 
+    public static void loadGifImage(Context context, String url, final ImageView imageView) {
+        if (url == null) return;
+        Glide.with(context).asGif().load(url).into(imageView);
+    }
+
+    public static void loadImageWithListener(Context context, String url, final ImageView imageView,OnLoadListener onLoadListener) {
+        if (url == null) return;
+        Glide.with(context).load(url).listener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                Log.e("Carefree", "onResourceReady: ");
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                Log.e("Carefree", "onResourceReady: ");
+                onLoadListener.onLoaded();
+                return false;
+            }
+        }).into(imageView);
+    }
+
+
     public static void loadImageNoHolder(Context context, String url, final ImageView imageView, boolean isCircle) {
         if (url == null) return;
         if (isCircle) {
-            RequestOptions options = new RequestOptions();
-            options.apply(RequestOptions.circleCropTransform());
-            Glide.with(context).load(url).apply(options).into(imageView);
+            Glide.with(context).load(url).apply(new RequestOptions().apply(RequestOptions.circleCropTransform())).into(imageView);
         } else {
             loadImage(context, url, imageView);
         }
@@ -45,9 +78,7 @@ public class GlideUtils {
     public static void loadImage(Context context, String url, ImageView imageView, boolean isCircle) {
         if (url == null) return;
         if (isCircle) {
-            RequestOptions options = new RequestOptions();
-            options.placeholder(R.mipmap.default_pic).apply(RequestOptions.circleCropTransform());
-            Glide.with(context).load(url).apply(options).into(imageView);
+            Glide.with(context).load(url).apply(new RequestOptions().placeholder(R.mipmap.default_pic).apply(RequestOptions.circleCropTransform())).into(imageView);
         } else {
             loadImage(context, url, imageView);
         }

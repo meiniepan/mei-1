@@ -150,14 +150,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         mainServeList.setLayoutManager(mLinearLayoutManager);
         mainServeList.setHasFixedSize(true);
         mainServeList.setNestedScrollingEnabled(false);
-        ArrayList<String> list = new ArrayList<>();
-        list.add("35");
-        list.add("38");
-        list.add("39");
-        list.add("46");
-        list.add("52");
-        list.add("53");//添加 点击时有特殊图片的服务id
-        adapter = new MainServeAdapter(R.layout.item_main_serve, mCtx, list);
+        adapter = new MainServeAdapter(R.layout.item_main_serve);
         mainServeList.setAdapter(adapter);
     }
 

@@ -76,7 +76,7 @@ public class PhoneLoginFragment extends BaseFragment<LoginContract.View, LoginCo
                 mPresenter.getVerifyCode(phone);
                 loginVerify.requestFocus();
                 observer = new CounterDisposableObserver(reSendCaptcha);
-                RxUtil.countdown(59).subscribe(observer);
+                RxUtil.countdown(119).subscribe(observer);
                 break;
             case R.id.login:
                 String phone2 = loginPhone.getText().toString().trim();

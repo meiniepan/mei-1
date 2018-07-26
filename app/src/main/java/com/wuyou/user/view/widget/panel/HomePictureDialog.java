@@ -11,8 +11,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.gs.buluo.common.utils.DensityUtils;
+import com.gs.buluo.common.widget.LoadingDialog;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.response.CategoryChild;
+import com.wuyou.user.util.glide.GlideUtils;
 
 import butterknife.ButterKnife;
 
@@ -21,11 +23,11 @@ import butterknife.ButterKnife;
  */
 
 public class HomePictureDialog extends Dialog {
-    private String categoryId;
+    private String imageUrl;
 
-    public HomePictureDialog(@NonNull Context context, CategoryChild item) {
+    public HomePictureDialog(@NonNull Context context, String imageUrl) {
         super(context, R.style.zoom_dialog);
-        categoryId = item.id;
+        this.imageUrl = imageUrl;
         initView();
     }
 
@@ -35,39 +37,17 @@ public class HomePictureDialog extends Dialog {
         ButterKnife.bind(this);
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
-        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        params.width = DensityUtils.dip2px(getContext(), 315);
         params.gravity = Gravity.CENTER;
         window.setAttributes(params);
 
         ImageView emptyImage = rootView.findViewById(R.id.home_empty_picture);
-        setEmptyPicture(emptyImage);
-
-    }
-
-    public void setEmptyPicture(ImageView emptyPicture) {
-        switch (categoryId) {
-            case "38":
-                emptyPicture.setImageResource(R.mipmap.home_market_empty);
-                break;
-            case "39":
-                emptyPicture.setImageResource(R.mipmap.home_education_empty);
-                break;
-            case "53":
-                emptyPicture.setImageResource(R.mipmap.home_education_ask_empty);
-                break;
-            case "46":
-                emptyPicture.setImageResource(R.mipmap.home_help_empty);
-                break;
-            case "35":
-                emptyPicture.setImageResource(R.mipmap.home_health_empty);
-                break;
-            case "52":
-                emptyPicture.setImageResource(R.mipmap.home_no_serve_dialog_bg);
-                break;
-            default:
-                emptyPicture.setImageResource(R.mipmap.home_no_serve_dialog_bg);
-                break;
-        }
+        GlideUtils.loadImageWithListener(getContext(), imageUrl, emptyImage, new GlideUtils.OnLoadListener() {
+            @Override
+            public void onLoaded() {
+                LoadingDialog.getInstance().dismissDialog();
+            }
+        });
     }
 }
