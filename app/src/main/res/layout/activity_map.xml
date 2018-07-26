@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="无忧社区"
+            android:text="来到社区"
             android:textColor="@color/white"
             android:textSize="@dimen/title_size" />
 

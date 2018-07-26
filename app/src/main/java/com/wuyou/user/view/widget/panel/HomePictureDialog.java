@@ -43,11 +43,7 @@ public class HomePictureDialog extends Dialog {
         window.setAttributes(params);
 
         ImageView emptyImage = rootView.findViewById(R.id.home_empty_picture);
-        GlideUtils.loadImageWithListener(getContext(), imageUrl, emptyImage, new GlideUtils.OnLoadListener() {
-            @Override
-            public void onLoaded() {
-                LoadingDialog.getInstance().dismissDialog();
-            }
-        });
+        GlideUtils.loadImageWithListener(getContext(), imageUrl, emptyImage, () -> LoadingDialog.getInstance().dismissDialog());
+        rootView.setOnClickListener(v -> dismiss());
     }
 }
