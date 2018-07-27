@@ -24,6 +24,7 @@ import com.gs.buluo.common.utils.SystemBarTintManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.LoadingDialog;
 import com.gs.buluo.common.widget.StatusLayout;
+import com.tendcloud.tenddata.TCAgent;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.mvp.BasePresenter;
@@ -60,7 +61,17 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         bindView(savedInstanceState);
         initSystemBar(this);
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TCAgent.onPageStart(this, getLocalClassName());
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TCAgent.onPageEnd(this, getLocalClassName());
+    }
     private void initContentView(int layout_base_activity) {
         setContentView(layout_base_activity);
         findViewById(R.id.back_base).setOnClickListener(v -> onBackPressed());

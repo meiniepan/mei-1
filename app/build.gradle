@@ -112,3 +112,6 @@ android {
         compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
     }
 }
+dependencies {
+    implementation files('libs/SaaS_AppAnalytics_Android_SDK_V4.0.20.jar')
+}
