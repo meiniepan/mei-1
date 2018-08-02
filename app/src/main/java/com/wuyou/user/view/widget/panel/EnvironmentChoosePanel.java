@@ -52,7 +52,10 @@ public class EnvironmentChoosePanel extends Dialog {
         else if (Constant.BASE_URL.equals("https://api.iwantmei.com/customer/v1/"))
             radioGroup.check(R.id.env_online);
 
-        findViewById(R.id.env_login).setOnClickListener(v -> EventBus.getDefault().post(new TokenEvent()));
+        findViewById(R.id.env_login).setOnClickListener(v ->{
+            EventBus.getDefault().post(new TokenEvent());
+            dismiss();
+        });
     }
 
 

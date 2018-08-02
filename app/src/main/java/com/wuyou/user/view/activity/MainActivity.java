@@ -123,7 +123,10 @@ public class MainActivity extends BaseActivity {
                 return false;
             }
         });
+    }
 
+    @Override
+    protected void init() {
         ShareConfig config = ShareConfig.instance().wxId(Constant.WX_ID).wxSecret(Constant.WX_SECRET);
         ShareManager.init(config);
         CrashReport.putUserData(getApplicationContext(), "userkey", CarefreeDaoSession.getInstance().getUserInfo() == null ? "unLogin" : CarefreeDaoSession.getInstance().getUserInfo().getMobile());

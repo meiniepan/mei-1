@@ -52,13 +52,11 @@ public class GlideUtils {
         Glide.with(context).load(url).listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                Log.e("Carefree", "onResourceReady: ");
                 return false;
             }
 
             @Override
             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                Log.e("Carefree", "onResourceReady: ");
                 onLoadListener.onLoaded();
                 return false;
             }

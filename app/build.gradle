@@ -110,5 +110,6 @@ android {
         implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
         compile 'com.google.zxing:core:3.2.1'
         compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
+//        compile 'zlc.season:rxdownload3:1.2.7'
     }
 }

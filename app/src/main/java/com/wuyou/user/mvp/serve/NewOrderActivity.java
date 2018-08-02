@@ -284,6 +284,9 @@ public class NewOrderActivity extends BaseActivity {
         picker.setOnStringPickListener(new LinkagePicker.OnStringPickListener() {
             @Override
             public void onPicked(String first, String second, String third) {
+                if (second.contains("无可预约时间")){
+                    return;
+                }
                 createOrderServeTime.setText(first + "  " + second);
                 serveDate = first;
                 serveTime = second;
