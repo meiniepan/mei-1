@@ -113,3 +113,6 @@ android {
 //        compile 'zlc.season:rxdownload3:1.2.7'
     }
 }
+dependencies {
+    implementation files('libs/SaaS_AppAnalytics_Android_SDK_V4.0.20.jar')
+}

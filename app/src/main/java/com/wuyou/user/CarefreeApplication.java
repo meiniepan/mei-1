@@ -8,6 +8,7 @@ import com.gs.buluo.common.BaseApplication;
 import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
+import com.tendcloud.tenddata.TCAgent;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.view.activity.MainActivity;
 import com.wuyou.user.view.activity.SettingActivity;
@@ -26,6 +27,15 @@ public class CarefreeApplication extends BaseApplication {
         instance = this;
         initUrl();
         initBuglyUpgrade();
+        initTalkingData();
+    }
+    private void initTalkingData() {
+        TCAgent.LOG_ON=true;
+        // App ID: 在TalkingData创建应用后，进入数据报表页中，在“系统设置”-“编辑应用”页面里查看App ID。
+        // 渠道 ID: 是渠道标识符，可通过不同渠道单独追踪数据。
+        TCAgent.init(this, "674BE02AC6D6485DB2C4CB05C47C7AFB", "android");
+        // 如果已经在AndroidManifest.xml配置了App ID和渠道ID，调用TCAgent.init(this)即可；或与AndroidManifest.xml中的对应参数保持一致。
+        TCAgent.setReportUncaughtExceptions(true);
     }
 
     private void initUrl() {

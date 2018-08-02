@@ -88,3 +88,15 @@
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
 -keep class android.support.**{*;}
+#talkingdata
+-dontwarn com.tendcloud.tenddata.**
+-keep class com.tendcloud.** {*;}
+-keep public class com.tendcloud.tenddata.** { public protected *;}
+-keepclassmembers class com.tendcloud.tenddata.**{
+public void *(***);
+}
+-keep class com.talkingdata.sdk.TalkingDataSDK {public *;}
+-keep class com.apptalkingdata.** {*;}
+-keep class dice.** {*; }
+-dontwarn dice.**
+#talkingdata
