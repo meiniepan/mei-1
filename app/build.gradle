@@ -35,6 +35,9 @@ android {
             keyPassword rootProject.keyPassword
         }
     }
+    lintOptions {
+        abortOnError false
+    }
     buildTypes {
         if ("true" == IS_TEST) {
             API_URL = DUBUG_SERVER_URL
