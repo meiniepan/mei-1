@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.youth.banner.loader.ImageLoader;
 
 /**
@@ -11,9 +12,10 @@ import com.youth.banner.loader.ImageLoader;
  */
 public class GlideBannerLoader extends ImageLoader {
     private boolean isLocal = false;
+    private boolean isRound = false;
 
-    public GlideBannerLoader(boolean isLocal) {
-        this.isLocal = isLocal;
+    public GlideBannerLoader(boolean isRound) {
+        this.isRound = isRound;
     }
 
     public GlideBannerLoader() {
@@ -32,6 +34,11 @@ public class GlideBannerLoader extends ImageLoader {
 //        } else {
 //            url = transformUrl(url);
 //        }
-        Glide.with(context).load(url).into(imageView);
+        if (isRound) {
+            RequestOptions options = new RequestOptions().optionalTransform(new GlideCenterCropRoundTransform(context, 4, GlideCenterCropRoundTransform.CornerType.ALL));
+            Glide.with(context).load(url).apply(options).into(imageView);
+        } else {
+            Glide.with(context).load(url).into(imageView);
+        }
     }
 }

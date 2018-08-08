@@ -93,7 +93,6 @@ android {
         annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
         compile "com.android.support:design:$rootProject.supportLibraryVersion"
         compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
-        compile 'com.youth.banner:banner:1.4.9'
         compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
         compile 'org.greenrobot:greendao:3.2.2'
         compile 'com.github.techery:properratingbar:0.0.5'
@@ -105,6 +104,7 @@ android {
         }
         compile 'com.android.support:multidex:1.0.3'
         compile project(path: ':shareutil')
+        compile project(path: ':banner')
 //        compile 'com.tencent.bugly:crashreport:latest.release'
         implementation files('libs/alipaySdk-20180403.jar')
         implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'

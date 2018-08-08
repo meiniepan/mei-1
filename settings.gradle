@@ -1,1 +1,1 @@
-include ':app', ':bangwo8Ui', ':shareutil'
+include ':app', ':bangwo8Ui', ':shareutil', ':banner'

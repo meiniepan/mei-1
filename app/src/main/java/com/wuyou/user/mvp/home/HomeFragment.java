@@ -6,13 +6,12 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -26,6 +25,7 @@ import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
+import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
@@ -35,7 +35,6 @@ import com.wuyou.user.R;
 import com.wuyou.user.bean.ActivityBean;
 import com.wuyou.user.bean.CommunityBean;
 import com.wuyou.user.bean.HomeVideoBean;
-import com.wuyou.user.bean.OrderBean;
 import com.wuyou.user.bean.ShareBean;
 import com.wuyou.user.bean.response.CategoryChild;
 import com.wuyou.user.bean.response.CategoryListResponse;
@@ -43,24 +42,27 @@ import com.wuyou.user.bean.response.CategoryParent;
 import com.wuyou.user.bean.response.CommunityListResponse;
 import com.wuyou.user.bean.response.HomeVideoResponse;
 import com.wuyou.user.bean.response.ListResponse;
-import com.wuyou.user.bean.response.OrderListResponse;
 import com.wuyou.user.event.AddressEvent;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.HomeApis;
-import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.JZVideoPlayerFullscreen;
 import com.wuyou.user.util.RxUtil;
-import com.wuyou.user.util.glide.GlideUtils;
+import com.wuyou.user.util.glide.GlideBannerLoader;
 import com.wuyou.user.view.activity.HomeMapActivity;
 import com.wuyou.user.view.activity.SearchActivity;
 import com.wuyou.user.view.activity.WebActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
-import com.wuyou.user.view.widget.MarqueeTextView;
 import com.wuyou.user.view.widget.panel.ShareBottomBoard;
+import com.wuyou.user.view.widget.pullToResfresh.HomeVideoHeader;
+import com.wuyou.user.view.widget.pullToResfresh.PullRefreshLayout;
+import com.wuyou.user.view.widget.pullToResfresh.ShowGravity;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.transformer.GalleryTransformer;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -72,7 +74,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.jzvd.JZVideoPlayer;
-import cn.jzvd.JZVideoPlayerStandard;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -83,36 +84,26 @@ import static cn.jzvd.JZVideoPlayer.FULLSCREEN_ORIENTATION;
  */
 
 public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscreen.OnShareListener {
-    @BindView(R.id.main_video_1)
     JZVideoPlayerFullscreen video1;
-    @BindView(R.id.main_video_2)
-    JZVideoPlayerFullscreen video2;
     @BindView(R.id.main_serve_list)
     RecyclerView mainServeList;
-    @BindView(R.id.home_video_title_1)
-    TextView homeVideoTitle1;
-    @BindView(R.id.home_video_title_2)
-    TextView homeVideoTitle2;
     @BindView(R.id.home_current_location)
     TextView homeCurrentLocation;
     @BindView(R.id.home_address)
     TextView homeAddress;
-    @BindView(R.id.home_order_message)
-    MarqueeTextView homeOrderMessage;
     @BindView(R.id.home_activity)
-    ImageView homeActivity;
+    Banner homeActivityBanner;
 
-    @BindView(R.id.home_order_area)
-    View homeOrderArea;
     @BindView(R.id.home_refresh)
-    SwipeRefreshLayout homeRefresh;
+    PullRefreshLayout refreshLayout;
+    @BindView(R.id.home_scroll_view)
+    NestedScrollView homeScrollView;
 
     private String communityId = "0";
     private CommunityBean cacheCommunityBean;
     private List<CommunityBean> communityBeans;
     private List<HomeVideoBean> videoData;
     private HomeVideoBean homeVideoBean1;
-    private HomeVideoBean homeVideoBean2;
     private MainServeAdapter adapter;
 
     @Override
@@ -129,20 +120,56 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         if (askForPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             initLocationAndGetData();
         }
-        getOrderMessage();
+        initBanner();
         getActivityData();
-        homeRefresh.setOnRefreshListener(() -> {
-            getOrderMessage();
-            if (location == null && mLocationClient != null) {
-                mLocationClient.startLocation();
-            } else if (mLocationClient == null && askForPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                initLocationAndGetData();
-            } else if (mLocationClient != null && location != null) {
-                getServeList();
+        getServeList(); //先取社区ID为0 的数据 填充界面
+        refreshLayout.requestPullDisallowInterceptTouchEvent(false);
+        refreshLayout.setHeaderShowGravity(ShowGravity.FOLLOW);
+        refreshLayout.setHeaderView(new HomeVideoHeader(getContext(), refreshLayout));
+        refreshLayout.setTargetView(homeScrollView);
+        refreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (location == null && mLocationClient != null) {
+                    mLocationClient.startLocation();
+                } else if (mLocationClient == null && askForPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    initLocationAndGetData();
+                } else if (mLocationClient != null && location != null) {
+                    getServeList();
+                }
+                HomeVideoHeader twoRefreshHeader = refreshLayout.getHeaderView();
+                refreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.refreshComplete();
+                    }
+                }, 1000);
+            }
+
+            @Override
+            public void onLoading() {
+
             }
         });
     }
 
+    private void initBanner() {
+        homeActivityBanner.setImageLoader(new GlideBannerLoader(true));
+        homeActivityBanner.getViewPager().setPageMargin(DensityUtils.dip2px(getContext(), 10));
+        homeActivityBanner.setOffscreenPageLimit(4);
+        homeActivityBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        homeActivityBanner.setIndicatorGravity(BannerConfig.CENTER);
+        homeActivityBanner.setDelayTime(5000);
+        homeActivityBanner.isAutoPlay(true);
+        homeActivityBanner.setPageTransformer(true, new GalleryTransformer());
+        ArrayList list = new ArrayList();
+        list.add("http://image.iwantmei.com/service/2018-07-25/bb5d2130-8fdf-11e8-8a4e-00163e0e8da9");
+        list.add("http://image.iwantmei.com/service/2018-07-25/aa8587a0-8fdd-11e8-ad05-00163e0e8da9");
+        list.add("http://image.iwantmei.com/service/2018-07-25/07552e0a-8fdd-11e8-810b-00163e0e8da9");
+        list.add("http://image.iwantmei.com/service/2018-07-25/ba385390-8fdc-11e8-ac61-00163e0e8da9");
+        homeActivityBanner.setImages(list);
+        homeActivityBanner.start();
+    }
 
     private void initServeList() {
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mCtx);
@@ -200,7 +227,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLogin(LoginEvent event) {
-        getOrderMessage();
         if (CarefreeDaoSession.getInstance().getUserInfo() == null)
             mLocationClient.startLocation(); //退出登录，重新定位社区
     }
@@ -232,19 +258,22 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         Log.e("Carefree", "getServeList: 获取服务信息");
         CarefreeRetrofit.getInstance().createApi(ServeApis.class)
                 .getCategoryList(communityId, QueryMapBuilder.getIns().buildGet())
-                .compose(RxUtil.switchSchedulers())
+                .subscribeOn(Schedulers.io())
+                .doOnNext(categoryListResponseBaseResponse -> {
+                    String dataToJson = new GsonBuilder().create().toJson(categoryListResponseBaseResponse.data);
+                    SharePreferenceManager.getInstance(mCtx).setValue(Constant.CATEGORY_CACHE, dataToJson);
+                })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<CategoryListResponse>>() {
                     @Override
                     public void onSuccess(BaseResponse<CategoryListResponse> orderListResponseBaseResponse) {
-                        String dataToJson = new GsonBuilder().create().toJson(orderListResponseBaseResponse.data);
-                        SharePreferenceManager.getInstance(mCtx).setValue(Constant.CATEGORY_CACHE, dataToJson);
                         setData(orderListResponseBaseResponse.data.list);
-                        if (homeRefresh.isRefreshing()) homeRefresh.setRefreshing(false);
+//                        if (homeRefresh.isRefreshing()) homeRefresh.setRefreshing(false);
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
-                        if (homeRefresh.isRefreshing()) homeRefresh.setRefreshing(false);
+//                        if (homeRefresh.isRefreshing()) homeRefresh.setRefreshing(false);
                     }
                 });
     }
@@ -370,21 +399,15 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     }
 
     public void setVideoData(List<HomeVideoBean> videoData) {
-        this.videoData = videoData;
-        if (videoData != null && this.videoData.size() > 1) {
-            homeVideoBean1 = videoData.get(0);
-            video1.setUp(homeVideoBean1.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean1.title);
-            homeVideoTitle1.setText(homeVideoBean1.title);
-            GlideUtils.loadImage(mCtx, homeVideoBean1.preview, video1.thumbImageView);
-            video1.addShareListener(this);
-
-            homeVideoBean2 = videoData.get(1);
-            video2.setUp(homeVideoBean2.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean2.title);
-            homeVideoTitle2.setText(homeVideoBean2.title);
-            GlideUtils.loadImage(mCtx, homeVideoBean2.preview, video2.thumbImageView);
-        } else {
-            ToastUtils.ToastMessage(mCtx, "获取视频信息失败" + videoData);
-        }
+//        this.videoData = videoData;
+//        if (videoData != null && this.videoData.size() > 1) {
+//            homeVideoBean1 = videoData.get(0);
+//            video1.setUp(homeVideoBean1.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean1.title);
+//            GlideUtils.loadImage(mCtx, homeVideoBean1.preview, video1.thumbImageView);
+//            video1.addShareListener(this);
+//        } else {
+//            ToastUtils.ToastMessage(mCtx, "获取视频信息失败" + videoData);
+//        }
     }
 
     @OnClick({R.id.home_location_area, R.id.home_map, R.id.home_search, R.id.home_activity})
@@ -425,48 +448,11 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
 
     private String activityUrl;
 
-    public void getOrderMessage() {
-        if (CarefreeDaoSession.getInstance().getUserInfo() == null) {
-            homeRefresh.setRefreshing(false);
-            return;
-        }
-        CarefreeRetrofit.getInstance().createApi(OrderApis.class).getOrderList(QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId())
-                .put("status", "2").put("startId", "0").put("flag", "1").buildGet())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse<OrderListResponse>>() {
-                    @Override
-                    public void onSuccess(BaseResponse<OrderListResponse> orderListResponseBaseResponse) {
-                        setOrderData(orderListResponseBaseResponse.data.list);
-                        homeRefresh.setRefreshing(false);
-                    }
-
-                    @Override
-                    protected void onFail(ApiException e) {
-                        homeRefresh.setRefreshing(false);
-                    }
-                });
-    }
-
-    public void setOrderData(List<OrderBean> orderData) {
-        if (orderData != null && orderData.size() > 0) {
-            homeOrderArea.setVisibility(View.VISIBLE);
-            StringBuilder stringBuilder = new StringBuilder();
-            for (OrderBean orderBean : orderData) {
-                stringBuilder.append("  您有一条新订单，订单编号: ").append(orderBean.order_number);
-            }
-            homeOrderMessage.setText(stringBuilder.toString());
-        }
-    }
-
-
     @Override
     public void onShare(String url, int platform) {
         ShareBottomBoard bottomBoard = new ShareBottomBoard(mCtx);
         if (TextUtils.equals(url, homeVideoBean1.video)) {
             bottomBoard.setData(copyToShare(homeVideoBean1));
-        } else {
-            bottomBoard.setData(copyToShare(homeVideoBean2));
         }
         bottomBoard.show();
         bottomBoard.setOnDismissListener(dialog -> getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION));
@@ -497,7 +483,8 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     public void setActivityData(List<ActivityBean> activityData) {
         if (activityData != null && activityData.size() > 0) {
             ActivityBean activityBean = activityData.get(0);
-            GlideUtils.loadImageNoHolder(mCtx, activityBean.image, homeActivity);
+//            GlideUtils.loadImageNoHolder(mCtx, activityBean.image, homeActivity);
+
             activityUrl = activityBean.link;
         }
     }
