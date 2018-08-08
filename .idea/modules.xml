@@ -7,7 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/banner/banner.iml" filepath="$PROJECT_DIR$/banner/banner.iml" />
       <module fileurl="file://$PROJECT_DIR$/shareutil/shareutil.iml" filepath="$PROJECT_DIR$/shareutil/shareutil.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/wuyou-android-user.iml" filepath="$PROJECT_DIR$/.idea/wuyou-android-user.iml" />
-      <module fileurl="file://F:\wuyou-android-user\wuyou-android-user.iml" filepath="F:\wuyou-android-user\wuyou-android-user.iml" />
     </modules>
   </component>
 </project>
