@@ -34,8 +34,6 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.ActivityBean;
 import com.wuyou.user.bean.CommunityBean;
-import com.wuyou.user.bean.HomeVideoBean;
-import com.wuyou.user.bean.ShareBean;
 import com.wuyou.user.bean.response.CategoryChild;
 import com.wuyou.user.bean.response.CategoryListResponse;
 import com.wuyou.user.bean.response.CategoryParent;
@@ -49,14 +47,12 @@ import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.CommonUtil;
-import com.wuyou.user.util.JZVideoPlayerFullscreen;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideBannerLoader;
 import com.wuyou.user.view.activity.HomeMapActivity;
 import com.wuyou.user.view.activity.SearchActivity;
 import com.wuyou.user.view.activity.WebActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
-import com.wuyou.user.view.widget.panel.ShareBottomBoard;
 import com.wuyou.user.view.widget.pullToResfresh.HomeVideoHeader;
 import com.wuyou.user.view.widget.pullToResfresh.PullRefreshLayout;
 import com.wuyou.user.view.widget.pullToResfresh.ShowGravity;
@@ -83,8 +79,7 @@ import static cn.jzvd.JZVideoPlayer.FULLSCREEN_ORIENTATION;
  * Created by Administrator on 2018\1\29 0029.
  */
 
-public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscreen.OnShareListener {
-    JZVideoPlayerFullscreen video1;
+public class HomeFragment extends BaseFragment {
     @BindView(R.id.main_serve_list)
     RecyclerView mainServeList;
     @BindView(R.id.home_current_location)
@@ -102,9 +97,8 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     private String communityId = "0";
     private CommunityBean cacheCommunityBean;
     private List<CommunityBean> communityBeans;
-    private List<HomeVideoBean> videoData;
-    private HomeVideoBean homeVideoBean1;
     private MainServeAdapter adapter;
+    private HomeVideoHeader headerView;
 
     @Override
     protected int getContentLayout() {
@@ -123,9 +117,11 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         initBanner();
         getActivityData();
         getServeList(); //先取社区ID为0 的数据 填充界面
+
         refreshLayout.requestPullDisallowInterceptTouchEvent(false);
         refreshLayout.setHeaderShowGravity(ShowGravity.FOLLOW);
-        refreshLayout.setHeaderView(new HomeVideoHeader(getContext(), refreshLayout));
+        headerView = new HomeVideoHeader(getActivity(), refreshLayout);
+        refreshLayout.setHeaderView(headerView);
         refreshLayout.setTargetView(homeScrollView);
         refreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
@@ -137,20 +133,11 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 } else if (mLocationClient != null && location != null) {
                     getServeList();
                 }
-                HomeVideoHeader twoRefreshHeader = refreshLayout.getHeaderView();
-                refreshLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshLayout.refreshComplete();
-                    }
-                }, 1000);
-            }
-
-            @Override
-            public void onLoading() {
-
             }
         });
+        refreshLayout.initHeadPosition(DensityUtils.dip2px(getContext(), 200));
+        refreshLayout.setDispatchPullTouchAble(true);
+        headerView.isShowVideo = true;
     }
 
     private void initBanner() {
@@ -268,12 +255,18 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                     @Override
                     public void onSuccess(BaseResponse<CategoryListResponse> orderListResponseBaseResponse) {
                         setData(orderListResponseBaseResponse.data.list);
-//                        if (homeRefresh.isRefreshing()) homeRefresh.setRefreshing(false);
+                        headerView.setRefreshFinishText();
+                        if (!headerView.isShowVideo()) {
+                            refreshLayout.refreshComplete();
+                        }
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
-//                        if (homeRefresh.isRefreshing()) homeRefresh.setRefreshing(false);
+                        headerView.setRefreshFinishText();
+                        if (!headerView.isShowVideo()) {
+                            refreshLayout.refreshComplete();
+                        }
                     }
                 });
     }
@@ -315,7 +308,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 .subscribe(new BaseSubscriber<BaseResponse<HomeVideoResponse>>() {
                     @Override
                     public void onSuccess(BaseResponse<HomeVideoResponse> homeVideoResponseBaseResponse) {
-                        setVideoData(homeVideoResponseBaseResponse.data.list);
+                        headerView.setVideoData(homeVideoResponseBaseResponse.data.list);
                     }
 
                     @Override
@@ -398,18 +391,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         return null;
     }
 
-    public void setVideoData(List<HomeVideoBean> videoData) {
-//        this.videoData = videoData;
-//        if (videoData != null && this.videoData.size() > 1) {
-//            homeVideoBean1 = videoData.get(0);
-//            video1.setUp(homeVideoBean1.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean1.title);
-//            GlideUtils.loadImage(mCtx, homeVideoBean1.preview, video1.thumbImageView);
-//            video1.addShareListener(this);
-//        } else {
-//            ToastUtils.ToastMessage(mCtx, "获取视频信息失败" + videoData);
-//        }
-    }
-
     @OnClick({R.id.home_location_area, R.id.home_map, R.id.home_search, R.id.home_activity})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
@@ -448,27 +429,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
 
     private String activityUrl;
 
-    @Override
-    public void onShare(String url, int platform) {
-        ShareBottomBoard bottomBoard = new ShareBottomBoard(mCtx);
-        if (TextUtils.equals(url, homeVideoBean1.video)) {
-            bottomBoard.setData(copyToShare(homeVideoBean1));
-        }
-        bottomBoard.show();
-        bottomBoard.setOnDismissListener(dialog -> getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION));
-    }
-
-    private ShareBean copyToShare(HomeVideoBean homeVideoBean) {
-        ShareBean shareBean = new ShareBean();
-        shareBean.targetUrl = homeVideoBean.video;
-        shareBean.miniPath = ""; //TODO
-        shareBean.miniType = 0;
-        shareBean.preview = homeVideoBean.preview;
-        shareBean.summary = homeVideoBean.summary;
-        shareBean.title = homeVideoBean.title;
-        return shareBean;
-    }
-
     public void getActivityData() {
         CarefreeRetrofit.getInstance().createApi(HomeApis.class).getActivityData(QueryMapBuilder.getIns().buildGet())
                 .compose(RxUtil.switchSchedulers())
@@ -484,7 +444,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         if (activityData != null && activityData.size() > 0) {
             ActivityBean activityBean = activityData.get(0);
 //            GlideUtils.loadImageNoHolder(mCtx, activityBean.image, homeActivity);
-
             activityUrl = activityBean.link;
         }
     }

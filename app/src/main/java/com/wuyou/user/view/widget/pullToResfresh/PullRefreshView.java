@@ -45,26 +45,26 @@ public class PullRefreshView extends NestedFrameLayout implements PullRefreshLay
 
     @Override
     public void onPullHoldTrigger() {
-        Log.e(TAG, "onPullHoldTrigger: ");
+//        Log.e(TAG, "onPullHoldTrigger: ");
     }
 
     @Override
     public void onPullHoldUnTrigger() {
-        Log.e(TAG, "onPullHoldUnTrigger: ");
+//        Log.e(TAG, "onPullHoldUnTrigger: ");
     }
 
     @Override
     public void onPullHolding() {
-        Log.e(TAG, "onPullHolding: ");
+//        Log.e(TAG, "onPullHolding: ");
     }
     @Override
     public void onPullFinish(boolean flag) {
-        Log.e(TAG, "onPullFinish: ");
+//        Log.e(TAG, "onPullFinish: ");
     }
 
     @Override
     public void onPullReset() {
-        Log.e(TAG, "onPullReset: ");
+//        Log.e(TAG, "onPullReset: ");
     }
 
 }

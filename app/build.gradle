@@ -21,6 +21,7 @@ android {
         versionCode 11
         versionName "1.5.1"
         multiDexEnabled true
+        ndk { abiFilters 'armeabi', 'armeabi-v7a' }
     }
     sourceSets {
         main {
@@ -114,8 +115,11 @@ android {
         compile 'com.google.zxing:core:3.2.1'
         compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
 //        compile 'zlc.season:rxdownload3:1.2.7'
+        implementation files('libs/SaaS_AppAnalytics_Android_SDK_V4.0.20.jar')
     }
 }
 dependencies {
-    implementation files('libs/SaaS_AppAnalytics_Android_SDK_V4.0.20.jar')
+    implementation files('libs/AMap_Location_V4.2.0_20180809.jar')
+    implementation files('libs/AMap_Search_V6.1.0_20180330.jar')
+    implementation files('libs/Android_Map3D_SDK_V6.3.1_20180726.jar')
 }

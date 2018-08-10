@@ -17,12 +17,13 @@ import cn.jzvd.JZMediaManager;
 import cn.jzvd.JZUserAction;
 import cn.jzvd.JZUserActionStandard;
 import cn.jzvd.JZUtils;
+import cn.jzvd.JZVideoPlayerManager;
 import cn.jzvd.JZVideoPlayerStandard;
 import me.shaohui.shareutil.share.SharePlatform;
 
 /**
  * 全屏状态播放完成，不退出全屏
-
+ * <p>
  * Created by Nathen on 2016/11/26.
  */
 public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
@@ -90,7 +91,7 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
                 }
                 startVideo();
                 onEvent(JZUserAction.ON_CLICK_START_ICON);
-                startWindowFullscreen();
+//                startWindowFullscreen();
             } else if (currentState == CURRENT_STATE_PLAYING) {
                 onEvent(JZUserAction.ON_CLICK_PAUSE);
                 Log.d(TAG, "pauseVideo [" + this.hashCode() + "] ");
@@ -100,23 +101,21 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
                 onEvent(JZUserAction.ON_CLICK_RESUME);
                 JZMediaManager.start();
                 onStatePlaying();
-                if (currentScreen != SCREEN_WINDOW_FULLSCREEN) {
-                    startWindowFullscreen();
-                }
+//                if (currentScreen != SCREEN_WINDOW_FULLSCREEN) {
+//                    startWindowFullscreen();
+//                }
 
             } else if (currentState == CURRENT_STATE_AUTO_COMPLETE) {
                 onEvent(JZUserAction.ON_CLICK_START_AUTO_COMPLETE);
                 startVideo();
-                startWindowFullscreen();
+//                startWindowFullscreen();
             }
         } else if (i == cn.jzvd.R.id.fullscreen) {
-            Log.i(TAG, "onClick fullscreen [" + this.hashCode() + "] ");
             if (currentState == CURRENT_STATE_AUTO_COMPLETE) return;
             if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
                 //quit fullscreen
                 backPress();
             } else {
-                Log.d(TAG, "toFullscreenActivity [" + this.hashCode() + "] ");
                 onEvent(JZUserAction.ON_ENTER_FULLSCREEN);
                 startWindowFullscreen();
             }
@@ -134,8 +133,8 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
             liked = !liked;
             setLikeState();
         } else if (i == R.id.player_share) {
-            onShareListener.onShare(getCurrentUrl().toString(),SharePlatform.WX_TIMELINE);
-        }else if (i ==R.id.back){
+            onShareListener.onShare(getCurrentUrl().toString(), SharePlatform.WX_TIMELINE);
+        } else if (i == R.id.back) {
             backPress();
         }
     }
@@ -182,22 +181,21 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
     @Override
     public void playOnThisJzvd() {
         //退出全屏和小窗的方法
-        quitFullscreenOrTinyWindow();
-//        Log.i(TAG, "playOnThisJzvd " + " [" + this.hashCode() + "] ");
-//        //1.清空全屏和小窗的jzvd.
-//
-//        currentState = JZVideoPlayerManager.getSecondFloor().currentState;
-//        currentUrlMapIndex = JZVideoPlayerManager.getSecondFloor().currentUrlMapIndex;
-//        clearFloatScreen();
-//        //2.在本jzvd上播放,推出全屏要暂停
-//        if (currentState == CURRENT_STATE_PLAYING) {
-//            JZMediaManager.pause();
-//            onStatePause();
-//        }
-//        setState(currentState);
-////        removeTextureView();
-//        addTextureView();
-//        setSmallState();
+//        quitFullscreenOrTinyWindow();
+        Log.i(TAG, "playOnThisJzvd " + " [" + this.hashCode() + "] ");
+        //1.清空全屏和小窗的jzvd.
+        currentState = JZVideoPlayerManager.getSecondFloor().currentState;
+        currentUrlMapIndex = JZVideoPlayerManager.getSecondFloor().currentUrlMapIndex;
+        clearFloatScreen();
+        //2.在本jzvd上播放,推出全屏要暂停
+        if (currentState == CURRENT_STATE_PLAYING) {
+            JZMediaManager.pause();
+            onStatePause();
+        }
+        setState(currentState);
+//        removeTextureView();
+        addTextureView();
+        setSmallState();
     }
 
     @Override

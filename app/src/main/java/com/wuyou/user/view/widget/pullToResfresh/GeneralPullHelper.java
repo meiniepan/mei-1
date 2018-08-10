@@ -1,6 +1,7 @@
 package com.wuyou.user.view.widget.pullToResfresh;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
@@ -146,6 +147,7 @@ class GeneralPullHelper {
 
                     int movingX = (int) (ev.getX(pointerIndex) + 0.5f) - actionDownPointX;
                     int movingY = (int) (ev.getY(pointerIndex) + 0.5f) - actionDownPointY;
+
                     if (!isDragVertical && Math.abs(movingY) > touchSlop && Math.abs(movingY) > Math.abs(movingX)) {
                         final ViewParent parent = prl.getParent();
                         if (parent != null) {
@@ -209,11 +211,13 @@ class GeneralPullHelper {
 
             case MotionEvent.ACTION_UP:
                 dragState = 0;// get know the touchState first
-
                 velocityTracker.computeCurrentVelocity(1000, maximumVelocity);
                 float velocityY = (isDragMoveTrendDown ? 1 : -1) * Math.abs(velocityTracker.getYVelocity(activePointerId));
                 if (!prl.isTargetNestedScrollingEnabled() && isDragVertical && (Math.abs(velocityY) > minimumFlingVelocity)) {
                     prl.onPreFling(-(int) velocityY);
+                }
+                if (prl.isRefreshing() && prl.getMoveDistance() < 300) {
+                    prl.refreshComplete();
                 }
                 recycleVelocityTracker();
 

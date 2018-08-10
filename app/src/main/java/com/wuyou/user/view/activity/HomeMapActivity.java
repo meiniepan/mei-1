@@ -118,7 +118,6 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
     private void initMap(Bundle savedInstanceState) {
         mapView.onCreate(savedInstanceState);
         mAMap = mapView.getMap();
-        mAMap = mapView.getMap();
         mAMap.getUiSettings().setRotateGesturesEnabled(false);
         mAMap.moveCamera(CameraUpdateFactory.zoomTo(12));
 

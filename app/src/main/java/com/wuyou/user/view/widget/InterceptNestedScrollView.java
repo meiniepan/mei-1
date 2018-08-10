@@ -27,6 +27,6 @@ public class InterceptNestedScrollView extends NestedScrollView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return true;
+        return super.onInterceptTouchEvent(ev);
     }
 }

@@ -592,7 +592,6 @@ public class PullRefreshLayout extends ViewGroup implements NestedScrollingParen
             moveDistance = 0;
             return;
         }
-
         if (moveDistance >= 0 && headerView != null) {
             onHeaderPullChange();
             if (!isHoldingTrigger && moveDistance >= refreshTriggerDistance) {
@@ -605,7 +604,6 @@ public class PullRefreshLayout extends ViewGroup implements NestedScrollingParen
             if (!isHoldingTrigger && !pullStateControl) {
                 pullStateControl = true;
                 onHeaderPullHoldUnTrigger();
-
             }
             return;
         }
@@ -686,7 +684,26 @@ public class PullRefreshLayout extends ViewGroup implements NestedScrollingParen
         startRefreshAnimator.start();
     }
 
-    private void resetHeaderView(int headerViewHeight) {
+    public void initHeadPosition(int toRefreshDistance) {
+        if (refreshTriggerDistance == -1) {
+            return;
+        }
+
+        cancelAllAnimation();
+        if (!isHoldingTrigger && onHeaderPullHolding()) {
+            isHoldingTrigger = true;
+        }
+        final int refreshTriggerHeight = (toRefreshDistance != -1 ? toRefreshDistance : refreshTriggerDistance);
+        if (startRefreshAnimator == null) {
+            startRefreshAnimator = getAnimator(0, refreshTriggerHeight, headerAnimationUpdate, refreshStartAnimationListener, readyMainInterpolator());
+        } else {
+            startRefreshAnimator.setIntValues(0, refreshTriggerHeight);
+        }
+        startRefreshAnimator.setDuration(0);
+        startRefreshAnimator.start();
+    }
+
+    protected void resetHeaderView(int headerViewHeight) {
         cancelAllAnimation();
         if (headerViewHeight == 0) {
             resetHeaderAnimationListener.onAnimationStart(null);
@@ -702,7 +719,7 @@ public class PullRefreshLayout extends ViewGroup implements NestedScrollingParen
         resetHeaderAnimator.start();
     }
 
-    private void resetRefreshState() {
+    public void resetRefreshState() {
         if (isHoldingFinishTrigger) {
             onHeaderPullReset();
         }
@@ -716,6 +733,7 @@ public class PullRefreshLayout extends ViewGroup implements NestedScrollingParen
         if (loadTriggerDistance == -1) {
             return;
         }
+
         cancelAllAnimation();
         if (!isHoldingTrigger && onFooterPullHolding()) {
             isHoldingTrigger = true;
@@ -766,7 +784,9 @@ public class PullRefreshLayout extends ViewGroup implements NestedScrollingParen
         isHoldingTrigger = false;
         pullStateControl = true;
         isResetTrigger = false;
+        resetHeaderAnimator = null;
         refreshState = 0;
+        isInitShow = false;
     }
 
     private ValueAnimator getAnimator(int firstValue, int secondValue, ValueAnimator.AnimatorUpdateListener updateListener, Animator.AnimatorListener animatorListener, Interpolator interpolator) {
@@ -1038,9 +1058,6 @@ public class PullRefreshLayout extends ViewGroup implements NestedScrollingParen
                 if (headerView != null) {
                     headerView.setVisibility(GONE);
                 }
-                if (onRefreshListener != null && refreshWithAction) {
-                    onRefreshListener.onLoading();
-                }
             }
         }
     };
@@ -1128,12 +1145,14 @@ public class PullRefreshLayout extends ViewGroup implements NestedScrollingParen
         dellScroll(-dy);
     }
 
+    public boolean isInitShow = true; //初次进app 需展示视频，且不能出发回弹
+
     void onStopScroll() {
         removeDelayRunnable();
         if (!pullTwinkEnable) {
             handleAction();
         } else if ((overScrollFlingState() == 1 || overScrollFlingState() == 2) && !isOverScrollTrigger) {
-            if (delayHandleActionRunnable == null) {
+            if (delayHandleActionRunnable == null && !isInitShow) {
                 delayHandleActionRunnable = getDelayHandleActionRunnable();
             }
             postDelayed(delayHandleActionRunnable, 50);
@@ -1288,15 +1307,10 @@ public class PullRefreshLayout extends ViewGroup implements NestedScrollingParen
 
     public interface OnRefreshListener {
         void onRefresh();
-
-        void onLoading();
     }
 
     public static class OnRefreshListenerAdapter implements OnRefreshListener {
         public void onRefresh() {
-        }
-
-        public void onLoading() {
         }
     }
 

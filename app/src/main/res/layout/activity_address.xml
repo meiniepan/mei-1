@@ -72,6 +72,7 @@
         app:emptyDrawable="@mipmap/empty_address"
         app:errorDrawable="@mipmap/net_error"
         app:loginDrawable="@mipmap/login_status"
+        android:background="@color/tint_bg"
         android:layout_marginTop="6dp"/>
 
     <include layout="@layout/split_line" />
