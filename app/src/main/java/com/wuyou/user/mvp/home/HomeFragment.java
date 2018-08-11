@@ -34,6 +34,8 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.ActivityBean;
 import com.wuyou.user.bean.CommunityBean;
+import com.wuyou.user.bean.HomeVideoBean;
+import com.wuyou.user.bean.ShareBean;
 import com.wuyou.user.bean.response.CategoryChild;
 import com.wuyou.user.bean.response.CategoryListResponse;
 import com.wuyou.user.bean.response.CategoryParent;
@@ -47,15 +49,16 @@ import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.util.JZVideoPlayerFullscreen;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideBannerLoader;
+import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.HomeMapActivity;
 import com.wuyou.user.view.activity.SearchActivity;
 import com.wuyou.user.view.activity.WebActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
-import com.wuyou.user.view.widget.pullToResfresh.HomeVideoHeader;
-import com.wuyou.user.view.widget.pullToResfresh.PullRefreshLayout;
-import com.wuyou.user.view.widget.pullToResfresh.ShowGravity;
+import com.wuyou.user.view.widget.panel.ShareBottomBoard;
+import com.wuyou.user.view.widget.pullToResfresh.HomeRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.transformer.GalleryTransformer;
@@ -70,6 +73,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JZVideoPlayerStandard;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -79,7 +83,7 @@ import static cn.jzvd.JZVideoPlayer.FULLSCREEN_ORIENTATION;
  * Created by Administrator on 2018\1\29 0029.
  */
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscreen.OnShareListener {
     @BindView(R.id.main_serve_list)
     RecyclerView mainServeList;
     @BindView(R.id.home_current_location)
@@ -90,15 +94,17 @@ public class HomeFragment extends BaseFragment {
     Banner homeActivityBanner;
 
     @BindView(R.id.home_refresh)
-    PullRefreshLayout refreshLayout;
+    HomeRefreshLayout refreshLayout;
     @BindView(R.id.home_scroll_view)
     NestedScrollView homeScrollView;
+    @BindView(R.id.home_video)
+    JZVideoPlayerFullscreen video;
 
     private String communityId = "0";
     private CommunityBean cacheCommunityBean;
     private List<CommunityBean> communityBeans;
     private MainServeAdapter adapter;
-    private HomeVideoHeader headerView;
+    private HomeVideoBean homeVideoBean;
 
     @Override
     protected int getContentLayout() {
@@ -117,27 +123,21 @@ public class HomeFragment extends BaseFragment {
         initBanner();
         getActivityData();
         getServeList(); //先取社区ID为0 的数据 填充界面
+        initRefresh();
+    }
 
-        refreshLayout.requestPullDisallowInterceptTouchEvent(false);
-        refreshLayout.setHeaderShowGravity(ShowGravity.FOLLOW);
-        headerView = new HomeVideoHeader(getActivity(), refreshLayout);
-        refreshLayout.setHeaderView(headerView);
-        refreshLayout.setTargetView(homeScrollView);
-        refreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+    private void initRefresh() {
+        refreshLayout.setOnRefreshListener(new HomeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (location == null && mLocationClient != null) {
-                    mLocationClient.startLocation();
-                } else if (mLocationClient == null && askForPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    initLocationAndGetData();
-                } else if (mLocationClient != null && location != null) {
-                    getServeList();
-                }
+                refreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getServeList();
+                    }
+                }, 2000);
             }
         });
-        refreshLayout.initHeadPosition(DensityUtils.dip2px(getContext(), 200));
-        refreshLayout.setDispatchPullTouchAble(true);
-        headerView.isShowVideo = true;
     }
 
     private void initBanner() {
@@ -255,18 +255,12 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onSuccess(BaseResponse<CategoryListResponse> orderListResponseBaseResponse) {
                         setData(orderListResponseBaseResponse.data.list);
-                        headerView.setRefreshFinishText();
-                        if (!headerView.isShowVideo()) {
-                            refreshLayout.refreshComplete();
-                        }
+                        refreshLayout.completeRefresh();
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
-                        headerView.setRefreshFinishText();
-                        if (!headerView.isShowVideo()) {
-                            refreshLayout.refreshComplete();
-                        }
+                        refreshLayout.completeRefresh();
                     }
                 });
     }
@@ -308,7 +302,7 @@ public class HomeFragment extends BaseFragment {
                 .subscribe(new BaseSubscriber<BaseResponse<HomeVideoResponse>>() {
                     @Override
                     public void onSuccess(BaseResponse<HomeVideoResponse> homeVideoResponseBaseResponse) {
-                        headerView.setVideoData(homeVideoResponseBaseResponse.data.list);
+                        setVideoData(homeVideoResponseBaseResponse.data.list);
                     }
 
                     @Override
@@ -316,8 +310,19 @@ public class HomeFragment extends BaseFragment {
                         ToastUtils.ToastMessage(mCtx, "获取首页信息失败");
                     }
                 });
-
     }
+
+    public void setVideoData(List<HomeVideoBean> videoData) {
+        if (videoData.size() > 1) {
+            homeVideoBean = videoData.get(0);
+            video.setUp(homeVideoBean.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean.title);
+            GlideUtils.loadImage(getContext(), homeVideoBean.preview, video.thumbImageView);
+            video.addShareListener(this);
+        } else {
+            ToastUtils.ToastMessage(getContext(), "获取视频信息失败" + videoData);
+        }
+    }
+
 
     private String getCurrentCommunityId(List<CommunityBean> list) {
         CommunityBean currentCommunity = findCurrentCommunity(list);
@@ -443,8 +448,29 @@ public class HomeFragment extends BaseFragment {
     public void setActivityData(List<ActivityBean> activityData) {
         if (activityData != null && activityData.size() > 0) {
             ActivityBean activityBean = activityData.get(0);
-//            GlideUtils.loadImageNoHolder(mCtx, activityBean.image, homeActivity);
             activityUrl = activityBean.link;
         }
+    }
+
+    @Override
+    public void onShare(String url, int platform) {
+        if (homeVideoBean == null) return;
+        ShareBottomBoard bottomBoard = new ShareBottomBoard(getContext());
+        if (TextUtils.equals(url, homeVideoBean.video)) {
+            bottomBoard.setData(copyToShare(homeVideoBean));
+        }
+        bottomBoard.show();
+        bottomBoard.setOnDismissListener(dialog -> getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION));
+    }
+
+    private ShareBean copyToShare(HomeVideoBean homeVideoBean) {
+        ShareBean shareBean = new ShareBean();
+        shareBean.targetUrl = homeVideoBean.video;
+        shareBean.miniPath = ""; //TODO
+        shareBean.miniType = 0;
+        shareBean.preview = homeVideoBean.preview;
+        shareBean.summary = homeVideoBean.summary;
+        shareBean.title = homeVideoBean.title;
+        return shareBean;
     }
 }

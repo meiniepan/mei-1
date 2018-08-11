@@ -30,6 +30,8 @@ public class MainServeAdapter extends BaseQuickAdapter<CategoryParent, BaseHolde
     @Override
     protected void convert(BaseHolder helper, CategoryParent item) {
         RecyclerView recyclerView = helper.getView(R.id.main_serve_children);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         MainServeChildrenAdapter adapter = new MainServeChildrenAdapter(R.layout.item_main_serve_child, item.sub);
         recyclerView.setAdapter(adapter);
