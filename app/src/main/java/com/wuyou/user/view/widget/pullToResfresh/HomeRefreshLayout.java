@@ -110,7 +110,6 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
     @Override
     public void onStopNestedScroll(View child) {
         isRelease = true;
-        Log.e("Carefree", "onStopNestedScroll: " + getScrollY() + "......." + getTotalHeight());
         if (getScrollY() < 0) {
             smoothScroll(-getScrollY());
         } else if (getScrollY() > getTotalHeight()) {

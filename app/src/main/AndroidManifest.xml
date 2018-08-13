@@ -180,6 +180,8 @@
             android:name=".view.activity.CaptureActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".mvp.score.SignInSuccessActivity" />
+        <activity android:name=".mvp.help.HelpActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="WEIXIN_APP_ID"

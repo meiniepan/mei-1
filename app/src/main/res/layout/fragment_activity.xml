@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/night_blue" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/night_blue"
+        android:text="@string/activity"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="@dimen/title_size"/>
+
+    <com.wuyou.user.view.widget.CarefreeRecyclerView
+        android:id="@+id/activity_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

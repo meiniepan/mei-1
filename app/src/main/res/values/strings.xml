@@ -7,6 +7,7 @@
     <string name="connect_fail">网络不给力,请稍后再试</string>
     <string name="main_home">首页</string>
     <string name="main_help">客服</string>
+    v<string name="activity">活动</string>
     <string name="main_order">订单</string>
     <string name="main_mine">我的</string>
     <string name="all">全部</string>
@@ -137,5 +138,7 @@
     <string name="confirm_buy">确认购买</string>
     <string name="permession_denied">您禁止了相关权限，某些功能可能无法正常使用</string>
     <string name="scan_payment">扫码支付</string>
+    <string name="no_activity">暂无活动</string>
+
 
 </resources>

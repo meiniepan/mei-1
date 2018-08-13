@@ -8,8 +8,8 @@ import android.view.View;
 import com.gnway.bangwoba.activity.Leaving_message;
 import com.wuyou.user.R;
 import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.HelpRobotActivity;
-import com.wuyou.user.view.fragment.BaseFragment;
 
 import butterknife.OnClick;
 
@@ -17,10 +17,10 @@ import butterknife.OnClick;
  * Created by Administrator on 2018\1\29 0029.
  */
 
-public class HelpFragment extends BaseFragment {
+public class HelpActivity extends BaseActivity {
     @Override
     protected int getContentLayout() {
-        return R.layout.fragment_help;
+        return R.layout.activity_help;
     }
 
     @Override
@@ -35,15 +35,15 @@ public class HelpFragment extends BaseFragment {
 
     @OnClick({R.id.help_chat, R.id.help_leave_msg, R.id.help_dialog})
     public void onViewClicked(View view) {
-        if (CommonUtil.checkNetworkNoConnected(mCtx)) return;
+        if (CommonUtil.checkNetworkNoConnected(getCtx())) return;
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.help_chat:
-                intent.setClass(mCtx, HelpRobotActivity.class);
+                intent.setClass(getCtx(), HelpRobotActivity.class);
                 startActivity(intent);
                 break;
             case R.id.help_leave_msg:
-                intent.setClass(mCtx, Leaving_message.class);
+                intent.setClass(getCtx(), Leaving_message.class);
                 startActivity(intent);
                 break;
             case R.id.help_dialog:

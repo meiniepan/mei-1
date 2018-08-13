@@ -124,7 +124,10 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         getServeList(); //先取社区ID为0 的数据 填充界面
         getVideo();
 
-        refreshLayout.setOnRefreshListener(() -> getServeList());
+        refreshLayout.setOnRefreshListener(() -> {
+            getActivityData();
+            getServeList();
+        });
     }
 
     private void initBanner() {
@@ -406,10 +409,11 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
             for (ActivityBean activityBean : activityData) {
                 images.add(activityBean.image);
             }
+            homeActivityBanner.setOnBannerListener(position -> {
+                startWebActivity(activityData.get(position).link);
+            });
             homeActivityBanner.setImages(images);
             homeActivityBanner.start();
-
-            homeActivityBanner.setOnBannerListener(position -> startWebActivity(activityData.get(position).link));
         }
     }
 

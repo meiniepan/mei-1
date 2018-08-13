@@ -3,11 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/night_blue"/>
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"

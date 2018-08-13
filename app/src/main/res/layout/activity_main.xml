@@ -46,9 +46,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="5dp"
-            app:tabIconNormal="@mipmap/help"
-            app:tabIconSelected="@mipmap/help_selected"
-            app:tabText="@string/main_help"
+            app:tabIconNormal="@mipmap/activity_normal"
+            app:tabIconSelected="@mipmap/activity_selected"
+            app:tabText="@string/activity"
             app:textColorNormal="@color/common_dark"
             app:textColorSelected="@color/night_blue" />
 
