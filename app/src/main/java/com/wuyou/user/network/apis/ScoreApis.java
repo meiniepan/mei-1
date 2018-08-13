@@ -20,16 +20,16 @@ import retrofit2.http.QueryMap;
  */
 
 public interface ScoreApis {
-    @GET("received_points/{uid}")
+    @GET("v1/received_points/{uid}")
     Observable<BaseResponse<ListResponse<ScoreRecordBean>>> getScoreRecordList(@Path("uid") String uid,
                                                                                @QueryMap SortedTreeMap<String, String> map);
 
 
     @FormUrlEncoded
-    @POST("sign")
+    @POST("v1/sign")
     Observable<BaseResponse<PointBean>> signIn(
             @FieldMap SortedTreeMap<String, String> map);
 
-    @GET("sign/list/{uid}")
+    @GET("v1/sign/list/{uid}")
     Observable<BaseResponse<ListResponse<SignRecordBean>>> getSignInRecord(@Path("uid") String uid, @QueryMap SortedTreeMap<String, String> map);
 }

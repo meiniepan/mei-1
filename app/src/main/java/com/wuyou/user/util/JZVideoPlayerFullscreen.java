@@ -7,11 +7,13 @@ import android.content.res.Configuration;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wuyou.user.R;
+import com.wuyou.user.bean.HomeVideoBean;
 
 import cn.jzvd.JZMediaManager;
 import cn.jzvd.JZUserAction;
@@ -28,12 +30,20 @@ import me.shaohui.shareutil.share.SharePlatform;
  */
 public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
     Context context;
+    TextView playerDeliver;
+    TextView playerSpot;
+    TextView textView1;
+    TextView textView2;
+    View textLayout;
+
     private ImageView upvoteView;
     private ImageView soundView;
     private TextView title;
+    private EditText titleHor;
     private ImageView shareView;
     private boolean quite = false;
     private boolean liked = false;
+    private HomeVideoBean customData;
 
     public JZVideoPlayerFullscreen(Context context) {
         super(context);
@@ -57,6 +67,12 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
         soundView = findViewById(R.id.player_sound);
         shareView = findViewById(R.id.player_share);
         title = findViewById(R.id.title);
+        titleHor = findViewById(R.id.player_title_hor);
+        playerDeliver = findViewById(R.id.player_deliver);
+        textView1 = findViewById(R.id.player_textView1);
+        textView2 = findViewById(R.id.player_textView2);
+        playerSpot = findViewById(R.id.player_spot);
+        textLayout = findViewById(R.id.text_layout);
         soundView.setOnClickListener(this);
         shareView.setOnClickListener(this);
         findViewById(R.id.back).setOnClickListener(this);
@@ -139,25 +155,6 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
         }
     }
 
-    public interface OnShareListener {
-        void onShare(String url, int platform);
-    }
-
-    public static OnShareListener onShareListener;
-
-    public void addShareListener(OnShareListener listener) {
-        onShareListener = listener;
-    }
-
-    private void setLikeState() {
-        if (liked) {
-//            upvoteView.setImageResource(R.mipmap.video_liked);
-        } else {
-//            upvoteView.setImageResource(R.mipmap.video_like);
-        }
-
-    }
-
     @Override
     public void startWindowFullscreen() {
         super.startWindowFullscreen();
@@ -223,13 +220,41 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
         upvoteView.setVisibility(GONE);
         soundView.setVisibility(GONE);
         shareView.setVisibility(GONE);
-        title.setVisibility(GONE);
+        title.setVisibility(VISIBLE);
+        textLayout.setVisibility(VISIBLE);
     }
 
     private void setFullState() {
-        upvoteView.setVisibility(VISIBLE);
+//        upvoteView.setVisibility(VISIBLE);
         soundView.setVisibility(VISIBLE);
-        title.setVisibility(VISIBLE);
         shareView.setVisibility(VISIBLE);
+        title.setVisibility(GONE);
+        textLayout.setVisibility(GONE);
+    }
+
+    public void setCustomData(HomeVideoBean customData) {
+        this.customData = customData;
+        titleHor.setText(customData.title);
+        playerSpot.setText(customData.address);
+        playerDeliver.setText(customData.author);
+    }
+
+    public interface OnShareListener {
+        void onShare(String url, int platform);
+    }
+
+    public static OnShareListener onShareListener;
+
+    public void addShareListener(OnShareListener listener) {
+        onShareListener = listener;
+    }
+
+    private void setLikeState() {
+        if (liked) {
+//            upvoteView.setImageResource(R.mipmap.video_liked);
+        } else {
+//            upvoteView.setImageResource(R.mipmap.video_like);
+        }
+
     }
 }

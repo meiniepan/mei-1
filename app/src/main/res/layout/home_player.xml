@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants">
@@ -105,55 +106,43 @@
         android:id="@+id/layout_top"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/jz_title_bg"
-        android:gravity="center_vertical">
+        android:orientation="horizontal"
+        android:paddingStart="6dp"
+        android:paddingTop="6dp">
 
         <ImageView
             android:id="@+id/back"
             android:layout_width="20dp"
             android:layout_height="15dp"
-            android:layout_alignParentLeft="true"
-            android:visibility="gone"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:scaleType="centerInside"
-            android:src="@drawable/jz_click_back_selector" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginStart="12dp"
-            android:layout_toEndOf="@+id/back"
-            android:layout_toLeftOf="@+id/battery_time_layout"
-            android:layout_toRightOf="@+id/back"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textColor="#ffffff"
-            android:textSize="12sp"
+            android:src="@drawable/jz_click_back_selector"
             android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/battery_time_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="14dp"
-            android:gravity="center_horizontal"
+            android:layout_toEndOf="@+id/back"
+            android:visibility="gone"
             android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/player_title_hor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:freezesText="true"
+                android:focusable="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimens_12sp" />
 
             <ImageView
                 android:id="@+id/battery_level"
-                android:layout_width="23dp"
-                android:layout_height="10dp"
+                android:layout_width="30dp"
+                android:layout_height="15dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/jz_battery_level_10"
                 android:visibility="gone" />
@@ -175,6 +164,7 @@
                 android:layout_height="24dp"
                 android:layout_marginTop="14dp"
                 android:src="@android:color/darker_gray"
+                android:visibility="gone"
                 app:allow_random_color="false"
                 app:big_shine_color="#FF6666"
                 app:btn_color="@android:color/darker_gray"
@@ -183,19 +173,20 @@
                 app:enable_flashing="false"
                 app:shine_animation_duration="1500"
                 app:shine_count="8"
-                android:visibility="gone"
                 app:shine_turn_angle="10"
                 app:siShape="@raw/like"
                 app:small_shine_color="#CC9999"
                 app:small_shine_offset_angle="20" />
-
-            <ImageView
-                android:id="@+id/player_share"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:visibility="gone"
-                android:src="@mipmap/video_share" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/player_share"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:src="@mipmap/video_share"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <ProgressBar
@@ -241,6 +232,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -280,6 +272,68 @@
         android:layout_height="30dp"
         android:layout_centerVertical="true"
         android:layout_marginStart="15dp"
-        android:visibility="gone"
-        android:src="@mipmap/sound" />
+        android:src="@mipmap/sound"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/text_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#30000000">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:freezesText="true"
+            tool:text="标题巴巴爸爸啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵啵宝宝" />
+
+        <TextView
+            android:id="@+id/player_textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/textView1"
+            android:layout_marginBottom="32dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="4dp"
+            android:text="地点:  "
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimens_12sp" />
+
+        <TextView
+            android:id="@+id/player_spot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/player_textView2"
+            android:layout_toEndOf="@id/player_textView2"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimens_12sp"
+            tool:text="朝阳门" />
+
+        <TextView
+            android:id="@+id/player_textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/player_textView2"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:text="发布者:  "
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimens_12sp" />
+
+        <TextView
+            android:id="@+id/player_deliver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/player_textView1"
+            android:layout_toEndOf="@id/player_textView1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimens_12sp"
+            tool:text="老王" />
+    </RelativeLayout>
 </RelativeLayout>

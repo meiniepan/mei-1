@@ -22,38 +22,38 @@ import retrofit2.http.QueryMap;
  */
 
 public interface OrderApis {
-    @GET("orders")
+    @GET("v1/orders")
     Observable<BaseResponse<OrderListResponse>> getOrderList(@QueryMap SortedTreeMap<String, String> map);
 
-    @GET("order/{orderId}")
+    @GET("v1/order/{orderId}")
     Observable<BaseResponse<OrderBeanDetail>> getOrderDetail(@Path("orderId") String id, @QueryMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @POST("order/{uid}")
+    @POST("v1/order/{uid}")
     Observable<BaseResponse<OrderIdBean>> createOrder(@Path("uid") String uid,
                                                       @FieldMap SortedTreeMap<String, String> map);
 
-    @HTTP(method = "DELETE", path = "order/{order_id}", hasBody = true)
+    @HTTP(method = "DELETE", path = "v1/order/{order_id}", hasBody = true)
     Observable<BaseResponse> deletelOrder(@Path("order_id") String id,
                                           @Body SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @PUT("order/cancel/{order_id}")
+    @PUT("v1/order/cancel/{order_id}")
     Observable<BaseResponse> cancelOrder(@Path("order_id") String id,
                                          @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @PUT("order/pay/{order_id}")
+    @PUT("v1/order/pay/{order_id}")
     Observable<BaseResponse> payOrder(@Path("order_id") String id,
                                       @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @PUT("order/finish/{order_id}")
+    @PUT("v1/order/finish/{order_id}")
     Observable<BaseResponse> finishOrder(@Path("order_id") String id,
                                          @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @POST("comment/{uid}")
+    @POST("v1/comment/{uid}")
     Observable<BaseResponse> createComment(@Path("uid") String uid,
                                                       @FieldMap SortedTreeMap<String, String> map);
 }

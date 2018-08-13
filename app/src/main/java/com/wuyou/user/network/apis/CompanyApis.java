@@ -19,11 +19,11 @@ import retrofit2.http.QueryMap;
  */
 
 public interface CompanyApis {
-    @GET("companies")
+    @GET("v1/companies")
     Observable<List<Company>> getCompaniesList(
             @Query("communityId") String communityId);
 
-    @POST("persons/{id}/company_bind_request")
+    @POST("v1/persons/{id}/company_bind_request")
     Observable<BaseResponse<UserInfo>> bindCompany(
             @Path("id") String id);
 

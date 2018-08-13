@@ -21,34 +21,34 @@ import retrofit2.http.QueryMap;
  */
 
 public interface MoneyApis {
-    @GET("coin/balance/{uid}")
+    @GET("v1/coin/balance/{uid}")
     Observable<BaseResponse<WalletBalance>> getWalletBalance(
             @Path("uid") String uid, @QueryMap SortedTreeMap<String, String> map);
 
-    @GET("alipay/order/{order_id}")
+    @GET("v1/alipay/order/{order_id}")
     Observable<BaseResponse<SimpleResponse>> getAliPayOrderInfo(
             @Path("order_id") String orderId, @QueryMap SortedTreeMap<String, String> map);
 
-    @GET("wx_pay/order/{order_id}")
+    @GET("v1/wx_pay/order/{order_id}")
     Observable<BaseResponse<WxPayResponse>> getWXPayOrderInfo(
             @Path("order_id") String orderId, @QueryMap SortedTreeMap<String, String> map);
 
-    @GET("wx_pay/activity_order/{order_id}")
+    @GET("v1/wx_pay/activity_order/{order_id}")
     Observable<BaseResponse<WxPayResponse>> getActivityWXPayOrderInfo(
             @Path("order_id") String orderId, @QueryMap SortedTreeMap<String, String> map);
 
 
     @FormUrlEncoded
-    @POST("login")
+    @POST("v1/login")
     Observable<BaseResponse<UserInfo>> doLogin(
             @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @PUT("login/{uid}")
+    @PUT("v1/login/{uid}")
     Observable<BaseResponse> doLogout(
             @Path("uid") String uid, @FieldMap SortedTreeMap<String, String> map);
 
-    @GET("is_paid/{order_id}")
+    @GET("v1/is_paid/{order_id}")
     Observable<BaseResponse<SimpleResponse>> getPayStatus(
             @Path("order_id") String orderId, @QueryMap SortedTreeMap<String, String> map);
 

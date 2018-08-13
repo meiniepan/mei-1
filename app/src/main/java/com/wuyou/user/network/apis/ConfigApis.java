@@ -14,6 +14,6 @@ import retrofit2.http.QueryMap;
  */
 
 public interface ConfigApis {
-    @GET("client/update")
+    @GET("v1/client/update")
     Observable<BaseResponse<UpdateInfo>> getUpdateInfo(@QueryMap SortedTreeMap<String, String> map);
 }

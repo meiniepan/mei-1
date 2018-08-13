@@ -1,7 +1,5 @@
 package com.wuyou.user.bean;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by hjn on 2018/3/7.
  */
@@ -9,10 +7,9 @@ import android.graphics.Bitmap;
 public class HomeVideoBean {
     public String id;
     public String preview;
-    public Bitmap previewBitmap;
     public String video;
     public String title;
-    public int miniType;
-    public String miniPath;
+    public String address;
+    public String author;
     public String summary;
 }

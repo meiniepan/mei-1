@@ -24,24 +24,24 @@ import retrofit2.http.QueryMap;
  */
 
 public interface ServeApis {
-    @GET("category/list/{community_id}")
+    @GET("v1/category/list/{community_id}")
     Observable<BaseResponse<CategoryListResponse>> getCategoryList(@Path("community_id") String communityId, @QueryMap SortedTreeMap<String, String> map);
 
-    @GET("services")
+    @GET("v1/services")
     Observable<BaseResponse<ServeListResponse>> getServeList(@QueryMap SortedTreeMap<String, String> map);
 
-    @GET("sorted_services")
+    @GET("v1/sorted_services")
     Observable<BaseResponse<ServeListResponse>> getSortedServeList(@QueryMap SortedTreeMap<String, String> map);
 
-    @GET("service/{service_id}")
+    @GET("v1/service/{service_id}")
     Observable<BaseResponse<ServeDetailBean>> getServeDetail(@Path("service_id") String id, @QueryMap SortedTreeMap<String, String> map);
 
-    @GET("service/levels/{category_id}")
+    @GET("v1/service/levels/{category_id}")
     Observable<BaseResponse<ListResponse<ServeLevelBean>>> getFastServeLevel(@Path("category_id") String id, @QueryMap SortedTreeMap<String, String> map);
 
-    @GET("service_times")
+    @GET("v1/service_times")
     Observable<BaseResponse<ArrayMap<String, List<ServeTimeBean>>>> getAvailableServeTime(@QueryMap SortedTreeMap<String, String> map);
 
-    @GET("services/search")
+    @GET("v1/services/search")
     Observable<BaseResponse<ListResponse<ServeBean>>> searchServe(@QueryMap SortedTreeMap<String, String> map);
 }

@@ -21,40 +21,40 @@ import retrofit2.http.QueryMap;
  */
 
 public interface UserApis {
-    @GET("login/captcha")
+    @GET("v1/login/captcha")
     Observable<BaseResponse<UserInfo>> getVerifyCode(
             @QueryMap SortedTreeMap<String, String> map);
 
-    @GET("profile/{uid}")
+    @GET("v1/profile/{uid}")
     Observable<BaseResponse<UserInfo>> getUserInfo(
             @Path("uid") String uid, @QueryMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @POST("login")
+    @POST("v1/login")
     Observable<BaseResponse<UserInfo>> doLogin(
             @FieldMap SortedTreeMap<String, String> map);
     @FormUrlEncoded
-    @PUT("logout/{uid}")
+    @PUT("v1/logout/{uid}")
     Observable<BaseResponse> doLogout(
             @Path("uid") String uid, @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @PUT("profile/{uid}")
+    @PUT("v1/profile/{uid}")
     Observable<BaseResponse> updateUserInfo(
             @Path("uid") String uid, @FieldMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
-    @PUT("profile/edit/{uid}")
+    @PUT("v1/profile/edit/{uid}")
     Observable<BaseResponse> updatePwd(
             @Path("uid") String uid, @FieldMap SortedTreeMap<String, String> map);
 
 
-    @GET("captcha")
+    @GET("v1/captcha")
     Observable<BaseResponse> getCaptchaCode(
             @QueryMap SortedTreeMap<String, String> map);
 
     @Multipart
-    @POST("avatar/{uid}")
+    @POST("v1/avatar/{uid}")
     Observable<BaseResponse> updateAvatar(
             @Path("uid")String uid,
             @Part MultipartBody.Part file,

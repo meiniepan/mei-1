@@ -40,7 +40,6 @@ import com.wuyou.user.bean.response.CategoryChild;
 import com.wuyou.user.bean.response.CategoryListResponse;
 import com.wuyou.user.bean.response.CategoryParent;
 import com.wuyou.user.bean.response.CommunityListResponse;
-import com.wuyou.user.bean.response.HomeVideoResponse;
 import com.wuyou.user.bean.response.ListResponse;
 import com.wuyou.user.event.AddressEvent;
 import com.wuyou.user.event.LoginEvent;
@@ -123,21 +122,9 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         initBanner();
         getActivityData();
         getServeList(); //先取社区ID为0 的数据 填充界面
-        initRefresh();
-    }
+        getVideo();
 
-    private void initRefresh() {
-        refreshLayout.setOnRefreshListener(new HomeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getServeList();
-                    }
-                }, 2000);
-            }
-        });
+        refreshLayout.setOnRefreshListener(() -> getServeList());
     }
 
     private void initBanner() {
@@ -149,13 +136,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         homeActivityBanner.setDelayTime(5000);
         homeActivityBanner.isAutoPlay(true);
         homeActivityBanner.setPageTransformer(true, new GalleryTransformer());
-        ArrayList list = new ArrayList();
-        list.add("http://image.iwantmei.com/service/2018-07-25/bb5d2130-8fdf-11e8-8a4e-00163e0e8da9");
-        list.add("http://image.iwantmei.com/service/2018-07-25/aa8587a0-8fdd-11e8-ad05-00163e0e8da9");
-        list.add("http://image.iwantmei.com/service/2018-07-25/07552e0a-8fdd-11e8-810b-00163e0e8da9");
-        list.add("http://image.iwantmei.com/service/2018-07-25/ba385390-8fdc-11e8-ac61-00163e0e8da9");
-        homeActivityBanner.setImages(list);
-        homeActivityBanner.start();
     }
 
     private void initServeList() {
@@ -206,7 +186,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         String currentCommunityId = getCurrentCommunityId(communityBeans);
         if (!TextUtils.equals(currentCommunityId, communityId)) {
             Log.e("Carefree", "onAddressChanged:  社区更改！！！！！！！！！！");
-            getCommunityData(currentCommunityId);
         } else {
             Log.e("Carefree", "onAddressChanged: 社区没变！！！！！！！！！！");
         }
@@ -284,7 +263,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                     public void onSuccess(BaseResponse<CommunityListResponse> communityListResponseBaseResponse) {
                         communityBeans = communityListResponseBaseResponse.data.list;
                         communityId = getCurrentCommunityId(communityBeans);
-                        getCommunityData(communityId);
                     }
 
                     @Override
@@ -294,15 +272,14 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 });
     }
 
-    public void getCommunityData(String currentCommunityId) {
-        CarefreeRetrofit.getInstance().createApi(HomeApis.class).getVideos(currentCommunityId, QueryMapBuilder.getIns().buildGet())
+    public void getVideo() {
+        CarefreeRetrofit.getInstance().createApi(HomeApis.class).getVideos(QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
-                .doOnNext(response -> getServeList()) //获取服务列表
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse<HomeVideoResponse>>() {
+                .subscribe(new BaseSubscriber<BaseResponse<HomeVideoBean>>() {
                     @Override
-                    public void onSuccess(BaseResponse<HomeVideoResponse> homeVideoResponseBaseResponse) {
-                        setVideoData(homeVideoResponseBaseResponse.data.list);
+                    public void onSuccess(BaseResponse<HomeVideoBean> homeVideoResponseBaseResponse) {
+                        setVideoData(homeVideoResponseBaseResponse.data);
                     }
 
                     @Override
@@ -312,17 +289,13 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 });
     }
 
-    public void setVideoData(List<HomeVideoBean> videoData) {
-        if (videoData.size() > 1) {
-            homeVideoBean = videoData.get(0);
-            video.setUp(homeVideoBean.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean.title);
-            GlideUtils.loadImage(getContext(), homeVideoBean.preview, video.thumbImageView);
-            video.addShareListener(this);
-        } else {
-            ToastUtils.ToastMessage(getContext(), "获取视频信息失败" + videoData);
-        }
+    public void setVideoData(HomeVideoBean videoData) {
+        homeVideoBean = videoData;
+        video.setUp(homeVideoBean.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean.title);
+        GlideUtils.loadImage(getContext(), homeVideoBean.preview, video.thumbImageView);
+        video.addShareListener(this);
+        video.setCustomData(homeVideoBean);
     }
-
 
     private String getCurrentCommunityId(List<CommunityBean> list) {
         CommunityBean currentCommunity = findCurrentCommunity(list);
@@ -396,7 +369,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         return null;
     }
 
-    @OnClick({R.id.home_location_area, R.id.home_map, R.id.home_search, R.id.home_activity})
+    @OnClick({R.id.home_location_area, R.id.home_map, R.id.home_search})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -413,26 +386,8 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 intent.setClass(mCtx, SearchActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.home_activity:
-                if (CommonUtil.checkNetworkNoConnected(mCtx)) return;
-                if (TextUtils.isEmpty(activityUrl)) return;
-                intent.setClass(mCtx, WebActivity.class);
-                if (CarefreeDaoSession.getInstance().getUserInfo() == null) {
-                    intent.putExtra(Constant.WEB_INTENT, activityUrl);
-                } else {
-                    Uri uri = Uri.parse(activityUrl);
-                    if (TextUtils.isEmpty(uri.getQuery())) {
-                        intent.putExtra(Constant.WEB_INTENT, activityUrl + "?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
-                    } else {
-                        intent.putExtra(Constant.WEB_INTENT, activityUrl + "&user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
-                    }
-                }
-                startActivity(intent);
-                break;
         }
     }
-
-    private String activityUrl;
 
     public void getActivityData() {
         CarefreeRetrofit.getInstance().createApi(HomeApis.class).getActivityData(QueryMapBuilder.getIns().buildGet())
@@ -447,9 +402,33 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
 
     public void setActivityData(List<ActivityBean> activityData) {
         if (activityData != null && activityData.size() > 0) {
-            ActivityBean activityBean = activityData.get(0);
-            activityUrl = activityBean.link;
+            ArrayList<String> images = new ArrayList<>();
+            for (ActivityBean activityBean : activityData) {
+                images.add(activityBean.image);
+            }
+            homeActivityBanner.setImages(images);
+            homeActivityBanner.start();
+
+            homeActivityBanner.setOnBannerListener(position -> startWebActivity(activityData.get(position).link));
         }
+    }
+
+    private void startWebActivity(String activityUrl) {
+        Intent intent = new Intent();
+        if (CommonUtil.checkNetworkNoConnected(mCtx)) return;
+        if (TextUtils.isEmpty(activityUrl)) return;
+        intent.setClass(mCtx, WebActivity.class);
+        if (CarefreeDaoSession.getInstance().getUserInfo() == null) {
+            intent.putExtra(Constant.WEB_INTENT, activityUrl);
+        } else {
+            Uri uri = Uri.parse(activityUrl);
+            if (TextUtils.isEmpty(uri.getQuery())) {
+                intent.putExtra(Constant.WEB_INTENT, activityUrl + "?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
+            } else {
+                intent.putExtra(Constant.WEB_INTENT, activityUrl + "&user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
+            }
+        }
+        startActivity(intent);
     }
 
     @Override

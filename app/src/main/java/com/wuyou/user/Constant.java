@@ -5,14 +5,14 @@ package com.wuyou.user;
  */
 
 public class Constant {
-    public static String BASE_URL = "https://api.iwantmei.com/customer/v1/";
+    public static String BASE_URL = "https://api.iwantmei.com/customer/";
     public static String WEB_URL = "https://activities.iwantmei.com/";
 
-    public static String ONLINE_BASE_URL = "https://api.iwantmei.com/customer/v1/";
+    public static String ONLINE_BASE_URL = "https://api.iwantmei.com/customer/";
     public static String ONLINE_WEB_URL = "https://activities.iwantmei.com/";
-    public static String DEV_BASE_URL = "https://develop.api.iwantmei.com/customer/v1/";
+    public static String DEV_BASE_URL = "https://develop.api.iwantmei.com/customer/";
     public static String DEV_WEB_URL = "http://192.168.1.252/";
-    public static String STAGE_BASE_URL = "https://stage.api.iwantmei.com/customer/v1/";
+    public static String STAGE_BASE_URL = "https://stage.api.iwantmei.com/customer/";
     public static String STAGE_WEB_URL = "https://stage.activity.iwantmei.com/";
 
     public static final java.lang.String WX_ID = "wx4b8fec36e1c7dc68";

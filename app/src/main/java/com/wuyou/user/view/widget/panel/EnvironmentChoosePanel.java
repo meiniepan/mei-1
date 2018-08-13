@@ -45,11 +45,11 @@ public class EnvironmentChoosePanel extends Dialog {
 
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> setEnv(checkedId));
 
-        if (Constant.BASE_URL.equals("https://develop.api.iwantmei.com/customer/v1/"))
+        if (Constant.BASE_URL.equals(Constant.DEV_BASE_URL))
             radioGroup.check(R.id.env_dev);
-        else if (Constant.BASE_URL.equals("https://stage.api.iwantmei.com/customer/v1/"))
+        else if (Constant.BASE_URL.equals(Constant.STAGE_BASE_URL))
             radioGroup.check(R.id.env_test);
-        else if (Constant.BASE_URL.equals("https://api.iwantmei.com/customer/v1/"))
+        else if (Constant.BASE_URL.equals(Constant.ONLINE_BASE_URL))
             radioGroup.check(R.id.env_online);
 
         findViewById(R.id.env_login).setOnClickListener(v ->{

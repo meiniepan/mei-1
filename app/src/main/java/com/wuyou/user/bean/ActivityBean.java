@@ -6,7 +6,6 @@ package com.wuyou.user.bean;
 
 public class ActivityBean {
     public String id;
-    public String activity_id;
     public String link;
     public String image;
 }
