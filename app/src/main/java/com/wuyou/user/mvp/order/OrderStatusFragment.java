@@ -2,6 +2,7 @@ package com.wuyou.user.mvp.order;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.view.View;
 
 import com.gs.buluo.common.utils.ToastUtils;
@@ -141,8 +142,12 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
         adapter.setNewData(response.list);
         if (adapter.getData().size() == 0) {
             orderList.getStatusLayout().showEmptyView(getString(R.string.no_order_yet));
+        } else {
+            //发送红点
+            EventBus.getDefault().post(type);
         }
         if (response.has_more == 0) adapter.loadMoreEnd(true);
+
     }
 
     @Override

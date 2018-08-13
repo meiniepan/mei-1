@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/bangwo8Ui/bangwo8Ui.iml" filepath="$PROJECT_DIR$/bangwo8Ui/bangwo8Ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/banner/banner.iml" filepath="$PROJECT_DIR$/banner/banner.iml" />
+      <module fileurl="file://D:\androidWorkSpace\wuyou-android-user\banner\banner.iml" filepath="D:\androidWorkSpace\wuyou-android-user\banner\banner.iml" />
       <module fileurl="file://$PROJECT_DIR$/shareutil/shareutil.iml" filepath="$PROJECT_DIR$/shareutil/shareutil.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/wuyou-android-user.iml" filepath="$PROJECT_DIR$/.idea/wuyou-android-user.iml" />
     </modules>
