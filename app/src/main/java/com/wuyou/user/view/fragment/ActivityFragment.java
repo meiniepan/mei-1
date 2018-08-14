@@ -45,12 +45,9 @@ public class ActivityFragment extends BaseFragment {
         activityRecyclerView.setAdapter(adapter);
         adapter.setOnLoadMoreListener(this::getDataMore, activityRecyclerView.getRecyclerView());
         activityRecyclerView.setRefreshAction(this::getData);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                String activityId = adapter.getData().get(i).id;
-                navigateToWeb(activityId);
-            }
+        adapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
+            String activityId = adapter.getData().get(i).id;
+            navigateToWeb(activityId);
         });
     }
 
@@ -60,7 +57,7 @@ public class ActivityFragment extends BaseFragment {
         if (TextUtils.isEmpty(Constant.WEB_URL)) return;
         intent.setClass(mCtx, WebActivity.class);
         if (CarefreeDaoSession.getInstance().getUserInfo() == null) {
-            intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL);
+            intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL + "activity_detail?activity_id=" + activityId);
         } else {
             intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL + "activity_detail?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken() + "&activity_id=" + activityId);
         }

@@ -52,7 +52,7 @@ public class MainServeAdapter extends BaseQuickAdapter<CategoryParent, BaseHolde
     }
 
     private void showNoServeDialog(CategoryChild item) {
-        LoadingDialog.getInstance().show(mContext,"",true);
+        LoadingDialog.getInstance().show(mContext, "", true);
         HomePictureDialog dialog = new HomePictureDialog(mContext, item.remind_image);
         dialog.show();
     }

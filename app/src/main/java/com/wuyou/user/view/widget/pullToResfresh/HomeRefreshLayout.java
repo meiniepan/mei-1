@@ -6,17 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.annotation.Px;
 import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.OverScroller;
 import android.widget.TextView;
 
 import com.gs.buluo.common.utils.DensityUtils;
-import com.wuyou.user.view.widget.InterceptNestedScrollView;
+import com.wuyou.user.util.CommonUtil;
 
 /**
  * Created by DELL on 2018/8/10.
@@ -24,8 +24,6 @@ import com.wuyou.user.view.widget.InterceptNestedScrollView;
 
 public class HomeRefreshLayout extends LinearLayout implements NestedScrollingParent {
     private final int MAX_DURATION = 2000;
-    private int OVERSCROLL_RANGE = 200;
-
 
     private int NORMAL_STATE = 0;
     private int PULL_STATE = 1;  //下拉状态
@@ -37,7 +35,7 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
 
 
     private int currentState = VIDEO_STATE;
-    private InterceptNestedScrollView refreshView;
+    private NestedScrollView refreshView;
     private OverScroller scroller;
 
     private boolean isRelease = false;
@@ -45,6 +43,8 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
 
     private int MAX_LOADING_LAYOUT_HEIGHT;
     private int VIDEO_ACTION_LINE;
+    private int layoutHeight;
+    private int screenHeight;
 
     public HomeRefreshLayout(Context context) {
         this(context, null);
@@ -65,14 +65,18 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
         super.onFinishInflate();
         video = getChildAt(0);
         stateText = (TextView) getChildAt(1);
-        refreshView = (InterceptNestedScrollView) getChildAt(2);
+        refreshView = (NestedScrollView) getChildAt(2);
+        Log.e("Carefree", "onFinishInflate: !!!!!!!!!!!");
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        refreshView.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.EXACTLY));
+        refreshView.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.UNSPECIFIED));
         MAX_LOADING_LAYOUT_HEIGHT = getMeasuredHeight();
+
+        screenHeight = CommonUtil.getScreenHeight(getContext());
+        layoutHeight = refreshView.getMeasuredHeight() + getTotalHeight() + DensityUtils.dip2px(getContext(), 120);//这120我没找着在哪，但是得加，应该是间距和状态栏
     }
 
     private TextView stateText;
@@ -110,10 +114,10 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
     @Override
     public void onStopNestedScroll(View child) {
         isRelease = true;
-        if (getScrollY() < 0) {
+        if (getScrollY() < 0) {     //滑动过顶部 回弹
             smoothScroll(-getScrollY());
-        } else if (getScrollY() > getTotalHeight()) {
-            smoothScroll(getTotalHeight() - getScrollY());
+        } else if (layoutHeight - screenHeight < getScrollY()) {    //滑动超过底部 回弹
+            smoothScroll(layoutHeight - screenHeight - getScrollY());
         } else if (getScrollY() >= getRefreshHeight() && currentState == RELEASE_TO_RESET_STATE) {
             smoothScroll(getTotalHeight() - getScrollY());
             currentState = NORMAL_STATE;
@@ -167,11 +171,6 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
         scrollBy(0, dy);
         consumed[1] = dy;
     }
-
-    private int getHeaderScrollRange() {
-        return getTotalHeight() + OVERSCROLL_RANGE;
-    }
-
 
     @Override
     public void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {

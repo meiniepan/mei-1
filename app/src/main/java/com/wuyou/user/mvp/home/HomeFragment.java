@@ -85,8 +85,6 @@ import static cn.jzvd.JZVideoPlayer.FULLSCREEN_ORIENTATION;
 public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscreen.OnShareListener {
     @BindView(R.id.main_serve_list)
     RecyclerView mainServeList;
-    @BindView(R.id.home_current_location)
-    TextView homeCurrentLocation;
     @BindView(R.id.home_address)
     TextView homeAddress;
     @BindView(R.id.home_activity)
@@ -123,10 +121,11 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         getActivityData();
         getServeList(); //先取社区ID为0 的数据 填充界面
         getVideo();
-
         refreshLayout.setOnRefreshListener(() -> {
             getActivityData();
-            getServeList();
+            if (askForPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                getServeList();
+            }
         });
     }
 
@@ -169,7 +168,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
             cacheCommunityBean = new GsonBuilder().create().fromJson(gson, CommunityBean.class);
             communityId = cacheCommunityBean.community_id;
             homeAddress.setText(cacheCommunityBean.address + cacheCommunityBean.name);
-            homeCurrentLocation.setText(cacheCommunityBean.name + "社区，附近有 45 家服务商");
         }
     }
 
@@ -349,10 +347,8 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     private void setCommunityText(CommunityBean currentCommunity) {
         if (currentCommunity == null) {
             homeAddress.setText(location.getAoiName());
-            homeCurrentLocation.setText("该地址附近有 0 家服务商");
         } else {
             homeAddress.setText(location.getAoiName() + currentCommunity.name);
-            homeCurrentLocation.setText(cacheCommunityBean.name + "社区，附近有 45 家服务商");
         }
 
     }
@@ -409,9 +405,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
             for (ActivityBean activityBean : activityData) {
                 images.add(activityBean.image);
             }
-            homeActivityBanner.setOnBannerListener(position -> {
-                startWebActivity(activityData.get(position).link);
-            });
+            homeActivityBanner.setOnBannerListener(position -> startWebActivity(activityData.get(position).link));
             homeActivityBanner.setImages(images);
             homeActivityBanner.start();
         }

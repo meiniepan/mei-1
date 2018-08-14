@@ -39,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:textColor="@color/common_gray"
+        android:maxLength="10"
         app:layout_constraintStart_toEndOf="@id/activity_image1"
         app:layout_constraintTop_toTopOf="@+id/activity_image1"
         tool:text="北京西欧城区" />
