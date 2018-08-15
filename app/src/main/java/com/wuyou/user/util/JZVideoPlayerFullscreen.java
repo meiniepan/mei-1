@@ -56,6 +56,20 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
     }
 
     @Override
+    public void onStatePlaying() {
+        super.onStatePlaying();
+        if (currentScreen != SCREEN_WINDOW_FULLSCREEN) {
+            textLayout.setVisibility(GONE);
+        }
+    }
+
+    @Override
+    public void onStatePause() {
+        super.onStatePause();
+        textLayout.setVisibility(VISIBLE);
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.home_player;
     }

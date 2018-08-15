@@ -66,7 +66,6 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
         video = getChildAt(0);
         stateText = (TextView) getChildAt(1);
         refreshView = (NestedScrollView) getChildAt(2);
-        Log.e("Carefree", "onFinishInflate: !!!!!!!!!!!");
     }
 
     @Override
@@ -151,6 +150,7 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
         ViewCompat.postInvalidateOnAnimation(this);
     }
 
+
     /**
      * calculate the duration for animation by dy.
      *
@@ -168,13 +168,13 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
     @Override
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
         this.dy = dy;
-        scrollBy(0, dy);
-        consumed[1] = dy;
-    }
-
-    @Override
-    public void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-        Log.e("Carefree", "onNestedScroll: " + getScrollY());
+        if (layoutHeight - screenHeight < getScrollY() || getScrollY() < 0) {
+            scrollBy(0, dy/3);
+            consumed[1] = dy/3;
+        } else {
+            scrollBy(0, dy);
+            consumed[1] = dy;
+        }
     }
 
     @Override
@@ -184,14 +184,17 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
     }
 
     @Override
-    public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
-        return false;
+    public int getNestedScrollAxes() {
+        return ViewCompat.SCROLL_AXIS_VERTICAL;
     }
 
-//    @Override
-//    public int getNestedScrollAxes() {
-//        return ViewCompat.SCROLL_AXIS_VERTICAL;
-//    }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_MOVE) {
+            Log.e("Carefree", "onTouchEvent: " + event.getY());
+        }
+        return super.onTouchEvent(event);
+    }
 
     @Override
     public void scrollTo(@Px int x, @Px int y) {

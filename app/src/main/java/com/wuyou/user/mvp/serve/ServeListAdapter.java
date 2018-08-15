@@ -8,6 +8,7 @@ import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.ServeBean;
 import com.wuyou.user.bean.ServeSpecification;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class ServeListAdapter extends BaseQuickAdapter<ServeBean, BaseHolder> {
         if (item.has_specification == 1) {
             setPriceRange(helper, item);
         } else {
-            helper.setText(R.id.serve_item_price, "￥" + item.price + "/" + item.unit);
+            helper.setText(R.id.serve_item_price, "￥" + CommonUtil.formatPrice(item.price) + "/" + item.unit);
         }
     }
 
@@ -58,9 +59,9 @@ public class ServeListAdapter extends BaseQuickAdapter<ServeBean, BaseHolder> {
             }
         }
         if (minPrice == maxPrice || minPrice == 0) {
-            helper.setText(R.id.serve_item_price, "￥" + maxPrice + "/" + serveBean.unit);
+            helper.setText(R.id.serve_item_price, "￥" + CommonUtil.formatPrice(maxPrice) + "/" + serveBean.unit);
         } else {
-            helper.setText(R.id.serve_item_price, "￥" + minPrice +"～" + maxPrice + "/" + serveBean.unit);
+            helper.setText(R.id.serve_item_price, "￥" + CommonUtil.formatPrice(minPrice) + "～" + CommonUtil.formatPrice(maxPrice) + "/" + serveBean.unit);
         }
     }
 }
