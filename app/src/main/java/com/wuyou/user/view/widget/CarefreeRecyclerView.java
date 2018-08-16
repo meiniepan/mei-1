@@ -6,9 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -17,11 +15,9 @@ import com.gs.buluo.common.R;
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
-import com.gs.buluo.common.widget.StatusLayout;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.gs.buluo.common.widget.recyclerHelper.EaeRecyclerView;
 import com.gs.buluo.common.widget.recyclerHelper.OnRefreshListener;
-import com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView;
 import com.gs.buluo.common.widget.recyclerHelper.refreshLayout.EasyRefreshLayout;
 import com.wuyou.user.bean.response.BaseItemBean;
 import com.wuyou.user.bean.response.ListResponse;
@@ -48,7 +44,6 @@ public class CarefreeRecyclerView extends FrameLayout {
 
     public CarefreeRecyclerView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
-        init(context, attrs);
     }
 
     private void init(Context context, AttributeSet attrs) {
@@ -63,6 +58,15 @@ public class CarefreeRecyclerView extends FrameLayout {
         } finally {
             a.recycle();
         }
+
+        View view = inflate(context, R.layout.common_status_refresh_recycler, this);
+        mRecyclerView = view.findViewById(R.id.recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.addItemDecoration(CommonUtil.getRecyclerDivider(context));
+        mSwipeRefreshLayout = view.findViewById(R.id.recycler_swipe);
+        mSwipeRefreshLayout.setEnabled(false);
+        mSwipeRefreshLayout.setEnablePullToRefresh(false);
+        setSwipeRefreshColorsFromRes(R.color.common_custom_color, R.color.common_custom_color_shallow, R.color.common_night_blue);
         mRecyclerView.setEmptyDrawable(emptyDrawable);
         mRecyclerView.setErrorDrawable(errorDrawable);
         mRecyclerView.setLoginDrawable(loginDrawable);
@@ -70,13 +74,7 @@ public class CarefreeRecyclerView extends FrameLayout {
 
     public CarefreeRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        View view = inflate(context, R.layout.common_status_refresh_recycler, this);
-        mRecyclerView = view.findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.addItemDecoration(CommonUtil.getRecyclerDivider(context));
-        mSwipeRefreshLayout = view.findViewById(R.id.recycler_swipe);
-        mSwipeRefreshLayout.setEnabled(false);
-        setSwipeRefreshColorsFromRes(R.color.common_custom_color, R.color.common_custom_color_shallow, R.color.common_night_blue);
+        init(context, attrs);
     }
 
     public EaeRecyclerView getRecyclerView() {
@@ -96,6 +94,7 @@ public class CarefreeRecyclerView extends FrameLayout {
 
     public void setRefreshAction(final OnRefreshListener action) {
         mSwipeRefreshLayout.setEnabled(true);
+        mSwipeRefreshLayout.setEnablePullToRefresh(true);
         mSwipeRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             public void onRefreshing() {
                 (new Handler()).postDelayed(new Runnable() {
@@ -138,6 +137,7 @@ public class CarefreeRecyclerView extends FrameLayout {
     public void showContentView() {
         mRecyclerView.showContentView();
     }
+
     public void showProgressView() {
         mRecyclerView.showProgressView();
     }

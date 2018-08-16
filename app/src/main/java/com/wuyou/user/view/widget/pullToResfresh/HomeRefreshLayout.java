@@ -8,7 +8,6 @@ import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -43,7 +42,8 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
 
     private int MAX_LOADING_LAYOUT_HEIGHT;
     private int VIDEO_ACTION_LINE;
-    private int layoutHeight;
+    private int TEXT_HEIGHT;
+    private int layoutHeight; //整个屏幕内view的高度
     private int screenHeight;
 
     public HomeRefreshLayout(Context context) {
@@ -58,6 +58,7 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
         super(context, attrs, defStyleAttr);
         scroller = new OverScroller(context);
         VIDEO_ACTION_LINE = DensityUtils.dip2px(getContext(), 100);
+        TEXT_HEIGHT = DensityUtils.dip2px(getContext(), 32);
     }
 
     @Override
@@ -66,6 +67,7 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
         video = getChildAt(0);
         stateText = (TextView) getChildAt(1);
         refreshView = (NestedScrollView) getChildAt(2);
+        setTextHeight(0);
     }
 
     @Override
@@ -75,7 +77,7 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
         MAX_LOADING_LAYOUT_HEIGHT = getMeasuredHeight();
 
         screenHeight = CommonUtil.getScreenHeight(getContext());
-        layoutHeight = refreshView.getMeasuredHeight() + getTotalHeight() + DensityUtils.dip2px(getContext(), 120);//这120我没找着在哪，但是得加，应该是间距和状态栏
+        layoutHeight = refreshView.getMeasuredHeight() + getHeadTotalHeight() + DensityUtils.dip2px(getContext(), 120);//这120我没找着在哪，但是得加，应该是间距和状态栏
     }
 
     private TextView stateText;
@@ -101,7 +103,7 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
         return true;
     }
 
-    private int getTotalHeight() {
+    private int getHeadTotalHeight() {
         return stateText.getMeasuredHeight() + video.getMeasuredHeight();
     }
 
@@ -114,14 +116,27 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
     public void onStopNestedScroll(View child) {
         isRelease = true;
         if (getScrollY() < 0) {     //滑动过顶部 回弹
+            setTextHeight(0);
             smoothScroll(-getScrollY());
-        } else if (layoutHeight - screenHeight < getScrollY()) {    //滑动超过底部 回弹
-            smoothScroll(layoutHeight - screenHeight - getScrollY());
-        } else if (getScrollY() >= getRefreshHeight() && currentState == RELEASE_TO_RESET_STATE) {
-            smoothScroll(getTotalHeight() - getScrollY());
+        } else if (currentState == NORMAL_STATE && layoutHeight - screenHeight < getScrollY() && layoutHeight - screenHeight > 0) {    //滑动超过底部 回弹
+            int backY = layoutHeight - screenHeight - getScrollY();
+            if (getScrollY() + backY < getHeadTotalHeight()) {
+                smoothScroll(getHeadTotalHeight() - getScrollY());
+            } else {
+                smoothScroll(backY);
+            }
+            setTextHeight(TEXT_HEIGHT);
+        } else if (currentState == RELEASE_TO_RESET_STATE || currentState == PULL_STATE) {
+            if (stateText.getHeight() == 0) {
+                setTextHeight(TEXT_HEIGHT);
+                smoothScroll(getHeadTotalHeight() + TEXT_HEIGHT - getScrollY());
+            } else {
+                smoothScroll(getHeadTotalHeight() - getScrollY());
+            }
             currentState = NORMAL_STATE;
-        } else if ((getScrollY() >= VIDEO_ACTION_LINE && currentState == VIDEO_STATE) || currentState == RELEASE_TO_RESET_STATE) {
-            smoothScroll(getTotalHeight() - getScrollY());
+        } else if ((getScrollY() >= VIDEO_ACTION_LINE && currentState == VIDEO_STATE) || currentState == RELEASE_TO_RESET_STATE || currentState == NORMAL_STATE) {
+            setTextHeight(TEXT_HEIGHT);
+            smoothScroll(getHeadTotalHeight() + TEXT_HEIGHT - getScrollY());
             currentState = NORMAL_STATE;
         } else if (getScrollY() >= VIDEO_ACTION_LINE && currentState == RELEASE_TO_REFRESH_STATE && listener != null) {
             listener.onRefresh();
@@ -132,10 +147,17 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
             smoothScroll(-getScrollY());
             currentState = VIDEO_STATE;
             stateText.setText("视频中");
+            setTextHeight(0);
         }
-        if (getScrollY() == getTotalHeight() && currentState == VIDEO_STATE) {
+        if (getScrollY() == getHeadTotalHeight() && currentState == VIDEO_STATE) {
             currentState = NORMAL_STATE;
+            setTextHeight(TEXT_HEIGHT);
         }
+    }
+
+    private void setTextHeight(int height) {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, height);
+        stateText.setLayoutParams(layoutParams);
     }
 
 
@@ -168,9 +190,12 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
     @Override
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
         this.dy = dy;
-        if (layoutHeight - screenHeight < getScrollY() || getScrollY() < 0) {
-            scrollBy(0, dy/3);
-            consumed[1] = dy/3;
+        if (currentState == PULL_STATE || currentState == RELEASE_TO_REFRESH_STATE) {
+            scrollBy(0, dy / 3);
+            consumed[1] = dy / 3;
+        } else if (layoutHeight - screenHeight < getScrollY() || getScrollY() < 0) {
+            scrollBy(0, dy / 2);
+            consumed[1] = dy / 2;
         } else {
             scrollBy(0, dy);
             consumed[1] = dy;
@@ -189,38 +214,33 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            Log.e("Carefree", "onTouchEvent: " + event.getY());
-        }
-        return super.onTouchEvent(event);
-    }
-
-    @Override
     public void scrollTo(@Px int x, @Px int y) {
         super.scrollTo(x, y);
-        if (y == 0) {
+        if (y <= 0 && currentState != VIDEO_STATE) {
             currentState = VIDEO_STATE;
-            stateText.setText("视频中");
-        } else if (y == getTotalHeight() && currentState == REFRESHING_STATE) {
+            stateText.setText("");
+        } else if (y == getHeadTotalHeight() && currentState == REFRESHING_STATE) {
             currentState = NORMAL_STATE;
             stateText.setText("下拉刷新");
-        } else if (currentState == NORMAL_STATE && y >= getRefreshHeight()) {
-            if (y == getTotalHeight()) {
+        } else if (y >= getRefreshHeight() && currentState != PULL_STATE && currentState != REFRESHING_STATE) {
+            if (y == getHeadTotalHeight()) {
                 stateText.setText("下拉刷新");
             }
             currentState = PULL_STATE;
         } else if (currentState == PULL_STATE && y < getRefreshHeight()) {
             currentState = RELEASE_TO_REFRESH_STATE;
             stateText.setText("松手刷新");
+        } else if ((currentState == RELEASE_TO_VIDEO_STATE || currentState == VIDEO_STATE) && y > VIDEO_ACTION_LINE) {
+            currentState = RELEASE_TO_RESET_STATE;
+            stateText.setText("");
         } else if (currentState == RELEASE_TO_REFRESH_STATE && y <= VIDEO_ACTION_LINE && y > 0) {
             stateText.setText("松手看视频");
             currentState = RELEASE_TO_VIDEO_STATE;
-        } else if (y > getRefreshHeight() && y < getTotalHeight() && currentState == RELEASE_TO_REFRESH_STATE) {
+        } else if (y > getRefreshHeight() && y < getHeadTotalHeight() && currentState == RELEASE_TO_REFRESH_STATE) {
             stateText.setText("下拉刷新");
             currentState = RELEASE_TO_RESET_STATE;
         }
-        if (y >= getTotalHeight() && currentState != NORMAL_STATE) {
+        if (y >= getHeadTotalHeight() && currentState != NORMAL_STATE) {
             stateText.setText("下拉刷新");
             currentState = NORMAL_STATE;
         }
@@ -246,9 +266,9 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
             View view = this;
             stateText.setText("刷新完成");
             stateText.postDelayed(() -> {
-                scroller.startScroll(0, getScrollY(), 0, getTotalHeight() - scroller.getCurrY(), 1200);
+                scroller.startScroll(0, getScrollY(), 0, getHeadTotalHeight() - scroller.getCurrY(), 1200);
                 ViewCompat.postInvalidateOnAnimation(view);
-            }, 300);
+            }, 500);
         }
     }
 

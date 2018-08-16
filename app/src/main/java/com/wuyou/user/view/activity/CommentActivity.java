@@ -3,6 +3,7 @@ package com.wuyou.user.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -35,7 +36,7 @@ public class CommentActivity extends BaseActivity {
     @BindView(R.id.comment_star)
     ProperRatingBar commentStar;
     @BindView(R.id.comment_anonymous)
-    RadioButton anonymousButton;
+    CheckBox anonymousButton;
     private OrderBean orderBean;
     private String serveId;
 

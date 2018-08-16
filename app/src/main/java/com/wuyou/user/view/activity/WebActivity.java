@@ -174,7 +174,7 @@ public class WebActivity extends BaseActivity {
     private String loadJSMethod(String methodName, String json) {
         final String[] result = new String[1];
         String js = "javascript:" + methodName + "(" + json + ")";
-        Log.e("Test", "loadJSMethod: " + js);
+        Log.e("Carefree", "loadJSMethod: " + js);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
             webView.evaluateJavascript(js, value -> {
                 result[0] = value;
@@ -216,7 +216,7 @@ public class WebActivity extends BaseActivity {
         @JavascriptInterface
         public void hybridProtocol(String json) {
             jsBean = new Gson().fromJson(json, JSBean.class);
-            Log.e("Test", "JSCallNativeInterface: " + jsBean.toString());
+            Log.e("Carefree", "JSCallNativeInterface: " + jsBean.toString());
             Intent intent = new Intent();
             if (TextUtils.equals(jsBean.MethodName, "UserLogin")) {
                 intent.setClass(getCtx(), LoginActivity.class);

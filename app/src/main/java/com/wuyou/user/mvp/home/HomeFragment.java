@@ -135,7 +135,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         homeActivityBanner.setOffscreenPageLimit(4);
         homeActivityBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         homeActivityBanner.setIndicatorGravity(BannerConfig.CENTER);
-        homeActivityBanner.setDelayTime(5000);
+        homeActivityBanner.setDelayTime(3000);
         homeActivityBanner.isAutoPlay(true);
         homeActivityBanner.setPageTransformer(true, new GalleryTransformer());
     }

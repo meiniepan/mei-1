@@ -29,11 +29,6 @@ public class GlideBannerLoader extends ImageLoader {
         }
         if (path == null) return;
         String url = path.toString();
-//        if (!url.contains("://")) {
-//            url = Constant.Base.BASE_IMG_URL + url;
-//        } else {
-//            url = transformUrl(url);
-//        }
         if (isRound) {
             RequestOptions options = new RequestOptions().optionalTransform(new GlideCenterCropRoundTransform(context, 4, GlideCenterCropRoundTransform.CornerType.ALL));
             Glide.with(context).load(url).apply(options).into(imageView);

@@ -67,6 +67,9 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
         });
         adapter.setOnLoadMoreListener(() -> mPresenter.getOrderMore(type), orderList.getRecyclerView());
         adapter.disableLoadMoreIfNotFullPage();
+        if (CarefreeDaoSession.getInstance().getUserId() == null) {
+            orderList.getRecyclerView().showLoginView(getString(R.string.no_login));
+        }
     }
 
     public void setUpStatus() {

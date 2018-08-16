@@ -3,6 +3,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -79,8 +80,9 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="32dp"
             android:gravity="center"
+            android:background="@color/tint_bg"
             android:textColor="@color/common_gray"
             android:textSize="@dimen/dimens_12sp" />
 
@@ -98,7 +100,6 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical">
-
                 <com.youth.banner.Banner
                     android:id="@+id/home_activity"
                     android:layout_width="match_parent"
@@ -106,7 +107,8 @@
                     android:background="@color/tint_bg"
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
-                    android:scaleType="fitCenter" />
+                    app:indicator_drawable_selected="@drawable/banner_selected"
+                    app:indicator_drawable_unselected="@drawable/banner_not_selected"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/main_serve_list"

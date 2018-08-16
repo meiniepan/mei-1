@@ -43,7 +43,7 @@
             android:layout_marginStart="10dp"
             android:layout_height="wrap_content" />
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/comment_anonymous"
             android:layout_width="30dp"
             android:layout_height="30dp"
