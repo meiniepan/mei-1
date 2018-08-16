@@ -3,6 +3,7 @@ package com.wuyou.user.view.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,7 +19,10 @@ import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
+import com.gs.buluo.common.widget.recyclerHelper.EaeRecyclerView;
 import com.gs.buluo.common.widget.recyclerHelper.OnRefreshListener;
+import com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView;
+import com.gs.buluo.common.widget.recyclerHelper.refreshLayout.EasyRefreshLayout;
 import com.wuyou.user.bean.response.BaseItemBean;
 import com.wuyou.user.bean.response.ListResponse;
 import com.wuyou.user.util.CommonUtil;
@@ -34,10 +38,9 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class CarefreeRecyclerView extends FrameLayout {
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private RecyclerView mRecyclerView;
+    private EasyRefreshLayout mSwipeRefreshLayout;
+    private EaeRecyclerView mRecyclerView;
     private BaseQuickAdapter mAdapter;
-    private StatusLayout statusLayout;
 
     public CarefreeRecyclerView(Context context) {
         this(context, null);
@@ -60,9 +63,9 @@ public class CarefreeRecyclerView extends FrameLayout {
         } finally {
             a.recycle();
         }
-        statusLayout.getEmptyImageView().setImageDrawable(emptyDrawable);
-        statusLayout.getErrorImageView().setImageDrawable(errorDrawable);
-        statusLayout.getLoginImageView().setImageDrawable(loginDrawable);
+        mRecyclerView.setEmptyDrawable(emptyDrawable);
+        mRecyclerView.setErrorDrawable(errorDrawable);
+        mRecyclerView.setLoginDrawable(loginDrawable);
     }
 
     public CarefreeRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
@@ -72,18 +75,17 @@ public class CarefreeRecyclerView extends FrameLayout {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(CommonUtil.getRecyclerDivider(context));
         mSwipeRefreshLayout = view.findViewById(R.id.recycler_swipe);
-        statusLayout = view.findViewById(R.id.recycler_status);
         mSwipeRefreshLayout.setEnabled(false);
         setSwipeRefreshColorsFromRes(R.color.common_custom_color, R.color.common_custom_color_shallow, R.color.common_night_blue);
     }
 
-    public RecyclerView getRecyclerView() {
+    public EaeRecyclerView getRecyclerView() {
         return mRecyclerView;
     }
 
     public void setSwipeRefreshColorsFromRes(@ColorRes int... colors) {
-        mSwipeRefreshLayout.setColorSchemeResources(colors);
-        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.white);
+//        mSwipeRefreshLayout.setColorSchemeResources(colors);
+//        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.white);
     }
 
     public void setAdapter(BaseQuickAdapter adapter) {
@@ -94,7 +96,16 @@ public class CarefreeRecyclerView extends FrameLayout {
 
     public void setRefreshAction(final OnRefreshListener action) {
         mSwipeRefreshLayout.setEnabled(true);
-        mSwipeRefreshLayout.setOnRefreshListener(() -> action.onAction());
+        mSwipeRefreshLayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            public void onRefreshing() {
+                (new Handler()).postDelayed(new Runnable() {
+                    public void run() {
+                        action.onAction();
+                        mSwipeRefreshLayout.refreshComplete();
+                    }
+                }, 1000L);
+            }
+        });
     }
 
     //刷新完成先调
@@ -104,36 +115,31 @@ public class CarefreeRecyclerView extends FrameLayout {
         mAdapter.clearData();
     }
 
-    public SwipeRefreshLayout getRefreshLayout() {
+    public EasyRefreshLayout getRefreshLayout() {
         return mSwipeRefreshLayout;
     }
 
     public void showEmptyView() {
-        statusLayout.showEmptyView();
+        mRecyclerView.showEmptyView();
     }
 
     public void showEmptyView(String msg) {
-        statusLayout.showEmptyView(msg);
+        mRecyclerView.showEmptyView(msg);
     }
 
     public void showErrorView() {
-        statusLayout.showErrorView();
+        mRecyclerView.showErrorView();
     }
 
     public void showErrorView(String msg) {
-        statusLayout.showErrorView(msg);
+        mRecyclerView.showErrorView(msg);
     }
 
     public void showContentView() {
-        statusLayout.showContentView();
+        mRecyclerView.showContentView();
     }
-
-    public StatusLayout getStatusLayout() {
-        return statusLayout;
-    }
-
     public void showProgressView() {
-        statusLayout.showProgressView();
+        mRecyclerView.showProgressView();
     }
 
     public String emptyMessage;
@@ -141,23 +147,23 @@ public class CarefreeRecyclerView extends FrameLayout {
 
     public <T extends BaseItemBean> void initData(Observable<BaseResponse<ListResponse<T>>> firstObservable) {
         getData(firstObservable);
-        statusLayout.setErrorAction(v -> getData(firstObservable));
+        mRecyclerView.setErrorAction(v -> getData(firstObservable));
     }
 
     private <T extends BaseItemBean> void getData(Observable<BaseResponse<ListResponse<T>>> firstObservable) {
         mSwipeRefreshLayout.setRefreshing(false);
-        statusLayout.showProgressView();
+        mRecyclerView.showProgressView();
         firstObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<BaseResponse<ListResponse<T>>>() {
                     @Override
                     public void onSuccess(BaseResponse<ListResponse<T>> listResponseBaseResponse) {
                         mSwipeRefreshLayout.setRefreshing(false);
-                        statusLayout.showContentView();
+                        mRecyclerView.showContentView();
                         ListResponse<T> data = listResponseBaseResponse.data;
                         mAdapter.setNewData(data.list);
                         if (data.list == null || data.list.size() == 0) {
-                            statusLayout.showEmptyView(emptyMessage);
+                            mRecyclerView.showEmptyView(emptyMessage);
                             return;
                         }
                         startId = data.list.get(data.list.size() - 1).id;
@@ -169,7 +175,7 @@ public class CarefreeRecyclerView extends FrameLayout {
                     @Override
                     protected void onFail(ApiException e) {
                         mSwipeRefreshLayout.setRefreshing(false);
-                        statusLayout.showErrorView(e.getDisplayMessage());
+                        mRecyclerView.showErrorView(e.getDisplayMessage());
                     }
                 });
     }

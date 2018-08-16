@@ -40,7 +40,7 @@ public class ScoreRecordActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        scoreRecordList.getStatusLayout().setEmptyContentViewMargin(0, -200, 0, 0);
+        scoreRecordList.getRecyclerView().setEmptyContentViewMargin(0, -200, 0, 0);
         flag = getIntent().getIntExtra(Constant.SCORE_FLAG, 0);
         adapter = new ScoreRecordAdapter(R.layout.item_score_record, flag);
         scoreRecordList.setAdapter(adapter);

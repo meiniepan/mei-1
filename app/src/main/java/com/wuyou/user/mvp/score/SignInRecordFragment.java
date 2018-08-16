@@ -33,7 +33,7 @@ public class SignInRecordFragment extends BaseFragment {
         signInRecord.setLoadMoreListener(() -> signInRecord.getDataMore(CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
                 .getSignInRecord(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("flag", "2").put("start_id", signInRecord.startId).buildGet())));
 
-        signInRecord.getStatusLayout().setErrorAction(v -> getData());
+        signInRecord.getRecyclerView().setErrorAction(v -> getData());
     }
 
     private void getData() {
