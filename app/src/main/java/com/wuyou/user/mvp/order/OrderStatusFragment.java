@@ -70,14 +70,14 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     }
 
     public void setUpStatus() {
-        orderList.getStatusLayout().getEmptyActView().setVisibility(View.GONE);
-        orderList.getStatusLayout().setLoginAction(v -> {
+        orderList.getRecyclerView().setEmptyActViewVisible(false);
+        orderList.getRecyclerView().setLoginAction(v -> {
             Intent intent = new Intent(mCtx, LoginActivity.class);
             startActivity(intent);
         });
-        orderList.getStatusLayout().getLoginActView().setText(R.string.login_now);
-        orderList.getStatusLayout().setErrorAction(v -> {
-            orderList.getStatusLayout().showProgressView();
+        orderList.getRecyclerView().setLoginActViewText(getString(R.string.login_now));
+        orderList.getRecyclerView().setErrorAction(v -> {
+            orderList.showProgressView();
             mPresenter.getOrder(type);
         });
     }
@@ -85,10 +85,10 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginEvent(LoginEvent event) {
         if (CarefreeDaoSession.getInstance().getUserId() == null) {
-            orderList.getStatusLayout().showLoginView(getString(R.string.no_login));
-            orderList.getStatusLayout().setEnabled(false);
+            orderList.getRecyclerView().showLoginView(getString(R.string.no_login));
+            orderList.getRecyclerView().setEnabled(false);
         } else {
-            orderList.getStatusLayout().showProgressView();
+            orderList.getRecyclerView().showProgressView();
             mPresenter.getOrder(type);
             orderList.getRefreshLayout().setEnabled(true);
         }
@@ -103,10 +103,10 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     protected void loadDataWhenVisible() {
         type = getArguments().getInt("h");
         if (CarefreeDaoSession.getInstance().getUserId() == null) {
-            orderList.getStatusLayout().showLoginView(getString(R.string.no_login));
+            orderList.getRecyclerView().showLoginView(getString(R.string.no_login));
             return;
         }
-        orderList.getStatusLayout().showProgressView();
+        orderList.getRecyclerView().showProgressView();
         mPresenter.getOrder(type);
     }
 
@@ -115,7 +115,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
     }
 
     private void refreshData() {
-        orderList.getStatusLayout().showProgressView();
+        orderList.getRecyclerView().showProgressView();
         mPresenter.getOrder(type);
     }
 
@@ -125,7 +125,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
         if (res == 100) {
             ToastUtils.ToastMessage(mCtx, R.string.connect_fail);
         } else {
-            orderList.getStatusLayout().showErrorView(getString(R.string.connect_fail));
+            orderList.showErrorView(getString(R.string.connect_fail));
         }
     }
 
@@ -136,12 +136,12 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
 
     @Override
     public void getOrderSuccess(OrderListResponse response) {
-        orderList.getStatusLayout().showContentView();
+        orderList.getRecyclerView().showContentView();
         orderList.setRefreshFinished();
         adapter.clearData();
         adapter.setNewData(response.list);
         if (adapter.getData().size() == 0) {
-            orderList.getStatusLayout().showEmptyView(getString(R.string.no_order_yet));
+            orderList.getRecyclerView().showEmptyView(getString(R.string.no_order_yet));
         } else {
             //发送红点
             EventBus.getDefault().post(type);

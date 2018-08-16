@@ -55,24 +55,24 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
         });
 
         if (null == CarefreeDaoSession.getInstance().getUserId()) {
-            addressList.getStatusLayout().showLoginView(getString(R.string.no_login));
+            addressList.getRecyclerView().showLoginView(getString(R.string.no_login));
         }
-        addressList.getStatusLayout().setErrorContentViewMargin(0, -DensityUtils.dip2px(this, 80), 0, 0);
-        addressList.getStatusLayout().setEmptyContentViewMargin(0, -DensityUtils.dip2px(this, 80), 0, 0);
+        addressList.getRecyclerView().setErrorContentViewMargin(0, -DensityUtils.dip2px(this, 80), 0, 0);
+        addressList.getRecyclerView().setEmptyContentViewMargin(0, -DensityUtils.dip2px(this, 80), 0, 0);
     }
 
     private void setUpStatus() {
-        addressList.getStatusLayout().getErrorActView().setText(getString(R.string.reload));
-        addressList.getStatusLayout().setErrorAction(v -> mPresenter.getAddress());
+        addressList.getRecyclerView().setErrorActViewText(getString(R.string.reload));
+        addressList.getRecyclerView().setErrorAction(v -> mPresenter.getAddress());
 
-        addressList.getStatusLayout().setLoginAction(v -> {
+        addressList.getRecyclerView().setLoginAction(v -> {
             Intent intent = new Intent(getCtx(), LoginActivity.class);
             startActivity(intent);
         });
-        addressList.getStatusLayout().getLoginActView().setText(R.string.login_now);
+        addressList.getRecyclerView().setLoginActViewText(getString(R.string.login_now));
 
-        addressList.getStatusLayout().getEmptyActView().setText(R.string.add_address);
-        addressList.getStatusLayout().setEmptyAction(v -> {
+        addressList.getRecyclerView().setEmptyActViewText(getString(R.string.add_address));
+        addressList.getRecyclerView().setEmptyAction(v -> {
             Intent intent = new Intent(getCtx(), AddressAddActivity.class);
             startActivity(intent);
         });
@@ -121,18 +121,18 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
     protected void onResume() {
         super.onResume();
         if (null == CarefreeDaoSession.getInstance().getUserInfo()) return;
-        addressList.getStatusLayout().showProgressView();
+        addressList.showProgressView();
         mPresenter.getAddress();
     }
 
     @Override
     public void getAddressSuccess(AddressListResponse list) {
-        addressList.getStatusLayout().showContentView();
+        addressList.showContentView();
         addressData = new ArrayList<>();
         addressData.addAll(list.list);
         adapter.setNewData(addressData);
         if (adapter.getData().size() == 0) {
-            addressList.getStatusLayout().showEmptyView(getString(R.string.no_address));
+            addressList.showEmptyView(getString(R.string.no_address));
         } else {
             CarefreeDaoSession.getInstance().saveDefaultAddress(list.list.get(0));
         }
@@ -152,6 +152,6 @@ public class AddressActivity extends BaseActivity<AddressConstract.View, Address
 
     @Override
     public void showError(String message, int res) {
-        addressList.getStatusLayout().showErrorView(message);
+        addressList.showErrorView(message);
     }
 }
