@@ -113,6 +113,11 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         initViewPagerScroll();
     }
 
+    public void setBannerWidth(int width){
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width,-1);
+        viewPager.setLayoutParams(layoutParams);
+    }
+
     public void setClipChildren(boolean clipChildren) {
         mRoot.setClipChildren(clipChildren);
     }

@@ -98,6 +98,7 @@ public class ServeDetailActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         setTitleText(R.string.serve_detail);
+        serveDetailBanner.setBannerWidth(-1);
         serveDetailBanner.setImageLoader(new GlideBannerLoader());
         serveDetailBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         serveDetailBanner.isAutoPlay(false);
