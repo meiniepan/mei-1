@@ -18,8 +18,8 @@ android {
         applicationId "com.wuyou.user"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 12
-        versionName "1.6.0"
+        versionCode 13
+        versionName "1.6.1"
         multiDexEnabled true
         ndk { abiFilters 'armeabi', 'armeabi-v7a' }
     }
