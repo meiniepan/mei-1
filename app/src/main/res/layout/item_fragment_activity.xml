@@ -20,6 +20,8 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="12dp"
         android:textSize="@dimen/dimens_16sp"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_picture"
         tool:text="变态涛涛涛涛涛涛涛涛涛涛" />

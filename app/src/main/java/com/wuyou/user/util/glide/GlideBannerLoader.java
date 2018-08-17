@@ -30,7 +30,7 @@ public class GlideBannerLoader extends ImageLoader {
         if (path == null) return;
         String url = path.toString();
         if (isRound) {
-            RequestOptions options = new RequestOptions().optionalTransform(new GlideCenterCropRoundTransform(context, 4, GlideCenterCropRoundTransform.CornerType.ALL));
+            RequestOptions options = new RequestOptions().optionalTransform(new GlideRoundTransform(context, 4, GlideRoundTransform.CornerType.ALL));
             Glide.with(context).load(url).apply(options).into(imageView);
         } else {
             Glide.with(context).load(url).into(imageView);

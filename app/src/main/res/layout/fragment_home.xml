@@ -108,7 +108,8 @@
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
                     app:indicator_drawable_selected="@drawable/banner_selected"
-                    app:indicator_drawable_unselected="@drawable/banner_not_selected"/>
+                    app:indicator_drawable_unselected="@drawable/banner_not_selected"
+                    app:image_scale_type="center_inside"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/main_serve_list"
