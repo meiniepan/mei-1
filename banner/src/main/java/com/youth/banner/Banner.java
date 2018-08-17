@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -75,6 +74,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
     private DisplayMetrics dm;
 
     private WeakHandler handler = new WeakHandler();
+    private RelativeLayout mRoot;
 
     public Banner(Context context) {
         this(context, null);
@@ -109,7 +109,12 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         numIndicator = (TextView) view.findViewById(R.id.numIndicator);
         numIndicatorInside = (TextView) view.findViewById(R.id.numIndicatorInside);
         bannerDefaultImage.setImageResource(bannerBackgroundImage);
+        mRoot = (RelativeLayout) view.findViewById(R.id.bannerContainer);
         initViewPagerScroll();
+    }
+
+    public void setClipChildren(boolean clipChildren) {
+        mRoot.setClipChildren(clipChildren);
     }
 
     private void handleTypedArray(Context context, AttributeSet attrs) {
@@ -147,7 +152,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         }
     }
 
-    public ViewPager getViewPager(){
+    public ViewPager getViewPager() {
         return viewPager;
     }
 
@@ -298,7 +303,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
     }
 
     private void setBannerStyleUI() {
-        int visibility =count > 1 ? View.VISIBLE :View.GONE;
+        int visibility = count > 1 ? View.VISIBLE : View.GONE;
         switch (bannerStyle) {
             case BannerConfig.CIRCLE_INDICATOR:
                 indicator.setVisibility(visibility);
@@ -579,7 +584,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
 
     @Override
     public void onPageSelected(int position) {
-        currentItem=position;
+        currentItem = position;
         if (mOnPageChangeListener != null) {
             mOnPageChangeListener.onPageSelected(toRealPosition(position));
         }

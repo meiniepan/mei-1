@@ -1,6 +1,7 @@
 package com.wuyou.user.util.glide;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +21,7 @@ public class GlideBannerLoader extends ImageLoader {
 
     public GlideBannerLoader() {
     }
+
 
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {

@@ -130,8 +130,9 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     }
 
     private void initBanner() {
+        homeActivityBanner.setClipChildren(false);
         homeActivityBanner.setImageLoader(new GlideBannerLoader(true));
-        homeActivityBanner.getViewPager().setPageMargin(DensityUtils.dip2px(getContext(), 10));
+        homeActivityBanner.getViewPager().setPageMargin(DensityUtils.dip2px(mCtx, 10));
         homeActivityBanner.setOffscreenPageLimit(4);
         homeActivityBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         homeActivityBanner.setIndicatorGravity(BannerConfig.CENTER);
