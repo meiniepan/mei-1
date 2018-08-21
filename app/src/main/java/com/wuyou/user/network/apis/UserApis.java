@@ -60,7 +60,7 @@ public interface UserApis {
             @Path("uid")String uid,
             @Part MultipartBody.Part file,
             @QueryMap SortedTreeMap<String, String> map);
-    @GET("client/update")
+    @GET("v1/client/update")
     Observable<BaseResponse<UpdateEntity>> checkUpdate(
             @QueryMap SortedTreeMap<String, String> map);
 

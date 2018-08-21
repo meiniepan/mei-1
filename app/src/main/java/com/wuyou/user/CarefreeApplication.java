@@ -93,7 +93,7 @@ public class CarefreeApplication extends BaseApplication {
                 .subscribe(new BaseSubscriber<BaseResponse<UpdateEntity>>() {
                     @Override
                     public void onSuccess(BaseResponse<UpdateEntity> response) {
-                        if (0 == response.data.update){
+                        if (2 == response.data.update){
                             Beta.checkUpgrade(false,true);
                         }
                     }
