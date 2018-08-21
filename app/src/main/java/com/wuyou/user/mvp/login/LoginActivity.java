@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.gs.buluo.common.utils.ToastUtils;
+import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.R;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.UnScrollViewPager;
@@ -30,6 +31,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
+        CarefreeApplication.getInstance().ManualCheckOnForceUpdate();
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
 //            //此方法用来显示tab上的名字
 //            @Override
