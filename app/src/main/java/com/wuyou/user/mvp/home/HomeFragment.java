@@ -153,6 +153,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
 
     @Override
     protected void permissionGranted() {
+        refreshLayout.completeRefresh();
         if (mLocationClient == null) {
             initLocationAndGetData();
         }

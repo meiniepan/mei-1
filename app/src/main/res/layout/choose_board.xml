@@ -42,16 +42,18 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/choose_board_title"
                 android:layout_below="@+id/choose_board_title"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:textColor="@color/common_red"
+                tool:text="130"
                 android:textSize="@dimen/dimens_16sp" />
 
             <LinearLayout
                 android:id="@+id/goods_remain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/choose_board_price">
+                android:layout_marginTop="4dp"
+                android:layout_alignStart="@+id/choose_board_price"
+                android:layout_below="@+id/choose_board_price">
 
                 <TextView
                     android:layout_width="wrap_content"

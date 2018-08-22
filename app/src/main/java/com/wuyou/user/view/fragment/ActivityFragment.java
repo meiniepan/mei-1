@@ -3,13 +3,11 @@ package com.wuyou.user.view.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
-import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -64,17 +62,19 @@ public class ActivityFragment extends BaseFragment {
         startActivity(intent);
     }
 
-    String sort = "0";
 
     @Override
     protected void fetchData() {
         getData();
     }
 
+    private int page = 1;
+
     private void getData() {
+        page = 1;
         activityRecyclerView.showProgressView();
         activityRecyclerView.setRefreshFinished();
-        CarefreeRetrofit.getInstance().createApi(HomeApis.class).getActivityList(QueryMapBuilder.getIns().put("flag", "1").put("sort", sort).buildGet())
+        CarefreeRetrofit.getInstance().createApi(HomeApis.class).getActivityList(QueryMapBuilder.getIns().put("page", page + "").buildGet())
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<BaseResponse<ListResponse<ActivityListBean>>>() {
                     @Override
@@ -86,7 +86,7 @@ public class ActivityFragment extends BaseFragment {
                             return;
                         }
                         adapter.setNewData(data.list);
-                        sort = data.list.get(data.list.size() - 1).sort;
+                        page++;
                         if (data.has_more == 0) {
                             adapter.loadMoreEnd(true);
                         }
@@ -101,14 +101,14 @@ public class ActivityFragment extends BaseFragment {
 
 
     public void getDataMore() {
-        CarefreeRetrofit.getInstance().createApi(HomeApis.class).getActivityList(QueryMapBuilder.getIns().put("flag", "2").put("sort", sort).buildGet())
+        CarefreeRetrofit.getInstance().createApi(HomeApis.class).getActivityList(QueryMapBuilder.getIns().put("page", page+"").buildGet())
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<BaseResponse<ListResponse<ActivityListBean>>>() {
                     @Override
                     public void onSuccess(BaseResponse<ListResponse<ActivityListBean>> listResponseBaseResponse) {
                         ListResponse<ActivityListBean> data = listResponseBaseResponse.data;
                         adapter.addData(data.list);
-                        sort = data.list.get(data.list.size() - 1).sort;
+                        page++;
                         if (data.has_more == 0) {
                             adapter.loadMoreEnd();
                         }

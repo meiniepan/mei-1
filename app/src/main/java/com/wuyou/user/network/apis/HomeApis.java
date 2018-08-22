@@ -31,6 +31,6 @@ public interface HomeApis {
     @GET("v2/activity/recommend")
     Observable<BaseResponse<ListResponse<ActivityBean>>> getActivityData(@QueryMap SortedTreeMap<String, String> map);
 
-    @GET("v1/activities")
+    @GET("v2/activities")
     Observable<BaseResponse<ListResponse<ActivityListBean>>> getActivityList(@QueryMap SortedTreeMap<String, String> map);
 }

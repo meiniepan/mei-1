@@ -42,9 +42,11 @@ public class ActivityFragmentAdapter extends BaseQuickAdapter<ActivityListBean, 
         } else if (activityBean.status == 1) {
             view.setText("已报满");
             view.setBackgroundResource(R.drawable.activity_full);
+            view.setVisibility(View.VISIBLE);
         } else if (activityBean.status == 2) {
             view.setText("已结束");
             view.setBackgroundResource(R.drawable.activity_cancel);
+            view.setVisibility(View.VISIBLE);
         }
     }
 
