@@ -2,6 +2,7 @@ package com.wuyou.user.network.apis;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
+import com.wuyou.user.bean.UpdateEntity;
 import com.wuyou.user.bean.UserInfo;
 
 import io.reactivex.Observable;
@@ -59,6 +60,10 @@ public interface UserApis {
             @Path("uid")String uid,
             @Part MultipartBody.Part file,
             @QueryMap SortedTreeMap<String, String> map);
+    @GET("v1/client/update")
+    Observable<BaseResponse<UpdateEntity>> checkUpdate(
+            @QueryMap SortedTreeMap<String, String> map);
+
 }
 
 

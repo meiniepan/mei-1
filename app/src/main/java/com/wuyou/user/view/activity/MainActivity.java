@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.gs.buluo.common.network.TokenEvent;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -88,6 +89,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        CarefreeApplication.getInstance().ManualCheckOnForceUpdate();
         goActivity(getIntent().getStringExtra(Constant.ACTIVITY_URL));
         NotificationManagerCompat.from(this).areNotificationsEnabled();
         disableFitSystemWindow();
