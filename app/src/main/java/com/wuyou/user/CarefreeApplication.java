@@ -37,14 +37,14 @@ public class CarefreeApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        initTalkingData();
         initUrl();
         initBuglyUpgrade();
-        initTalkingData();
     }
+
     private void initTalkingData() {
-        TCAgent.LOG_ON=true;
+        TCAgent.LOG_ON = true;
         TCAgent.init(this, "674BE02AC6D6485DB2C4CB05C47C7AFB", "android");
-        TCAgent.setReportUncaughtExceptions(true);
     }
 
     private void initUrl() {
@@ -52,6 +52,11 @@ public class CarefreeApplication extends BaseApplication {
         if (!TextUtils.isEmpty(baseUrl)) Constant.BASE_URL = baseUrl;
         webUrl = SharePreferenceManager.getInstance(this).getStringValue(Constant.SP_WEB_URL);
         if (!TextUtils.isEmpty(webUrl)) Constant.WEB_URL = webUrl;
+        if (TextUtils.equals(baseUrl, Constant.ONLINE_BASE_URL)) {
+            TCAgent.setReportUncaughtExceptions(true);
+        } else {
+            TCAgent.setReportUncaughtExceptions(false);
+        }
     }
 
     private void initBuglyUpgrade() {
@@ -83,9 +88,10 @@ public class CarefreeApplication extends BaseApplication {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
-    public void ManualCheckOnForceUpdate(){
+
+    public void ManualCheckOnForceUpdate() {
         CarefreeRetrofit.getInstance().createApi(UserApis.class)
-                .checkUpdate(QueryMapBuilder.getIns().put("version",getVersionCode()+"" )
+                .checkUpdate(QueryMapBuilder.getIns().put("version", getVersionCode() + "")
                         .put("platform", "android")
                         .buildGet())
                 .subscribeOn(Schedulers.io())
@@ -93,15 +99,17 @@ public class CarefreeApplication extends BaseApplication {
                 .subscribe(new BaseSubscriber<BaseResponse<UpdateEntity>>() {
                     @Override
                     public void onSuccess(BaseResponse<UpdateEntity> response) {
-                        if (2 == response.data.update){
-                            Beta.checkUpgrade(false,true);
+                        if (2 == response.data.update) {
+                            Beta.checkUpgrade(false, true);
                         }
                     }
+
                     @Override
                     protected void onFail(ApiException e) {
                     }
                 });
     }
+
     public int getVersionCode() {
         PackageManager manager;
 

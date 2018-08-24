@@ -18,10 +18,11 @@ android {
         applicationId "com.wuyou.user"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 13
-        versionName "1.6.1"
+        versionCode 14
+        versionName "1.6.2"
         multiDexEnabled true
         ndk { abiFilters 'armeabi', 'armeabi-v7a' }
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     sourceSets {
         main {
@@ -87,39 +88,39 @@ android {
             }
         }
     }
-
-    //微信 和Glide库 见module
-    dependencies {
-        compile fileTree(include: ['*.jar'], dir: 'libs')
-        testCompile 'junit:junit:4.12'
-        compile 'com.github.ngreedy:tribe_lib:3.2.3'
-        compile 'com.jakewharton:butterknife:8.8.1'
-        annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-        compile "com.android.support:design:$rootProject.supportLibraryVersion"
-        compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
-        compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
-        compile 'org.greenrobot:greendao:3.2.2'
-        compile 'com.github.techery:properratingbar:0.0.5'
-        compile 'cn.jzvd:jiaozivideoplayer:6.2.7'
-        compile project(':bangwo8Ui')
-        compile 'com.sackcentury:shinebutton:0.2.0'
-        compile('com.github.gzu-liyujiang.AndroidPicker:WheelPicker:1.5.5') {
-            exclude group: 'com.android.support'
-        }
-        compile 'com.android.support:multidex:1.0.3'
-        compile project(path: ':shareutil')
-        compile project(path: ':banner')
-//        compile 'com.tencent.bugly:crashreport:latest.release'
-        implementation files('libs/alipaySdk-20180403.jar')
-        implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
-        compile 'com.google.zxing:core:3.2.1'
-        compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
-//        compile 'zlc.season:rxdownload3:1.2.7'
-        implementation files('libs/SaaS_AppAnalytics_Android_SDK_V4.0.20.jar')
-    }
 }
 dependencies {
+    //微信 和Glide库 见module
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/AMap_Location_V4.2.0_20180809.jar')
     implementation files('libs/AMap_Search_V6.1.0_20180330.jar')
     implementation files('libs/Android_Map3D_SDK_V6.3.1_20180726.jar')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    compile 'com.github.ngreedy:tribe_lib:3.2.3'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile "com.android.support:design:$rootProject.supportLibraryVersion"
+    compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    compile 'org.greenrobot:greendao:3.2.2'
+    compile 'com.github.techery:properratingbar:0.0.5'
+    compile 'cn.jzvd:jiaozivideoplayer:6.2.7'
+    compile project(':bangwo8Ui')
+    compile 'com.sackcentury:shinebutton:0.2.0'
+    compile('com.github.gzu-liyujiang.AndroidPicker:WheelPicker:1.5.5') {
+        exclude group: 'com.android.support'
+    }
+    compile 'com.android.support:multidex:1.0.3'
+    compile project(path: ':shareutil')
+    compile project(path: ':banner')
+    implementation files('libs/alipaySdk-20180403.jar')
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+    compile 'com.google.zxing:core:3.2.1'
+    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
+//        compile 'zlc.season:rxdownload3:1.2.7'
+    implementation files('libs/SaaS_AppAnalytics_Android_SDK_V4.0.20.jar')
+    implementation 'com.google.guava:guava:23.0-android'
+    implementation 'me.jessyan:autosize:0.7.0'
 }

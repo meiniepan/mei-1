@@ -25,21 +25,16 @@ public class CarefreeHttpInterceptor implements Interceptor {
         Request req = chain.request();
         Request.Builder builder = req.newBuilder();
         HttpUrl url = req.url();
-        HttpUrl newBaseUrl = HttpUrl.parse(Constant.BASE_URL);
-        HttpUrl newFullUrl = url.newBuilder()
-                .host(newBaseUrl.host())
-                .port(newBaseUrl.port())
-                .build();
-        String query = newFullUrl.encodedQuery();
+        String query = url.encodedQuery();
         if (!TextUtils.isEmpty(query) && !query.contains("sign=")) {
-            HttpUrl.Builder newBuilder = newFullUrl.newBuilder();
+            HttpUrl.Builder newBuilder = url.newBuilder();
             newBuilder.addQueryParameter("sign", EncryptUtil.getSha1(Base64.encode(query.getBytes(), Base64.NO_WRAP)).toUpperCase());
-            newFullUrl = newBuilder.build();
+            url = newBuilder.build();
         }
         if (CarefreeDaoSession.getInstance().getUserInfo() != null) {
             builder.addHeader("Authorization", CarefreeDaoSession.getInstance().getUserInfo().getToken());
         }
-        Request request = builder.addHeader("Accept", "application/json").url(newFullUrl).addHeader("Content-Type", "application/json").
+        Request request = builder.addHeader("Accept", "application/json").url(url).addHeader("Content-Type", "application/json").
                 addHeader("User-Agent", Utils.getDeviceInfo(BaseApplication.getInstance().getApplicationContext())).build();
         return chain.proceed(request);
     }

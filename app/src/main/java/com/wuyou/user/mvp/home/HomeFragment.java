@@ -21,6 +21,7 @@ import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.services.core.PoiItem;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
@@ -41,6 +42,9 @@ import com.wuyou.user.bean.response.CategoryListResponse;
 import com.wuyou.user.bean.response.CategoryParent;
 import com.wuyou.user.bean.response.CommunityListResponse;
 import com.wuyou.user.bean.response.ListResponse;
+import com.wuyou.user.data.EoscDataManager;
+import com.wuyou.user.data.util.Utils;
+import com.wuyou.user.data.wallet.EosWalletManager;
 import com.wuyou.user.event.AddressEvent;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressActivity;
@@ -66,6 +70,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,6 +79,7 @@ import butterknife.OnClick;
 import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 import static cn.jzvd.JZVideoPlayer.FULLSCREEN_ORIENTATION;
@@ -122,6 +128,14 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         getServeList(); //先取社区ID为0 的数据 填充界面
         getVideo();
         refreshLayout.setOnRefreshListener(() -> {
+            EoscDataManager.getIns().transfer("houjingnan11", "mukangmukang", 1L, "111")
+                    .compose(RxUtil.switchSchedulers())
+                    .subscribe(new BaseSubscriber<JsonObject>() {
+                        @Override
+                        public void onSuccess(JsonObject jsonObject) {
+                            Log.e("Carefree", "accept: " + Utils.prettyPrintJson(jsonObject));
+                        }
+                    });
             getActivityData();
             if (askForPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 getServeList();
@@ -375,6 +389,12 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.home_location_area:
+                try {
+                    EoscDataManager.getIns().getWalletManager().createTestingDefaultWallet();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 intent.setClass(mCtx, AddressActivity.class);
                 startActivity(intent);
                 break;

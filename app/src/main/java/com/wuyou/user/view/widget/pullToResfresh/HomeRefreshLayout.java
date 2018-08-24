@@ -1,6 +1,8 @@
 package com.wuyou.user.view.widget.pullToResfresh;
 
 import android.content.Context;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.Px;
@@ -105,6 +107,26 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
 
     private int getHeadTotalHeight() {
         return stateText.getMeasuredHeight() + video.getMeasuredHeight();
+    }
+
+    @Override
+    public void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, null);
+        }
+    }
+
+    @Override
+    public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return dispatchNestedFling(velocityX, velocityY, consumed);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onNestedPrePerformAccessibilityAction(View target, int action, Bundle args) {
+        return super.onNestedPrePerformAccessibilityAction(target, action, args);
     }
 
     /**
