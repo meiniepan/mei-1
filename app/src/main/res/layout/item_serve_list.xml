@@ -55,36 +55,18 @@
         android:layout_marginStart="30dp"
         android:text="已售"
         android:textColor="@color/common_gray"
-        app:layout_constraintLeft_toRightOf="@+id/serve_item_rate_number"
-        app:layout_constraintTop_toTopOf="@+id/serve_item_rate" />
+        app:layout_constraintTop_toTopOf="@+id/serve_item_count"
+        app:layout_constraintEnd_toStartOf="@+id/serve_item_count"/>
 
     <TextView
         android:id="@+id/serve_item_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/common_gray"
-        app:layout_constraintLeft_toRightOf="@+id/text"
-        app:layout_constraintTop_toTopOf="@+id/serve_item_rate"
+        app:layout_constraintTop_toTopOf="@+id/serve_item_price"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin_end"
         tool:text="123" />
-
-    <TextView
-        android:id="@+id/text1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="好评"
-        android:textColor="@color/common_gray"
-        app:layout_constraintLeft_toRightOf="@+id/serve_item_count"
-        app:layout_constraintTop_toTopOf="@+id/serve_item_rate" />
-
-    <TextView
-        android:id="@+id/serve_item_point"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/common_gray"
-        app:layout_constraintLeft_toRightOf="@+id/text1"
-        app:layout_constraintTop_toTopOf="@+id/serve_item_rate"
-        tool:text="12" />
 
     <TextView
         android:id="@+id/serve_item_price"

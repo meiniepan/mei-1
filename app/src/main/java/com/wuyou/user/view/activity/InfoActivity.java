@@ -35,6 +35,7 @@ import butterknife.OnClick;
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.util.ConvertUtils;
 import io.reactivex.schedulers.Schedulers;
+import me.jessyan.autosize.internal.CancelAdapt;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -43,7 +44,7 @@ import okhttp3.RequestBody;
  * Created by DELL on 2018/3/14.
  */
 
-public class InfoActivity extends BaseActivity {
+public class InfoActivity extends BaseActivity implements CancelAdapt {
     @BindView(R.id.info_head)
     ImageView infoHead;
     @BindView(R.id.tv_account_area)

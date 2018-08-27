@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationManagerCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,8 +21,8 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.MainPagerAdapter;
 import com.wuyou.user.bean.UserInfo;
+import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.event.LoginEvent;
-import com.wuyou.user.mvp.help.HelpActivity;
 import com.wuyou.user.mvp.home.HomeFragment;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.mine.MineFragment;
@@ -41,10 +42,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.jzvd.JZVideoPlayer;
+import me.jessyan.autosize.internal.CancelAdapt;
 import me.shaohui.shareutil.ShareConfig;
 import me.shaohui.shareutil.ShareManager;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements CancelAdapt {
     @BindView(R.id.main_tab)
     AlphaTabsIndicator bottomView;
     @BindView(R.id.main_pager)
@@ -87,16 +89,11 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
     }
 
+
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        CarefreeApplication.getInstance().ManualCheckOnForceUpdate();
-        goActivity(getIntent().getStringExtra(Constant.ACTIVITY_URL));
-        NotificationManagerCompat.from(this).areNotificationsEnabled();
         disableFitSystemWindow();
-        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
         setBarColor(R.color.transparent);
-//        QMUIStatusBarHelper.translucent(this,getResources().getColor(R.color.night_blue));
-//        QMUIStatusBarHelper.setStatusBarLightMode(this);
         fragments.add(new HomeFragment());
         OrderFragment orderFragment = new OrderFragment();
         fragments.add(orderFragment);
@@ -130,9 +127,13 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        CarefreeApplication.getInstance().ManualCheckOnForceUpdate();
+        goActivity(getIntent().getStringExtra(Constant.ACTIVITY_URL));
+        NotificationManagerCompat.from(this).areNotificationsEnabled();
         ShareConfig config = ShareConfig.instance().wxId(Constant.WX_ID).wxSecret(Constant.WX_SECRET);
         ShareManager.init(config);
         CrashReport.putUserData(getApplicationContext(), "userkey", CarefreeDaoSession.getInstance().getUserInfo() == null ? "unLogin" : CarefreeDaoSession.getInstance().getUserInfo().getMobile());
+        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

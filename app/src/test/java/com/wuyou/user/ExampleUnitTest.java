@@ -1,5 +1,10 @@
 package com.wuyou.user;
 
+import android.util.Log;
+
+import com.wuyou.user.crypto.ec.EosPrivateKey;
+import com.wuyou.user.data.local.db.EosAccount;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -10,9 +15,16 @@ import static org.junit.Assert.assertEquals;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        assertEquals("haha", "haha");
         int[][] arr ={{0,0,1,1},{1,2,1,1}};
         System.out.println(arr[1][1]);
+
+        assertEquals( "ec(secp256k1) key pair not match! - 1"
+                , new EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3").getPublicKey().toString()
+                , "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV" );
+
+        EosPrivateKey eosPrivateKey = new EosPrivateKey();
+        System.out.println(eosPrivateKey.toWif().toString()+"");
+
     }
 
     public long count(int... n) {

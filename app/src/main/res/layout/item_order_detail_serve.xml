@@ -83,6 +83,6 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/order_detail_goods_fee"
         android:layout_toStartOf="@+id/order_detail_goods_fee"
-        android:text="￥"
+        android:text="¥"
         android:textColor="@color/common_red" />
 </RelativeLayout>

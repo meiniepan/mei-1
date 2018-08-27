@@ -33,7 +33,6 @@ public class ServeListAdapter extends BaseQuickAdapter<ServeBean, BaseHolder> {
         GlideUtils.loadRoundCornerImage(context, item.image, imageView);
         helper.setText(R.id.serve_item_name, item.service_name)
                 .setText(R.id.serve_item_count, item.sold)
-                .setText(R.id.serve_item_point, item.high_praise)
                 .setText(R.id.serve_item_rate_number, item.star / 2 + ".0")
                 .setText(R.id.serve_item_store, item.shop_name);
 
@@ -42,7 +41,7 @@ public class ServeListAdapter extends BaseQuickAdapter<ServeBean, BaseHolder> {
         if (item.has_specification == 1) {
             setPriceRange(helper, item);
         } else {
-            helper.setText(R.id.serve_item_price, "￥" + CommonUtil.formatPrice(item.price) + "/" + item.unit);
+            helper.setText(R.id.serve_item_price, "¥" + CommonUtil.formatPrice(item.price) + "/" + item.unit);
         }
     }
 
@@ -59,9 +58,9 @@ public class ServeListAdapter extends BaseQuickAdapter<ServeBean, BaseHolder> {
             }
         }
         if (minPrice == maxPrice || minPrice == 0) {
-            helper.setText(R.id.serve_item_price, "￥" + CommonUtil.formatPrice(maxPrice) + "/" + serveBean.unit);
+            helper.setText(R.id.serve_item_price, "¥" + CommonUtil.formatPrice(maxPrice) + "/" + serveBean.unit);
         } else {
-            helper.setText(R.id.serve_item_price, "￥" + CommonUtil.formatPrice(minPrice) + "～" + CommonUtil.formatPrice(maxPrice) + "/" + serveBean.unit);
+            helper.setText(R.id.serve_item_price, "¥" + CommonUtil.formatPrice(minPrice) + "～" + CommonUtil.formatPrice(maxPrice) + "/" + serveBean.unit);
         }
     }
 }

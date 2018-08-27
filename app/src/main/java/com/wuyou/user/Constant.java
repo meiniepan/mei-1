@@ -5,7 +5,17 @@ package com.wuyou.user;
  */
 
 public class Constant {
+    public static final String DEFAULT_SERVANT_ACCOUNT = "eosio";
+    public static final String  DEFAULT_WALLET_NAME = "default";
+    public static final boolean DEFAULT_SAVE_PASSWORD= true;
+    public static final String SAMPLE_PRIV_KEY_FOR_TEST = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3";
+    public static final String EOSIO_SYSTEM_ACCOUNT = "eosio";
+    public static final String EOSIO_TOKEN_CONTRACT = "eosio.token";
+    public static final int TX_EXPIRATION_IN_MILSEC = 30000;
+
+
     public static String BASE_URL = "https://api.iwantmei.com/customer/";
+    public static String CHAIN_URL = "http://192.168.1.184:8888/";
     public static String WEB_URL = "https://activities.iwantmei.com/";
     public static String ONLINE_BASE_URL = "https://api.iwantmei.com/customer/";
     public static String ONLINE_WEB_URL = "https://activities.iwantmei.com/";

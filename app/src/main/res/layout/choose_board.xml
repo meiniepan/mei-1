@@ -41,19 +41,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/choose_board_title"
-                android:layout_below="@+id/choose_board_title"
-                android:layout_marginTop="12dp"
+                android:layout_below="@+id/goods_remain"
+                android:layout_marginTop="6dp"
                 android:textColor="@color/common_red"
-                tool:text="130"
+                tool:text="¥130.00-200.00"
                 android:textSize="@dimen/dimens_16sp" />
 
             <LinearLayout
                 android:id="@+id/goods_remain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_alignStart="@+id/choose_board_price"
-                android:layout_below="@+id/choose_board_price">
+                android:layout_marginTop="6dp"
+                android:layout_alignStart="@+id/choose_board_title"
+                android:layout_below="@+id/choose_board_title">
 
                 <TextView
                     android:layout_width="wrap_content"

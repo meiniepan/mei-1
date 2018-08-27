@@ -9,14 +9,18 @@ import com.wuyou.user.bean.SearchHistoryBean;
 import com.wuyou.user.bean.SearchHistoryBeanDao;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.UserInfoDao;
+import com.wuyou.user.data.local.db.EosAccount;
+import com.wuyou.user.data.local.db.EosAccountDao;
+import com.wuyou.user.data.local.repository.EosAccountRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by hjn on 2018/3/8.
  */
 
-public class CarefreeDaoSession {
+public class CarefreeDaoSession implements EosAccountRepository{
     private static DaoSession daoSession;
     private static CarefreeDaoSession instance;
     public static String tempAvatar;
@@ -40,6 +44,10 @@ public class CarefreeDaoSession {
 
     private UserInfoDao getUserInfoDao() {
         return daoSession.getUserInfoDao();
+    }
+
+    public EosAccountDao getEosDao() {
+        return daoSession.getEosAccountDao();
     }
 
     public void setUserInfo(UserInfo userInfo) {
@@ -101,5 +109,48 @@ public class CarefreeDaoSession {
 
     public void deleteHistory(SearchHistoryBean item) {
         daoSession.getSearchHistoryBeanDao().delete(item);
+    }
+
+    @Override
+    public void addAll(String... accountNames) {
+        ArrayList<EosAccount> eosAccounts = new ArrayList<>(accountNames.length);
+        for (String name : accountNames) {
+            eosAccounts.add(EosAccount.from(name));
+        }
+        CarefreeDaoSession.getInstance().getEosDao().insertOrReplaceInTx(eosAccounts);
+    }
+
+    @Override
+    public void addAll(List<String> accountNames) {
+        ArrayList<EosAccount> eosAccounts = new ArrayList<>(accountNames.size());
+        for (String name : accountNames) {
+            eosAccounts.add(EosAccount.from(name));
+        }
+        CarefreeDaoSession.getInstance().getEosDao().insertOrReplaceInTx(eosAccounts);
+    }
+
+    @Override
+    public void addAccount(String accountName) {
+        CarefreeDaoSession.getInstance().getEosDao().insert(EosAccount.from(accountName));
+    }
+
+    @Override
+    public void deleteAll() {
+        CarefreeDaoSession.getInstance().getEosDao().deleteAll();
+    }
+
+    @Override
+    public void delete(String accountName) {
+        CarefreeDaoSession.getInstance().getEosDao().deleteByKey(accountName);
+    }
+
+    @Override
+    public List<EosAccount> getAll() {
+        return CarefreeDaoSession.getInstance().getEosDao().loadAll();
+    }
+
+    @Override
+    public List<EosAccount> searchName(String nameStarts) {
+        return CarefreeDaoSession.getInstance().getEosDao().queryBuilder().where(EosAccountDao.Properties.Name.like("%" + nameStarts + "%")).build().list();
     }
 }

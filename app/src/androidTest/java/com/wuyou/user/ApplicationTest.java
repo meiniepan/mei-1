@@ -2,20 +2,24 @@ package com.wuyou.user;
 
 import android.app.Application;
 import android.content.Context;
+import android.test.AndroidTestCase;
 import android.test.ApplicationTestCase;
+import android.test.suitebuilder.annotation.SmallTest;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 
-import junit.framework.TestResult;
+import com.wuyou.user.data.local.db.EosAccount;
+
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
  */
-public class ApplicationTest extends ApplicationTestCase<Application> {
+public class ApplicationTest extends AndroidTestCase {
     public ApplicationTest() {
-        super(Application.class);
-
+        assertNotNull("haha", "haha");
     }
+
     public static int dp2px(Context context, float dpVal) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return Math.round(dpVal * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
@@ -26,10 +30,11 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
                 dpVal, context.getResources().getDisplayMetrics());
     }
 
-    @Override
-    public TestResult run() {
-        int i = dp2px(getContext(), 2);
-        int j = dip2pix(getContext(), 2);
-        return super.run();
+    @SmallTest
+    public void testDao() throws Exception {
+        assertNotNull("haha", "haha");
+        CarefreeDaoSession.getInstance().getEosDao().insert(EosAccount.from("hjn"));
+        Log.e("Carefree", "ApplicationTest: " + CarefreeDaoSession.getInstance().getEosDao().loadAll().size());
+        assertEquals("haha", "haha");
     }
 }

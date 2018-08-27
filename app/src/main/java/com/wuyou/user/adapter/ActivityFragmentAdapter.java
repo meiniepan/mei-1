@@ -63,9 +63,9 @@ public class ActivityFragmentAdapter extends BaseQuickAdapter<ActivityListBean, 
             }
         }
         if (minPrice == maxPrice) {
-            feeView.setText(String.format("￥%s", CommonUtil.formatPrice(minPrice)));
+            feeView.setText(String.format("¥%s", CommonUtil.formatPrice(minPrice)));
         } else {
-            feeView.setText(String.format("￥%s～%s", CommonUtil.formatPrice(minPrice), CommonUtil.formatPrice(maxPrice)));
+            feeView.setText(String.format("¥%s～%s", CommonUtil.formatPrice(minPrice), CommonUtil.formatPrice(maxPrice)));
         }
     }
 }
