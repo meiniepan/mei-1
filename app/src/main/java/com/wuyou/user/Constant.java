@@ -6,7 +6,7 @@ package com.wuyou.user;
 
 public class Constant {
     public static final String DEFAULT_SERVANT_ACCOUNT = "eosio";
-    public static final String  DEFAULT_WALLET_NAME = "default";
+    public static final String  DEFAULT_WALLET_NAME = "pocket";
     public static final boolean DEFAULT_SAVE_PASSWORD= true;
     public static final String SAMPLE_PRIV_KEY_FOR_TEST = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3";
     public static final String EOSIO_SYSTEM_ACCOUNT = "eosio";

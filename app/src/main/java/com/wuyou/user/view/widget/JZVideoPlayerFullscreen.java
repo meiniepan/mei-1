@@ -1,4 +1,4 @@
-package com.wuyou.user.util;
+package com.wuyou.user.view.widget;
 
 import android.app.AlertDialog;
 import android.content.Context;

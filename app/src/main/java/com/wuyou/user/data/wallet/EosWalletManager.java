@@ -25,7 +25,6 @@ package com.wuyou.user.data.wallet;
 
 import android.util.Log;
 
-import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.Constant;
 import com.wuyou.user.crypto.ec.EosPrivateKey;
 import com.wuyou.user.crypto.ec.EosPublicKey;
@@ -54,14 +53,7 @@ public class EosWalletManager {
 
     public EosWalletManager() {
         mWallets = new HashMap<>();
-        mDir = new File(CarefreeApplication.getInstance().getApplicationContext().getFilesDir(),"wallet") ;
-        if (!mDir.exists()) {
-            mDir.mkdirs();
-        }
-    }
-
-    public void setDir(File dir) {
-        mDir = dir;
+        mDir = CommonUtil.createOrGetDir();
     }
 
     public int openExistingsInDir() {
@@ -73,7 +65,6 @@ public class EosWalletManager {
         File[] files = mDir.listFiles();
 
         for (File walletFile : files) {
-
             try {
                 open(walletFile);
                 count++;
@@ -119,10 +110,7 @@ public class EosWalletManager {
         String password = genPassword();
         File walletFile = new File(mDir, name + EOS_WALLET_FILE_EXT);
 
-        if (walletFile.exists()) {
-//            throw new IllegalStateException(String.format("Wallet with name: '%1$s' already exists", name));
-        }else {
-            walletFile.mkdir();
+        if (!walletFile.exists()) {
             walletFile.createNewFile();
         }
 
@@ -325,7 +313,7 @@ public class EosWalletManager {
             throw new IllegalStateException("Wallet is locked: " + walletName);
         }
 
-//        eosWallet.saveFile(null);
+        eosWallet.saveFile("");
     }
 
     public SignedTransaction signTransaction(final SignedTransaction txn,

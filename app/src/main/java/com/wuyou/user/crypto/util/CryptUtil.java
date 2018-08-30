@@ -26,11 +26,13 @@ package com.wuyou.user.crypto.util;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
@@ -103,4 +105,39 @@ public class CryptUtil {
 
         return decrypted;
     }
+
+
+    private SecretKey generateKey(String seed) throws Exception {
+        // 获取秘钥生成器
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+        // 通过种子初始化
+        SecureRandom secureRandom = new SecureRandom();
+        secureRandom.setSeed(seed.getBytes("UTF-8"));
+        keyGenerator.init(128, secureRandom);
+        // 生成秘钥并返回
+        return keyGenerator.generateKey();
+    }
+
+    public static byte[] encrypt(String content, String password) throws Exception {
+        // 创建AES秘钥
+        SecretKeySpec key = new SecretKeySpec(password.getBytes(), "AES/CBC/PKCS5PADDING");
+        // 创建密码器
+        Cipher cipher = Cipher.getInstance("AES");
+        // 初始化加密器
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+        // 加密
+        return cipher.doFinal(content.getBytes("UTF-8"));
+    }
+
+    public static byte[] decrypt(byte[] content, String password) throws Exception {
+        // 创建AES秘钥
+        SecretKeySpec key = new SecretKeySpec(password.getBytes(), "AES/CBC/PKCS5PADDING");
+        // 创建密码器
+        Cipher cipher = Cipher.getInstance("AES");
+        // 初始化解密器
+        cipher.init(Cipher.DECRYPT_MODE, key);
+        // 解密
+        return cipher.doFinal(content);
+    }
+
 }

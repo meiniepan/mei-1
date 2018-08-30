@@ -153,4 +153,8 @@ public class CarefreeDaoSession implements EosAccountRepository{
     public List<EosAccount> searchName(String nameStarts) {
         return CarefreeDaoSession.getInstance().getEosDao().queryBuilder().where(EosAccountDao.Properties.Name.like("%" + nameStarts + "%")).build().list();
     }
+
+    public EosAccount findMainAccount(){
+        return CarefreeDaoSession.getInstance().getEosDao().queryBuilder().where(EosAccountDao.Properties.Main.like("TRUE")).build().listIterator().next();
+    }
 }

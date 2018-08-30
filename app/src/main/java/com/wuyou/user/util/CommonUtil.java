@@ -198,7 +198,7 @@ public class CommonUtil {
         return reMap;
     }
 
-    public static String getOrderStatusString(Context context,int status) {
+    public static String getOrderStatusString(Context context, int status) {
         switch (status) {
             case 1:
                 return context.getString(R.string.wait_pay);
@@ -482,6 +482,14 @@ public class CommonUtil {
             e.printStackTrace();
             return new File(CarefreeApplication.getInstance().getApplicationContext().getFilesDir(), desFileName);
         }
+    }
+
+    public static File createOrGetDir() {
+        File mDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "carefree");
+        if (!mDir.exists()) {
+            mDir.mkdirs();
+        }
+        return mDir;
     }
 
     public static Bitmap compressBitmap(Bitmap image) {

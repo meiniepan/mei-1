@@ -73,7 +73,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.wuyou.user.util.JZVideoPlayerFullscreen
+        <com.wuyou.user.view.widget.JZVideoPlayerFullscreen
             android:id="@+id/home_video"
             android:layout_width="match_parent"
             android:layout_height="180dp" />

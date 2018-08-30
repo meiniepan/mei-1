@@ -3,11 +3,11 @@ package com.wuyou.user.data.local.db;
 import android.support.annotation.NonNull;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.Property;
-import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Unique;
 
 /**
  * Created by swapnibble on 2017-12-08.
@@ -21,17 +21,26 @@ public class EosAccount {
     @NonNull
     @Id
     @Property(nameInDb = "name")
-    public String   name;
+    private String name;
 
     @Property(nameInDb = "type")
-    public Integer  type;
+    private Integer type;
 
-    public static EosAccount from( String name){
-        return new EosAccount(name, TYPE_ACCOUNT_ALL );
+    @Property(nameInDb = "private")
+    private String privateKey;
+
+    @Property(nameInDb = "public")
+    private String publicKey;
+
+    @Property(nameInDb = "main")
+    private Boolean main;
+
+    public static EosAccount from(String name) {
+        return new EosAccount(name, TYPE_ACCOUNT_ALL);
     }
 
     @Keep
-    public EosAccount( String name, Integer type){
+    public EosAccount(String name, Integer type) {
         this.name = name;
         this.type = type;
     }
@@ -40,8 +49,18 @@ public class EosAccount {
     public EosAccount() {
     }
 
+    @Generated(hash = 1650212725)
+    public EosAccount(@NonNull String name, Integer type, String privateKey,
+            String publicKey, Boolean main) {
+        this.name = name;
+        this.type = type;
+        this.privateKey = privateKey;
+        this.publicKey = publicKey;
+        this.main = main;
+    }
+
     @Override
-    public int hashCode(){
+    public int hashCode() {
         int result = 0;
 
         result = 31 * result + (name != null ? name.hashCode() : 0);
@@ -51,7 +70,7 @@ public class EosAccount {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return name;
     }
 
@@ -70,4 +89,29 @@ public class EosAccount {
     public void setType(Integer type) {
         this.type = type;
     }
+
+    public String getPrivateKey() {
+        return this.privateKey;
+    }
+
+    public void setPrivateKey(String privateKey) {
+        this.privateKey = privateKey;
+    }
+
+    public String getPublicKey() {
+        return this.publicKey;
+    }
+
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
+    }
+
+    public Boolean getMain() {
+        return this.main;
+    }
+
+    public void setMain(Boolean main) {
+        this.main = main;
+    }
+
 }

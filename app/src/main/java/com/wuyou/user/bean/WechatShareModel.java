@@ -1,4 +1,4 @@
-package com.wuyou.user.util;
+package com.wuyou.user.bean;
 
 /**
  * Created by DELL on 2018/3/15.

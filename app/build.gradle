@@ -64,7 +64,7 @@ android {
         }
     }
     greendao {
-        schemaVersion 4
+        schemaVersion 5
         targetGenDir 'src/main/java'
     }
     compileOptions {
@@ -122,4 +122,6 @@ dependencies {
     implementation files('libs/SaaS_AppAnalytics_Android_SDK_V4.0.20.jar')
     implementation 'com.google.guava:guava:23.0-android'
     implementation 'me.jessyan:autosize:0.7.0'
+    compile 'io.github.novacrypto:BIP32:0.0.8'
+    implementation files('libs/bcprov-jdk15on-159.jar')
 }
