@@ -4,10 +4,13 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
+import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
@@ -18,6 +21,11 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.bean.UserInfo;
 import com.wuyou.user.bean.WalletBalance;
+import com.wuyou.user.crypto.ec.EosPrivateKey;
+import com.wuyou.user.data.EoscDataManager;
+import com.wuyou.user.data.local.db.EosAccount;
+import com.wuyou.user.data.local.db.EosAccountDao;
+import com.wuyou.user.data.util.Utils;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.help.HelpActivity;
@@ -28,6 +36,7 @@ import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.CaptureActivity;
 import com.wuyou.user.view.activity.InfoActivity;
@@ -63,7 +72,6 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.mine_login)
     TextView mineLogin;
     private long totalScore = -1;
-    private long consumeScore;
 
     @Override
     protected int getContentLayout() {
@@ -94,7 +102,6 @@ public class MineFragment extends BaseFragment {
         mineName.setText(userInfo.getName());
 //            mineSex.setText(userInfo.getGender());
         totalScore = userInfo.getReceived_points();
-        consumeScore = userInfo.getOut_points();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -199,6 +206,61 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
                 break;
         }
+    }
+
+    private void transfer() {
+        EoscDataManager.getIns().transfer("houjingnan35", "mukangmukang", 1, "111")
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<JsonObject>() {
+                    @Override
+                    public void onSuccess(JsonObject jsonObject) {
+                        Log.e("Carefree", "accept: " + Utils.prettyPrintJson(jsonObject));
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        ToastUtils.ToastMessage(getContext(), e.getDisplayMessage());
+                    }
+                });
+    }
+
+    private void createAccount(String phone, String account) {
+        EosPrivateKey key = new EosPrivateKey();
+        showLoadingDialog();
+        EoscDataManager.getIns().createAccount(phone, account, key.getPublicKey().toString())
+                .compose(RxUtil.switchSchedulers())
+                .subscribeOn(Schedulers.io())
+                .doOnNext(jsonObject -> {
+                    EosAccountDao eosDao = CarefreeDaoSession.getInstance().getEosDao();
+                    EosAccount mainAccount = CarefreeDaoSession.getInstance().getMainAccount();
+                    if (mainAccount != null) {
+                        mainAccount.setMain(false);
+                        eosDao.update(mainAccount);
+                    }
+                    EosAccount eosAccount = new EosAccount();
+                    eosAccount.setMain(true);
+                    eosAccount.setPublicKey(key.getPublicKey().toString());
+                    eosAccount.setPrivateKey(key.toWif());
+                    eosAccount.setName(account);
+                    eosDao.save(eosAccount);
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<JsonObject>() {
+                    @Override
+                    public void onSuccess(JsonObject jsonObject) {
+                        ToastUtils.ToastMessage(getContext(), R.string.create_success);
+                    }
+                });
+    }
+
+    public void getDailyRewards() {
+        EoscDataManager.getIns().getDailyRewords().compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<JsonObject>() {
+                    @Override
+                    public void onSuccess(JsonObject jsonObject) {
+
+                    }
+                });
     }
 
     @Override

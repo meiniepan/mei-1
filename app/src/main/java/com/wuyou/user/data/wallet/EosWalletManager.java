@@ -23,11 +23,14 @@
  */
 package com.wuyou.user.data.wallet;
 
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.crypto.ec.EosPrivateKey;
 import com.wuyou.user.crypto.ec.EosPublicKey;
+import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.data.remote.model.chain.SignedTransaction;
 import com.wuyou.user.data.remote.model.types.TypeChainId;
 import com.wuyou.user.util.CommonUtil;
@@ -86,14 +89,13 @@ public class EosWalletManager {
         return EOS_WALLET_PASSWD_PREFIX + key.toWif();
     }
 
-    public String createTestingDefaultWallet() throws IOException {
+    public String createOrOpenOwnerWallet() throws IOException {
         String pw = create(Constant.DEFAULT_WALLET_NAME);
 
         importKey(Constant.DEFAULT_WALLET_NAME, Constant.SAMPLE_PRIV_KEY_FOR_TEST);
 
         saveFile(Constant.DEFAULT_WALLET_NAME);
 
-        openExistingsInDir();
         return pw;
     }
 
@@ -119,9 +121,6 @@ public class EosWalletManager {
         eosWallet.setWalletFilePath(walletFile.getAbsolutePath());
         eosWallet.unlock(password);
         eosWallet.saveFile(walletFile.getAbsolutePath());
-
-        eosWallet.lock();
-        eosWallet.unlock(password);
 
         // put 은 이미 있으면 replace 한다.
         mWallets.put(name, eosWallet);
@@ -312,12 +311,30 @@ public class EosWalletManager {
         if (eosWallet.isLocked()) {
             throw new IllegalStateException("Wallet is locked: " + walletName);
         }
-
         eosWallet.saveFile("");
     }
 
-    public SignedTransaction signTransaction(final SignedTransaction txn,
-                                             final List<EosPublicKey> keys, final TypeChainId id) throws IllegalStateException {
+    public SignedTransaction signTransaction(final SignedTransaction txn, final List<EosPublicKey> keys, final TypeChainId id) throws IllegalStateException {
+        SignedTransaction stxn = new SignedTransaction(txn);
+        for (EosPublicKey pubKey : keys) {
+            boolean found = false;
+            for (EosAccount account : CarefreeDaoSession.getInstance().getAllEosAccount()) {
+                if (TextUtils.equals(account.getPublicKey(), pubKey.toString())) {
+                    stxn.sign(new EosPrivateKey(account.getPrivateKey()), id);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                throw new IllegalStateException("Public key not found in unlocked wallets " + pubKey);
+            }
+        }
+
+        return stxn;
+    }
+
+    public SignedTransaction signCreateAccountTransaction(final SignedTransaction txn,
+                                                          final List<EosPublicKey> keys, final TypeChainId id) throws IllegalStateException {
 
         SignedTransaction stxn = new SignedTransaction(txn);
 

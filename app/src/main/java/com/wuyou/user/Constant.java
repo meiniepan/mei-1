@@ -8,8 +8,10 @@ public class Constant {
     public static final String DEFAULT_SERVANT_ACCOUNT = "eosio";
     public static final String  DEFAULT_WALLET_NAME = "pocket";
     public static final boolean DEFAULT_SAVE_PASSWORD= true;
-    public static final String SAMPLE_PRIV_KEY_FOR_TEST = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3";
-    public static final String EOSIO_SYSTEM_ACCOUNT = "eosio";
+//    public static final String SAMPLE_PRIV_KEY_FOR_TEST = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"  //have coin;
+    public static final String SAMPLE_PRIV_KEY_FOR_TEST = "5J6HXZiXDrJqZAzn7CjoJ6HoPbw7zYUovz9H1gDzZbqKL2bqZTn";
+    public static final String EOSIO_SYSTEM_ACCOUNT = "signupcoming";
+    public static final String EOSIO_DAILAY_REWARDS = "dailyrewards";
     public static final String EOSIO_TOKEN_CONTRACT = "eosio.token";
     public static final int TX_EXPIRATION_IN_MILSEC = 30000;
 

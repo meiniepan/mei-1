@@ -82,17 +82,16 @@ public class TypeAsset implements EosType.Packer {
         Pattern pattern = Pattern.compile("^([0-9]+)\\.?([0-9]*)[ ]([a-zA-Z0-9]{1,7})$");//\\s(\\w)$");
         Matcher matcher = pattern.matcher(value);
 
-        if ( matcher.find()) {
-            String beforeDotVal = matcher.group(1), afterDotVal = matcher.group(2) ;
+        if (matcher.find()) {
+            String beforeDotVal = matcher.group(1), afterDotVal = matcher.group(2);
 
-            mAmount = Long.valueOf( beforeDotVal + afterDotVal);
+            mAmount = Long.valueOf(beforeDotVal + afterDotVal);
 
             int decimals = afterDotVal.length();
             this.mSymbolName = matcher.group(3);
 
-            this.mAssetSymbol = makeAssetSymbol( mSymbolName, decimals);
-        }
-        else {
+            this.mAssetSymbol = makeAssetSymbol(mSymbolName, decimals);
+        } else {
             this.mAmount = 0;
             this.mSymbolName = "EOS";
             this.mAssetSymbol = EOS_SYMBOL;
@@ -100,7 +99,7 @@ public class TypeAsset implements EosType.Packer {
     }
 
     public TypeAsset(long amount) {
-        this( amount, EOS_SYMBOL );
+        this(10000 * amount, EOS_SYMBOL);
     }
 
 
@@ -111,18 +110,17 @@ public class TypeAsset implements EosType.Packer {
         final int byteLen = Long.SIZE / Byte.SIZE;
         int symbolLen = 0;
         char[] sym = new char[byteLen];
-        for ( int i = 1; i < byteLen; i++) {
-            char oneChar = (char)( (symbol >> (8*i)) & 0xFF );
-            if ( oneChar != 0 ) {
+        for (int i = 1; i < byteLen; i++) {
+            char oneChar = (char) ((symbol >> (8 * i)) & 0xFF);
+            if (oneChar != 0) {
                 sym[i] = oneChar;
                 symbolLen++;
-            }
-            else {
+            } else {
                 break;
             }
         }
 
-        mSymbolName = new String( sym, 1, symbolLen);
+        mSymbolName = new String(sym, 1, symbolLen);
     }
 
 //    public TypeAsset(long amount, int decimals, String symbolName) {
@@ -132,11 +130,11 @@ public class TypeAsset implements EosType.Packer {
 //        mAssetSymbol = makeAssetSymbol( symbolName, decimals);
 //    }
 
-    private long makeAssetSymbol(String symbolName, int decimals ) {
+    private long makeAssetSymbol(String symbolName, int decimals) {
         long symbol = 0;
         int nameLen = symbolName.length();
-        for (int i = 0; (i < nameLen) && ( i < 7); i++ ) {
-            symbol |= (symbolName.charAt( i) <<  ( (i+1) * 8));
+        for (int i = 0; (i < nameLen) && (i < 7); i++) {
+            symbol |= (symbolName.charAt(i) << ((i + 1) * 8));
         }
 
         symbol |= decimals;
@@ -144,17 +142,17 @@ public class TypeAsset implements EosType.Packer {
         return symbol;
     }
 
-    public byte decimals(){
-        return (byte)( mAssetSymbol & 0xFF );
+    public byte decimals() {
+        return (byte) (mAssetSymbol & 0xFF);
     }
 
     public long precision() {
         int decimal = decimals();
-        if ( decimal >= PRECISION_TABLE.length ) {
+        if (decimal >= PRECISION_TABLE.length) {
             decimal = 0;
         }
 
-        return PRECISION_TABLE[ decimal ];
+        return PRECISION_TABLE[decimal];
     }
 
     public double toDouble() {
@@ -165,21 +163,25 @@ public class TypeAsset implements EosType.Packer {
         return mSymbolName;
     }
 
-    public long assetSymbol(){ return mAssetSymbol;}
+    public long assetSymbol() {
+        return mAssetSymbol;
+    }
 
-    public long getAmount(){ return mAmount;}
+    public long getAmount() {
+        return mAmount;
+    }
 
     @Override
     public String toString() {
         long precisionVal = precision();
-        String result = String.valueOf(  mAmount / precisionVal);
+        String result = String.valueOf(mAmount / precisionVal);
 
-        if ( decimals() > 0 ) {
+        if (decimals() > 0) {
             long fract = mAmount % precisionVal;
-            result += "." + String.valueOf( precisionVal + fract).substring(1);
+            result += "." + String.valueOf(precisionVal + fract).substring(1);
         }
 
-        return result + " "+ mSymbolName;
+        return result + " " + mSymbolName;
     }
 
     @Override
@@ -187,10 +189,10 @@ public class TypeAsset implements EosType.Packer {
 
         writer.putLongLE(mAmount);
 
-        writer.putLongLE( mAssetSymbol);
+        writer.putLongLE(mAssetSymbol);
     }
 
-    public void add( TypeAsset other) {
+    public void add(TypeAsset other) {
         //mAmount
     }
 

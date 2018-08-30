@@ -5,15 +5,12 @@ import android.util.Log;
 import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.wuyou.user.crypto.ec.EosPrivateKey;
-import com.wuyou.user.crypto.util.CryptUtil;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.data.util.Utils;
-import com.wuyou.user.data.wallet.EosWallet;
 import com.wuyou.user.util.EncryptUtil;
 import com.wuyou.user.util.RxUtil;
 
-import org.json.JSONObject;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -55,17 +52,10 @@ public class ExampleUnitTest {
         eosAccount.setMain(true);
         CarefreeDaoSession.getInstance().getEosDao().insert(eosAccount);
 
-        EosAccount mainAccount = CarefreeDaoSession.getInstance().findMainAccount();
+        EosAccount mainAccount = CarefreeDaoSession.getInstance().getMainAccount();
         System.out.println(mainAccount);
 
-        EoscDataManager.getIns().transfer("houjingnan11", "mukangmukang", 1000L, "111")
-                .compose(RxUtil.switchSchedulers())
-                .subscribe(new BaseSubscriber<JsonObject>() {
-                    @Override
-                    public void onSuccess(JsonObject jsonObject) {
-                        Log.e("Carefree", "accept: " + Utils.prettyPrintJson(jsonObject));
-                    }
-                });
+//        EoscDataManager.getIns().getWalletManager().createOrOpenOwnerWallet()
 //        CarefreeDaoSession.getInstance().searchName();
 //        EosWallet wallet = new EosWallet();
 //        wallet.setPassword("5555");

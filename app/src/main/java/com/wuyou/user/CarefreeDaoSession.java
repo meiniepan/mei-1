@@ -20,7 +20,7 @@ import java.util.List;
  * Created by hjn on 2018/3/8.
  */
 
-public class CarefreeDaoSession implements EosAccountRepository{
+public class CarefreeDaoSession implements EosAccountRepository {
     private static DaoSession daoSession;
     private static CarefreeDaoSession instance;
     public static String tempAvatar;
@@ -145,16 +145,33 @@ public class CarefreeDaoSession implements EosAccountRepository{
     }
 
     @Override
-    public List<EosAccount> getAll() {
+    public List<EosAccount> getAllEosAccount() {
         return CarefreeDaoSession.getInstance().getEosDao().loadAll();
     }
 
     @Override
-    public List<EosAccount> searchName(String nameStarts) {
-        return CarefreeDaoSession.getInstance().getEosDao().queryBuilder().where(EosAccountDao.Properties.Name.like("%" + nameStarts + "%")).build().list();
+    public EosAccount searchName(String nameStarts) {
+        return CarefreeDaoSession.getInstance().getEosDao().queryBuilder().where(EosAccountDao.Properties.Name.like("%" + nameStarts + "%")).build().unique();
     }
 
-    public EosAccount findMainAccount(){
+    public EosAccount getMainAccount() {
         return CarefreeDaoSession.getInstance().getEosDao().queryBuilder().where(EosAccountDao.Properties.Main.like("TRUE")).build().listIterator().next();
+    }
+
+    public EosAccount setMainAccount(String account) throws IllegalStateException { //remember to try/catch
+        EosAccount eosAccount = searchName(account);
+        if (eosAccount == null) {
+            throw new IllegalStateException("Account not found in database:" + account);
+        }
+        if (eosAccount.getMain()) {
+            return eosAccount;
+        }
+        EosAccount mainAccount = getMainAccount();
+        mainAccount.setMain(false);
+        getEosDao().update(mainAccount);
+
+        eosAccount.setMain(true);
+        getEosDao().update(eosAccount);
+        return eosAccount;
     }
 }

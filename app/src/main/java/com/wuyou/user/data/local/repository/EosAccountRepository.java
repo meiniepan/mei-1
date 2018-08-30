@@ -19,7 +19,7 @@ public interface EosAccountRepository {
      * get account list
      * @return
      */
-    List<EosAccount> getAll();
+    List<EosAccount> getAllEosAccount();
 
-    List<EosAccount> searchName(String nameStarts);
+    EosAccount searchName(String nameStarts);
 }

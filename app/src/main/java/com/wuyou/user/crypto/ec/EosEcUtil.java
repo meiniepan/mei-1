@@ -211,9 +211,6 @@ public class EosEcUtil {
         return result + Base58.encode( dataToEncodeBase58 );
     }
 
-
-
-
     private static final String EOS_CRYPTO_STR_SPLITTER = "_";
     public static String[] safeSplitEosCryptoString( String cryptoStr ) {
         if ( StringUtils.isEmpty( cryptoStr)) {

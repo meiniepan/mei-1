@@ -23,6 +23,7 @@
  */
 package com.wuyou.user.data.remote.model.types;
 
+import com.google.gson.annotations.Expose;
 import com.wuyou.user.crypto.util.HexUtils;
 
 /**
@@ -30,49 +31,36 @@ import com.wuyou.user.crypto.util.HexUtils;
  */
 
 public class EosNewAccount implements EosType.Packer {
-    private TypeAccountName mCreator;
-    private TypeAccountName mNewName;
-    private TypeAuthority mOwner;
-    private TypeAuthority mActive;
+    @Expose
+    private String phone_number;
+    @Expose
+    private String account;
+    @Expose
+    private String key;
+    @Expose
+    private TypeAsset ram;
+
+    public EosNewAccount(String phone_number, String account, String key, TypeAsset ram) {
+        this.phone_number = phone_number;
+        this.account = account;
+        this.key = key;
+        this.ram = ram;
+    }
 
     public String getActionName() {
-        return "newaccount";
-    }
-
-    public EosNewAccount(String creator, String newName,
-                         TypeAuthority owner, TypeAuthority active ) {
-
-        this( new TypeAccountName(creator), new TypeAccountName(newName), owner, active);
-    }
-
-    public EosNewAccount( String creator, String newName,
-                          TypePublicKey ownerPubKey, TypePublicKey activePubKey) {
-
-        this( new TypeAccountName(creator), new TypeAccountName(newName)
-                , new TypeAuthority(1, ownerPubKey, null)
-                , new TypeAuthority(1, activePubKey, null)  );
-    }
-
-    public EosNewAccount(TypeAccountName creator, TypeAccountName newName,
-                         TypeAuthority owner, TypeAuthority active) {
-
-        mCreator = creator;
-        mNewName = newName;
-        mOwner = owner;
-        mActive = active;
+        return "createbyphone";
     }
 
     public String getCreatorName(){
-        return mCreator.toString();
+        return account.toString();
     }
 
     @Override
-    public void pack(EosType.Writer writer) {
-
-        mCreator.pack(writer);
-        mNewName.pack(writer);
-        mOwner.pack(writer);
-        mActive.pack(writer);
+    public void pack(EosType.Writer writer) {  //EosByteWriter
+        writer.putString(phone_number);
+        writer.putString(account);
+        writer.putString(key);
+        writer.putLongLE(ram.getAmount());
     }
 
     public String getAsHex() {
