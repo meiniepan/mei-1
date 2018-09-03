@@ -1,7 +1,7 @@
 package com.wuyou.user.mvp.order;
 
-import com.wuyou.user.bean.OrderBeanDetail;
-import com.wuyou.user.bean.response.OrderListResponse;
+import com.wuyou.user.data.remote.OrderBeanDetail;
+import com.wuyou.user.data.remote.response.OrderListResponse;
 import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.mvp.IBaseView;
 

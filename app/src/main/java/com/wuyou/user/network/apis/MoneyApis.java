@@ -2,10 +2,10 @@ package com.wuyou.user.network.apis;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
-import com.wuyou.user.bean.UserInfo;
-import com.wuyou.user.bean.WalletBalance;
-import com.wuyou.user.bean.response.SimpleResponse;
-import com.wuyou.user.bean.response.WxPayResponse;
+import com.wuyou.user.data.local.db.UserInfo;
+import com.wuyou.user.data.remote.WalletBalance;
+import com.wuyou.user.data.remote.response.SimpleResponse;
+import com.wuyou.user.data.remote.response.WxPayResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.FieldMap;

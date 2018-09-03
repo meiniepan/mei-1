@@ -2,8 +2,6 @@ package com.wuyou.user.mvp.order;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.view.View;
 
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
@@ -11,9 +9,9 @@ import com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.OrderBean;
-import com.wuyou.user.bean.OrderBeanDetail;
-import com.wuyou.user.bean.response.OrderListResponse;
+import com.wuyou.user.data.remote.OrderBean;
+import com.wuyou.user.data.remote.OrderBeanDetail;
+import com.wuyou.user.data.remote.response.OrderListResponse;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.event.OrderEvent;
 import com.wuyou.user.mvp.login.LoginActivity;

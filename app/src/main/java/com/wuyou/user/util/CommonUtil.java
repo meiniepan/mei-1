@@ -36,6 +36,7 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.google.gson.GsonBuilder;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.common.BitMatrix;
@@ -583,5 +584,12 @@ public class CommonUtil {
             return mobile.substring(0, 3) + "****" + mobile.substring(7);
         }
         return mobile;
+    }
+
+    public static String prettyPrintJson(Object object) {
+        return new GsonBuilder()
+                .registerTypeAdapterFactory(new GsonEosTypeAdapterFactory())
+                .excludeFieldsWithoutExposeAnnotation()
+                .setPrettyPrinting().create().toJson( object );
     }
 }

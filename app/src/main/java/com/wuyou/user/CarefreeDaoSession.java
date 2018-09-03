@@ -2,16 +2,15 @@ package com.wuyou.user;
 
 import android.text.TextUtils;
 
-import com.wuyou.user.bean.AddressBean;
-import com.wuyou.user.bean.DaoMaster;
-import com.wuyou.user.bean.DaoSession;
-import com.wuyou.user.bean.SearchHistoryBean;
-import com.wuyou.user.bean.SearchHistoryBeanDao;
-import com.wuyou.user.bean.UserInfo;
-import com.wuyou.user.bean.UserInfoDao;
+import com.wuyou.user.data.remote.AddressBean;
+import com.wuyou.user.data.local.db.DaoMaster;
+import com.wuyou.user.data.local.db.DaoSession;
+import com.wuyou.user.data.local.db.SearchHistoryBean;
+import com.wuyou.user.data.local.db.SearchHistoryBeanDao;
+import com.wuyou.user.data.local.db.UserInfo;
+import com.wuyou.user.data.local.db.UserInfoDao;
 import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.data.local.db.EosAccountDao;
-import com.wuyou.user.data.local.repository.EosAccountRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.List;
  * Created by hjn on 2018/3/8.
  */
 
-public class CarefreeDaoSession implements EosAccountRepository {
+public class CarefreeDaoSession {
     private static DaoSession daoSession;
     private static CarefreeDaoSession instance;
     public static String tempAvatar;
@@ -111,7 +110,6 @@ public class CarefreeDaoSession implements EosAccountRepository {
         daoSession.getSearchHistoryBeanDao().delete(item);
     }
 
-    @Override
     public void addAll(String... accountNames) {
         ArrayList<EosAccount> eosAccounts = new ArrayList<>(accountNames.length);
         for (String name : accountNames) {
@@ -120,7 +118,6 @@ public class CarefreeDaoSession implements EosAccountRepository {
         CarefreeDaoSession.getInstance().getEosDao().insertOrReplaceInTx(eosAccounts);
     }
 
-    @Override
     public void addAll(List<String> accountNames) {
         ArrayList<EosAccount> eosAccounts = new ArrayList<>(accountNames.size());
         for (String name : accountNames) {
@@ -129,27 +126,22 @@ public class CarefreeDaoSession implements EosAccountRepository {
         CarefreeDaoSession.getInstance().getEosDao().insertOrReplaceInTx(eosAccounts);
     }
 
-    @Override
     public void addAccount(String accountName) {
         CarefreeDaoSession.getInstance().getEosDao().insert(EosAccount.from(accountName));
     }
 
-    @Override
     public void deleteAll() {
         CarefreeDaoSession.getInstance().getEosDao().deleteAll();
     }
 
-    @Override
     public void delete(String accountName) {
         CarefreeDaoSession.getInstance().getEosDao().deleteByKey(accountName);
     }
 
-    @Override
     public List<EosAccount> getAllEosAccount() {
         return CarefreeDaoSession.getInstance().getEosDao().loadAll();
     }
 
-    @Override
     public EosAccount searchName(String nameStarts) {
         return CarefreeDaoSession.getInstance().getEosDao().queryBuilder().where(EosAccountDao.Properties.Name.like("%" + nameStarts + "%")).build().unique();
     }

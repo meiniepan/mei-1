@@ -2,8 +2,8 @@ package com.wuyou.user.network.apis;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
-import com.wuyou.user.bean.StoreBean;
-import com.wuyou.user.bean.response.ServeListResponse;
+import com.wuyou.user.data.remote.StoreBean;
+import com.wuyou.user.data.remote.response.ServeListResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.FieldMap;

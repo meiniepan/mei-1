@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
-import com.wuyou.user.bean.UserInfo;
+import com.wuyou.user.data.local.db.UserInfo;
 
 import java.util.List;
 

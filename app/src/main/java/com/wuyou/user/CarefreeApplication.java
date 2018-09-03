@@ -15,7 +15,7 @@ import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tendcloud.tenddata.TCAgent;
-import com.wuyou.user.bean.UpdateEntity;
+import com.wuyou.user.data.remote.UpdateEntity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;

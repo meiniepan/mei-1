@@ -2,9 +2,9 @@ package com.wuyou.user.network.apis;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
-import com.wuyou.user.bean.OrderBeanDetail;
-import com.wuyou.user.bean.OrderIdBean;
-import com.wuyou.user.bean.response.OrderListResponse;
+import com.wuyou.user.data.remote.OrderBeanDetail;
+import com.wuyou.user.data.remote.OrderIdBean;
+import com.wuyou.user.data.remote.response.OrderListResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;

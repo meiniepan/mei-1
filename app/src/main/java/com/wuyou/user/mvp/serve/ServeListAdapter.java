@@ -6,8 +6,8 @@ import android.widget.ImageView;
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.ServeBean;
-import com.wuyou.user.bean.ServeSpecification;
+import com.wuyou.user.data.remote.ServeBean;
+import com.wuyou.user.data.remote.ServeSpecification;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 

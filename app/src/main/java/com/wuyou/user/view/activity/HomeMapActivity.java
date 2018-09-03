@@ -33,7 +33,7 @@ import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.ServeSitesAdapter;
-import com.wuyou.user.bean.ServeSites;
+import com.wuyou.user.data.remote.ServeSites;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.util.CommonUtil;

@@ -34,27 +34,27 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.crypto.ec.EosPrivateKey;
 import com.wuyou.user.crypto.ec.EosPublicKey;
 import com.wuyou.user.data.local.db.EosAccount;
-import com.wuyou.user.data.remote.NodeosApi;
-import com.wuyou.user.data.remote.model.abi.EosAbiMain;
-import com.wuyou.user.data.remote.model.api.AccountInfoRequest;
-import com.wuyou.user.data.remote.model.api.EosChainInfo;
-import com.wuyou.user.data.remote.model.api.GetBalanceRequest;
-import com.wuyou.user.data.remote.model.api.GetCodeRequest;
-import com.wuyou.user.data.remote.model.api.GetCodeResponse;
-import com.wuyou.user.data.remote.model.api.GetRequestForCurrency;
-import com.wuyou.user.data.remote.model.api.GetRequiredKeys;
-import com.wuyou.user.data.remote.model.api.GetTableRequest;
-import com.wuyou.user.data.remote.model.api.JsonToBinRequest;
-import com.wuyou.user.data.remote.model.chain.Action;
-import com.wuyou.user.data.remote.model.chain.PackedTransaction;
-import com.wuyou.user.data.remote.model.chain.SignedTransaction;
-import com.wuyou.user.data.remote.model.types.EosDailyRewards;
-import com.wuyou.user.data.remote.model.types.EosNewAccount;
-import com.wuyou.user.data.remote.model.types.EosTransfer;
-import com.wuyou.user.data.remote.model.types.TypeAsset;
-import com.wuyou.user.data.remote.model.types.TypeChainId;
-import com.wuyou.user.data.util.Utils;
+import com.wuyou.user.network.apis.NodeosApi;
+import com.wuyou.user.data.abi.EosAbiMain;
+import com.wuyou.user.data.api.AccountInfoRequest;
+import com.wuyou.user.data.api.EosChainInfo;
+import com.wuyou.user.data.api.GetBalanceRequest;
+import com.wuyou.user.data.api.GetCodeRequest;
+import com.wuyou.user.data.api.GetCodeResponse;
+import com.wuyou.user.data.api.GetRequestForCurrency;
+import com.wuyou.user.data.api.GetRequiredKeys;
+import com.wuyou.user.data.api.GetTableRequest;
+import com.wuyou.user.data.api.JsonToBinRequest;
+import com.wuyou.user.data.chain.Action;
+import com.wuyou.user.data.chain.PackedTransaction;
+import com.wuyou.user.data.chain.SignedTransaction;
+import com.wuyou.user.data.types.EosDailyRewards;
+import com.wuyou.user.data.types.EosNewAccount;
+import com.wuyou.user.data.types.EosTransfer;
+import com.wuyou.user.data.types.TypeAsset;
+import com.wuyou.user.data.types.TypeChainId;
 import com.wuyou.user.network.ChainRetrofit;
+import com.wuyou.user.util.CommonUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,7 +78,7 @@ public class EoscDataManager {
 
     public Observable<JsonObject> createAccount(String phone, String account, String publicKey) {
         EosNewAccount eosAccount = new EosNewAccount(phone, account, publicKey, new TypeAsset(2));
-        return ChainRetrofit.getInstance().createApi(NodeosApi.class).jsonToBin(new JsonToBinRequest(Constant.EOSIO_SYSTEM_ACCOUNT, eosAccount.getActionName(), Utils.prettyPrintJson(eosAccount)))
+        return ChainRetrofit.getInstance().createApi(NodeosApi.class).jsonToBin(new JsonToBinRequest(Constant.EOSIO_SYSTEM_ACCOUNT, eosAccount.getActionName(), CommonUtil.prettyPrintJson(eosAccount)))
                 .flatMap(jsonToBinResp -> getChainInfo()
                         .map(info -> createTransaction(Constant.EOSIO_SYSTEM_ACCOUNT, eosAccount.getActionName(), jsonToBinResp.getBinargs(), getActivePermission("justforapply"), info)))
                 .flatMap(signedTransaction -> {
@@ -93,7 +93,7 @@ public class EoscDataManager {
     public Observable<JsonObject> getDailyRewords() {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
         EosDailyRewards dailyRewards = new EosDailyRewards(currentOperateAccount.getName(), TribeDateUtils.dateFormat5(new Date(System.currentTimeMillis())), "hjn", new TypeAsset(1));
-        return pushActionRetJson(Constant.EOSIO_DAILAY_REWARDS, dailyRewards.getActionName(), Utils.prettyPrintJson(dailyRewards), getActivePermission(currentOperateAccount.getName())); //transfer.getAsHex()
+        return pushActionRetJson(Constant.EOSIO_DAILAY_REWARDS, dailyRewards.getActionName(), CommonUtil.prettyPrintJson(dailyRewards), getActivePermission(currentOperateAccount.getName())); //transfer.getAsHex()
     }
 
 
@@ -105,7 +105,7 @@ public class EoscDataManager {
             currentOperateAccount = account;
         }
         EosTransfer transfer = new EosTransfer(from, to, amount, memo);
-        return pushActionRetJson(Constant.EOSIO_TOKEN_CONTRACT, transfer.getActionName(), Utils.prettyPrintJson(transfer), getActivePermission(from)); //transfer.getAsHex()
+        return pushActionRetJson(Constant.EOSIO_TOKEN_CONTRACT, transfer.getActionName(), CommonUtil.prettyPrintJson(transfer), getActivePermission(from)); //transfer.getAsHex()
     }
 
 
@@ -113,11 +113,10 @@ public class EoscDataManager {
         return ChainRetrofit.getInstance().createApi(NodeosApi.class).readInfo("get_info");
     }
 
-    public Observable<String> getTable(String accountName, String code, String table,
-                                       String tableKey, String lowerBound, String upperBound, int limit) {
+    public Observable<String> getTable(String accountName, String code, String table, String tableKey, String lowerBound, String upperBound, int limit) {
         return ChainRetrofit.getInstance().createApi(NodeosApi.class).getTable(
                 new GetTableRequest(accountName, code, table, tableKey, lowerBound, upperBound, limit))
-                .map(tableResult -> Utils.prettyPrintJson(tableResult));
+                .map(tableResult -> CommonUtil.prettyPrintJson(tableResult));
     }
 
     public Observable<EosPrivateKey[]> createKey(int count) {
@@ -126,7 +125,6 @@ public class EoscDataManager {
             for (int i = 0; i < count; i++) {
                 retKeys[i] = new EosPrivateKey();
             }
-
             return retKeys;
         });
     }
@@ -158,7 +156,7 @@ public class EoscDataManager {
                 });
     }
 
-    public SignedTransaction signTransaction(final SignedTransaction txn, final List<EosPublicKey> keys, final TypeChainId id) throws IllegalStateException {
+    private SignedTransaction signTransaction(final SignedTransaction txn, final List<EosPublicKey> keys, final TypeChainId id) throws IllegalStateException {
         SignedTransaction stxn = new SignedTransaction(txn);
         boolean found = false;
         for (EosPublicKey pubKey : keys) {
@@ -196,28 +194,16 @@ public class EoscDataManager {
 
     private EosChainInfo currentBlockInfo;
 
-    void setInfo(EosChainInfo info) {
-        currentBlockInfo = info;
-    }
-
     private final String chainPublicKey = "EOS5kkMsEbNCR2VA2cvr4szm9RJxRD996bAGs5LbHQYp1uoo2mAzx";
     private final String chainPrivateKey = "5JcN6R1fTwSUvL3jHpnpG6KsJB3nEPBSkL63dbht4ySPrXTgXyL";
 
-    public Observable<JsonObject> pushActionRetJson(String contract, String action, String data, String[] permissions) {
+    private Observable<JsonObject> pushActionRetJson(String contract, String action, String data, String[] permissions) {
         return ChainRetrofit.getInstance().createApi(NodeosApi.class).jsonToBin(new JsonToBinRequest(contract, action, data))
                 .flatMap(jsonToBinResp -> getChainInfo()
                         .map(info -> createTransaction(contract, action, jsonToBinResp.getBinargs(), permissions, info)))
                 .flatMap(this::signAndPackTransaction)
                 .flatMap(ChainRetrofit.getInstance().createApi(NodeosApi.class)::pushTransactionRetJson);
     }
-
-//    public Observable<PushTxnResponse> pushAction(String contract, String action, String data, String[] permissions) {
-//        return ChainRetrofit.getInstance().createApi(NodeosApi.class).jsonToBin(new JsonToBinRequest(contract, action, data))
-//                .flatMap(jsonToBinResp -> getChainInfo()
-//                        .map(info -> createTransaction(contract, action, jsonToBinResp.getBinargs(), permissions, info)))
-//                .flatMap(this::signAndPackTransaction)
-//                .flatMap(ChainRetrofit.getInstance().createApi(NodeosApi.class)::pushTransaction);
-//    }
 
     public Observable<EosAbiMain> getCodeAbi(String contract) {
         return ChainRetrofit.getInstance().createApi(NodeosApi.class).getCode(new GetCodeRequest(contract))
@@ -233,13 +219,11 @@ public class EoscDataManager {
 
     public Observable<String> getCurrencyBalance(String contract, String account, String symbol) {
         return ChainRetrofit.getInstance().createApi(NodeosApi.class).getCurrencyBalance(new GetBalanceRequest(contract, account, symbol))
-                .map(result -> Utils.prettyPrintJson(result));
+                .map(result -> CommonUtil.prettyPrintJson(result));
     }
 
     public Observable<String> getCurrencyStats(String contract, String symbol) {
         return ChainRetrofit.getInstance().createApi(NodeosApi.class).getCurrencyStats(new GetRequestForCurrency(contract, symbol))
-                .map(result -> Utils.prettyPrintJson(result));
+                .map(result -> CommonUtil.prettyPrintJson(result));
     }
-
-
 }

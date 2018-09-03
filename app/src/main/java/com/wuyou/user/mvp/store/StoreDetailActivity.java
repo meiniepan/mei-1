@@ -11,7 +11,7 @@ import com.gs.buluo.common.network.QueryMapBuilder;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.MainPagerAdapter;
-import com.wuyou.user.bean.StoreBean;
+import com.wuyou.user.data.remote.StoreBean;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.StoreApis;
 import com.wuyou.user.view.activity.BaseActivity;

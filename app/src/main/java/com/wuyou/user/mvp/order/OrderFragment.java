@@ -1,7 +1,6 @@
 package com.wuyou.user.mvp.order;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,11 +9,10 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.TabEntity;
+import com.wuyou.user.data.local.TabEntity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.panel.EnvironmentChoosePanel;
 

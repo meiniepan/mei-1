@@ -2,8 +2,8 @@ package com.wuyou.user.network.apis;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
-import com.wuyou.user.bean.UpdateEntity;
-import com.wuyou.user.bean.UserInfo;
+import com.wuyou.user.data.remote.UpdateEntity;
+import com.wuyou.user.data.local.db.UserInfo;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;

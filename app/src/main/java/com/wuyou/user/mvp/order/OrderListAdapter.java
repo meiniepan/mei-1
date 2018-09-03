@@ -2,7 +2,6 @@ package com.wuyou.user.mvp.order;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,8 +9,8 @@ import android.widget.TextView;
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.OrderBean;
-import com.wuyou.user.bean.ServeBean;
+import com.wuyou.user.data.remote.OrderBean;
+import com.wuyou.user.data.remote.ServeBean;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 

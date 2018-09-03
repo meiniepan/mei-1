@@ -27,7 +27,7 @@ package com.wuyou.user.crypto.ec;
 import com.google.common.base.Preconditions;
 import com.wuyou.user.crypto.Hmac;
 import com.wuyou.user.crypto.digest.Sha256;
-import com.wuyou.user.data.remote.model.types.EosByteWriter;
+import com.wuyou.user.data.types.EosByteWriter;
 
 import java.math.BigInteger;
 import java.util.Arrays;

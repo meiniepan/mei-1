@@ -16,7 +16,7 @@ import android.widget.ListView;
 
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.ServeSites;
+import com.wuyou.user.data.remote.ServeSites;
 import com.wuyou.user.util.GpsUtils;
 
 import java.net.URISyntaxException;

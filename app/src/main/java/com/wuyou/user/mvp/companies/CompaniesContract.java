@@ -17,7 +17,7 @@
 package com.wuyou.user.mvp.companies;
 
 
-import com.wuyou.user.bean.Company;
+import com.wuyou.user.data.remote.Company;
 import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.mvp.IBaseView;
 

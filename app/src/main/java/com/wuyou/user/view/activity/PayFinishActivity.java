@@ -12,7 +12,7 @@ import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.AppManager;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.response.SimpleResponse;
+import com.wuyou.user.data.remote.response.SimpleResponse;
 import com.wuyou.user.mvp.order.OrderDetailActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;

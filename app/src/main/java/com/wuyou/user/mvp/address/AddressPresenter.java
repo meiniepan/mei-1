@@ -7,9 +7,9 @@ import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.wuyou.user.CarefreeDaoSession;
-import com.wuyou.user.bean.AddressBean;
-import com.wuyou.user.bean.AddressId;
-import com.wuyou.user.bean.response.AddressListResponse;
+import com.wuyou.user.data.remote.AddressBean;
+import com.wuyou.user.data.remote.AddressId;
+import com.wuyou.user.data.remote.response.AddressListResponse;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.AddressApis;
 

@@ -18,7 +18,7 @@ package com.wuyou.user.mvp.companies;
 
 import android.support.annotation.NonNull;
 
-import com.wuyou.user.bean.Company;
+import com.wuyou.user.data.remote.Company;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.CompanyApis;
 

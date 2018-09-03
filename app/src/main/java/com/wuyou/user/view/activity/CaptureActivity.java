@@ -38,7 +38,7 @@ import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.PointBean;
+import com.wuyou.user.data.remote.PointBean;
 import com.wuyou.user.mvp.score.SignInSuccessActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.ScoreApis;

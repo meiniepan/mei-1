@@ -12,11 +12,10 @@ import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.ServeBean;
-import com.wuyou.user.bean.response.ServeListResponse;
+import com.wuyou.user.data.remote.ServeBean;
+import com.wuyou.user.data.remote.response.ServeListResponse;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.activity.MainActivity;
 import com.wuyou.user.view.widget.ColorTextView;
 
 import butterknife.BindView;

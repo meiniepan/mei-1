@@ -7,7 +7,7 @@ import android.widget.RadioButton;
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.ServeLevelBean;
+import com.wuyou.user.data.remote.ServeLevelBean;
 
 import java.util.List;
 

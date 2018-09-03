@@ -11,7 +11,7 @@ import android.view.WindowManager;
 
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.ShareBean;
+import com.wuyou.user.data.remote.ShareBean;
 
 import butterknife.ButterKnife;
 import me.shaohui.shareutil.ShareUtil;

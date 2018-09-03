@@ -4,13 +4,13 @@ import android.support.v4.util.ArrayMap;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
-import com.wuyou.user.bean.ServeBean;
-import com.wuyou.user.bean.ServeDetailBean;
-import com.wuyou.user.bean.ServeLevelBean;
-import com.wuyou.user.bean.response.CategoryListResponse;
-import com.wuyou.user.bean.response.ListResponse;
-import com.wuyou.user.bean.response.ServeListResponse;
-import com.wuyou.user.bean.ServeTimeBean;
+import com.wuyou.user.data.remote.ServeBean;
+import com.wuyou.user.data.remote.ServeDetailBean;
+import com.wuyou.user.data.remote.ServeLevelBean;
+import com.wuyou.user.data.remote.response.CategoryListResponse;
+import com.wuyou.user.data.remote.response.ListResponse;
+import com.wuyou.user.data.remote.response.ServeListResponse;
+import com.wuyou.user.data.remote.ServeTimeBean;
 
 import java.util.List;
 

@@ -6,7 +6,7 @@ import android.widget.TextView;
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.ActivityListBean;
+import com.wuyou.user.data.remote.ActivityListBean;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 

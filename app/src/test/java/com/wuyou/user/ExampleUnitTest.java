@@ -1,15 +1,8 @@
 package com.wuyou.user;
 
-import android.util.Log;
-
-import com.google.gson.JsonObject;
-import com.gs.buluo.common.network.BaseSubscriber;
 import com.wuyou.user.crypto.ec.EosPrivateKey;
-import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.local.db.EosAccount;
-import com.wuyou.user.data.util.Utils;
 import com.wuyou.user.util.EncryptUtil;
-import com.wuyou.user.util.RxUtil;
 
 import org.junit.Test;
 

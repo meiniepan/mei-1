@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wuyou.user.R;
-import com.wuyou.user.bean.HomeVideoBean;
+import com.wuyou.user.data.remote.HomeVideoBean;
 
 import cn.jzvd.JZMediaManager;
 import cn.jzvd.JZUserAction;

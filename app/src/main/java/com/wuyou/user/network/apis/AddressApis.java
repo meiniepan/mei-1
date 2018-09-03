@@ -2,9 +2,9 @@ package com.wuyou.user.network.apis;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
-import com.wuyou.user.bean.AddressId;
-import com.wuyou.user.bean.response.AddressListResponse;
-import com.wuyou.user.bean.response.CityListResponse;
+import com.wuyou.user.data.remote.AddressId;
+import com.wuyou.user.data.remote.response.AddressListResponse;
+import com.wuyou.user.data.remote.response.CityListResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -15,7 +15,6 @@ import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 /**

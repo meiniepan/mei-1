@@ -14,7 +14,7 @@ import com.google.gson.JsonSyntaxException;
 import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.BrowserData;
+import com.wuyou.user.data.local.BrowserData;
 
 /**
  * Created by Administrator on 2018\1\29 0029.

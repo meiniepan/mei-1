@@ -5,7 +5,7 @@ import android.support.v4.util.ArrayMap;
 import com.google.gson.GsonBuilder;
 import com.gs.buluo.common.network.LogInterceptor;
 import com.wuyou.user.Constant;
-import com.wuyou.user.data.util.GsonEosTypeAdapterFactory;
+import com.wuyou.user.util.GsonEosTypeAdapterFactory;
 
 import org.reactivestreams.Publisher;
 

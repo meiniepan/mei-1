@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.gs.buluo.common.utils.DensityUtils;
-import com.gs.buluo.common.widget.RecycleViewDivider;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.ServeBean;
+import com.wuyou.user.data.remote.ServeBean;
 import com.wuyou.user.mvp.serve.ServeContract;
 import com.wuyou.user.mvp.serve.ServeDetailActivity;
 import com.wuyou.user.mvp.serve.ServeListAdapter;

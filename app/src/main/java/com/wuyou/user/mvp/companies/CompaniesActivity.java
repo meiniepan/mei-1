@@ -20,7 +20,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import com.wuyou.user.R;
-import com.wuyou.user.bean.Company;
+import com.wuyou.user.data.remote.Company;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import java.util.List;
@@ -57,34 +57,5 @@ public class CompaniesActivity extends BaseActivity<CompaniesContract.View, Comp
     public void showError(String message, int res) {
 
     }
-//    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.activity_main, container, false);
-//        setHasOptionsMenu(true);
-//        return view;
-//    }
-
-
-//    @Override
-//    public void showGetCompaniesError() {
-//        Snackbar.make(recyclerView, R.string.something_wrong, Snackbar.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    public void showCompanies(final List<Company> list) {
-//        if (adapter == null) {
-//            adapter = new CompaniesAdapter(getContext(), list);
-//            adapter.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
-//                @Override
-//                public void OnItemClick(View v, int position) {
-//                    Intent intent = new Intent(getContext(), CompanyDetailActivity.class);
-//                    intent.putExtra(CompanyDetailActivity.COMPANY_ID, list.get(position).getId());
-//                    startActivity(intent);
-//                }
-//            });
-//            recyclerView.setAdapter(adapter);
-//        }
-//    }
 
 }

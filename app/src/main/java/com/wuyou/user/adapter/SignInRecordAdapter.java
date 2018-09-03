@@ -4,7 +4,7 @@ import com.gs.buluo.common.utils.TribeDateUtils;
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.SignRecordBean;
+import com.wuyou.user.data.remote.SignRecordBean;
 
 import java.util.Date;
 

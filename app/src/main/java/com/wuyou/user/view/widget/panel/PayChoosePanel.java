@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.gs.buluo.common.utils.DensityUtils;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.BankCard;
-import com.wuyou.user.bean.PayChannel;
+import com.wuyou.user.data.remote.BankCard;
+import com.wuyou.user.data.remote.PayChannel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

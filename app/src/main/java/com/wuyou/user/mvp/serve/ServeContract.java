@@ -1,6 +1,6 @@
 package com.wuyou.user.mvp.serve;
 
-import com.wuyou.user.bean.response.ServeListResponse;
+import com.wuyou.user.data.remote.response.ServeListResponse;
 import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.mvp.IBaseView;
 

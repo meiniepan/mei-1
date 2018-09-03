@@ -16,7 +16,7 @@ import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.response.WxPayResponse;
+import com.wuyou.user.data.remote.response.WxPayResponse;
 import com.wuyou.user.event.OrderEvent;
 import com.wuyou.user.event.WXPayEvent;
 import com.wuyou.user.network.CarefreeRetrofit;

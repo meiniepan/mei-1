@@ -7,10 +7,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.gs.buluo.common.utils.ToastUtils;
-import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.UserInfo;
+import com.wuyou.user.data.local.db.UserInfo;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.MainActivity;

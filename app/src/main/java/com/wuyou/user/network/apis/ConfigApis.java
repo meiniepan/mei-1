@@ -2,8 +2,7 @@ package com.wuyou.user.network.apis;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
-import com.wuyou.user.bean.UpdateInfo;
-import com.wuyou.user.bean.response.AddressListResponse;
+import com.wuyou.user.data.remote.UpdateInfo;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

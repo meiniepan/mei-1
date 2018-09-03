@@ -2,12 +2,12 @@ package com.wuyou.user.network.apis;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
-import com.wuyou.user.bean.ActivityBean;
-import com.wuyou.user.bean.ActivityListBean;
-import com.wuyou.user.bean.HomeVideoBean;
-import com.wuyou.user.bean.ServeSites;
-import com.wuyou.user.bean.response.CommunityListResponse;
-import com.wuyou.user.bean.response.ListResponse;
+import com.wuyou.user.data.remote.ActivityBean;
+import com.wuyou.user.data.remote.ActivityListBean;
+import com.wuyou.user.data.remote.HomeVideoBean;
+import com.wuyou.user.data.remote.ServeSites;
+import com.wuyou.user.data.remote.response.CommunityListResponse;
+import com.wuyou.user.data.remote.response.ListResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

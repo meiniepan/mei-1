@@ -1,7 +1,7 @@
 package com.wuyou.user.mvp.address;
 
-import com.wuyou.user.bean.AddressBean;
-import com.wuyou.user.bean.response.AddressListResponse;
+import com.wuyou.user.data.remote.AddressBean;
+import com.wuyou.user.data.remote.response.AddressListResponse;
 import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.mvp.IBaseView;
 

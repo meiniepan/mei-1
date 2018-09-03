@@ -31,7 +31,7 @@ import java.util.List;
 
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
-import com.wuyou.user.bean.SearchHistoryBean;
+import com.wuyou.user.data.local.db.SearchHistoryBean;
 import com.wuyou.user.util.KeyboardUtils;
 
 

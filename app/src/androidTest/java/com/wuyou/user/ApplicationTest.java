@@ -1,9 +1,7 @@
 package com.wuyou.user;
 
-import android.app.Application;
 import android.content.Context;
 import android.test.AndroidTestCase;
-import android.test.ApplicationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.util.DisplayMetrics;
 import android.util.Log;

@@ -2,10 +2,10 @@ package com.wuyou.user.network.apis;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
-import com.wuyou.user.bean.PointBean;
-import com.wuyou.user.bean.ScoreRecordBean;
-import com.wuyou.user.bean.SignRecordBean;
-import com.wuyou.user.bean.response.ListResponse;
+import com.wuyou.user.data.remote.PointBean;
+import com.wuyou.user.data.remote.ScoreRecordBean;
+import com.wuyou.user.data.remote.SignRecordBean;
+import com.wuyou.user.data.remote.response.ListResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.FieldMap;

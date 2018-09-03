@@ -19,8 +19,8 @@ import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.gs.buluo.common.widget.recyclerHelper.EaeRecyclerView;
 import com.gs.buluo.common.widget.recyclerHelper.OnRefreshListener;
 import com.gs.buluo.common.widget.recyclerHelper.refreshLayout.EasyRefreshLayout;
-import com.wuyou.user.bean.response.BaseItemBean;
-import com.wuyou.user.bean.response.ListResponse;
+import com.wuyou.user.data.remote.response.BaseItemBean;
+import com.wuyou.user.data.remote.response.ListResponse;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 
