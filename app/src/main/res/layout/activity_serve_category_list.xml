@@ -30,7 +30,7 @@
             android:layout_height="44dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/white_search"
+            android:src="@mipmap/icon_search"
             android:visibility="gone" />
     </RelativeLayout>
 

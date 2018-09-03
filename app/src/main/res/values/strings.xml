@@ -140,6 +140,7 @@
     <string name="scan_payment">扫码支付</string>
     <string name="no_activity">暂无活动</string>
     <string name="create_success">创建账户成功</string>
+    <string name="input_what_u_want">请输入您想要搜索的内容</string>
 
 
 </resources>

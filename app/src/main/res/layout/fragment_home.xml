@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -54,11 +54,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
-        <ImageView
-            android:id="@+id/home_search"
-            android:layout_width="43dp"
-            android:layout_height="43dp"
-            android:src="@mipmap/white_search" />
 
         <ImageView
             android:id="@+id/home_map"
@@ -81,10 +76,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:gravity="center"
             android:background="@color/tint_bg"
+            android:gravity="center"
             android:textColor="@color/common_gray"
             android:textSize="@dimen/dimens_12sp" />
+
 
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/home_scroll_view"
@@ -93,30 +89,63 @@
             android:fillViewport="true"
             android:overScrollMode="never">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipChildren="false"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:orientation="vertical">
-                <com.youth.banner.Banner
-                    android:id="@+id/home_activity"
-                    android:layout_width="match_parent"
-                    android:layout_height="175dp"
-                    android:background="@color/tint_bg"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    app:indicator_drawable_selected="@drawable/banner_selected"
-                    app:indicator_drawable_unselected="@drawable/banner_not_selected"
-                    app:image_scale_type="center_inside"/>
+                android:layout_height="match_parent"
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/main_serve_list"
+                >
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:background="@color/tint_bg"
+                    android:clipChildren="false"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical">
+
+                    <com.youth.banner.Banner
+                        android:id="@+id/home_activity"
+                        android:layout_width="match_parent"
+                        android:layout_height="175dp"
+                        android:background="@color/tint_bg"
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp"
+                        app:image_scale_type="center_inside"
+                        app:indicator_drawable_selected="@drawable/banner_selected"
+                        app:indicator_drawable_unselected="@drawable/banner_not_selected" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/main_serve_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="30dp" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/home_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="155dp"
+                    android:background="@drawable/text_background_8_round">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:hint="@string/input_what_u_want"
+                        android:textSize="@dimen/dimens_12sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="13dp"
+                        android:background="@mipmap/icon_search" />
+                </FrameLayout>
+            </FrameLayout>
         </android.support.v4.widget.NestedScrollView>
     </com.wuyou.user.view.widget.pullToResfresh.HomeRefreshLayout>
 </LinearLayout>

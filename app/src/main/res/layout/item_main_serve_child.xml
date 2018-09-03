@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_serve_name"
-    android:orientation="vertical"
-    android:layout_width="70dp"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="10dp"
-    android:background="@drawable/night_blue_border"
-    android:textSize="@dimen/dimens_12sp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="108dp"
+    android:layout_height="44dp"
+    android:background="@drawable/text_background_8_round"
     android:gravity="center"
-    tools:text="小饭桌">
-</TextView>
+    >
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="15dp"
+        android:background="@mipmap/default_pic"
+        />
+    <TextView
+        android:id="@+id/main_serve_name"
+        android:layout_width="match_parent"
+        android:textSize="@dimen/dimens_12sp"
+        android:layout_marginEnd="15dp"
+        android:gravity="center"
+        android:layout_marginStart="6dp"
+        android:layout_height="wrap_content" />
+</LinearLayout>

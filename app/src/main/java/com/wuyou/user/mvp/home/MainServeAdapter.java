@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import com.gnway.bangwoba.view.DensityUtils;
 import com.gs.buluo.common.widget.LoadingDialog;
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
@@ -14,7 +15,10 @@ import com.wuyou.user.R;
 import com.wuyou.user.data.remote.response.CategoryChild;
 import com.wuyou.user.data.remote.response.CategoryParent;
 import com.wuyou.user.mvp.serve.ServeCategoryListActivity;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
+import com.wuyou.user.view.widget.GridLineSpacingItemDecoration;
+import com.wuyou.user.view.widget.GridSpacingItemDecoration;
 import com.wuyou.user.view.widget.panel.HomePictureDialog;
 
 /**
@@ -32,7 +36,8 @@ public class MainServeAdapter extends BaseQuickAdapter<CategoryParent, BaseHolde
         RecyclerView recyclerView = helper.getView(R.id.main_serve_children);
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
+        recyclerView.addItemDecoration(new GridLineSpacingItemDecoration(3, DensityUtils.dp2px(mContext,4)));
         MainServeChildrenAdapter adapter = new MainServeChildrenAdapter(R.layout.item_main_serve_child, item.sub);
         recyclerView.setAdapter(adapter);
         helper.setText(R.id.main_serve_parent, item.name);

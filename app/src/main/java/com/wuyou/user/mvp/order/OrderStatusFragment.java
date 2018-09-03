@@ -50,6 +50,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
         adapter = new OrderListAdapter(mCtx, R.layout.item_order_list, list);
         orderList.setAdapter(adapter);
         orderList.setRefreshAction(this::refreshData);
+        orderList.getRefreshLayout().setEnablePullToRefresh(false);
         adapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.order_item_orange) {
                 dealWithOrangeButtonClick(position, (OrderBean) adapter.getData().get(position));
