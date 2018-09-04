@@ -1,4 +1,4 @@
-package com.wuyou.user.mvp.help;
+package com.wuyou.user.view.activity;
 
 import android.content.Intent;
 import android.net.Uri;

@@ -29,8 +29,6 @@ public class ExampleUnitTest {
 
         EosPrivateKey privateKey = new EosPrivateKey("5Jk4wByKKoy4FtzEkNcY4JRdFJKBqaLq95Pb8MQF6gMXUaNWxov");
         System.out.println(privateKey.getPublicKey()+".................");
-        String account = EncryptUtil.getRandomString(12);
-
         try {
             int x  = -12;
             byte  y= (byte)(x&0xff);
@@ -38,15 +36,6 @@ public class ExampleUnitTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        EosAccount eosAccount = new EosAccount();
-        eosAccount.setName("123456");
-        eosAccount.setPrivateKey(privateKey.toWif());
-        eosAccount.setPublicKey(privateKey.getPublicKey().toString());
-        eosAccount.setMain(true);
-        CarefreeDaoSession.getInstance().getEosDao().insert(eosAccount);
-
-        EosAccount mainAccount = CarefreeDaoSession.getInstance().getMainAccount();
-        System.out.println(mainAccount);
 
 //        EoscDataManager.getIns().getWalletManager().createOrOpenOwnerWallet()
 //        CarefreeDaoSession.getInstance().searchName();

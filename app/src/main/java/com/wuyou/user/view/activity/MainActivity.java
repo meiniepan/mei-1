@@ -25,6 +25,7 @@ import com.wuyou.user.mvp.home.HomeFragment;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.mine.MineFragment;
 import com.wuyou.user.mvp.order.OrderFragment;
+import com.wuyou.user.util.QMUIStatusBarHelper;
 import com.wuyou.user.view.fragment.ActivityFragment;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.UnScrollViewPager;
@@ -90,8 +91,8 @@ public class MainActivity extends BaseActivity implements CancelAdapt {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        disableFitSystemWindow();
-        setBarColor(R.color.transparent);
+//        disableFitSystemWindow();
+//        setBarColor(R.color.transparent);
         fragments.add(new HomeFragment());
         OrderFragment orderFragment = new OrderFragment();
         fragments.add(orderFragment);
@@ -166,7 +167,7 @@ public class MainActivity extends BaseActivity implements CancelAdapt {
     public void onConfigurationChanged(Configuration newConfig) {
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            setBarColor(R.color.transparent);
+//            setBarColor(R.color.transparent);
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 

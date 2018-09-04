@@ -48,6 +48,7 @@ import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.util.QMUIStatusBarHelper;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideBannerLoader;
 import com.wuyou.user.util.glide.GlideUtils;
@@ -130,15 +131,13 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     }
 
     private void initBanner() {
-        homeActivityBanner.setClipChildren(false);
         homeActivityBanner.setImageLoader(new GlideBannerLoader(true));
-        homeActivityBanner.getViewPager().setPageMargin(DensityUtils.dip2px(mCtx, 10));
         homeActivityBanner.setOffscreenPageLimit(4);
         homeActivityBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         homeActivityBanner.setIndicatorGravity(BannerConfig.CENTER);
         homeActivityBanner.setDelayTime(3000);
         homeActivityBanner.isAutoPlay(true);
-        homeActivityBanner.setPageTransformer(true, new GalleryTransformer());
+//        homeActivityBanner.setPageTransformer(true, new GalleryTransformer());
     }
 
     private void initServeList() {

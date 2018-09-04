@@ -30,6 +30,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.mvp.IBaseView;
 import com.wuyou.user.mvp.login.LoginActivity;
+import com.wuyou.user.util.QMUIStatusBarHelper;
 
 import java.util.ArrayList;
 
@@ -47,19 +48,22 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
     private View titleTextLayout;
     private TextView titleTextView;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
+//        setBarColor(R.color.white);
         mPresenter = getPresenter();
         if (mPresenter != null) {
             mPresenter.attach((V) this);
         }
+        QMUIStatusBarHelper.setStatusBarLightMode(this);
         super.onCreate(savedInstanceState);
         init();
         AppManager.getAppManager().addActivity(this);
         setExplode();//new Slide()  new Fade()
         initContentView(R.layout.layout_base_activity);
         bindView(savedInstanceState);
-        initSystemBar(this);
+//        initSystemBar(this);
     }
     @Override
     protected void onResume() {
@@ -143,7 +147,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
     public void setExplode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setExitTransition(new Explode());
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
     }
 

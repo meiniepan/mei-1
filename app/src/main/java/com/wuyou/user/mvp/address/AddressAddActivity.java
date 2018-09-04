@@ -26,7 +26,7 @@ import butterknife.OnClick;
  * Created by hjn on 2018/3/7.
  */
 
-public class AddressAddActivity extends BaseActivity<AddressConstract.View, AddressConstract.Presenter> implements AddressConstract.View {
+public class AddressAddActivity extends BaseActivity<AddressContract.View, AddressContract.Presenter> implements AddressContract.View {
     @BindView(R.id.address_edit_title)
     TextView addressEditTitle;
     @BindView(R.id.address_edit_save)
@@ -213,7 +213,7 @@ public class AddressAddActivity extends BaseActivity<AddressConstract.View, Addr
     }
 
     @Override
-    protected AddressConstract.Presenter getPresenter() {
+    protected AddressContract.Presenter getPresenter() {
         return new AddressPresenter();
     }
 

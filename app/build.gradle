@@ -98,7 +98,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    compile 'com.github.ngreedy:tribe_lib:3.2.3'
+    compile 'com.github.ngreedy:tribe_lib:3.2.5'
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile "com.android.support:design:$rootProject.supportLibraryVersion"
@@ -123,5 +123,5 @@ dependencies {
     implementation 'com.google.guava:guava:23.0-android'
     implementation 'me.jessyan:autosize:0.7.0'
     compile 'io.github.novacrypto:BIP32:0.0.8'
-    implementation files('libs/bcprov-jdk15on-159.jar')
+//    implementation files('libs/bcprov-jdk15on-159.jar')
 }

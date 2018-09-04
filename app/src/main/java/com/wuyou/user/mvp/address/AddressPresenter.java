@@ -20,14 +20,14 @@ import io.reactivex.schedulers.Schedulers;
  * Created by hjn on 2018/2/6.
  */
 
-public class AddressPresenter extends AddressConstract.Presenter {
+public class AddressPresenter extends AddressContract.Presenter {
     @Override
     void getAddress() {
-        CarefreeRetrofit.getInstance().createApi(AddressApis.class)
+        addDisposable(CarefreeRetrofit.getInstance().createApi(AddressApis.class)
                 .getAddressList(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse<AddressListResponse>>() {
+                .subscribeWith(new BaseSubscriber<BaseResponse<AddressListResponse>>() {
                     @Override
                     public void onSuccess(BaseResponse<AddressListResponse> addressListResponseBaseResponse) {
                         if (isAttach())mView.getAddressSuccess(addressListResponseBaseResponse.data);
@@ -37,7 +37,7 @@ public class AddressPresenter extends AddressConstract.Presenter {
                     protected void onFail(ApiException e) {
                         if (isAttach())mView.showError(e.getDisplayMessage(), e.getCode());
                     }
-                });
+                }));
     }
 
     @Override

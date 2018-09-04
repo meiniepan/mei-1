@@ -9,7 +9,7 @@ import com.wuyou.user.mvp.IBaseView;
  * Created by hjn on 2018/3/8.
  */
 
-public interface AddressConstract {
+public interface AddressContract {
     interface View extends IBaseView {
         void getAddressSuccess(AddressListResponse list);
 

@@ -30,7 +30,7 @@ import butterknife.OnClick;
  * Created by hjn on 2018/3/7.
  */
 
-public class AddressManagerActivity extends BaseActivity<AddressConstract.View, AddressConstract.Presenter> implements AddressConstract.View {
+public class AddressManagerActivity extends BaseActivity<AddressContract.View, AddressContract.Presenter> implements AddressContract.View {
     @BindView(R.id.address_manager_list)
     RecyclerView addressManagerList;
     @BindView(R.id.address_manager_status)
@@ -153,7 +153,7 @@ public class AddressManagerActivity extends BaseActivity<AddressConstract.View, 
 
 
     @Override
-    protected AddressConstract.Presenter getPresenter() {
+    protected AddressContract.Presenter getPresenter() {
         return new AddressPresenter();
     }
 

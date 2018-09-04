@@ -1,7 +1,7 @@
 package com.wuyou.user.util;
 
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import org.spongycastle.util.encoders.Hex;
 
 import java.security.Key;
@@ -20,12 +20,12 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 
+
 /**
  * Created by pocketEos on 2018/5/26.
  * 加密工具类
  */
 public class EncryptUtil {
-
 
     /**
      * The constant KEY_ALGORITHM.
@@ -146,7 +146,6 @@ public class EncryptUtil {
      * @param keyBytes the key bytes
      */
     public static void init(byte[] keyBytes) {
-
         // 如果密钥不足16位，那么就补足.  这个if 中的内容很重要
         int base = 16;
         if (keyBytes.length % base != 0) {
@@ -157,7 +156,7 @@ public class EncryptUtil {
             keyBytes = temp;
         }
         // 初始化
-        Security.addProvider(new BouncyCastleProvider());
+//        Security.addProvider(new BouncyCastleProvider());
         // 转化成JAVA的密钥格式
         key = new SecretKeySpec(keyBytes, KEY_ALGORITHM);
         try {
