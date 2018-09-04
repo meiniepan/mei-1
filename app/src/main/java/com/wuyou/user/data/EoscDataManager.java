@@ -59,6 +59,7 @@ import com.wuyou.user.util.CommonUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import io.reactivex.Observable;
 
@@ -118,6 +119,7 @@ public class EoscDataManager {
                 new GetTableRequest(accountName, code, table, tableKey, lowerBound, upperBound, limit))
                 .map(tableResult -> CommonUtil.prettyPrintJson(tableResult));
     }
+
 
     public Observable<EosPrivateKey[]> createKey(int count) {
         return Observable.fromCallable(() -> {

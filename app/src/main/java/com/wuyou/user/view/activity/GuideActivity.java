@@ -29,7 +29,6 @@ public class GuideActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         disableFitSystemWindow();
-        setBarColor(R.color.transparent);
         list = new ArrayList<>();
         list.add(R.mipmap.guide_1);
         list.add(R.mipmap.guide_2);
@@ -66,5 +65,10 @@ public class GuideActivity extends BaseActivity {
     public void startAct(View view) {
         startActivity(new Intent(this, MainActivity.class));
         finish();
+    }
+
+    @Override
+    public int setBarColor() {
+        return R.color.transparent;
     }
 }

@@ -434,8 +434,7 @@ public class QMUIStatusBarHelper {
                 t.printStackTrace();
             }
         }
-        if (QMUIDeviceHelper.isTablet(context)
-                && sStatusbarHeight > QMUIDisplayHelper.dp2px(context, STATUS_BAR_DEFAULT_HEIGHT_DP)) {
+        if (QMUIDeviceHelper.isTablet(context) && sStatusbarHeight > QMUIDisplayHelper.dp2px(context, STATUS_BAR_DEFAULT_HEIGHT_DP)) {
             //状态栏高度大于25dp的平板，状态栏通常在下方
             sStatusbarHeight = 0;
         } else {

@@ -30,6 +30,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.mvp.IBaseView;
 import com.wuyou.user.mvp.login.LoginActivity;
+import com.wuyou.user.util.QMUIDeviceHelper;
 import com.wuyou.user.util.QMUIStatusBarHelper;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<V>> extends AppCompatActivity implements IBaseView {
     View mRoot;
     protected P mPresenter;
-    private int color = R.color.night_blue;
+    private int color = R.color.common_dark;
     private View titleIconView;
     private View titleTextLayout;
     private TextView titleTextView;
@@ -51,21 +52,24 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
-//        setBarColor(R.color.white);
         mPresenter = getPresenter();
         if (mPresenter != null) {
             mPresenter.attach((V) this);
         }
-
-        QMUIStatusBarHelper.setStatusBarLightMode(this);
+        color = setBarColor();
+        if (((QMUIDeviceHelper.isMIUI() || QMUIDeviceHelper.isFlyme()) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            QMUIStatusBarHelper.setStatusBarLightMode(this);
+        } else {
+            initSystemBar(this);
+        }
         super.onCreate(savedInstanceState);
         init();
         AppManager.getAppManager().addActivity(this);
         setExplode();//new Slide()  new Fade()
         initContentView(R.layout.layout_base_activity);
         bindView(savedInstanceState);
-//        initSystemBar(this);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -77,6 +81,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         super.onPause();
         TCAgent.onPageEnd(this, getLocalClassName());
     }
+
     private void initContentView(int layout_base_activity) {
         setContentView(layout_base_activity);
         findViewById(R.id.back_base).setOnClickListener(v -> onBackPressed());
@@ -176,13 +181,10 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
     }
 
     /**
-     * 设置状态栏颜色
-     *
-     * @param colorInt
+     * 设置状态栏颜色,通常是用QMUI策略，此处为设置透明状态栏和低版本状态栏颜色
      */
-    public void setBarColor(int colorInt) {
-        color = colorInt;
-        initSystemBar(this);
+    public int setBarColor() {
+        return color;
     }
 
     private void initSystemBar(Activity activity) {

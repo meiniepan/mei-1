@@ -15,17 +15,17 @@ import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.local.BrowserData;
+import com.wuyou.user.util.QMUIStatusBarHelper;
 
 /**
  * Created by Administrator on 2018\1\29 0029.
  */
 
 public class AppStartActivity extends BaseActivity {
+
     @Override
     protected void bindView(Bundle savedInstanceState) {
         disableFitSystemWindow();
-        setBarColor(R.color.transparent);
-
         String uriData = getIntent().getDataString();
         if (TextUtils.isEmpty(uriData)) {
             new Handler().postDelayed(this::jump, 1200);
@@ -75,6 +75,10 @@ public class AppStartActivity extends BaseActivity {
         return 0;
     }
 
+    @Override
+    public int setBarColor() {
+        return R.color.transparent;
+    }
 
     @Override
     protected int getContentLayout() {
