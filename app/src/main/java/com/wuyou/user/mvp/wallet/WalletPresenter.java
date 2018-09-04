@@ -105,5 +105,4 @@ public class WalletPresenter extends WalletContract.Presenter {
                     }
                 });
     }
-
 }

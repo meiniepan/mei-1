@@ -4,21 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/night_blue"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        android:background="@color/night_blue">
+        android:background="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/order"
-            android:textColor="@color/white"
+            android:textColor="@color/common_dark"
             android:textSize="@dimen/title_size" />
         <View
             android:id="@+id/back_door"
@@ -26,6 +22,8 @@
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"/>
     </RelativeLayout>
+
+    <include layout="@layout/split_line"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/order_tab"

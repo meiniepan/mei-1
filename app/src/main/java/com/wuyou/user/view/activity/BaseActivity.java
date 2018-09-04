@@ -56,6 +56,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         if (mPresenter != null) {
             mPresenter.attach((V) this);
         }
+
         QMUIStatusBarHelper.setStatusBarLightMode(this);
         super.onCreate(savedInstanceState);
         init();

@@ -5,18 +5,15 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/night_blue" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        android:background="@color/night_blue"
         android:text="@string/activity"
-        android:textColor="@color/white"
+        android:textColor="@color/common_dark"
         android:gravity="center"
         android:textSize="@dimen/title_size"/>
+
+    <include layout="@layout/split_line"/>
 
     <com.wuyou.user.view.widget.CarefreeRecyclerView
         android:id="@+id/activity_recycler"

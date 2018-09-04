@@ -91,8 +91,6 @@ public class MainActivity extends BaseActivity implements CancelAdapt {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-//        disableFitSystemWindow();
-//        setBarColor(R.color.transparent);
         fragments.add(new HomeFragment());
         OrderFragment orderFragment = new OrderFragment();
         fragments.add(orderFragment);

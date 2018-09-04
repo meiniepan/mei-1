@@ -5,32 +5,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/night_blue" />
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:background="@color/night_blue">
+        android:background="@color/white"
+        android:layout_height="@dimen/title_height">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/mine"
-            android:textColor="@color/white"
+            android:textColor="@color/common_dark"
             android:textSize="@dimen/title_size" />
 
         <ImageView
             android:id="@+id/mine_scan"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/activity_horizontal_margin_end"
-            android:src="@mipmap/scan_icon" />
+            android:src="@mipmap/scan_qr_icon" />
     </RelativeLayout>
 
     <RelativeLayout

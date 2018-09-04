@@ -10,6 +10,7 @@ import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -130,7 +131,7 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
     }
 
     /**
-     * when release from XRefreshLayout!
+     * when release from RefreshLayout!
      *
      * @param child
      */
@@ -156,7 +157,7 @@ public class HomeRefreshLayout extends LinearLayout implements NestedScrollingPa
                 smoothScroll(getHeadTotalHeight() - getScrollY());
             }
             currentState = NORMAL_STATE;
-        } else if ((getScrollY() >= VIDEO_ACTION_LINE && currentState == VIDEO_STATE) || currentState == RELEASE_TO_RESET_STATE || currentState == NORMAL_STATE) {
+        } else if ((getScrollY() >= VIDEO_ACTION_LINE && currentState == VIDEO_STATE) || currentState == RELEASE_TO_RESET_STATE || (currentState == NORMAL_STATE && dy < 0)) {
             setTextHeight(TEXT_HEIGHT);
             smoothScroll(getHeadTotalHeight() + TEXT_HEIGHT - getScrollY());
             currentState = NORMAL_STATE;
