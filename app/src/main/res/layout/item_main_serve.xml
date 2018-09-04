@@ -20,7 +20,8 @@
             android:layout_marginTop="15dp"
             android:gravity="center">
 
-            <View
+            <ImageView
+                android:id="@+id/flag_s"
                 android:layout_width="4dp"
                 android:layout_height="16dp"
                 android:background="@color/common_orange" />

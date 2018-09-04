@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.gnway.bangwoba.view.DensityUtils;
@@ -37,10 +38,17 @@ public class MainServeAdapter extends BaseQuickAdapter<CategoryParent, BaseHolde
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
-        recyclerView.addItemDecoration(new GridLineSpacingItemDecoration(3, DensityUtils.dp2px(mContext,4)));
         MainServeChildrenAdapter adapter = new MainServeChildrenAdapter(R.layout.item_main_serve_child, item.sub);
         recyclerView.setAdapter(adapter);
         helper.setText(R.id.main_serve_parent, item.name);
+        ImageView tagFlag = helper.getView(R.id.flag_s);
+        if (helper.getPosition() % 3 == 0) {
+            tagFlag.setBackgroundResource(R.color.common_orange);
+        } else if (helper.getPosition() % 3 == 1) {
+            tagFlag.setBackgroundResource(R.color.common_green);
+        } else {
+            tagFlag.setBackgroundResource(R.color.night_blue);
+        }
         ImageView imageView = helper.getView(R.id.main_serve_parent_picture);
         GlideUtils.loadImage(mContext, item.icon, imageView);
         adapter.setOnItemClickListener((adapter1, view, position) -> {

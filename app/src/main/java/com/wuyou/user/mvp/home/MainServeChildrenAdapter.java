@@ -1,6 +1,8 @@
 package com.wuyou.user.mvp.home;
 
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
@@ -21,8 +23,14 @@ public class MainServeChildrenAdapter extends BaseQuickAdapter<CategoryChild, Ba
 
     @Override
     protected void convert(BaseHolder helper, CategoryChild item) {
+        if (helper.getPosition() / 2 == 0) {
+            helper.getView(R.id.space_head).setVisibility(View.GONE);
+        } else {
+            helper.getView(R.id.space_head).setVisibility(View.VISIBLE);
+        }
         TextView textView = helper.getView(R.id.main_serve_name);
         textView.setText(item.name);
+
 //        int padding = textView.getPaddingStart();
 //        if (item.position % 3 == 0) {
 //            textView.setBackgroundResource(R.drawable.orange_border);
