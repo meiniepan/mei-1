@@ -4,6 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/white" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
@@ -16,22 +22,23 @@
             android:text="@string/order"
             android:textColor="@color/common_dark"
             android:textSize="@dimen/title_size" />
+
         <View
             android:id="@+id/back_door"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
-    <include layout="@layout/split_line"/>
+    <include layout="@layout/split_line" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/order_tab"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_height"
+        android:background="@color/white"
         app:tabIndicatorColor="@color/night_blue"
-        app:tabSelectedTextColor="@color/night_blue"
-        android:background="@color/white"/>
+        app:tabSelectedTextColor="@color/night_blue" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/order_pager"

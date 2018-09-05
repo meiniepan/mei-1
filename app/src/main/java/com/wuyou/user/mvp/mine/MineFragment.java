@@ -29,6 +29,7 @@ import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.util.QMUIStatusBarHelper;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.CaptureActivity;
 import com.wuyou.user.view.activity.HelpActivity;

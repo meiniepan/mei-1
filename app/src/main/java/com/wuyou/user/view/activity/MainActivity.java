@@ -41,11 +41,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.jzvd.JZVideoPlayer;
-import me.jessyan.autosize.internal.CancelAdapt;
 import me.shaohui.shareutil.ShareConfig;
 import me.shaohui.shareutil.ShareManager;
 
-public class MainActivity extends BaseActivity implements CancelAdapt {
+public class MainActivity extends BaseActivity {
     @BindView(R.id.main_tab)
     AlphaTabsIndicator bottomView;
     @BindView(R.id.main_pager)
@@ -91,6 +90,9 @@ public class MainActivity extends BaseActivity implements CancelAdapt {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        QMUIStatusBarHelper.setStatusBarLightMode(this);
+        disableFitSystemWindow();
+        setBarColor(R.color.transparent);
         fragments.add(new HomeFragment());
         OrderFragment orderFragment = new OrderFragment();
         fragments.add(orderFragment);
@@ -165,7 +167,7 @@ public class MainActivity extends BaseActivity implements CancelAdapt {
     public void onConfigurationChanged(Configuration newConfig) {
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//            setBarColor(R.color.transparent);
+            setBarColor(R.color.transparent);
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 

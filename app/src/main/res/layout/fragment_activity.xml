@@ -5,6 +5,9 @@
     android:orientation="vertical"
     android:background="@color/white">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
