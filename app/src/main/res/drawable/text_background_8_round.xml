@@ -1,27 +1,18 @@
-
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-<item>
-
-    <shape >
-        <solid android:color="@color/shadow" />
-        <corners
-            android:radius="8dp"
-            />
-    </shape>
-</item>
-<item
-    android:top="1dp"
-    android:bottom="1dp"
-    android:left="1dp"
-    android:right="1dp"
-    >
-    <shape  >
-        <solid android:color="#fff" />  //背景色
-        <corners
-            android:radius="8dp"
-            />
-    </shape>
-</item>
-
-
+    <item>
+        <shape>
+            <solid android:color="@color/shadow" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item
+        android:bottom="1dp"
+        android:left="1dp"
+        android:right="1dp"
+        android:top="1dp">
+        <shape>
+            <solid android:color="#fff" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
 </layer-list>

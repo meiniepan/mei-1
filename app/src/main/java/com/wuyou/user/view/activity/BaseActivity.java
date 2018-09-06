@@ -62,6 +62,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         bindView(savedInstanceState);
         initSystemBar(this);
     }
+
     @Override
     protected void onResume() {
         super.onResume();

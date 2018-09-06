@@ -4,17 +4,19 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/tint_bg"
     android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp"/>
+        android:layout_height="20dp"
+        android:background="@color/white"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@color/white"
         android:paddingEnd="@dimen/activity_horizontal_margin_end"
         android:paddingStart="@dimen/activity_horizontal_margin">
 
@@ -106,12 +108,45 @@
                         app:image_scale_type="center_crop"
                         app:indicator_drawable_selected="@drawable/banner_selected"
                         app:indicator_drawable_unselected="@drawable/banner_not_selected" />
+                    
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="90dp"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="30dp"
+                        android:gravity="center_vertical"
+                        android:background="@color/white">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:drawablePadding="4dp"
+                            android:drawableTop="@mipmap/mine_point_icon"
+                            android:text="积分账户"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:drawablePadding="4dp"
+                            android:drawableTop="@mipmap/mine_point_mission_icon"
+                            android:text="积分任务"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:drawablePadding="4dp"
+                            android:drawableTop="@mipmap/mine_source_icon"
+                            android:text="溯源认证"/>
+                    </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/main_serve_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="30dp" />
+                        android:layout_marginTop="10dp" />
                 </LinearLayout>
 
                 <FrameLayout
