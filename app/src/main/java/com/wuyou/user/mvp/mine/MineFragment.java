@@ -141,7 +141,7 @@ public class MineFragment extends BaseFragment<WalletContract.View, WalletContra
                 });
     }
 
-    @OnClick({R.id.mine_setting, R.id.mine_warn, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_scan, R.id.mine_sign_in, R.id.mine_help})
+    @OnClick({R.id.mine_setting, R.id.mine_warn, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_sign_in, R.id.mine_help})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -179,12 +179,12 @@ public class MineFragment extends BaseFragment<WalletContract.View, WalletContra
                 intent.setClass(mCtx, ScoreActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.mine_scan:
-                if (askForPermissions(Manifest.permission.CAMERA)) {
-                    intent.setClass(mCtx, CaptureActivity.class);
-                    startActivity(intent);
-                }
-                break;
+//            case R.id.mine_scan:
+//                if (askForPermissions(Manifest.permission.CAMERA)) {
+//                    intent.setClass(mCtx, CaptureActivity.class);
+//                    startActivity(intent);
+//                }
+//                break;
             case R.id.mine_sign_in:
                 intent.setClass(mCtx, SignInActivity.class);
                 startActivity(intent);
