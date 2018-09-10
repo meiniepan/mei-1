@@ -13,6 +13,9 @@ import com.wuyou.user.R;
 import com.wuyou.user.util.EncryptUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -61,6 +64,13 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
                     ToastUtils.ToastMessage(getCtx(), "请输入账户名称");
                     return;
                 }
+                String regex = "[a-z]([a-z]|[1-5]){11}";
+                Pattern p = Pattern.compile(regex);
+                Matcher m = p.matcher(etAccountName.getText().toString());
+                if (!m.matches()) {
+                    ToastUtils.ToastMessage(getCtx(), "账户名称格式不正确！");
+                    return;
+                }
                 if (etInputCaptcha.length() == 0) {
                     ToastUtils.ToastMessage(getCtx(), "请输入验证码");
                     return;
@@ -69,6 +79,7 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
                 break;
         }
     }
+
 
     @Override
     protected WalletContract.Presenter getPresenter() {

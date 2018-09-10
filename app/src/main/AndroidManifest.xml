@@ -190,7 +190,7 @@
             android:name=".mvp.wallet.BackupPKeyActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.wallet.CreateOrImportAccount"
+            android:name=".mvp.wallet.CreateOrImportAccountActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.wallet.CreateAccountSuccessActivity"

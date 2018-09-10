@@ -15,8 +15,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin">
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -26,7 +29,7 @@
             <EditText
                 android:id="@+id/import_account_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
                 android:background="@null"
                 android:hint="@string/account_name_hint"
@@ -37,8 +40,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin">
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -48,7 +54,7 @@
             <EditText
                 android:id="@+id/import_account_pk"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
                 android:background="@null"
                 android:textSize="@dimen/dimens_12sp" />
