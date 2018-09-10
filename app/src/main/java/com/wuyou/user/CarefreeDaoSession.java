@@ -110,6 +110,7 @@ public class CarefreeDaoSession {
     }
 
 
+    /*    --------------------------------------------------------------------------------------------    */
     //eos database operate
     public void deleteAll() {
         CarefreeDaoSession.getInstance().getEosDao().deleteAll();

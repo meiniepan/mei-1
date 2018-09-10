@@ -13,7 +13,7 @@ import butterknife.OnClick;
  * Created by Solang on 2018/9/10.
  */
 
-public class CreateAccountSuccess extends BaseActivity {
+public class CreateAccountSuccessActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         setTitleText(getString(R.string.create_account));

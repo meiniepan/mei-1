@@ -7,21 +7,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.wuyou.user.CarefreeApplication;
+import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.util.EncryptUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by Solang on 2018/9/10.
  */
 
-public class CreateAccount extends BaseActivity<WalletContract.View, WalletContract.Presenter> implements WalletContract.View {
+public class CreateAccountActivity extends BaseActivity<WalletContract.View, WalletContract.Presenter> implements WalletContract.View {
     @BindView(R.id.et_account_name)
     EditText etAccountName;
     @BindView(R.id.btn_random)
@@ -58,6 +57,14 @@ public class CreateAccount extends BaseActivity<WalletContract.View, WalletContr
             case R.id.btn_obtain_captcha:
                 break;
             case R.id.btn_create_1:
+                if (etAccountName.length() == 0) {
+                    ToastUtils.ToastMessage(getCtx(), "请输入账户名称");
+                    return;
+                }
+                if (etInputCaptcha.length() == 0) {
+                    ToastUtils.ToastMessage(getCtx(), "请输入验证码");
+                    return;
+                }
                 mPresenter.createAccount(etAccountName.getText().toString(), tvPhoneNum.getText().toString());
                 break;
         }
@@ -75,8 +82,9 @@ public class CreateAccount extends BaseActivity<WalletContract.View, WalletContr
 
     @Override
     public void createAccountSuccess() {
-        Intent intent = new Intent(getCtx(), CreateAccountSuccess.class);
+        Intent intent = new Intent(getCtx(), CreateAccountSuccessActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

@@ -193,13 +193,13 @@
             android:name=".mvp.wallet.CreateOrImportAccount"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.wallet.CreateAccountSuccess"
+            android:name=".mvp.wallet.CreateAccountSuccessActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.wallet.ImportAccount"
+            android:name=".mvp.wallet.ImportAccountActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.wallet.CreateAccount"
+            android:name=".mvp.wallet.CreateAccountActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

@@ -200,7 +200,7 @@ public class MineFragment extends BaseFragment<WalletContract.View, WalletContra
                         }).create().show();
                 break;
             case R.id.mine_help:
-                intent.setClass(mCtx, BackupPKeyActivity.class);
+                intent.setClass(mCtx, HelpActivity.class);
                 startActivity(intent);
                 break;
         }

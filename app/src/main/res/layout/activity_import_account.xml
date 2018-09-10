@@ -4,69 +4,74 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical">
-    <include layout="@layout/split_area"/>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical"
 
-    >
+    <include layout="@layout/split_area" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/account_name"
-            />
-        <EditText
-            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/account_name" />
+
+            <EditText
+                android:id="@+id/import_account_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:background="@null"
+                android:hint="@string/account_name_hint"
+                android:textSize="@dimen/dimens_12sp" />
+        </LinearLayout>
+
+        <include layout="@layout/split_line_margin" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:hint="@string/account_name_hint"
-            android:textSize="@dimen/dimens_12sp"
-            android:layout_marginStart="5dp"
-            />
+            android:layout_margin="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/account_pk" />
+
+            <EditText
+                android:id="@+id/import_account_pk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:background="@null"
+                android:textSize="@dimen/dimens_12sp" />
+        </LinearLayout>
+
     </LinearLayout>
-    <include layout="@layout/split_line_margin"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/account_pk"
-            />
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:textSize="@dimen/dimens_12sp"
-            android:layout_marginStart="5dp"
-            />
-    </LinearLayout>
-    
-</LinearLayout>
+
     <TextView
         android:id="@+id/tv_pk_error"
-        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
-        android:textColor="@color/common_red"
         android:text="@string/pk_format_error"
-        />
-    <Button
-        android:id="@+id/btn_backup"
-        style="@style/button_style"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:text="@string/import_account"
-        android:layout_marginTop="8dp"
-        />
+        android:textColor="@color/common_red"
+        android:visibility="invisible" />
 
-    
+    <TextView
+        android:id="@+id/btn_import"
+        style="@style/button_style"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/import_account" />
+
+
 </LinearLayout>

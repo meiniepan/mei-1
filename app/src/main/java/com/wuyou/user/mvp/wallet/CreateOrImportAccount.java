@@ -29,11 +29,11 @@ public class CreateOrImportAccount extends BaseActivity {
         Intent intent;
         switch (view.getId()) {
             case R.id.btn_import:
-                intent = new Intent(getCtx(), ImportAccount.class);
+                intent = new Intent(getCtx(), ImportAccountActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btn_create:
-                intent = new Intent(getCtx(), CreateAccount.class);
+                intent = new Intent(getCtx(), CreateAccountActivity.class);
                 startActivity(intent);
                 break;
         }
