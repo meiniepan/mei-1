@@ -35,6 +35,7 @@ import com.wuyou.user.crypto.ec.EosPrivateKey;
 import com.wuyou.user.crypto.ec.EosPublicKey;
 import com.wuyou.user.data.abi.EosAbiMain;
 import com.wuyou.user.data.api.AccountInfoRequest;
+import com.wuyou.user.data.api.EosAccountInfo;
 import com.wuyou.user.data.api.EosChainInfo;
 import com.wuyou.user.data.api.GetBalanceRequest;
 import com.wuyou.user.data.api.GetCodeRequest;
@@ -53,6 +54,7 @@ import com.wuyou.user.data.types.EosNewAccount;
 import com.wuyou.user.data.types.EosTransfer;
 import com.wuyou.user.data.types.TypeAsset;
 import com.wuyou.user.data.types.TypeChainId;
+import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.ChainRetrofit;
 import com.wuyou.user.network.apis.NodeosApi;
 import com.wuyou.user.util.CommonUtil;
@@ -127,16 +129,6 @@ public class EoscDataManager {
     }
 
 
-    public Observable<EosPrivateKey[]> createKey(int count) {
-        return Observable.fromCallable(() -> {
-            EosPrivateKey[] retKeys = new EosPrivateKey[count];
-            for (int i = 0; i < count; i++) {
-                retKeys[i] = new EosPrivateKey();
-            }
-            return retKeys;
-        });
-    }
-
     private SignedTransaction createTransaction(String contract, String actionName, String dataAsHex, String[] permissions, EosChainInfo chainInfo) {
         currentBlockInfo = chainInfo;
         Action action = new Action(contract, actionName);
@@ -184,7 +176,7 @@ public class EoscDataManager {
         return new String[]{accountName + "@active"};
     }
 
-    public Observable<JsonObject> readAccountInfo(String accountName) {
+    public Observable<EosAccountInfo> readAccountInfo(String accountName) {
         return ChainRetrofit.getInstance().createApi(NodeosApi.class).getAccountInfo(new AccountInfoRequest(accountName));
     }
 

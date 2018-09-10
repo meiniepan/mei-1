@@ -21,7 +21,7 @@ public interface WalletContract {
     abstract class Presenter extends BasePresenter<View> {
         public abstract void signUp();
 
-        abstract void createAccount(String name, String phone);
+        public abstract void createAccount(String name, String phone);
 
         abstract void getWalletInfo();
 

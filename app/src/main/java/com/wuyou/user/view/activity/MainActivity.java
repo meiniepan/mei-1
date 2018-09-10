@@ -90,7 +90,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        QMUIStatusBarHelper.setStatusBarLightMode(this);
         disableFitSystemWindow();
         setBarColor(R.color.transparent);
         fragments.add(new HomeFragment());

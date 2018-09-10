@@ -27,6 +27,7 @@ package com.wuyou.user.network.apis;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.wuyou.user.data.api.AccountInfoRequest;
+import com.wuyou.user.data.api.EosAccountInfo;
 import com.wuyou.user.data.api.EosChainInfo;
 import com.wuyou.user.data.api.GetBalanceRequest;
 import com.wuyou.user.data.api.GetCodeRequest;
@@ -53,7 +54,7 @@ public interface NodeosApi {
     Observable<EosChainInfo> readInfo(@Path("infoType") String infoType);
 
     @POST("/v1/chain/get_account")
-    Observable<JsonObject> getAccountInfo(@Body AccountInfoRequest body);
+    Observable<EosAccountInfo> getAccountInfo(@Body AccountInfoRequest body);
 
     @POST("/v1/chain/get_table_rows")
     Observable<JsonObject> getTable(@Body GetTableRequest body);

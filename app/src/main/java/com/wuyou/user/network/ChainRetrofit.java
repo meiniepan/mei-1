@@ -41,8 +41,7 @@ public class ChainRetrofit {
                 .client(builder.build())
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
                         .registerTypeAdapterFactory(new GsonEosTypeAdapterFactory())
-                        .serializeNulls()
-                        .excludeFieldsWithoutExposeAnnotation().create()))
+                        .serializeNulls().create()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }

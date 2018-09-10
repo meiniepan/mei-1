@@ -60,6 +60,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         setExplode();//new Slide()  new Fade()
         initContentView(R.layout.layout_base_activity);
         bindView(savedInstanceState);
+        QMUIStatusBarHelper.setStatusBarLightMode(this);
         initSystemBar(this);
     }
 

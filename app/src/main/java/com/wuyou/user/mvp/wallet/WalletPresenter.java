@@ -8,6 +8,7 @@ import com.gs.buluo.common.network.BaseSubscriber;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.crypto.ec.EosPrivateKey;
 import com.wuyou.user.data.EoscDataManager;
+import com.wuyou.user.data.api.EosAccountInfo;
 import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.data.local.db.EosAccountDao;
 import com.wuyou.user.util.CommonUtil;
@@ -49,7 +50,7 @@ public class WalletPresenter extends WalletContract.Presenter {
     }
 
     @Override
-    void createAccount(String account, String phone) {
+    public void createAccount(String account, String phone) {
         EosPrivateKey key = new EosPrivateKey();
         addDisposable(EoscDataManager.getIns().createAccount(phone, account, key.getPublicKey().toString())
                 .compose(RxUtil.switchSchedulers())
@@ -86,9 +87,9 @@ public class WalletPresenter extends WalletContract.Presenter {
     void getWalletInfo() {
         EoscDataManager.getIns().readAccountInfo(CarefreeDaoSession.getInstance().getMainAccount().getName())
                 .compose(RxUtil.switchSchedulers())
-                .subscribe(new BaseSubscriber<JsonObject>() {
+                .subscribe(new BaseSubscriber<EosAccountInfo>() {
                     @Override
-                    public void onSuccess(JsonObject jsonObject) {
+                    public void onSuccess(EosAccountInfo jsonObject) {
 
                     }
                 });
