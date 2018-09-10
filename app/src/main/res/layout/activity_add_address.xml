@@ -7,36 +7,6 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:background="@color/night_blue">
-
-        <TextView
-            android:id="@+id/address_edit_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="编辑地址"
-            android:textColor="@color/white"
-            android:textSize="@dimen/title_size" />
-
-        <TextView
-            android:id="@+id/address_edit_delete"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:gravity="center"
-            android:text="@string/delete"
-            android:textColor="@color/white" />
-
-        <include
-            android:id="@+id/back"
-            layout="@layout/back_white" />
-    </RelativeLayout>
-
     <LinearLayout
         android:id="@+id/address_edit_city_click"
         android:layout_width="match_parent"

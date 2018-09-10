@@ -14,13 +14,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        android:background="@color/night_blue">
+        android:background="@color/white">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:textSize="@dimen/dimens_18sp"
-            android:textColor="#fff"
+            android:textColor="@color/common_dark"
             android:text="扫一扫" />
 
         <View
@@ -30,7 +30,7 @@
             android:background="#000"/>
 
 
-        <include layout="@layout/back_white"
+        <include layout="@layout/back_black"
             android:id="@+id/scan_back"/>
 
 

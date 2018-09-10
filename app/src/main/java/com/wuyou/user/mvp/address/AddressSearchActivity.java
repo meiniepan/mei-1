@@ -35,7 +35,7 @@ public class AddressSearchActivity extends BaseActivity implements PoiSearch.OnP
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-
+        setTitleText(R.string.address_search);
         addressSearch.setOnEditorActionListener((v, actionId, event) -> {
             searchPoi();
             return false;

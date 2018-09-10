@@ -151,6 +151,15 @@
     <string name="check_account">查看账户详情</string>
     <string name="pk_format_error">私钥格式不正确！</string>
     <string name="copy_success">复制成功</string>
+    <string name="address_list">地址列表</string>
+    <string name="address_manager">地址管理</string>
+    <string name="current_address_list">您当前的地址列表</string>
+    <string name="laidao_social">来到社区</string>
+    <string name="choose_city">选择城市</string>
+    <string name="address_search">地址搜索</string>
+    <string name="address_choose">地址选择</string>
+    <string name="bind_new_phone">绑定新手机</string>
+    <string name="search">搜索</string>
     <string name="account_name">账户名称：</string>
     <string name="account_name_hint">输入小写字母和1~5位数字组合字符</string>
     <string name="account_pk">账户私钥：</string>

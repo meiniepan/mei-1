@@ -38,7 +38,7 @@ public class ScoreActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        setTitle(R.string.mine_score);
+        setTitleText(R.string.mine_score);
         baseStatusLayout.setErrorAction(v -> getInfo());
     }
 

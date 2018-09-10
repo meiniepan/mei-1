@@ -35,6 +35,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.setting);
 //        if (!EventBus.getDefault().isRegistered(this)) EventBus.getDefault().register(this);
         findViewById(R.id.exit).setOnClickListener(this);
         findViewById(R.id.setting_clear_cache).setOnClickListener(this);

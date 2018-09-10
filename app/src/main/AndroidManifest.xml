@@ -88,9 +88,6 @@
             android:name=".mvp.serve.ServeCategoryListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.serve.FastCreateActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".mvp.serve.NewOrderActivity"
             android:screenOrientation="portrait" />
         <activity

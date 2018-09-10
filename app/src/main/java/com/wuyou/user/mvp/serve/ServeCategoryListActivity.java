@@ -26,8 +26,6 @@ import butterknife.OnClick;
  */
 
 public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, ServeContract.Presenter> implements ServeContract.View {
-    @BindView(R.id.serve_category)
-    TextView serveCategory;
     @BindView(R.id.serve_category_sort_price_mark)
     ImageView sortPriceMark;
     @BindView(R.id.serve_category_list)
@@ -48,7 +46,7 @@ public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, 
         serveCategoryDefault.setSelected(true);
         Intent i = getIntent();
         categoryId = i.getStringExtra(Constant.CATEGORY_ID);
-        serveCategory.setText(i.getStringExtra(Constant.CATEGORY_NAME));
+        setTitleText(i.getStringExtra(Constant.CATEGORY_NAME));
         serveList.setLayoutManager(new LinearLayoutManager(getCtx()));
         serveList.addItemDecoration(CommonUtil.getRecyclerDivider(this,8));
         adapter = new ServeListAdapter(getCtx(), R.layout.item_serve_list);
@@ -74,13 +72,6 @@ public class ServeCategoryListActivity extends BaseActivity<ServeContract.View, 
     @Override
     protected int getContentLayout() {
         return R.layout.activity_serve_category_list;
-    }
-
-    public void fastCreate(View view) {
-        if (!checkUser(this)) return;
-        Intent intent = new Intent(getCtx(), FastCreateActivity.class);
-        intent.putExtra(Constant.CATEGORY_ID, categoryId);
-        startActivity(intent);
     }
 
     @Override

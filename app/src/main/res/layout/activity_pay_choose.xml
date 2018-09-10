@@ -6,24 +6,6 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:background="@color/night_blue">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/confirm_order"
-            android:textColor="@color/white"
-            android:textSize="@dimen/title_size" />
-
-        <include
-            android:id="@+id/back"
-            layout="@layout/back_white" />
-    </RelativeLayout>
-
     <com.wuyou.user.view.widget.CustomNestRadioGroup
         android:id="@+id/pay_choose_group"
         android:layout_width="match_parent"

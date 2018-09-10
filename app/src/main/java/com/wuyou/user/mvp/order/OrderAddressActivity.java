@@ -22,7 +22,6 @@ import com.wuyou.user.view.activity.BaseActivity;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -37,6 +36,8 @@ public class OrderAddressActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.address_choose);
+        setTitleIconText(R.string.add_address, v -> addAddress());
         addressOrderList.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -66,8 +67,7 @@ public class OrderAddressActivity extends BaseActivity {
     }
 
 
-    @OnClick(R.id.address_manager_add)
-    public void onViewClicked() {
+    public void addAddress() {
         Intent intent = new Intent(getCtx(), AddressAddActivity.class);
         startActivity(intent);
     }

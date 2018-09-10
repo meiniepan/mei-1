@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
@@ -33,8 +32,6 @@ import io.reactivex.schedulers.Schedulers;
 public class ModifyNickActivity extends BaseActivity {
     @BindView(R.id.et_input_nick)
     EditText editText;
-    @BindView(R.id.tv_info_title)
-    TextView tvTitle;
     private String from;
 
     @Override
@@ -42,12 +39,12 @@ public class ModifyNickActivity extends BaseActivity {
         from = getIntent().getStringExtra(Constant.FROM);
         switch (from) {
             case Constant.NICK:
-                tvTitle.setText("修改昵称");
+                setTitleText("修改昵称");
                 editText.setHint("请填写昵称");
                 break;
             case Constant.EMAIL:
                 findViewById(R.id.info_update_mark).setVisibility(View.GONE);
-                tvTitle.setText("修改邮箱");
+                setTitleText("修改邮箱");
                 editText.setHint("请填写邮箱");
                 editText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
                 break;
@@ -73,8 +70,8 @@ public class ModifyNickActivity extends BaseActivity {
                         }
                         Pattern p = Pattern.compile("^[a-zA-Z0-9_\\-\\u4e00-\\u9fa5]+$");
                         Matcher m = p.matcher(input);
-                        if (!m.matches()){
-                            ToastUtils.ToastMessage(getCtx(),getString(R.string.nickname_wrong));
+                        if (!m.matches()) {
+                            ToastUtils.ToastMessage(getCtx(), getString(R.string.nickname_wrong));
                             return;
                         }
                         updateInfo("nickname", input);

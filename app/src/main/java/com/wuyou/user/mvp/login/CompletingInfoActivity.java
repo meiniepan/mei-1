@@ -42,6 +42,7 @@ public class CompletingInfoActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.completing_info);
         talkLater.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 
     }

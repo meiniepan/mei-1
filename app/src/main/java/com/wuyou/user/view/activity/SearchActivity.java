@@ -52,6 +52,7 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.search);
         searchEdit.setOnEditorActionListener((v, actionId, event) -> {
             if (searchEdit.length() == 0) return false;
             searchText = searchEdit.getText().toString().trim();

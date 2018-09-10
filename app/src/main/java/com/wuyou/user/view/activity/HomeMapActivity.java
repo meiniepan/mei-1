@@ -83,6 +83,7 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(getString(R.string.laidao_social));
         ObjectAnimator.ofFloat(mapControlLayout, "translationY", DensityUtils.dip2px(this, 200)).setDuration(0).start();
         initMap(savedInstanceState);
     }

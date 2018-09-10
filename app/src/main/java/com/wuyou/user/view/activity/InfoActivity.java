@@ -61,6 +61,7 @@ public class InfoActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.person_info);
         UserInfo userInfo = CarefreeDaoSession.getInstance().getUserInfo();
         if (CarefreeDaoSession.getAvatar(userInfo) != null)
             GlideUtils.loadImage(this, CarefreeDaoSession.getAvatar(userInfo), infoHead, true);

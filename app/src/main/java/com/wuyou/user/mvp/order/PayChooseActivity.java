@@ -51,6 +51,7 @@ public class PayChooseActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.confirm_order);
         EventBus.getDefault().register(this);
         Intent intent = getIntent();
         backFlag = intent.getIntExtra(Constant.BACK_FLAG, 0);

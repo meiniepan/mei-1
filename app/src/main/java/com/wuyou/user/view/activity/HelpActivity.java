@@ -8,8 +8,6 @@ import android.view.View;
 import com.gnway.bangwoba.activity.Leaving_message;
 import com.wuyou.user.R;
 import com.wuyou.user.util.CommonUtil;
-import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.activity.HelpRobotActivity;
 
 import butterknife.OnClick;
 
@@ -25,7 +23,7 @@ public class HelpActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-
+        setTitleText(R.string.main_help);
     }
 
     @Override

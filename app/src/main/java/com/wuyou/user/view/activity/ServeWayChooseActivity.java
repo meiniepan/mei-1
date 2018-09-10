@@ -27,6 +27,7 @@ public class ServeWayChooseActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.serve_way);
         list = getIntent().getParcelableArrayListExtra(Constant.SERVE_MODES);
         serveModeRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         BaseQuickAdapter<ServeMode, BaseHolder> adapter = new BaseQuickAdapter<ServeMode, BaseHolder>(R.layout.item_serve_mode, list) {

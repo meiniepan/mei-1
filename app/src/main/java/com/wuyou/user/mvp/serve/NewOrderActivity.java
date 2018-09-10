@@ -96,6 +96,7 @@ public class NewOrderActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.confirm_order);
         findViewById(R.id.create_order_address_area).requestFocus();
         Intent intent = getIntent();
         bean = intent.getParcelableExtra(Constant.SERVE_BEAN);
@@ -197,7 +198,6 @@ public class NewOrderActivity extends BaseActivity {
     private void finishStack() {
         finish();
         AppManager.getAppManager().finishActivity(ServeDetailActivity.class);
-        AppManager.getAppManager().finishActivity(FastCreateActivity.class);
         AppManager.getAppManager().finishActivity(ServeCategoryListActivity.class);
     }
 

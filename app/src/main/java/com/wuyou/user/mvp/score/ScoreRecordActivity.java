@@ -21,8 +21,6 @@ import butterknife.BindView;
  */
 
 public class ScoreRecordActivity extends BaseActivity {
-    @BindView(R.id.score_record_title)
-    TextView scoreRecordTitle;
     @BindView(R.id.score_record_flag)
     TextView scoreRecordFlag;
     @BindView(R.id.score_amount)
@@ -45,7 +43,7 @@ public class ScoreRecordActivity extends BaseActivity {
         adapter = new ScoreRecordAdapter(R.layout.item_score_record, flag);
         scoreRecordList.setAdapter(adapter);
         if (flag == 0) {
-            scoreRecordTitle.setText(R.string.gained_score_record);
+            setTitleText(R.string.gained_score_record);
             scoreRecordFlag.setText(R.string.total_gained_score);
             scoreRecordList.activeRefresh(CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
                     .getScoreRecordList(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("start_id", "0").buildGet()));
@@ -54,7 +52,7 @@ public class ScoreRecordActivity extends BaseActivity {
             scoreRecordList.setLoadMoreListener(() -> scoreRecordList.getDataMore(CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
                     .getScoreRecordList(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("start_id", scoreRecordList.startId).put("flag", "2").buildGet())));
         } else {
-            scoreRecordTitle.setText(R.string.consume_score_record);
+            setTitleText(R.string.consume_score_record);
             scoreRecordFlag.setText(R.string.total_consume_score);
             scoreRecordList.showEmptyView("暂无消耗积分记录");
         }

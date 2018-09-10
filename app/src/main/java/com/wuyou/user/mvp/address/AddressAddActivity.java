@@ -27,8 +27,6 @@ import butterknife.OnClick;
  */
 
 public class AddressAddActivity extends BaseActivity<AddressContract.View, AddressContract.Presenter> implements AddressContract.View {
-    @BindView(R.id.address_edit_title)
-    TextView addressEditTitle;
     @BindView(R.id.address_edit_save)
     TextView addressEditSave;
     @BindView(R.id.address_edit_city)
@@ -43,8 +41,6 @@ public class AddressAddActivity extends BaseActivity<AddressContract.View, Addre
     EditText addressEditReceiver;
     @BindView(R.id.address_edit_phone)
     EditText addressEditPhone;
-    @BindView(R.id.address_edit_delete)
-    TextView addressEditDelete;
     private int flag;
     private double lat;
     private double lng;
@@ -56,12 +52,12 @@ public class AddressAddActivity extends BaseActivity<AddressContract.View, Addre
     protected void bindView(Bundle savedInstanceState) {
         flag = getIntent().getIntExtra(Constant.ADDRESS_EDIT_FLAG, 0);
         if (flag == 0) { //新增
-            addressEditTitle.setText(R.string.add_address);
-            addressEditDelete.setVisibility(View.GONE);
+            setTitleText(R.string.add_address);
         } else {//编辑
-            addressEditTitle.setText(R.string.edit_address);
+            setTitleText(R.string.edit_address);
             AddressBean addressBean = getIntent().getParcelableExtra(Constant.ADDRESS_BEAN);
             setData(addressBean);
+            setTitleIconText(R.string.delete, v -> showDeleteAlert());
         }
 
         addressEditPhone.setText(CarefreeDaoSession.getInstance().getUserInfo().getMobile());
@@ -89,7 +85,7 @@ public class AddressAddActivity extends BaseActivity<AddressContract.View, Addre
     }
 
 
-    @OnClick({R.id.address_edit_save, R.id.address_edit_locate, R.id.address_edit_delete, R.id.address_edit_city_click, R.id.address_edit_area})
+    @OnClick({R.id.address_edit_save, R.id.address_edit_locate, R.id.address_edit_city_click, R.id.address_edit_area})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -135,9 +131,6 @@ public class AddressAddActivity extends BaseActivity<AddressContract.View, Addre
                 intent.setClass(getCtx(), AddressLocationActivity.class);
                 intent.putExtra(Constant.ADDRESS_LOCATION_FLAG, 1);
                 startActivityForResult(intent, 201);
-                break;
-            case R.id.address_edit_delete:
-                showDeleteAlert();
                 break;
             case R.id.address_edit_city_click:
                 intent.setClass(getCtx(), CityChooseActivity.class);

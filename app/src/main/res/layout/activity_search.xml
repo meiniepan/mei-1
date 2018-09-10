@@ -7,25 +7,6 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:background="@color/night_blue"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="搜索"
-            android:textColor="@color/white"
-            android:textSize="@dimen/title_size" />
-
-        <include
-            android:id="@+id/back"
-            layout="@layout/back_white" />
-    </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="32dp"

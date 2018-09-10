@@ -24,7 +24,6 @@ import com.wuyou.user.view.activity.BaseActivity;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by hjn on 2018/3/7.
@@ -43,6 +42,8 @@ public class AddressManagerActivity extends BaseActivity<AddressContract.View, A
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.address_manager);
+        setTitleIconText(R.string.add_address, v -> addAddress());
         setUpStatus();
         addressManagerList.setLayoutManager(new LinearLayoutManager(this));
         addressManagerList.addItemDecoration(CommonUtil.getRecyclerDivider(this));
@@ -102,8 +103,7 @@ public class AddressManagerActivity extends BaseActivity<AddressContract.View, A
     }
 
 
-    @OnClick({R.id.address_manager_add})
-    public void onViewClicked() {
+    public void addAddress() {
         if (adapter.getData().size() == 5) {
             ToastUtils.ToastMessage(getCtx(), "您已添加5个地址，请先删除不常用的地址");
             return;

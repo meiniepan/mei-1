@@ -37,7 +37,7 @@ public class ModifyPhoneActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-
+        setTitleText(R.string.bind_new_phone);
     }
 
     @Override

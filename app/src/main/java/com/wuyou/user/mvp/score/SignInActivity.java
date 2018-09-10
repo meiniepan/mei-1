@@ -34,6 +34,7 @@ public class SignInActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.sign_in);
         ArrayList<BaseFragment> fragments = new ArrayList<>();
         fragments.add(new SignInFragment());
         fragments.add(new SignInRecordFragment());

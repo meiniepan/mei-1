@@ -7,34 +7,6 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:background="@color/night_blue">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="地址管理"
-            android:textColor="@color/white"
-            android:textSize="@dimen/title_size" />
-
-        <TextView
-            android:id="@+id/address_manager_add"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
-            android:gravity="center"
-            android:text="新增地址"
-            android:textColor="@color/white" />
-
-        <include
-            android:id="@+id/back"
-            layout="@layout/back_white" />
-    </RelativeLayout>
-
     <com.gs.buluo.common.widget.StatusLayout
         android:id="@+id/address_manager_status"
         android:layout_width="match_parent"

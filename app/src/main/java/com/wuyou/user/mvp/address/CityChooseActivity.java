@@ -35,6 +35,7 @@ public class CityChooseActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.choose_city);
         CarefreeRetrofit.getInstance().createApi(AddressApis.class).getCityList(QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

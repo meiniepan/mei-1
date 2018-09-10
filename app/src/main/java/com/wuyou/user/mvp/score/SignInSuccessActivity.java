@@ -19,6 +19,7 @@ public class SignInSuccessActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.sign_in);
         scoreSuccessTitle.setText("积分 + " + getIntent().getStringExtra(Constant.SIGN_POINT));
     }
 

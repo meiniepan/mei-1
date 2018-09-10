@@ -28,7 +28,7 @@ public class ResetPwdActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-
+        setTitleText(R.string.reset_pwd);
     }
 
     @Override

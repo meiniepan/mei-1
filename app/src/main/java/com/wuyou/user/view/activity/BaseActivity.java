@@ -43,8 +43,8 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<V>> extends AppCompatActivity implements IBaseView {
     View mRoot;
     protected P mPresenter;
-    private int color = R.color.night_blue;
-    private View titleIconView;
+    private int color = R.color.white;
+    private TextView titleIconView;
     private View titleTextLayout;
     private TextView titleTextView;
 
@@ -101,6 +101,11 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
     protected void setTitleIcon(int resId, View.OnClickListener listener) {
         titleIconView.setVisibility(View.VISIBLE);
         titleIconView.setBackgroundResource(resId);
+        titleIconView.setOnClickListener(listener);
+    }
+    protected void setTitleIconText(int resId, View.OnClickListener listener) {
+        titleIconView.setVisibility(View.VISIBLE);
+        titleIconView.setText(resId);
         titleIconView.setOnClickListener(listener);
     }
 

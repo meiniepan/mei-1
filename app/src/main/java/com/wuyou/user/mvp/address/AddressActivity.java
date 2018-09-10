@@ -33,8 +33,6 @@ import butterknife.OnClick;
  */
 
 public class AddressActivity extends BaseActivity<AddressContract.View, AddressContract.Presenter> implements AddressContract.View {
-    @BindView(R.id.address_title)
-    TextView addressTitle;
     @BindView(R.id.address_list)
     RefreshRecyclerView addressList;
     private AddressListAdapter adapter;
@@ -42,6 +40,7 @@ public class AddressActivity extends BaseActivity<AddressContract.View, AddressC
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(getString(R.string.address_list));
         setUpStatus();
         addressList.getRecyclerView().setLayoutManager(new LinearLayoutManager(this));
         adapter = new AddressListAdapter(R.layout.item_address_list);

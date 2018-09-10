@@ -1,10 +1,14 @@
 package com.wuyou.user;
 
+import android.util.Log;
+
 import com.wuyou.user.crypto.ec.EosPrivateKey;
 import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.util.EncryptUtil;
 
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,14 +33,16 @@ public class ExampleUnitTest {
 
         EosPrivateKey privateKey = new EosPrivateKey("5Jk4wByKKoy4FtzEkNcY4JRdFJKBqaLq95Pb8MQF6gMXUaNWxov");
         System.out.println(privateKey.getPublicKey()+".................");
-        try {
-            int x  = -12;
-            byte  y= (byte)(x&0xff);
-            System.out.println(y);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            int x  = -12;
+//            byte  y= (byte)(x&0xff);
+//            System.out.println(y);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
+        List<EosAccount> allEosAccount = CarefreeDaoSession.getInstance().getAllEosAccount();
+        Log.e("Carefree", "addition_isCorrect: ");
 //        EoscDataManager.getIns().getWalletManager().createOrOpenOwnerWallet()
 //        CarefreeDaoSession.getInstance().searchName();
 //        EosWallet wallet = new EosWallet();

@@ -27,6 +27,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.login);
         initView();
     }
 

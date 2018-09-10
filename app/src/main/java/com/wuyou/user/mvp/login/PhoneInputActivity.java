@@ -34,6 +34,7 @@ public class PhoneInputActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.input_phone);
         flag = getIntent().getIntExtra(Constant.INPUT_PHONE_FLAG, 1);
         if (flag == 0) { //reset password
             inputPhoneTitle.setText("请输入手机号，重新设置密码");

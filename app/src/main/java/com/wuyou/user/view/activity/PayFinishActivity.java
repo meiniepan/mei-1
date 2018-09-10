@@ -28,12 +28,12 @@ import butterknife.OnClick;
 public class PayFinishActivity extends BaseActivity {
     @BindView(R.id.pay_finish_title)
     TextView payFinishTitle;
-    @BindView(R.id.pay_finish_top)
-    TextView payFinishTop;
     private String targetId;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.pay_finish);
+        setBackVisiable(View.GONE);
         targetId = getIntent().getStringExtra(Constant.ORDER_ID);
         CarefreeRetrofit.getInstance().createApi(MoneyApis.class).getPayStatus(targetId, QueryMapBuilder.getIns().buildGet())
                 .compose(RxUtil.switchSchedulers())
@@ -42,7 +42,7 @@ public class PayFinishActivity extends BaseActivity {
                     public void onSuccess(BaseResponse<SimpleResponse> response) {
                         if (response.data.is_paid != 1) {
                             payFinishTitle.setText("支付未完成，请到订单详情查看");
-                            payFinishTop.setText("支付未完成");
+                            setTitleText("支付未完成");
                         }
                     }
 

@@ -7,33 +7,6 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:background="@color/night_blue">
-
-        <TextView
-            android:id="@+id/serve_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="空调快修"
-            android:textColor="@color/white"
-            android:textSize="@dimen/title_size" />
-
-        <include
-            android:id="@+id/back"
-            layout="@layout/back_white" />
-
-        <ImageView
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/icon_search"
-            android:visibility="gone" />
-    </RelativeLayout>
-
     <LinearLayout
         android:id="@+id/serve_list_sort"
         android:layout_width="match_parent"
@@ -112,14 +85,4 @@
             android:layout_height="wrap_content" />
     </com.gs.buluo.common.widget.StatusLayout>
 
-    <Button
-        style="@style/button_style"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:onClick="fastCreate"
-        android:text="@string/fast_order" />
 </LinearLayout>

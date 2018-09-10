@@ -41,6 +41,7 @@ public class CommentActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.comment);
         orderBean = getIntent().getParcelableExtra(Constant.ORDER_BEAN);
         comment.setText(orderBean.shop.shop_name);
         serveId = getIntent().getStringExtra(Constant.SERVE_ID);

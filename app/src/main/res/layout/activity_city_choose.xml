@@ -6,26 +6,6 @@
     android:fitsSystemWindows="true"
     android:clipToPadding="true">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:background="@color/night_blue">
-
-        <TextView
-            android:id="@+id/address_edit_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="选择城市"
-            android:textColor="@color/white"
-            android:textSize="@dimen/title_size" />
-
-
-        <include
-            android:id="@+id/back"
-            layout="@layout/back_white" />
-    </RelativeLayout>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/city_list"
         android:layout_width="match_parent"

@@ -28,6 +28,7 @@ public class CaptchaInputActivity extends BaseActivity<LoginContract.View, Login
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.input_captcha);
         phone = getIntent().getStringExtra(Constant.PHONE);
         int flag = getIntent().getIntExtra(Constant.INPUT_PHONE_FLAG, 0);
         observer = new CounterDisposableObserver(reSendCaptcha);

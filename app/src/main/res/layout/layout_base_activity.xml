@@ -25,11 +25,12 @@
             android:id="@+id/back_base"
             layout="@layout/back_black" />
 
-        <ImageView
+        <TextView
             android:id="@+id/iv_title_icon"
-            android:layout_width="24dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
+            android:textColor="@color/common_dark"
             android:layout_centerInParent="true"
             android:layout_marginEnd="12dp"
             android:visibility="gone" />

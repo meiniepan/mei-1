@@ -33,6 +33,7 @@ public class ModifyGenderActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.update_gender);
         sGender = getIntent().getIntExtra(Constant.GENDER, 0);
         if (sGender == 0) {
             cbMale.setChecked(true);

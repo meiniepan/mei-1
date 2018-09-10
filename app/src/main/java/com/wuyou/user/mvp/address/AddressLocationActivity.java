@@ -48,6 +48,7 @@ public class AddressLocationActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(getString(R.string.current_address_list));
         flag = getIntent().getIntExtra(Constant.ADDRESS_LOCATION_FLAG, 0);
         mLocationClient = new AMapLocationClient(this);
         geocodeSearch = new GeocodeSearch(this);
