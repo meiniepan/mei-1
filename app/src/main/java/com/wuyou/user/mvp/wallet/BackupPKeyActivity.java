@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
@@ -37,6 +39,9 @@ public class BackupPKeyActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         setTitleText(getString(R.string.backup_pk));
+        if (getIntent().getBooleanExtra(Constant.BACKUP_FROM_CREATE, false)) {
+            backupPkText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        }
         privateKey = CarefreeDaoSession.getInstance().getMainAccount().getPrivateKey();
         backupPkText.setText(privateKey);
     }

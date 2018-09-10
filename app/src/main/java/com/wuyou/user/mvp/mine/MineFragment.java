@@ -22,8 +22,6 @@ import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.score.SignInActivity;
 import com.wuyou.user.mvp.wallet.CreateOrImportAccountActivity;
-import com.wuyou.user.mvp.wallet.WalletContract;
-import com.wuyou.user.mvp.wallet.WalletPresenter;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.UserApis;
@@ -49,7 +47,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Administrator on 2018\1\29 0029.
  */
 
-public class MineFragment extends BaseFragment<WalletContract.View, WalletContract.Presenter> implements WalletContract.View {
+public class MineFragment extends BaseFragment {
 
     @BindView(R.id.mine_head)
     ImageView mineHead;
@@ -206,31 +204,5 @@ public class MineFragment extends BaseFragment<WalletContract.View, WalletContra
     protected void permissionGranted() {
         Intent intent = new Intent(mCtx, CaptureActivity.class);
         startActivity(intent);
-    }
-
-
-    @Override
-    protected WalletContract.Presenter getPresenter() {
-        return new WalletPresenter();
-    }
-
-    @Override
-    public void signUpSuccess() {
-
-    }
-
-    @Override
-    public void createAccountSuccess() {
-
-    }
-
-    @Override
-    public void getWalletInfoSuccess() {
-
-    }
-
-    @Override
-    public void showError(String message, int res) {
-        ToastUtils.ToastMessage(mCtx, message);
     }
 }

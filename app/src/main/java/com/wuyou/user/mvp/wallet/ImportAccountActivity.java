@@ -19,6 +19,8 @@ import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,9 +51,12 @@ public class ImportAccountActivity extends BaseActivity {
 
     @OnClick(R.id.btn_import)
     public void onViewClicked() {
-        if (importAccountName.length() != 12) {
+        String regex = "[a-z]([a-z]|[1-5]){11}";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(importAccountName.getText().toString());
+        if (!m.matches()) {
+            tvPkError.setText("账户名称格式不正确");
             tvPkError.setVisibility(View.VISIBLE);
-            tvPkError.setText("账户名称长度为12位");
             return;
         }
         if (importAccountPk.length() == 0) {

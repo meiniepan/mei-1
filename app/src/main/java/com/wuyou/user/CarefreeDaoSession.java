@@ -129,7 +129,7 @@ public class CarefreeDaoSession {
     }
 
     public EosAccount getMainAccount() {
-        return CarefreeDaoSession.getInstance().getEosDao().queryBuilder().where(EosAccountDao.Properties.Main.like("TRUE")).build().listIterator().next();
+        return CarefreeDaoSession.getInstance().getEosDao().queryBuilder().where(EosAccountDao.Properties.Main.like("TRUE")).build().unique();
     }
 
     public EosAccount setMainAccount(String account) throws IllegalStateException { //remember to try/catch
@@ -142,10 +142,10 @@ public class CarefreeDaoSession {
         }
         EosAccount mainAccount = getMainAccount();
         mainAccount.setMain(false);
-        getEosDao().update(mainAccount);
+        getEosDao().insertOrReplace(mainAccount);
 
         eosAccount.setMain(true);
-        getEosDao().update(eosAccount);
+        getEosDao().insertOrReplace(eosAccount);
         return eosAccount;
     }
 }

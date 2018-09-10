@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.gs.buluo.common.utils.SharePreferenceManager;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.view.activity.BaseActivity;
 
@@ -17,6 +19,9 @@ public class CreateOrImportAccountActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         setTitleText(getString(R.string.create_or_import));
+        if (SharePreferenceManager.getInstance(getCtx()).getBooeanValue(Constant.CREATE_ACCOUNT_FLAG,false)) {
+            findViewById(R.id.btn_create).setVisibility(View.GONE);
+        }
     }
 
     @Override
