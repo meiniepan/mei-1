@@ -189,6 +189,7 @@
         <activity android:name=".mvp.score.SignInSuccessActivity" />
         <activity android:name=".view.activity.HelpActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".mvp.wallet.BackupPKeyActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"

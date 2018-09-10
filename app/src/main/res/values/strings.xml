@@ -142,6 +142,7 @@
     <string name="create_success">创建账户成功</string>
     <string name="input_what_u_want">请输入您想要搜索的内容</string>
     <string name="block_chain_app">区块链应用</string>
+    <string name="backup_pk">备份私钥</string>
 
 
 </resources>
