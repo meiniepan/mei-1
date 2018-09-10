@@ -9,6 +9,7 @@ import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
 import com.wuyou.user.data.remote.response.CategoryChild;
+import com.wuyou.user.util.glide.GlideUtils;
 
 import java.util.List;
 
@@ -33,16 +34,17 @@ public class MainServeChildrenAdapter extends BaseQuickAdapter<CategoryChild, Ba
         textView.setText(item.name);
 
 //        int padding = textView.getPaddingStart();
-//        if (item.position % 3 == 0) {
-//            textView.setBackgroundResource(R.drawable.orange_border);
-//            textView.setTextColor(0xffff904b);
-//        } else if (item.position % 3 == 1) {
-//            textView.setBackgroundResource(R.drawable.green_border);
-//            textView.setTextColor(0xff4fc891);
-//        } else {
-//            textView.setBackgroundResource(R.drawable.night_blue_border);
-//            textView.setTextColor(0xff627db9);
-//        }
+        ImageView imageView = helper.getView(R.id.iv_serve_child);
+        if (item.child_image == null) {
+            item.child_image = "";
+        }
+        if (item.position % 3 == 0) {
+            GlideUtils.loadImageWithHolder(mContext, item.child_image, imageView, R.mipmap.icon_default_orange);
+        } else if (item.position % 3 == 1) {
+            GlideUtils.loadImageWithHolder(mContext, item.child_image, imageView, R.mipmap.icon_default_green);
+        } else {
+            GlideUtils.loadImageWithHolder(mContext, item.child_image, imageView, R.mipmap.icon_default_blue);
+        }
 //        textView.setPadding(padding, padding, padding, padding);
     }
 }
