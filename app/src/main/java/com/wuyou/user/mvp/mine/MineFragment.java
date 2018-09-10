@@ -1,5 +1,6 @@
 package com.wuyou.user.mvp.mine;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,12 +23,15 @@ import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.score.ScoreActivity;
 import com.wuyou.user.mvp.score.SignInActivity;
+import com.wuyou.user.mvp.wallet.BackupPKeyActivity;
+import com.wuyou.user.mvp.wallet.CreateOrImportAccount;
 import com.wuyou.user.mvp.wallet.WalletContract;
 import com.wuyou.user.mvp.wallet.WalletPresenter;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.util.QMUIStatusBarHelper;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.CaptureActivity;
 import com.wuyou.user.view.activity.HelpActivity;
@@ -170,12 +174,15 @@ public class MineFragment extends BaseFragment<WalletContract.View, WalletContra
                 startActivity(intent);
                 break;
             case R.id.mine_score:
-                if (totalScore == -1) {
-                    ToastUtils.ToastMessage(mCtx, R.string.connect_fail);
-                    return;
-                }
-                intent.setClass(mCtx, ScoreActivity.class);
+                //todo
+                intent.setClass(mCtx, CreateOrImportAccount.class);
                 startActivity(intent);
+//                if (totalScore == -1) {
+//                    ToastUtils.ToastMessage(mCtx, R.string.connect_fail);
+//                    return;
+//                }
+//                intent.setClass(mCtx, ScoreActivity.class);
+//                startActivity(intent);
                 break;
 //            case R.id.mine_scan:
 //                if (askForPermissions(Manifest.permission.CAMERA)) {
@@ -193,11 +200,11 @@ public class MineFragment extends BaseFragment<WalletContract.View, WalletContra
                         }).create().show();
                 break;
             case R.id.mine_help:
-                intent.setClass(mCtx, HelpActivity.class);
+                intent.setClass(mCtx, BackupPKeyActivity.class);
                 startActivity(intent);
+                break;
         }
     }
-
 
     @Override
     protected void permissionGranted() {
@@ -218,7 +225,7 @@ public class MineFragment extends BaseFragment<WalletContract.View, WalletContra
 
     @Override
     public void createAccountSuccess() {
-        ToastUtils.ToastMessage(getContext(), R.string.create_success);
+
     }
 
     @Override

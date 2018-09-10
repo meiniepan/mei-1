@@ -143,7 +143,21 @@
     <string name="input_what_u_want">请输入您想要搜索的内容</string>
     <string name="block_chain_app">区块链应用</string>
     <string name="backup_pk">备份私钥</string>
+    <string name="create_or_import">创建/导入账户</string>
+    <string name="create_account">创建账户</string>
+    <string name="import_account">导入账户</string>
+    <string name="create_account_success">账户创建成功</string>
+    <string name="create_account_success_warning">请您在使用前备份账户私钥，一旦丢失不可找回！</string>
+    <string name="check_account">查看账户详情</string>
+    <string name="pk_format_error">私钥格式不正确！</string>
     <string name="copy_success">复制成功</string>
+    <string name="account_name">账户名称：</string>
+    <string name="account_name_hint">输入小写字母和1~5位数字组合字符</string>
+    <string name="account_pk">账户私钥：</string>
+    <string name="phone_num">手机号：</string>
+    <string name="captcha">验证码：</string>
+    <string name="obtain_captcha">获取验证码</string>
+    <string name="captcha_error">验证码不正确！</string>
 
 
 </resources>
