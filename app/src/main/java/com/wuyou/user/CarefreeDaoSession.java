@@ -2,17 +2,16 @@ package com.wuyou.user;
 
 import android.text.TextUtils;
 
-import com.wuyou.user.data.remote.AddressBean;
 import com.wuyou.user.data.local.db.DaoMaster;
 import com.wuyou.user.data.local.db.DaoSession;
+import com.wuyou.user.data.local.db.EosAccount;
+import com.wuyou.user.data.local.db.EosAccountDao;
 import com.wuyou.user.data.local.db.SearchHistoryBean;
 import com.wuyou.user.data.local.db.SearchHistoryBeanDao;
 import com.wuyou.user.data.local.db.UserInfo;
 import com.wuyou.user.data.local.db.UserInfoDao;
-import com.wuyou.user.data.local.db.EosAccount;
-import com.wuyou.user.data.local.db.EosAccountDao;
+import com.wuyou.user.data.remote.AddressBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -110,26 +109,8 @@ public class CarefreeDaoSession {
         daoSession.getSearchHistoryBeanDao().delete(item);
     }
 
-    public void addAll(String... accountNames) {
-        ArrayList<EosAccount> eosAccounts = new ArrayList<>(accountNames.length);
-        for (String name : accountNames) {
-            eosAccounts.add(EosAccount.from(name));
-        }
-        CarefreeDaoSession.getInstance().getEosDao().insertOrReplaceInTx(eosAccounts);
-    }
 
-    public void addAll(List<String> accountNames) {
-        ArrayList<EosAccount> eosAccounts = new ArrayList<>(accountNames.size());
-        for (String name : accountNames) {
-            eosAccounts.add(EosAccount.from(name));
-        }
-        CarefreeDaoSession.getInstance().getEosDao().insertOrReplaceInTx(eosAccounts);
-    }
-
-    public void addAccount(String accountName) {
-        CarefreeDaoSession.getInstance().getEosDao().insert(EosAccount.from(accountName));
-    }
-
+    //eos database operate
     public void deleteAll() {
         CarefreeDaoSession.getInstance().getEosDao().deleteAll();
     }

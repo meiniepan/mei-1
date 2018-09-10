@@ -66,7 +66,7 @@ public class WalletPresenter extends WalletContract.Presenter {
                     eosAccount.setPublicKey(key.getPublicKey().toString());
                     eosAccount.setPrivateKey(key.toWif());
                     eosAccount.setName(account);
-                    eosDao.save(eosAccount);
+                    eosDao.insertOrReplace(eosAccount);
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new BaseSubscriber<JsonObject>() {

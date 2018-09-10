@@ -23,6 +23,7 @@ import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.score.ScoreActivity;
 import com.wuyou.user.mvp.score.SignInActivity;
+import com.wuyou.user.mvp.wallet.BackupPKeyActivity;
 import com.wuyou.user.mvp.wallet.WalletContract;
 import com.wuyou.user.mvp.wallet.WalletPresenter;
 import com.wuyou.user.network.CarefreeRetrofit;
@@ -195,7 +196,7 @@ public class MineFragment extends BaseFragment<WalletContract.View, WalletContra
                         }).create().show();
                 break;
             case R.id.mine_help:
-                intent.setClass(mCtx, HelpActivity.class);
+                intent.setClass(mCtx, BackupPKeyActivity.class);
                 startActivity(intent);
                 break;
         }

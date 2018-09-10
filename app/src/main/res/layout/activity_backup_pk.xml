@@ -1,7 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/tint_bg">
+
+    <TextView
+        android:id="@+id/backup_pk_text"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:gravity="center"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin_end"
+        android:background="@color/white"
+        android:layout_marginTop="8dp"
+        android:lineSpacingMultiplier="1.2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*按顺序将私钥复制或抄录在纸上，并妥善保存"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin_end"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:textColor="@color/common_red"
+        android:textSize="@dimen/dimens_12sp"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*任何人获得你的私钥信息即可操作你的账户"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin_end"
+        android:textColor="@color/common_red"
+        android:textSize="@dimen/dimens_12sp"
+        android:layout_marginTop="4dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*手机清理缓存或应用卸载都可能丢失私钥，丢失私钥意味着账户资产永远无法找回"
+        android:textSize="@dimen/dimens_12sp"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin_end"
+        android:textColor="@color/common_red"
+        android:layout_marginTop="4dp"/>
 
 
+    <TextView
+        android:id="@+id/backup_pk"
+        style="@style/button_style"
+        android:layout_marginTop="100dp"
+        android:text="复制私钥"/>
+
+    <TextView
+        android:id="@+id/save_pk"
+        style="@style/button_style"
+        android:layout_marginTop="20dp"
+        android:text="下载并保存截图"/>
+
+    <TextView
+        android:id="@+id/back_main"
+        style="@style/button_style"
+        android:background="@drawable/common_night_blue_border"
+        android:layout_marginTop="45dp"
+        android:textColor="@color/night_blue"
+        android:text="返回首页"/>
 </LinearLayout>

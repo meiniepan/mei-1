@@ -17,7 +17,6 @@ public class EosAccount {
     public static final int TYPE_ACCOUNT_USER = 1;
     public static final int TYPE_ACCOUNT_CONTRACT = 2;
 
-    @NonNull
     @Id
     @Property(nameInDb = "name")
     private String name;
@@ -48,8 +47,8 @@ public class EosAccount {
     public EosAccount() {
     }
 
-    @Generated(hash = 1650212725)
-    public EosAccount(@NonNull String name, Integer type, String privateKey,
+    @Generated(hash = 1244585924)
+    public EosAccount(String name, Integer type, String privateKey,
             String publicKey, Boolean main) {
         this.name = name;
         this.type = type;

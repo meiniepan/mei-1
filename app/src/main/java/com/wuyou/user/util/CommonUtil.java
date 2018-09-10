@@ -122,7 +122,7 @@ public class CommonUtil {
             }
             bitmap = Bitmap.createBitmap(QR_WIDTH, QR_HEIGHT, Bitmap.Config.RGB_565);
             bitmap.setPixels(pixels, 0, QR_WIDTH, 0, 0, QR_WIDTH, QR_HEIGHT);
-            String s = MediaStore.Images.Media.insertImage(CarefreeApplication.getInstance().getApplicationContext().getContentResolver(), bitmap, "title", "description");
+            String s = MediaStore.Images.Media.insertImage(CarefreeApplication.getInstance().getApplicationContext().getContentResolver(), bitmap, "", "");
             Uri uri = Uri.parse(s);
             CarefreeApplication.getInstance().getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
 //            saveBitmap2file(bitmap, "qr.jpg");
@@ -339,8 +339,7 @@ public class CommonUtil {
     }
 
     public static Bitmap getScreenshot(Context context, View v) {
-        WindowManager wm = (WindowManager) context
-                .getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
         Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_4444);
