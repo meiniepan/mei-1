@@ -22,6 +22,16 @@ import io.reactivex.schedulers.Schedulers;
 
 public class WalletPresenter extends WalletContract.Presenter {
 
+    public void getActivityRewards(String activityId) {
+        addDisposable(EoscDataManager.getIns().getActivityRewards(activityId).compose(RxUtil.switchSchedulers())
+                .subscribeWith(new BaseSubscriber<JsonObject>() {
+                    @Override
+                    public void onSuccess(JsonObject jsonObject) {
+
+                    }
+                }));
+    }
+
     @Override
     public void signUp() {
         addDisposable(EoscDataManager.getIns().getDailyRewords().compose(RxUtil.switchSchedulers())

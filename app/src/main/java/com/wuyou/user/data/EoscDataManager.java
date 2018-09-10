@@ -33,8 +33,6 @@ import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.crypto.ec.EosPrivateKey;
 import com.wuyou.user.crypto.ec.EosPublicKey;
-import com.wuyou.user.data.local.db.EosAccount;
-import com.wuyou.user.network.apis.NodeosApi;
 import com.wuyou.user.data.abi.EosAbiMain;
 import com.wuyou.user.data.api.AccountInfoRequest;
 import com.wuyou.user.data.api.EosChainInfo;
@@ -48,18 +46,20 @@ import com.wuyou.user.data.api.JsonToBinRequest;
 import com.wuyou.user.data.chain.Action;
 import com.wuyou.user.data.chain.PackedTransaction;
 import com.wuyou.user.data.chain.SignedTransaction;
+import com.wuyou.user.data.local.db.EosAccount;
+import com.wuyou.user.data.types.EosActivityRewards;
 import com.wuyou.user.data.types.EosDailyRewards;
 import com.wuyou.user.data.types.EosNewAccount;
 import com.wuyou.user.data.types.EosTransfer;
 import com.wuyou.user.data.types.TypeAsset;
 import com.wuyou.user.data.types.TypeChainId;
 import com.wuyou.user.network.ChainRetrofit;
+import com.wuyou.user.network.apis.NodeosApi;
 import com.wuyou.user.util.CommonUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import io.reactivex.Observable;
 
@@ -107,6 +107,12 @@ public class EoscDataManager {
         }
         EosTransfer transfer = new EosTransfer(from, to, amount, memo);
         return pushActionRetJson(Constant.EOSIO_TOKEN_CONTRACT, transfer.getActionName(), CommonUtil.prettyPrintJson(transfer), getActivePermission(from)); //transfer.getAsHex()
+    }
+
+    public Observable<JsonObject> getActivityRewards(String activityId) {
+        currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
+        EosActivityRewards activityRewards = new EosActivityRewards(currentOperateAccount.getName(), activityId);
+        return pushActionRetJson(Constant.EOSIO_DAILAY_REWARDS, activityRewards.getActionName(), CommonUtil.prettyPrintJson(activityRewards), getActivePermission(currentOperateAccount.getName()));
     }
 
 
