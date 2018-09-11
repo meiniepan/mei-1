@@ -2,8 +2,8 @@ package com.wuyou.user.network.apis;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
-import com.wuyou.user.data.remote.UpdateEntity;
 import com.wuyou.user.data.local.db.UserInfo;
+import com.wuyou.user.data.remote.UpdateEntity;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
@@ -26,6 +26,15 @@ public interface UserApis {
     Observable<BaseResponse<UserInfo>> getVerifyCode(
             @QueryMap SortedTreeMap<String, String> map);
 
+    @GET("v1/captcha/{type}")
+    Observable<BaseResponse> getCaptchaForCheck(@Path("type") String type,
+                                                          @QueryMap SortedTreeMap<String, String> map);
+
+    @FormUrlEncoded
+    @PUT("v1/captcha/{type}")
+    Observable<BaseResponse> checkCaptcha(
+            @Path("type") String type, @FieldMap SortedTreeMap<String, String> map);
+
     @GET("v1/profile/{uid}")
     Observable<BaseResponse<UserInfo>> getUserInfo(
             @Path("uid") String uid, @QueryMap SortedTreeMap<String, String> map);
@@ -34,6 +43,7 @@ public interface UserApis {
     @POST("v1/login")
     Observable<BaseResponse<UserInfo>> doLogin(
             @FieldMap SortedTreeMap<String, String> map);
+
     @FormUrlEncoded
     @PUT("v1/logout/{uid}")
     Observable<BaseResponse> doLogout(
@@ -57,9 +67,10 @@ public interface UserApis {
     @Multipart
     @POST("v1/avatar/{uid}")
     Observable<BaseResponse> updateAvatar(
-            @Path("uid")String uid,
+            @Path("uid") String uid,
             @Part MultipartBody.Part file,
             @QueryMap SortedTreeMap<String, String> map);
+
     @GET("v1/client/update")
     Observable<BaseResponse<UpdateEntity>> checkUpdate(
             @QueryMap SortedTreeMap<String, String> map);

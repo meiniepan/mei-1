@@ -12,13 +12,14 @@ public interface WalletContract {
     interface View extends IBaseView {
         void signUpSuccess();
 
+        void getWalletInfoSuccess();
+
         void createAccountSuccess();
 
-        void getWalletInfoSuccess();
+        void checkCaptchaSuccess();
     }
 
-
-    abstract class Presenter extends BasePresenter<View> {
+    abstract class Presenter extends BasePresenter<View>{
         public abstract void signUp();
 
         public abstract void createAccount(String name, String phone);
@@ -26,5 +27,9 @@ public interface WalletContract {
         abstract void getWalletInfo();
 
         abstract void getPointRecord();
+
+        abstract void getCaptcha(String type);
+
+        abstract void checkCaptcha(String type, String phone, String captcha);
     }
 }

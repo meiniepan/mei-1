@@ -66,10 +66,10 @@ public class ImportAccountActivity extends BaseActivity {
         }
         String account = importAccountName.getText().toString().trim();
         EoscDataManager.getIns().readAccountInfo(account).compose(RxUtil.switchSchedulers())
-                .subscribeWith(new BaseSubscriber<EosAccountInfo>() {
+                .map(eosAccountInfo -> eosAccountInfo.permissions.get(0).required_auth.keys.get(0).key)
+                .subscribeWith(new BaseSubscriber<String>() {
                     @Override
-                    public void onSuccess(EosAccountInfo eosAccountInfo) {
-                        String publicKey = eosAccountInfo.permissions.get(0).required_auth.keys.get(0).key;
+                    public void onSuccess(String publicKey) {
                         String pk = importAccountPk.getText().toString().trim();
                         EosPrivateKey privateKey = new EosPrivateKey(pk);
                         if (TextUtils.equals(privateKey.getPublicKey().toString(), publicKey)) {

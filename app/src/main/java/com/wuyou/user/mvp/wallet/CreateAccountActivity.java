@@ -12,7 +12,9 @@ import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.util.CounterDisposableObserver;
 import com.wuyou.user.util.EncryptUtil;
+import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import java.util.regex.Matcher;
@@ -52,6 +54,7 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
         return R.layout.activity_create_account;
     }
 
+    private CounterDisposableObserver observer;
 
     @OnClick({R.id.btn_random, R.id.btn_obtain_captcha, R.id.btn_create_1})
     public void onViewClicked(View view) {
@@ -60,6 +63,10 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
                 etAccountName.setText(EncryptUtil.getRandomString(12));
                 break;
             case R.id.btn_obtain_captcha:
+                observer = new CounterDisposableObserver(btnObtainCaptcha);
+                RxUtil.countdown(119).subscribe(observer);
+                mPresenter.getCaptcha(Constant.CAPTCHA_NEW_ACCOUNT);
+                etInputCaptcha.requestFocus();
                 break;
             case R.id.btn_create_1:
                 if (etAccountName.length() == 0) {
@@ -77,7 +84,7 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
                     ToastUtils.ToastMessage(getCtx(), "请输入验证码");
                     return;
                 }
-                mPresenter.createAccount(etAccountName.getText().toString(), tvPhoneNum.getText().toString());
+                mPresenter.checkCaptcha(Constant.CAPTCHA_NEW_ACCOUNT, tvPhoneNum.getText().toString(), etInputCaptcha.getText().toString().trim());
                 break;
         }
     }
@@ -88,10 +95,12 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
         return new WalletPresenter();
     }
 
-    @Override
-    public void signUpSuccess() {
 
-    }
+    @Override
+    public void signUpSuccess() {}
+
+    @Override
+    public void getWalletInfoSuccess() {}
 
     @Override
     public void createAccountSuccess() {
@@ -102,7 +111,21 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
     }
 
     @Override
-    public void getWalletInfoSuccess() {
+    public void checkCaptchaSuccess() {
+        mPresenter.createAccount(etAccountName.getText().toString(), tvPhoneNum.getText().toString());
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        observer.dispose();
+    }
+
+    @Override
+    public void showError(String message, int res) {
+        if (res == Constant.GET_CAPTCHA_FAIL) {
+            observer.onComplete();
+        }
+        ToastUtils.ToastMessage(getCtx(), message);
     }
 }

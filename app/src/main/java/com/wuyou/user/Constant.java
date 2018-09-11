@@ -6,9 +6,9 @@ package com.wuyou.user;
 
 public class Constant {
     public static final String DEFAULT_SERVANT_ACCOUNT = "eosio";
-    public static final String  DEFAULT_WALLET_NAME = "pocket";
-    public static final boolean DEFAULT_SAVE_PASSWORD= true;
-//    public static final String SAMPLE_PRIV_KEY_FOR_TEST = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"  //have coin;
+    public static final String DEFAULT_WALLET_NAME = "pocket";
+    public static final boolean DEFAULT_SAVE_PASSWORD = true;
+    //    public static final String SAMPLE_PRIV_KEY_FOR_TEST = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"  //have coin;
     public static final String SAMPLE_PRIV_KEY_FOR_TEST = "5J6HXZiXDrJqZAzn7CjoJ6HoPbw7zYUovz9H1gDzZbqKL2bqZTn";
     public static final String EOSIO_SYSTEM_ACCOUNT = "signupcoming";
     public static final String EOSIO_DAILAY_REWARDS = "dailyrewards";
@@ -16,6 +16,10 @@ public class Constant {
     public static final int TX_EXPIRATION_IN_MILSEC = 30000;
     public static final String CREATE_ACCOUNT_FLAG = "create_eos_account_flag";
     public static final String BACKUP_FROM_CREATE = "backup_from_create";
+    public static final int GET_CAPTCHA_FAIL = 600;
+    public static final String CAPTCHA_NEW_ACCOUNT = "new_account";
+    public static final String CAPTCHA_DELETE_ACCOUNT = "remove_account";
+    public static final String CAPTCHA_UNLOCK_ACCOUNT = "unlock_account";
 
 
     public static String BASE_URL = "https://api.iwantmei.com/customer/";

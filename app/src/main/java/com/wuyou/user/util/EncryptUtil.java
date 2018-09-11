@@ -1,13 +1,11 @@
 package com.wuyou.user.util;
 
 
-
 import org.spongycastle.util.encoders.Hex;
 
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.Security;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.Random;
@@ -18,7 +16,6 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-
 
 
 /**
@@ -86,15 +83,18 @@ public class EncryptUtil {
 
     /**
      * Gets random string.
+     * 生成符合规则的账户
      *
      * @param length the length
      * @return random string
      */
     public static String getRandomString(int length) { //length表示生成字符串的长度
-        String base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ12345";
+        String base = "abcdefghijklmnopqrstuvwxyz12345";
+        String firstBase = "abcdefghijklmnopqrstuvwxyz";
         Random random = new Random();
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < length; i++) {
+        sb.append(firstBase.charAt(random.nextInt(firstBase.length())));
+        for (int i = 0; i < length - 1; i++) {
             int number = random.nextInt(base.length());
             sb.append(base.charAt(number));
         }

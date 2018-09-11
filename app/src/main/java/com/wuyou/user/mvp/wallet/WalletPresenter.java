@@ -4,13 +4,18 @@ import android.util.Log;
 
 import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.ApiException;
+import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.QueryMapBuilder;
 import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
 import com.wuyou.user.crypto.ec.EosPrivateKey;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.api.EosAccountInfo;
 import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.data.local.db.EosAccountDao;
+import com.wuyou.user.network.CarefreeRetrofit;
+import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 
@@ -99,6 +104,39 @@ public class WalletPresenter extends WalletContract.Presenter {
     @Override
     void getPointRecord() {
 
+    }
+
+    @Override
+    void getCaptcha(String type) {
+        addDisposable(CarefreeRetrofit.getInstance().createApi(UserApis.class).getCaptchaForCheck(type, QueryMapBuilder.getIns().buildGet())
+                .compose(RxUtil.switchSchedulers())
+                .subscribeWith(new BaseSubscriber<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse userInfoBaseResponse) {
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        mView.showError(e.getDisplayMessage(), Constant.GET_CAPTCHA_FAIL);
+                    }
+                }));
+    }
+
+    @Override
+    void checkCaptcha(String type, String phone, String captcha) {
+        addDisposable(CarefreeRetrofit.getInstance().createApi(UserApis.class).checkCaptcha(type, QueryMapBuilder.getIns().buildPost())
+                .compose(RxUtil.switchSchedulers())
+                .subscribeWith(new BaseSubscriber<BaseResponse>() {
+                    @Override
+                    public void onSuccess(BaseResponse o) {
+                        mView.checkCaptchaSuccess();
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        mView.showError(e.getDisplayMessage(), e.getCode());
+                    }
+                }));
     }
 
     public void transfer() {
