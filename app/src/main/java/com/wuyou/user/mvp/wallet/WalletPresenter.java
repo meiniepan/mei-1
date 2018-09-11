@@ -39,22 +39,6 @@ public class WalletPresenter extends WalletContract.Presenter {
     }
 
     @Override
-    public void signUp() {
-        addDisposable(EoscDataManager.getIns().getDailyRewords().compose(RxUtil.switchSchedulers())
-                .subscribeWith(new BaseSubscriber<JsonObject>() {
-                    @Override
-                    public void onSuccess(JsonObject jsonObject) {
-                        mView.signUpSuccess();
-                    }
-
-                    @Override
-                    protected void onFail(ApiException e) {
-                        mView.showError(e.getDisplayMessage(), e.getCode());
-                    }
-                }));
-    }
-
-    @Override
     public void createAccount(String account, String phone) {
         EosPrivateKey key = new EosPrivateKey();
         addDisposable(EoscDataManager.getIns().createAccount(phone, account, key.getPublicKey().toString())
@@ -102,13 +86,8 @@ public class WalletPresenter extends WalletContract.Presenter {
     }
 
     @Override
-    void getPointRecord() {
-
-    }
-
-    @Override
-    void getCaptcha(String type) {
-        addDisposable(CarefreeRetrofit.getInstance().createApi(UserApis.class).getCaptchaForCheck(type, QueryMapBuilder.getIns().buildGet())
+    void getCaptcha(String type, String phone) {
+        addDisposable(CarefreeRetrofit.getInstance().createApi(UserApis.class).getCaptchaForCheck(type, QueryMapBuilder.getIns().put("mobile", phone).buildGet())
                 .compose(RxUtil.switchSchedulers())
                 .subscribeWith(new BaseSubscriber<BaseResponse>() {
                     @Override
@@ -124,7 +103,7 @@ public class WalletPresenter extends WalletContract.Presenter {
 
     @Override
     void checkCaptcha(String type, String phone, String captcha) {
-        addDisposable(CarefreeRetrofit.getInstance().createApi(UserApis.class).checkCaptcha(type, QueryMapBuilder.getIns().buildPost())
+        addDisposable(CarefreeRetrofit.getInstance().createApi(UserApis.class).checkCaptcha(type, QueryMapBuilder.getIns().put("mobile", phone).put("captcha", captcha).buildPost())
                 .compose(RxUtil.switchSchedulers())
                 .subscribeWith(new BaseSubscriber<BaseResponse>() {
                     @Override

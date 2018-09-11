@@ -1,6 +1,5 @@
 package com.wuyou.user.util;
 
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -30,6 +29,7 @@ public class CounterDisposableObserver extends DisposableObserver<Integer> {
     public void onNext(Integer value) {
         button.setText(value + "秒后重发");
         button.setTextColor(button.getResources().getColor(R.color.common_gray));
+        button.setBackgroundResource(R.drawable.gray_border);
     }
 
     @Override
@@ -37,6 +37,7 @@ public class CounterDisposableObserver extends DisposableObserver<Integer> {
         button.setEnabled(true);
         button.setText("发送验证码");
         button.setTextColor(button.getResources().getColor(R.color.night_blue));
+        button.setBackgroundResource(R.drawable.night_blue_border);
         dispose();
     }
 
@@ -45,6 +46,7 @@ public class CounterDisposableObserver extends DisposableObserver<Integer> {
         button.setEnabled(true);
         button.setText("发送验证码");
         button.setTextColor(button.getResources().getColor(R.color.night_blue));
+        button.setBackgroundResource(R.drawable.night_blue_border);
         dispose();
     }
 }

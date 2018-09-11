@@ -10,8 +10,6 @@ import com.wuyou.user.mvp.IBaseView;
 public interface WalletContract {
 
     interface View extends IBaseView {
-        void signUpSuccess();
-
         void getWalletInfoSuccess();
 
         void createAccountSuccess();
@@ -20,15 +18,11 @@ public interface WalletContract {
     }
 
     abstract class Presenter extends BasePresenter<View>{
-        public abstract void signUp();
-
         public abstract void createAccount(String name, String phone);
 
         abstract void getWalletInfo();
 
-        abstract void getPointRecord();
-
-        abstract void getCaptcha(String type);
+        abstract void getCaptcha(String type, String phone);
 
         abstract void checkCaptcha(String type, String phone, String captcha);
     }

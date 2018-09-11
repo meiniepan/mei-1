@@ -167,6 +167,7 @@
     <string name="captcha">验证码：</string>
     <string name="obtain_captcha">获取验证码</string>
     <string name="captcha_error">验证码不正确！</string>
+    <string name="already_sign_up">已签到</string>
 
 
 </resources>

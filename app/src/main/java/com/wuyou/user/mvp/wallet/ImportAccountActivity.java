@@ -96,6 +96,7 @@ public class ImportAccountActivity extends BaseActivity {
         eosAccount.setPublicKey(publicKey);
         eosAccount.setPrivateKey(pk);
         eosAccount.setName(account);
+        eosAccount.setMain(false);
         CarefreeDaoSession.getInstance().getEosDao().insertOrReplace(eosAccount);
         ToastUtils.ToastMessage(getCtx(), "导入成功");
         finish();

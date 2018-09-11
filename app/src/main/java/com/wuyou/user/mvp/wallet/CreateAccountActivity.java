@@ -65,7 +65,7 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
             case R.id.btn_obtain_captcha:
                 observer = new CounterDisposableObserver(btnObtainCaptcha);
                 RxUtil.countdown(119).subscribe(observer);
-                mPresenter.getCaptcha(Constant.CAPTCHA_NEW_ACCOUNT);
+                mPresenter.getCaptcha(Constant.CAPTCHA_NEW_ACCOUNT, tvPhoneNum.getText().toString().trim());
                 etInputCaptcha.requestFocus();
                 break;
             case R.id.btn_create_1:
@@ -84,7 +84,8 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
                     ToastUtils.ToastMessage(getCtx(), "请输入验证码");
                     return;
                 }
-                mPresenter.checkCaptcha(Constant.CAPTCHA_NEW_ACCOUNT, tvPhoneNum.getText().toString(), etInputCaptcha.getText().toString().trim());
+                showLoadingDialog();
+                mPresenter.checkCaptcha(Constant.CAPTCHA_CHECK_NEW_ACCOUNT, tvPhoneNum.getText().toString(), etInputCaptcha.getText().toString().trim());
                 break;
         }
     }
@@ -97,10 +98,8 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
 
 
     @Override
-    public void signUpSuccess() {}
-
-    @Override
-    public void getWalletInfoSuccess() {}
+    public void getWalletInfoSuccess() {
+    }
 
     @Override
     public void createAccountSuccess() {

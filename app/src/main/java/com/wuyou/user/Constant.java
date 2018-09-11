@@ -18,8 +18,13 @@ public class Constant {
     public static final String BACKUP_FROM_CREATE = "backup_from_create";
     public static final int GET_CAPTCHA_FAIL = 600;
     public static final String CAPTCHA_NEW_ACCOUNT = "new_account";
+    public static final String CAPTCHA_CHECK_NEW_ACCOUNT = "check_new_account";
     public static final String CAPTCHA_DELETE_ACCOUNT = "remove_account";
+    public static final String CAPTCHA_CHECK_DELETE_ACCOUNT = "check_remove_account";
     public static final String CAPTCHA_UNLOCK_ACCOUNT = "unlock_account";
+    public static final String CAPTCHA_CHECK_UNLOCK_ACCOUNT = "check_unlock_account";
+    public static final String SIGN_UP_RECORD = "sign_up_record";
+    public static final String LAST_SIGN_TIME = "last_sign_time";
 
 
     public static String BASE_URL = "https://api.iwantmei.com/customer/";

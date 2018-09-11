@@ -1,76 +1,79 @@
 package com.wuyou.user.mvp.score;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.TextView;
 
-import com.gs.buluo.common.network.ApiException;
-import com.gs.buluo.common.network.BaseResponse;
+import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.BaseSubscriber;
-import com.gs.buluo.common.network.QueryMapBuilder;
-import com.wuyou.user.CarefreeDaoSession;
+import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.data.local.db.UserInfo;
-import com.wuyou.user.network.CarefreeRetrofit;
-import com.wuyou.user.network.apis.UserApis;
+import com.wuyou.user.data.EoscDataManager;
+import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by DELL on 2018/6/1.
  */
 
 public class ScoreActivity extends BaseActivity {
-    @BindView(R.id.score_available)
-    TextView scoreAvailable;
-    @BindView(R.id.score_obtain_text)
-    TextView scoreObtainText;
-    @BindView(R.id.score_consumed_text)
-    TextView scoreConsumedText;
-    private long consumeScore;
-    private long totalScore;
+
+    @BindView(R.id.text_day_1)
+    TextView textDay1;
+    @BindView(R.id.text_day_2)
+    TextView textDay2;
+    @BindView(R.id.text_day_3)
+    TextView textDay3;
+    @BindView(R.id.text_day_4)
+    TextView textDay4;
+    @BindView(R.id.text_day_5)
+    TextView textDay5;
+    @BindView(R.id.text_day_6)
+    TextView textDay6;
+    @BindView(R.id.text_day_7)
+    TextView textDay7;
+    @BindView(R.id.score_sign_up)
+    TextView scoreSignUp;
+    @BindView(R.id.sign_record_layout)
+    ConstraintLayout constraintLayout;
+
+    private int signRecord;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
         setTitleText(R.string.mine_score);
-        baseStatusLayout.setErrorAction(v -> getInfo());
+        signRecord = SharePreferenceManager.getInstance(getCtx()).getIntValue(Constant.SIGN_UP_RECORD, -1);
+        long lastSignTime = SharePreferenceManager.getInstance(getCtx()).getLongValue(Constant.LAST_SIGN_TIME);
+        Calendar calendar = Calendar.getInstance();
+        int currentDate = calendar.get(Calendar.DAY_OF_YEAR);
+        calendar.setTime(new Date(lastSignTime));
+        int lastDate = calendar.get(Calendar.DAY_OF_YEAR);
+        if (currentDate == lastDate) {
+            setAlreadySignStatus();
+        } else { //新的一天 展示全部未签到状态
+            if (signRecord == 7) {
+                signRecord = -1;
+            }
+        }
+        if (signRecord == -1) return;
+        for (int i = 0; i <= signRecord; i++) {
+            TextView textView = (TextView) constraintLayout.getChildAt(i);
+            textView.setBackgroundResource(R.drawable.blue_circle_bg);
+        }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getInfo();
-    }
-
-    public void getInfo() {
-        baseStatusLayout.showProgressView();
-        CarefreeRetrofit.getInstance().createApi(UserApis.class).getUserInfo(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse<UserInfo>>() {
-                    @Override
-                    public void onSuccess(BaseResponse<UserInfo> userInfoBaseResponse) {
-                        baseStatusLayout.showContentView();
-
-                        totalScore = userInfoBaseResponse.data.getReceived_points();
-                        consumeScore = userInfoBaseResponse.data.getOut_points();
-                        long availableScore = totalScore - consumeScore;
-                        scoreAvailable.setText(availableScore + "");
-                        scoreObtainText.setText(totalScore + "");
-                        scoreConsumedText.setText(consumeScore + "");
-                    }
-
-                    @Override
-                    protected void onFail(ApiException e) {
-                        baseStatusLayout.showErrorView();
-                    }
-                });
+    private void setAlreadySignStatus() {
+        scoreSignUp.setEnabled(false);
+        scoreSignUp.setText(R.string.already_sign_up);
+        scoreSignUp.setTextColor(getResources().getColor(R.color.shadow_black));
     }
 
     @Override
@@ -78,31 +81,38 @@ public class ScoreActivity extends BaseActivity {
         return R.layout.activity_score;
     }
 
+    private void signUp() {
+        showLoadingDialog();
+        EoscDataManager.getIns().getDailyRewords().compose(RxUtil.switchSchedulers())
+                .subscribeWith(new BaseSubscriber<JsonObject>() {
+                    @Override
+                    public void onSuccess(JsonObject jsonObject) {
+                        setAlreadySignStatus();
+                        SharePreferenceManager.getInstance(getCtx()).setValue(Constant.LAST_SIGN_TIME, System.currentTimeMillis());
+                        signRecord += 1;
+                        TextView textView = (TextView) constraintLayout.getChildAt(signRecord);
+                        textView.setBackgroundResource(R.drawable.blue_circle_bg);
+                        SharePreferenceManager.getInstance(getCtx()).setValue(Constant.SIGN_UP_RECORD, signRecord);
+                    }
+                });
+    }
 
-    @OnClick({R.id.score_obtain, R.id.score_consumed})
+
+    @OnClick({R.id.score_action_1, R.id.score_action_2, R.id.score_action_3, R.id.score_sign_up})
     public void onViewClicked(View view) {
-        Intent intent = new Intent();
         switch (view.getId()) {
-            case R.id.score_obtain:
-                intent.setClass(getCtx(), ScoreRecordActivity.class);
-                intent.putExtra(Constant.SCORE_FLAG, 0);
-                intent.putExtra(Constant.SCORE_AMOUNT, totalScore);
-                startActivity(intent);
+            case R.id.score_action_1:
+
                 break;
-            case R.id.score_consumed:
-                intent.setClass(getCtx(), ScoreRecordActivity.class);
-                intent.putExtra(Constant.SCORE_FLAG, 1);
-                intent.putExtra(Constant.SCORE_AMOUNT, consumeScore);
-                startActivity(intent);
+            case R.id.score_action_2:
+
                 break;
-//            case R.id.score_sign:
-//                intent.setClass(getCtx(), SignInActivity.class);
-//                startActivity(intent);
-//                break;
-//            case R.id.score_scan:
-//                intent.setClass(getCtx(), CaptureActivity.class);
-//                startActivity(intent);
-//                break;
+            case R.id.score_action_3:
+
+                break;
+            case R.id.score_sign_up:
+                signUp();
+                break;
         }
     }
 }
