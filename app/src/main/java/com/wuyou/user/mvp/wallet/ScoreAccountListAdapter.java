@@ -1,12 +1,15 @@
 package com.wuyou.user.mvp.wallet;
 
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.CheckBox;
 
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.data.local.db.EosAccount;
+import com.wuyou.user.data.local.db.EosAccountDao;
 
 import java.util.List;
 
@@ -15,8 +18,11 @@ import java.util.List;
  */
 
 public class ScoreAccountListAdapter extends BaseQuickAdapter<EosAccount, BaseHolder> {
+    List<EosAccount> data;
+
     public ScoreAccountListAdapter(int layoutResId, @Nullable List<EosAccount> data) {
         super(layoutResId, data);
+        this.data = data;
     }
 
     @Override
@@ -31,5 +37,28 @@ public class ScoreAccountListAdapter extends BaseQuickAdapter<EosAccount, BaseHo
         helper.setText(R.id.tv_account_name_1, item.getName());
         CheckBox checkBox = helper.getView(R.id.cb_main_account);
         checkBox.setChecked(item.getMain());
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (item.getMain()) {
+                    checkBox.setChecked(item.getMain());
+                    return;
+                }
+                EosAccountDao eosDao = CarefreeDaoSession.getInstance().getEosDao();
+                for (int i = 0; i < data.size(); i++) {
+                    if (data.get(i).getMain()) {
+                        data.get(i).setMain(false);
+                        eosDao.update(data.get(i));
+                    }
+                    if (i == helper.getAdapterPosition()) {
+//                        CarefreeDaoSession.getInstance().setMainAccount(data.get(i).getName());
+                        data.get(i).setMain(true);
+                        eosDao.update(data.get(i));
+                    }
+                }
+                notifyDataSetChanged();
+            }
+        });
     }
+
 }

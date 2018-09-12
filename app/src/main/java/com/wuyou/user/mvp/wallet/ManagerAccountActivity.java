@@ -31,6 +31,15 @@ public class ManagerAccountActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         setTitleText(getString(R.string.manager_account));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initRecyclerView();
+    }
+
+    private void initRecyclerView() {
         data = CarefreeDaoSession.getInstance().getAllEosAccount();
         adapter = new ScoreAccountListAdapter(R.layout.item_score_account_list,data);
         rvAccount.setLayoutManager(new LinearLayoutManager(getCtx()));

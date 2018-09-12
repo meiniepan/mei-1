@@ -79,7 +79,7 @@ public class ScoreAccountActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.back_2:
-                drawerLayout.closeDrawer(Gravity.END);
+                drawerLayout.closeDrawer(Gravity.START);
                 break;
             case R.id.ll_import:
                 intent.setClass(getCtx(), ImportAccountActivity.class);
