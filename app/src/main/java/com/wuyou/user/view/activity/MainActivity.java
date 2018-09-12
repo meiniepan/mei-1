@@ -25,7 +25,6 @@ import com.wuyou.user.mvp.home.HomeFragment;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.mine.MineFragment;
 import com.wuyou.user.mvp.order.OrderFragment;
-import com.wuyou.user.util.QMUIStatusBarHelper;
 import com.wuyou.user.view.fragment.ActivityFragment;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.UnScrollViewPager;
@@ -56,9 +55,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         int flag = intent.getIntExtra(Constant.MAIN_FLAG, 0);
-        if (flag == 1) {
-            viewPager.setCurrentItem(1);
-        }
+        viewPager.setCurrentItem(flag);
         String activityUrl = intent.getStringExtra(Constant.ACTIVITY_URL);
         goActivity(activityUrl);
         super.onNewIntent(intent);

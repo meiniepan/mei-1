@@ -170,7 +170,54 @@
             android:textSize="@dimen/dimens_12sp"
             app:layout_constraintStart_toEndOf="@id/text_flag_6"
             app:layout_constraintTop_toTopOf="@+id/text_flag_6" />
+        
+        <View
+            android:id="@+id/day_line_1"
+            android:layout_width="20dp"
+            android:layout_height="2dp"
+            android:background="@color/line_color"
+            app:layout_constraintTop_toTopOf="@+id/text_day_1"
+            app:layout_constraintBottom_toBottomOf="@id/text_day_1"
+            app:layout_constraintStart_toEndOf="@id/text_day_1"
+            app:layout_constraintEnd_toStartOf="@id/text_day_2"/>
+        <View
+            android:layout_width="20dp"
+            android:layout_height="2dp"
+            android:background="@color/line_color"
+            app:layout_constraintTop_toTopOf="@+id/day_line_1"
+            app:layout_constraintStart_toEndOf="@id/text_day_2"
+            app:layout_constraintEnd_toStartOf="@id/text_day_3"/>
+        <View
+            android:layout_width="20dp"
+            android:layout_height="2dp"
+            android:background="@color/line_color"
+            app:layout_constraintTop_toTopOf="@+id/day_line_1"
+            app:layout_constraintStart_toEndOf="@id/text_day_3"
+            app:layout_constraintEnd_toStartOf="@id/text_day_4"/>
 
+        <View
+            android:layout_width="20dp"
+            android:layout_height="2dp"
+            android:background="@color/line_color"
+            app:layout_constraintTop_toTopOf="@+id/day_line_1"
+            app:layout_constraintStart_toEndOf="@id/text_day_4"
+            app:layout_constraintEnd_toStartOf="@id/text_day_5"/>
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="2dp"
+            android:background="@color/line_color"
+            app:layout_constraintTop_toTopOf="@+id/day_line_1"
+            app:layout_constraintStart_toEndOf="@id/text_day_5"
+            app:layout_constraintEnd_toStartOf="@id/text_day_6"/>
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="2dp"
+            android:background="@color/line_color"
+            app:layout_constraintTop_toTopOf="@+id/day_line_1"
+            app:layout_constraintStart_toEndOf="@id/text_day_6"
+            app:layout_constraintEnd_toStartOf="@id/text_day_7"/>
 
         <TextView
             android:id="@+id/score_sign_up"
@@ -181,6 +228,20 @@
             android:gravity="center"
             android:text="@string/sign_in"
             android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/score_sign_success"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="+1"
+            android:textColor="@color/common_gray"
+            android:textSize="@dimen/dimens_16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

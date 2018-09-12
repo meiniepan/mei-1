@@ -75,6 +75,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         super.onPause();
         TCAgent.onPageEnd(this, getLocalClassName());
     }
+
     private void initContentView(int layout_base_activity) {
         setContentView(layout_base_activity);
         findViewById(R.id.back_base).setOnClickListener(v -> onBackPressed());
@@ -103,6 +104,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         titleIconView.setBackgroundResource(resId);
         titleIconView.setOnClickListener(listener);
     }
+
     protected void setTitleIconText(int resId, View.OnClickListener listener) {
         titleIconView.setVisibility(View.VISIBLE);
         titleIconView.setText(resId);
@@ -274,7 +276,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
             }
         }
         if (permissionList.size() > 0) {
-            ActivityCompat.requestPermissions(this, (String[]) permissionList.toArray(), 1);
+            ActivityCompat.requestPermissions(this, permissionList.toArray(new String[]{}), 1);
         }
         return false;
     }
@@ -285,8 +287,13 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             permissionGranted();
         } else {
+            permissionDenied();
             ToastUtils.ToastMessage(this, getString(R.string.permession_denied));
         }
+    }
+
+    protected void permissionDenied() {
+
     }
 
     protected void permissionGranted() {

@@ -1,5 +1,6 @@
 package com.wuyou.user.view.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -82,11 +83,6 @@ public class CaptureActivity extends BaseActivity implements Callback {
     private static final float BEEP_VOLUME = 0.10f;
     private boolean vibrate;
 
-    @OnClick(R.id.scan_back)
-    public void handleBack() {
-        finish();
-    }
-
     @OnClick(R.id.iv_qr_pic)
     public void handlePicChoose() {
         Intent innerIntent = new Intent();
@@ -146,7 +142,20 @@ public class CaptureActivity extends BaseActivity implements Callback {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.scan);
         start();
+    }
+
+    @Override
+    protected void permissionGranted() {
+        SurfaceView surfaceView = previewView;
+        SurfaceHolder surfaceHolder = surfaceView.getHolder();
+        initCamera(surfaceHolder);
+    }
+
+    @Override
+    protected void permissionDenied() {
+        finish();
     }
 
     private void start() {
@@ -163,28 +172,30 @@ public class CaptureActivity extends BaseActivity implements Callback {
     }
 
     private void initCamera(SurfaceHolder surfaceHolder) {
-        try {
-            CameraManager.get().openDriver(surfaceHolder);
-            if (mCustomAlertDialog != null) {
-                mCustomAlertDialog.dismiss();
-            }
-        } catch (IOException | RuntimeException ioe) {
-            CustomAlertDialog.Builder builder = new CustomAlertDialog.Builder(this);
-            builder.setCancelable(false);
-            builder.setTitle("摄像头打开失败");
-            builder.setMessage("请检查摄像头权限是否打开");
-            builder.setNegativeButton("知道了", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
+        if (askForPermissions(Manifest.permission.CAMERA)) {
+            try {
+                CameraManager.get().openDriver(surfaceHolder);
+                if (mCustomAlertDialog != null) {
+                    mCustomAlertDialog.dismiss();
                 }
-            });
-            mCustomAlertDialog = builder.create();
-            mCustomAlertDialog.show();
-            return;
-        }
-        if (handler == null) {
-            handler = new CaptureActivityHandler(this, decodeFormats, characterSet);
+            } catch (IOException | RuntimeException ioe) {
+                CustomAlertDialog.Builder builder = new CustomAlertDialog.Builder(this);
+                builder.setCancelable(false);
+                builder.setTitle("摄像头打开失败");
+                builder.setMessage("请检查摄像头权限是否打开");
+                builder.setNegativeButton("知道了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                mCustomAlertDialog = builder.create();
+                mCustomAlertDialog.show();
+                return;
+            }
+            if (handler == null) {
+                handler = new CaptureActivityHandler(this, decodeFormats, characterSet);
+            }
         }
     }
 

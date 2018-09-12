@@ -5,7 +5,6 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="title_bg">#ffffff</color>
-    <color name="shadow_black">#30000000</color>
     <color name="title_text">#333333</color>
     <color name="common_dark">#333333</color>
     <color name="common_gray">#999999</color>
@@ -21,6 +20,7 @@
     <color name="common_red">#ff4b4b</color>
     <color name="shallow_red">#20ff4b4b</color>
     <color name="mine_bg">#5678fb</color>
+    <color name="line_color">#C1DAFF</color>
 
     <color name="common_orange">#ff904b</color>
     <color name="common_orange_press">#b26434</color>
