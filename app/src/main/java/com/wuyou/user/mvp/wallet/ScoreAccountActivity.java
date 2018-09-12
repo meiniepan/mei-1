@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -36,10 +38,19 @@ public class ScoreAccountActivity extends BaseActivity {
     TextView tvExchange;
     @BindView(R.id.drawerL)
     DrawerLayout drawerLayout;
+    @BindView(R.id.ll_above)
+    LinearLayout layout;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        WindowManager wm = this.getWindowManager();//获取屏幕宽高
+        int width1 = wm.getDefaultDisplay().getWidth();
+        int height1 = wm.getDefaultDisplay().getHeight();
+        ViewGroup.LayoutParams para = layout.getLayoutParams();//获取drawerlayout的布局
+        para.width = width1*4 / 7;//修改宽度
+        para.height = height1;//修改高度
+        layout.setLayoutParams(para); //设置修改后的布局。
         tvAccountName.setText(CarefreeDaoSession.getInstance().getMainAccount().getName());
     }
 
