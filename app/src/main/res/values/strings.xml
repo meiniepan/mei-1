@@ -173,6 +173,7 @@
     <string name="already_sign_up">已签到</string>
     <string name="scan">扫一扫</string>
     <string name="unlock">解锁</string>
+    <string name="copy_pk">复制私钥</string>
 
 
 </resources>

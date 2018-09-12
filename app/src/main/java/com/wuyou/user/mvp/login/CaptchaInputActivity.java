@@ -32,7 +32,7 @@ public class CaptchaInputActivity extends BaseActivity<LoginContract.View, Login
         phone = getIntent().getStringExtra(Constant.PHONE);
         int flag = getIntent().getIntExtra(Constant.INPUT_PHONE_FLAG, 0);
         observer = new CounterDisposableObserver(reSendCaptcha);
-        RxUtil.countdown(59).subscribe(observer);
+        RxUtil.countdown(Constant.COUNT_DOWN).subscribe(observer);
         inputCaptchaEdit.showKeyBoard();
         inputCaptchaEdit.setInputCompleteListener(() -> {
             if (flag == 0) { //reset password
@@ -88,6 +88,6 @@ public class CaptchaInputActivity extends BaseActivity<LoginContract.View, Login
     @Override
     public void getVerifySuccess() {
         observer = new CounterDisposableObserver(reSendCaptcha);
-        RxUtil.countdown(59).subscribe(observer);
+        RxUtil.countdown(Constant.COUNT_DOWN).subscribe(observer);
     }
 }

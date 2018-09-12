@@ -103,9 +103,9 @@
             android:id="@+id/text_flag_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="47dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="26dp"
-            android:text="+1"
+            android:text="+10"
             android:textSize="@dimen/dimens_12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -116,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:text="+1"
+            android:text="+10"
             android:textSize="@dimen/dimens_12sp"
             app:layout_constraintStart_toEndOf="@id/text_flag_1"
             app:layout_constraintTop_toTopOf="@+id/text_flag_1" />
@@ -126,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:text="+1"
+            android:text="+10"
             android:textSize="@dimen/dimens_12sp"
             app:layout_constraintStart_toEndOf="@id/text_flag_2"
             app:layout_constraintTop_toTopOf="@+id/text_flag_2" />
@@ -136,7 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:text="+1"
+            android:text="+10"
             android:textSize="@dimen/dimens_12sp"
             app:layout_constraintStart_toEndOf="@id/text_flag_3"
             app:layout_constraintTop_toTopOf="@+id/text_flag_3" />
@@ -146,7 +146,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:text="+1"
+            android:text="+10"
             android:textSize="@dimen/dimens_12sp"
             app:layout_constraintStart_toEndOf="@id/text_flag_4"
             app:layout_constraintTop_toTopOf="@+id/text_flag_4" />
@@ -156,7 +156,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:text="+1"
+            android:text="+10"
             android:textSize="@dimen/dimens_12sp"
             app:layout_constraintStart_toEndOf="@id/text_flag_5"
             app:layout_constraintTop_toTopOf="@+id/text_flag_5" />
@@ -166,7 +166,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:text="+2"
+            android:text="+40"
             android:textSize="@dimen/dimens_12sp"
             app:layout_constraintStart_toEndOf="@id/text_flag_6"
             app:layout_constraintTop_toTopOf="@+id/text_flag_6" />

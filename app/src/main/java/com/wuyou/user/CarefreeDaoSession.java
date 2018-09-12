@@ -142,10 +142,20 @@ public class CarefreeDaoSession {
         }
         EosAccount mainAccount = getMainAccount();
         mainAccount.setMain(false);
-        getEosDao().insertOrReplace(mainAccount);
+        getEosDao().update(mainAccount);
 
         eosAccount.setMain(true);
-        getEosDao().insertOrReplace(eosAccount);
+        getEosDao().update(eosAccount);
         return eosAccount;
+    }
+
+    public EosAccount setMainAccount(EosAccount account){
+        EosAccount mainAccount = getMainAccount();
+        mainAccount.setMain(false);
+        getEosDao().update(mainAccount);
+
+        account.setMain(true);
+        getEosDao().update(account);
+        return account;
     }
 }

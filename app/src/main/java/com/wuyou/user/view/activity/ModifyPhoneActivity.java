@@ -11,6 +11,7 @@ import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;
@@ -86,6 +87,6 @@ public class ModifyPhoneActivity extends BaseActivity {
                     }
                 });
         observer = new CounterDisposableObserver(phoneUpdateSend);
-        RxUtil.countdown(60).subscribe(observer);
+        RxUtil.countdown(Constant.COUNT_DOWN).subscribe(observer);
     }
 }

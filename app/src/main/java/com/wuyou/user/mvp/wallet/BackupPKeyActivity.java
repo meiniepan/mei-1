@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.method.PasswordTransformationMethod;
+import android.text.method.SingleLineTransformationMethod;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.MainActivity;
+import com.wuyou.user.view.widget.panel.CaptchaPanel;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -96,7 +98,12 @@ public class BackupPKeyActivity extends BaseActivity {
     }
 
     private void unlock() {
-        //TODO
-
+        new CaptchaPanel(this, () -> {
+            backupPkText.setTransformationMethod(SingleLineTransformationMethod.getInstance());
+            savePk.setVisibility(View.VISIBLE);
+            backMain.setVisibility(View.VISIBLE);
+            backupPk.setText(R.string.copy_pk);
+            needUnlock = false;
+        }).show();
     }
 }

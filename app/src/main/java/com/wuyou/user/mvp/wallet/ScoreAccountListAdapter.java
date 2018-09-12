@@ -44,21 +44,13 @@ public class ScoreAccountListAdapter extends BaseQuickAdapter<EosAccount, BaseHo
                     checkBox.setChecked(item.getMain());
                     return;
                 }
-                EosAccountDao eosDao = CarefreeDaoSession.getInstance().getEosDao();
                 for (int i = 0; i < data.size(); i++) {
-                    if (data.get(i).getMain()) {
-                        data.get(i).setMain(false);
-                        eosDao.update(data.get(i));
-                    }
                     if (i == helper.getAdapterPosition()) {
-//                        CarefreeDaoSession.getInstance().setMainAccount(data.get(i).getName());
-                        data.get(i).setMain(true);
-                        eosDao.update(data.get(i));
+                        CarefreeDaoSession.getInstance().setMainAccount(data.get(i));
                     }
                 }
                 notifyDataSetChanged();
             }
         });
     }
-
 }

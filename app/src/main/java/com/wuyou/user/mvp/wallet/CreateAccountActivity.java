@@ -63,7 +63,7 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
                 break;
             case R.id.btn_obtain_captcha:
                 observer = new CounterDisposableObserver(btnObtainCaptcha);
-                RxUtil.countdown(119).subscribe(observer);
+                RxUtil.countdown(Constant.COUNT_DOWN).subscribe(observer);
                 mPresenter.getCaptcha(Constant.CAPTCHA_NEW_ACCOUNT, tvPhoneNum.getText().toString().trim());
                 etInputCaptcha.requestFocus();
                 break;

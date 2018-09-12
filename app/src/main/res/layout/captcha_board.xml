@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_border_background"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="请填写手机短信验证码"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:textSize="@dimen/dimens_18sp"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已发送到手机号："
+            />
+
+        <TextView
+            android:id="@+id/captcha_dialog_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <com.gs.buluo.common.widget.CaptchaEditText
+        android:id="@+id/captcha_dialog_captcha"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
+
+    <Button
+        android:id="@+id/captcha_dialog_countdown"
+        android:layout_width="wrap_content"
+        android:background="@color/white"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:text="119s后重发"
+        android:layout_marginTop="20dp"
+        android:textSize="@dimen/dimens_12sp"
+        android:textColor="@color/common_gray"/>
+
+</LinearLayout>

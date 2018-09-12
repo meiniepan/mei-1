@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.gs.buluo.common.utils.ToastUtils;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.util.CommonUtil;
@@ -76,7 +77,7 @@ public class PhoneLoginFragment extends BaseFragment<LoginContract.View, LoginCo
                 mPresenter.getVerifyCode(phone);
                 loginVerify.requestFocus();
                 observer = new CounterDisposableObserver(reSendCaptcha);
-                RxUtil.countdown(119).subscribe(observer);
+                RxUtil.countdown(Constant.COUNT_DOWN).subscribe(observer);
                 break;
             case R.id.login:
                 String phone2 = loginPhone.getText().toString().trim();
