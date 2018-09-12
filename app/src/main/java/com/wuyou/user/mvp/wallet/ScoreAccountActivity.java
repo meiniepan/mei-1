@@ -9,16 +9,13 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.activity.MainActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -43,15 +40,19 @@ public class ScoreAccountActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        initDrawerLayout();
+        tvAccountName.setText(CarefreeDaoSession.getInstance().getMainAccount().getName());
+    }
+
+    private void initDrawerLayout() {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         WindowManager wm = this.getWindowManager();//获取屏幕宽高
         int width1 = wm.getDefaultDisplay().getWidth();
         int height1 = wm.getDefaultDisplay().getHeight();
         ViewGroup.LayoutParams para = layout.getLayoutParams();//获取drawerlayout的布局
-        para.width = width1*4 / 7;//修改宽度
+        para.width = width1 * 4 / 7;//修改宽度
         para.height = height1;//修改高度
         layout.setLayoutParams(para); //设置修改后的布局。
-        tvAccountName.setText(CarefreeDaoSession.getInstance().getMainAccount().getName());
     }
 
     @Override
