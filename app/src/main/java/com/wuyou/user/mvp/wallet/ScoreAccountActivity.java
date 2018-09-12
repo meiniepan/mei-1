@@ -43,6 +43,11 @@ public class ScoreAccountActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         initDrawerLayout();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         tvAccountName.setText(CarefreeDaoSession.getInstance().getMainAccount().getName());
     }
 

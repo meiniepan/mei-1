@@ -121,7 +121,7 @@ public class CaptchaPanel extends Dialog {
             ToastUtils.ToastMessage(getContext(), R.string.edit_verify);
             return;
         }
-        CarefreeRetrofit.getInstance().createApi(UserApis.class).checkCaptcha(Constant.CAPTCHA_CHECK_UNLOCK_ACCOUNT, QueryMapBuilder.getIns().put("mobile", CarefreeDaoSession.getInstance().getUserInfo().getMobile()).put("captcha", captchaDialogCaptcha.getStrPassword()).buildGet())
+        CarefreeRetrofit.getInstance().createApi(UserApis.class).checkCaptcha(Constant.CAPTCHA_CHECK_UNLOCK_ACCOUNT, QueryMapBuilder.getIns().put("mobile", CarefreeDaoSession.getInstance().getUserInfo().getMobile()).put("captcha", captchaDialogCaptcha.getStrPassword()).buildPost())
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<BaseResponse>() {
                     @Override
