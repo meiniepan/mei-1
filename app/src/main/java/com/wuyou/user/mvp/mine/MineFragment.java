@@ -23,6 +23,7 @@ import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.score.ScoreActivity;
 import com.wuyou.user.mvp.score.SignInActivity;
 import com.wuyou.user.mvp.wallet.CreateOrImportAccountActivity;
+import com.wuyou.user.mvp.wallet.ScoreAccountActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.UserApis;
@@ -168,7 +169,7 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.mine_score:
                 //todo
-                intent.setClass(mCtx, CreateOrImportAccountActivity.class);
+                intent.setClass(mCtx, ScoreAccountActivity.class);
                 startActivity(intent);
 //                if (totalScore == -1) {
 //                    ToastUtils.ToastMessage(mCtx, R.string.connect_fail);
