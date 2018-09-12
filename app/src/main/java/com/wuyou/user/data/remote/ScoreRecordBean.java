@@ -7,7 +7,7 @@ import com.wuyou.user.data.remote.response.BaseItemBean;
  */
 
 public class ScoreRecordBean extends BaseItemBean{
-    public String points;
-    public String source;
+    public String points ="1";
+    public String source="app签到";
     public long created_at;
 }

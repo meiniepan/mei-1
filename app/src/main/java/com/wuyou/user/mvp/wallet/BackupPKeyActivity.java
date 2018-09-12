@@ -34,13 +34,24 @@ import io.reactivex.Observable;
 public class BackupPKeyActivity extends BaseActivity {
     @BindView(R.id.backup_pk_text)
     TextView backupPkText;
+    @BindView(R.id.backup_pk)
+    TextView backupPk;
+    @BindView(R.id.save_pk)
+    TextView savePk;
+    @BindView(R.id.back_main)
+    TextView backMain;
     private String privateKey;
+    private boolean needUnlock;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
         setTitleText(getString(R.string.backup_pk));
-        if (getIntent().getBooleanExtra(Constant.BACKUP_FROM_CREATE, false)) {
+        if (!getIntent().getBooleanExtra(Constant.BACKUP_FROM_CREATE, false)) {
             backupPkText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            savePk.setVisibility(View.GONE);
+            backMain.setVisibility(View.GONE);
+            backupPk.setText(R.string.unlock);
+            needUnlock = true;
         }
         privateKey = CarefreeDaoSession.getInstance().getMainAccount().getPrivateKey();
         backupPkText.setText(privateKey);
@@ -55,9 +66,13 @@ public class BackupPKeyActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.backup_pk:
-                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                if (cm != null) cm.setPrimaryClip(ClipData.newPlainText(null, privateKey));
-                ToastUtils.ToastMessage(getCtx(), getString(R.string.copy_success));
+                if (needUnlock) {
+                    unlock();
+                } else {
+                    ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                    if (cm != null) cm.setPrimaryClip(ClipData.newPlainText(null, privateKey));
+                    ToastUtils.ToastMessage(getCtx(), getString(R.string.copy_success));
+                }
                 break;
             case R.id.save_pk:
                 showLoadingDialog();
@@ -78,5 +93,10 @@ public class BackupPKeyActivity extends BaseActivity {
                 startActivity(intent);
                 break;
         }
+    }
+
+    private void unlock() {
+        //TODO
+
     }
 }

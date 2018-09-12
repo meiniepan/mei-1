@@ -20,15 +20,14 @@ import com.wuyou.user.data.remote.WalletBalance;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
-import com.wuyou.user.mvp.score.ScoreActivity;
 import com.wuyou.user.mvp.score.SignInActivity;
-import com.wuyou.user.mvp.wallet.CreateOrImportAccountActivity;
 import com.wuyou.user.mvp.wallet.ScoreAccountActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
+import com.wuyou.user.view.activity.HelpActivity;
 import com.wuyou.user.view.activity.InfoActivity;
 import com.wuyou.user.view.activity.SettingActivity;
 import com.wuyou.user.view.activity.WebActivity;
@@ -194,7 +193,7 @@ public class MineFragment extends BaseFragment {
                         }).create().show();
                 break;
             case R.id.mine_help:
-                intent.setClass(mCtx, ScoreActivity.class);
+                intent.setClass(mCtx, HelpActivity.class);
                 startActivity(intent);
                 break;
         }

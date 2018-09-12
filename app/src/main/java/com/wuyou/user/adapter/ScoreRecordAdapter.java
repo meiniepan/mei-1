@@ -15,8 +15,8 @@ import java.util.Date;
 public class ScoreRecordAdapter extends BaseQuickAdapter<ScoreRecordBean, BaseHolder> {
     private int flag;
 
-    public ScoreRecordAdapter(int layoutResId, int flag) {
-        super(layoutResId);
+    public ScoreRecordAdapter(int flag) {
+        super(R.layout.item_score_record);
         this.flag = flag;
     }
 

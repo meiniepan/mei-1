@@ -207,4 +207,8 @@ public class CarefreeRecyclerView extends FrameLayout {
     public <T extends BaseItemBean> void activeRefresh(Observable<BaseResponse<ListResponse<T>>> observable) {
         setRefreshAction(() -> getData(observable));
     }
+
+    public void setEmptyIcon(int emptyIcon) {
+        mRecyclerView.setEmptyDrawable(getResources().getDrawable(emptyIcon));
+    }
 }

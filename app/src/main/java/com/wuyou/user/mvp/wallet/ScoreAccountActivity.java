@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
+import com.wuyou.user.mvp.score.ScoreActivity;
+import com.wuyou.user.mvp.score.ScoreRecordActivity;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import butterknife.BindView;
@@ -60,15 +62,16 @@ public class ScoreAccountActivity extends BaseActivity {
         return R.layout.activity_score_account;
     }
 
-    @OnClick({R.id.iv_more, R.id.ll_backup_pk, R.id.tv_obtain, R.id.tv_exchange, R.id.back_1, R.id.back_2, R.id.ll_import, R.id.ll_manager, R.id.ll_score})
+    @OnClick({R.id.iv_more, R.id.ll_backup_pk, R.id.tv_exchange, R.id.back_1, R.id.back_2, R.id.ll_import, R.id.ll_manager, R.id.ll_score, R.id.score_obtain_layout})
     public void onViewClicked(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.iv_more:
-                drawerLayout.openDrawer(Gravity.LEFT);
+                drawerLayout.openDrawer(Gravity.START);
                 break;
             case R.id.ll_backup_pk:
-                break;
-            case R.id.tv_obtain:
+                intent.setClass(getCtx(), BackupActivity.class);
+                startActivity(intent);
                 break;
             case R.id.tv_exchange:
                 break;
@@ -76,14 +79,23 @@ public class ScoreAccountActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.back_2:
-                drawerLayout.closeDrawer(Gravity.LEFT);
+                drawerLayout.closeDrawer(Gravity.END);
                 break;
             case R.id.ll_import:
+                intent.setClass(getCtx(), ImportAccountActivity.class);
+                startActivity(intent);
                 break;
             case R.id.ll_manager:
-                startActivity(new Intent(getCtx(), ManagerAccountActivity.class));
+                intent.setClass(getCtx(), ManagerAccountActivity.class);
+                startActivity(intent);
                 break;
             case R.id.ll_score:
+                intent.setClass(getCtx(), ScoreRecordActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.score_obtain_layout:
+                intent.setClass(getCtx(), ScoreActivity.class);
+                startActivity(intent);
                 break;
         }
     }

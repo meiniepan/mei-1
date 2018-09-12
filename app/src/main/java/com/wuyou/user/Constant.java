@@ -14,7 +14,6 @@ public class Constant {
     public static final String EOSIO_DAILAY_REWARDS = "dailyrewards";
     public static final String EOSIO_TOKEN_CONTRACT = "eosio.token";
     public static final int TX_EXPIRATION_IN_MILSEC = 30000;
-    public static final String CREATE_ACCOUNT_FLAG = "create_eos_account_flag";
     public static final String BACKUP_FROM_CREATE = "backup_from_create";
     public static final int GET_CAPTCHA_FAIL = 600;
     public static final String CAPTCHA_NEW_ACCOUNT = "new_account";

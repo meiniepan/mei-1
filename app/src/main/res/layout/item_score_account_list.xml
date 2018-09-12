@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -15,8 +15,8 @@
 
         <FrameLayout
             android:layout_width="40dp"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin">
 
             <ImageView
                 android:id="@+id/avatar_bac"
@@ -30,54 +30,42 @@
                 android:layout_gravity="center"
                 android:background="@mipmap/icon_score_account_avatar" />
         </FrameLayout>
+
         <TextView
             android:id="@+id/tv_account_name_1"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginStart="10dp"
             android:layout_height="wrap_content"
-            tools:text="sdffd"
-            />
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            tools:text="sdffd" />
+
         <ImageView
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:src="@mipmap/back_arrow_gray"
             android:layout_marginEnd="8dp"
-            />
+            android:src="@mipmap/back_arrow_gray" />
     </LinearLayout>
-    <include layout="@layout/split_line"/>
+
+    <include layout="@layout/split_line" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_height"
-        android:gravity="center_vertical"
-        >
+        android:gravity="center_vertical">
+
         <CheckBox
             android:id="@+id/cb_main_account"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:background="@drawable/btn_radio"
-            android:button="@null"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            />
+            android:background="@drawable/btn_radio"
+            android:button="@null" />
+
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="积分主账户"
-            />
-        <TextView
-            android:id="@+id/tv_score_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="LDBP"
-            android:visibility="gone"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            />
+            android:layout_weight="1"
+            android:text="积分主账户" />
     </LinearLayout>
 </LinearLayout>

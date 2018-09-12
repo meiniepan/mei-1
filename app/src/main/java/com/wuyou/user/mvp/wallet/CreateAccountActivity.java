@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
@@ -103,7 +102,6 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
 
     @Override
     public void createAccountSuccess() {
-        SharePreferenceManager.getInstance(getCtx()).setValue(Constant.CREATE_ACCOUNT_FLAG, true);
         Intent intent = new Intent(getCtx(), CreateAccountSuccessActivity.class);
         startActivity(intent);
         finish();
@@ -117,7 +115,7 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        observer.dispose();
+        if (observer != null) observer.dispose();
     }
 
     @Override

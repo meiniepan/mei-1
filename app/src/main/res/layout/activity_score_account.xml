@@ -117,6 +117,7 @@
                 android:layout_height="60dp">
 
                 <LinearLayout
+                    android:id="@+id/score_obtain_layout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -139,6 +140,7 @@
                     android:background="@color/divide_gray" />
 
                 <LinearLayout
+                    android:id="@+id/score_exchange_layout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -151,7 +153,7 @@
                         android:drawableLeft="@mipmap/icon_exchange"
                         android:drawablePadding="10dp"
                         android:gravity="center"
-                        android:text="获取"
+                        android:text="兑换"
                         android:textColor="@color/common_gray" />
                 </LinearLayout>
 

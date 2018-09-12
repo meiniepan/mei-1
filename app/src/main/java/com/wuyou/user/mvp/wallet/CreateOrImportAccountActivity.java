@@ -19,9 +19,6 @@ public class CreateOrImportAccountActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         setTitleText(getString(R.string.create_or_import));
-        if (SharePreferenceManager.getInstance(getCtx()).getBooeanValue(Constant.CREATE_ACCOUNT_FLAG,false)) {
-            findViewById(R.id.btn_create).setVisibility(View.GONE);
-        }
     }
 
     @Override

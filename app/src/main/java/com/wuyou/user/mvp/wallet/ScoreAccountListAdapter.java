@@ -15,17 +15,15 @@ import java.util.List;
  */
 
 public class ScoreAccountListAdapter extends BaseQuickAdapter<EosAccount, BaseHolder> {
-
-
     public ScoreAccountListAdapter(int layoutResId, @Nullable List<EosAccount> data) {
         super(layoutResId, data);
     }
 
     @Override
     protected void convert(BaseHolder helper, EosAccount item) {
-        if (helper.getPosition() % 3 == 1) {
+        if (helper.getAdapterPosition() % 3 == 1) {
             helper.getView(R.id.avatar_bac).setBackgroundResource(R.drawable.account_avatar_bac_2);
-        } else if (helper.getPosition() % 3 == 2) {
+        } else if (helper.getAdapterPosition() % 3 == 2) {
             helper.getView(R.id.avatar_bac).setBackgroundResource(R.drawable.account_avatar_bac_3);
         } else {
             helper.getView(R.id.avatar_bac).setBackgroundResource(R.drawable.account_avatar_bac_1);
@@ -33,6 +31,5 @@ public class ScoreAccountListAdapter extends BaseQuickAdapter<EosAccount, BaseHo
         helper.setText(R.id.tv_account_name_1, item.getName());
         CheckBox checkBox = helper.getView(R.id.cb_main_account);
         checkBox.setChecked(item.getMain());
-//        helper.setText(R.id.tv_score_num,item.get);
     }
 }

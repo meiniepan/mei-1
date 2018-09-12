@@ -172,6 +172,7 @@
     <string name="record_score">积分收发记录</string>
     <string name="already_sign_up">已签到</string>
     <string name="scan">扫一扫</string>
+    <string name="unlock">解锁</string>
 
 
 </resources>

@@ -1,7 +1,5 @@
 package com.wuyou.user.data.local.db;
 
-import android.support.annotation.NonNull;
-
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
@@ -9,7 +7,7 @@ import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.Property;
 
 /**
- * Created by swapnibble on 2017-12-08.
+ * Created by DELL on 2017-12-08.
  */
 @Entity
 public class EosAccount {
@@ -49,7 +47,7 @@ public class EosAccount {
 
     @Generated(hash = 1244585924)
     public EosAccount(String name, Integer type, String privateKey,
-            String publicKey, Boolean main) {
+                      String publicKey, Boolean main) {
         this.name = name;
         this.type = type;
         this.privateKey = privateKey;
@@ -111,5 +109,4 @@ public class EosAccount {
     public void setMain(Boolean main) {
         this.main = main;
     }
-
 }

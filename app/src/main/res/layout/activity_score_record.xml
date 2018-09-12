@@ -5,42 +5,26 @@
     android:layout_height="match_parent"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/tint_bg">
 
-    <LinearLayout
+    <android.support.design.widget.TabLayout
+        android:id="@+id/score_record_tab"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin_end"
-        android:layout_marginStart="@dimen/activity_horizontal_margin_end"
-        android:layout_marginTop="16dp"
-        android:background="@mipmap/score_bg"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="50dp"
+        android:background="@color/white"
+        app:tabGravity="center"
+        app:tabIndicatorColor="@color/night_blue"
+        app:tabMaxWidth="200dp"
+        app:tabPaddingEnd="30dp"
+        app:tabPaddingStart="30dp"
+        app:tabTextAppearance="@style/TabLayoutStyle"
+        app:tabSelectedTextColor="@color/night_blue"/>
 
-        <TextView
-            android:id="@+id/score_record_flag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="共消耗积分"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/score_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/white"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <com.wuyou.user.view.widget.CarefreeRecyclerView
-        android:id="@+id/score_record_list"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/score_record_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:emptyDrawable="@mipmap/empty_score"
-        app:errorDrawable="@mipmap/net_error" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp" />
 
 </LinearLayout>
