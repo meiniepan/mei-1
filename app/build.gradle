@@ -90,6 +90,7 @@ android {
     }
 }
 dependencies {
+    compile 'org.mongodb:mongo-java-driver:3.8.1'
     //微信 和Glide库 见module
     compile fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/AMap_Location_V4.2.0_20180809.jar')

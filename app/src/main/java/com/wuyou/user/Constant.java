@@ -5,6 +5,7 @@ package com.wuyou.user;
  */
 
 public class Constant {
+    public static final String EOS_MONGO_DB = "mongodb://192.168.1.184:27017/";
     public static final String DEFAULT_SERVANT_ACCOUNT = "eosio";
     public static final String DEFAULT_WALLET_NAME = "pocket";
     public static final boolean DEFAULT_SAVE_PASSWORD = true;

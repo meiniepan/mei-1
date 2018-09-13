@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.view.activity.BaseActivity;
@@ -19,6 +20,7 @@ import butterknife.OnClick;
 public class BackupActivity extends BaseActivity {
     @BindView(R.id.tv_account_name_11)
     TextView tvAccountName11;
+
     @BindView(R.id.tv_account_name_12)
     TextView tvAccountName12;
     @BindView(R.id.tv_account_num)
@@ -30,6 +32,8 @@ public class BackupActivity extends BaseActivity {
         EosAccount mainAccount = CarefreeDaoSession.getInstance().getMainAccount();
         tvAccountName11.setText(mainAccount.getName());
         tvAccountName12.setText(mainAccount.getName());
+        tvAccountNum.setText(getIntent().getStringExtra(Constant.SCORE_AMOUNT));
+
     }
 
     @Override

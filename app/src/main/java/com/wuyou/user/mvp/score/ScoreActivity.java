@@ -65,7 +65,13 @@ public class ScoreActivity extends BaseActivity {
         int currentDate = calendar.get(Calendar.DAY_OF_YEAR);
         calendar.setTime(new Date(lastSignTime));
         int lastDate = calendar.get(Calendar.DAY_OF_YEAR);
-        if (currentDate == lastDate) {
+        if (signRecord != -1 && signRecord != 7) {
+            for (int i = 0; i <= signRecord; i++) {
+                TextView textView = (TextView) constraintLayout.getChildAt(i);
+                textView.setBackgroundResource(R.drawable.blue_circle_bg);
+            }
+        }
+        if (currentDate == lastDate) { //今天签到了
             setAlreadySignStatus();
         } else { //新的一天 展示全部未签到状态
             setEnableSignStatus();
@@ -73,16 +79,11 @@ public class ScoreActivity extends BaseActivity {
                 signRecord = -1;
             }
         }
-        if (signRecord == -1) return;
-        for (int i = 0; i < signRecord; i++) {
-            TextView textView = (TextView) constraintLayout.getChildAt(i);
-            textView.setBackgroundResource(R.drawable.blue_circle_bg);
-        }
     }
 
     private void setEnableSignStatus() {
         if (signRecord != -1 && signRecord != 7) {
-            TextView textView = (TextView) constraintLayout.getChildAt(signRecord);
+            TextView textView = (TextView) constraintLayout.getChildAt(signRecord + 1);
             textView.setText("");
             textView.animate().scaleY(1.3f).scaleX(1.3f).setDuration(0).start();
             textView.setBackgroundResource(R.mipmap.sign_today);
@@ -121,8 +122,6 @@ public class ScoreActivity extends BaseActivity {
         setAlreadySignStatus();
         SharePreferenceManager.getInstance(getCtx()).setValue(Constant.LAST_SIGN_TIME, System.currentTimeMillis());
         signRecord += 1;
-        TextView textView = (TextView) constraintLayout.getChildAt(signRecord);
-        textView.setBackgroundResource(R.drawable.blue_circle_bg);
         SharePreferenceManager.getInstance(getCtx()).setValue(Constant.SIGN_UP_RECORD, signRecord);
         startScoreAnimation();
     }

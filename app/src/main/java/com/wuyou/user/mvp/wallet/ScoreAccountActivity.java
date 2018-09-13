@@ -11,11 +11,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gs.buluo.common.network.BaseSubscriber;
 import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.data.EoscDataManager;
+import com.wuyou.user.data.api.EosAccountInfo;
 import com.wuyou.user.mvp.score.ScoreActivity;
 import com.wuyou.user.mvp.score.ScoreRecordActivity;
+import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -48,7 +55,20 @@ public class ScoreAccountActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        tvAccountName.setText(CarefreeDaoSession.getInstance().getMainAccount().getName());
+        String name = CarefreeDaoSession.getInstance().getMainAccount().getName();
+        tvAccountName.setText(name);
+        getAccountScore(name);
+    }
+
+    public void getAccountScore(String name) {
+        EoscDataManager.getIns().readAccountInfo(name)
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<EosAccountInfo>() {
+                    @Override
+                    public void onSuccess(EosAccountInfo eosAccountInfo) {
+                        List<EosAccountInfo.PermissionsBean> permissions = eosAccountInfo.permissions;
+                    }
+                });
     }
 
     private void initDrawerLayout() {
@@ -67,6 +87,8 @@ public class ScoreAccountActivity extends BaseActivity {
         return R.layout.activity_score_account;
     }
 
+    private String scoreAmount;
+
     @OnClick({R.id.iv_more, R.id.ll_backup_pk, R.id.tv_exchange, R.id.back_1, R.id.back_2, R.id.ll_import, R.id.ll_manager, R.id.ll_score, R.id.score_obtain_layout})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
@@ -76,6 +98,7 @@ public class ScoreAccountActivity extends BaseActivity {
                 break;
             case R.id.ll_backup_pk:
                 intent.setClass(getCtx(), BackupActivity.class);
+                intent.putExtra(Constant.SCORE_AMOUNT,scoreAmount);
                 startActivity(intent);
                 break;
             case R.id.tv_exchange:
@@ -104,4 +127,5 @@ public class ScoreAccountActivity extends BaseActivity {
                 break;
         }
     }
+
 }
