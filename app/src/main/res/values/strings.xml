@@ -132,6 +132,7 @@
     <string name="sign_record">签到记录</string>
     <string name="get_sign_record_fail">获取签到记录失败</string>
     <string name="daily_sign">每日签到</string>
+    <string name="app_sign">app签到</string>
     <string name="mine_warn">用户新手礼,仅用于抵扣平台交易所产生的手续费(每笔交易自动扣除), 不可提现,不可以用于其他支付。</string>
     <string name="wrong_qr_code">对不起，该二维码无效</string>
     <string name="no_network">当前无网络连接，请稍后再试</string>
@@ -174,6 +175,8 @@
     <string name="scan">扫一扫</string>
     <string name="unlock">解锁</string>
     <string name="copy_pk">复制私钥</string>
+    <string name="system_rewards">系统奖励</string>
+    <string name="no_score">暂无积分记录</string>
 
 
 </resources>

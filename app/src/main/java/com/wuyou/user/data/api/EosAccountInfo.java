@@ -32,6 +32,7 @@ public class EosAccountInfo {
     public String head_block_time;
     public boolean privileged;
     public String last_code_update;
+    public String core_liquid_balance;
     public List<PermissionsBean> permissions;
 
     public static class PermissionsBean {

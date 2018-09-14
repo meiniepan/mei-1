@@ -194,7 +194,7 @@ public class MineFragment extends BaseFragment {
                         }).create().show();
                 break;
             case R.id.mine_help:
-                intent.setClass(mCtx, ScoreRecordActivity.class);
+                intent.setClass(mCtx, HelpActivity.class);
                 startActivity(intent);
                 break;
         }

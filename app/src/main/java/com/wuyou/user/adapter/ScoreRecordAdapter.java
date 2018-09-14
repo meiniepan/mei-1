@@ -19,9 +19,19 @@ public class ScoreRecordAdapter extends BaseQuickAdapter<ScoreRecordBean, BaseHo
 
     @Override
     protected void convert(BaseHolder helper, ScoreRecordBean bean) {
-        helper.setText(R.id.item_score_record_title, (bean.source))
-                .setText(R.id.item_score_record_point, bean.points.replaceAll("EOS", ""))
+        helper.setText(R.id.item_score_record_title, (translateSource(bean.source)))
+                .setText(R.id.item_score_record_point, bean.points.replaceAll("EOS", "").split("\\.")[0])
                 .setText(R.id.item_score_record_point_flag, flag == 0 ? "+" : "-")
                 .setText(R.id.item_score_record_time, bean.created_at);
+    }
+
+    private int translateSource(String source) {
+        if ("dailyrewords".equals(source)) {
+            return R.string.app_sign;
+        } else if ("actirewards".equals(source)) {
+            return R.string.activity;
+        } else {
+            return R.string.system_rewards;
+        }
     }
 }

@@ -22,8 +22,6 @@ import com.wuyou.user.mvp.score.ScoreRecordActivity;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -36,6 +34,8 @@ public class ScoreAccountActivity extends BaseActivity {
     ImageView ivAccountAvatar;
     @BindView(R.id.tv_account_name)
     TextView tvAccountName;
+    @BindView(R.id.tv_account_score)
+    TextView tvAccountScore;
     @BindView(R.id.ll_backup_pk)
     LinearLayout llBackupPk;
     @BindView(R.id.tv_obtain)
@@ -61,12 +61,12 @@ public class ScoreAccountActivity extends BaseActivity {
     }
 
     public void getAccountScore(String name) {
-        EoscDataManager.getIns().readAccountInfo(name)
-                .compose(RxUtil.switchSchedulers())
+        EoscDataManager.getIns().readAccountInfo(name).compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<EosAccountInfo>() {
                     @Override
                     public void onSuccess(EosAccountInfo eosAccountInfo) {
-                        List<EosAccountInfo.PermissionsBean> permissions = eosAccountInfo.permissions;
+                        scoreAmount = eosAccountInfo.core_liquid_balance.replace("EOS", "");
+                        tvAccountScore.setText(scoreAmount);
                     }
                 });
     }
@@ -98,7 +98,7 @@ public class ScoreAccountActivity extends BaseActivity {
                 break;
             case R.id.ll_backup_pk:
                 intent.setClass(getCtx(), BackupActivity.class);
-                intent.putExtra(Constant.SCORE_AMOUNT,scoreAmount);
+                intent.putExtra(Constant.SCORE_AMOUNT, scoreAmount);
                 startActivity(intent);
                 break;
             case R.id.tv_exchange:

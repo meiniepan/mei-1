@@ -33,7 +33,6 @@ public class BackupActivity extends BaseActivity {
         tvAccountName11.setText(mainAccount.getName());
         tvAccountName12.setText(mainAccount.getName());
         tvAccountNum.setText(getIntent().getStringExtra(Constant.SCORE_AMOUNT));
-
     }
 
     @Override

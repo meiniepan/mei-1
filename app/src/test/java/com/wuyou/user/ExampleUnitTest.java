@@ -2,13 +2,25 @@ package com.wuyou.user;
 
 import android.util.Log;
 
+import com.gs.buluo.common.network.ApiException;
+import com.gs.buluo.common.network.BaseSubscriber;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.wuyou.user.crypto.ec.EosPrivateKey;
 import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.util.EncryptUtil;
+import com.wuyou.user.util.RxUtil;
 
+import org.bson.Document;
 import org.junit.Test;
 
 import java.util.List;
+
+import io.reactivex.Observable;
 
 import static org.junit.Assert.assertEquals;
 
@@ -41,8 +53,8 @@ public class ExampleUnitTest {
 //            e.printStackTrace();
 //        }
 
-        List<EosAccount> allEosAccount = CarefreeDaoSession.getInstance().getAllEosAccount();
-        Log.e("Carefree", "addition_isCorrect: ");
+//        List<EosAccount> allEosAccount = CarefreeDaoSession.getInstance().getAllEosAccount();
+//        Log.e("Carefree", "addition_isCorrect: ");
 //        EoscDataManager.getIns().getWalletManager().createOrOpenOwnerWallet()
 //        CarefreeDaoSession.getInstance().searchName();
 //        EosWallet wallet = new EosWallet();
@@ -70,7 +82,6 @@ public class ExampleUnitTest {
 //                "0d36f2275101442d314a2d00d046553d5ab323cff5a4ffeaf3f179332aef91822f44cccfb9fc4b3272f0f265c907";
         String decryptString = EncryptUtil.getDecryptString(encryptString, "555555");
         System.out.println(decryptString);
-
     }
 
     public long count(int... n) {

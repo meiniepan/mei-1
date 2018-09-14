@@ -10,7 +10,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.panel.SimpleChoosePanel;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -76,10 +78,14 @@ public class ScoreRecordActivity extends BaseActivity {
         scoreRecordTab.setupWithViewPager(scoreRecordPager);
 
         mongoClient = MongoClients.create(Constant.EOS_MONGO_DB);
-        setCurrentAccount(mainAccount.getName());
+        currentAccount = mainAccount.getName();
+        setTitleText(currentAccount);
+        getData();
     }
 
     private boolean isProgressing = true;
+    private int totalSize = 0;
+    private final int MAX_QUERY_AMOUNT = 10000;
 
     private void getData() {
         subscriber = new BaseSubscriber<List<ScoreRecordBean>>() {
@@ -88,10 +94,23 @@ public class ScoreRecordActivity extends BaseActivity {
                 if (data.size() != 0) {
                     if (isProgressing) {
                         obtainRecyclerView.showContentView();
+                        recordBeans.clear();
+                        isProgressing = false;
                     }
                     obtainAdapter.addData(data);
-                    recordBeans.clear();
-                    isProgressing = false;
+                    totalSize += 10;
+//                    if (totalSize >= MAX_QUERY_AMOUNT) { //换账号问题
+//                        mongoClient.close();
+//                    }
+                }
+            }
+
+            @Override
+            protected void onFail(ApiException e) {
+                //此处因为有 mongoClient.close(); 故有java.lang.IllegalStateException: state should be: open
+                //因为不需要查询太多，当达到 MAX_QUERY_AMOUNT 时即关闭数据库查询 防止数据量过大 而且没什么用 所以不需要弹错误提示
+                if (!e.getType().contains("state should be: open")) {
+                    ToastUtils.ToastMessage(getCtx(), e.getDisplayMessage());
                 }
             }
 
@@ -102,13 +121,17 @@ public class ScoreRecordActivity extends BaseActivity {
                     obtainRecyclerView.showContentView();
                 }
                 obtainAdapter.addData(recordBeans);
+                if (obtainAdapter.getData().size() == 0) {
+                    obtainRecyclerView.showEmptyView(getString(R.string.no_score));
+                }
             }
         };
         Observable.create((ObservableOnSubscribe<ScoreRecordBean>) e -> {
             MongoDatabase database = mongoClient.getDatabase("EOS");
             MongoCollection<Document> collection = database.getCollection("transaction_traces");
-            FindIterable<Document> documents = collection.find();
-            FindIterable<Document> action_traces = documents.filter(Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", currentAccount)));
+            //act.authorization.actor
+            //"receipt.receiver", "eosio"
+            FindIterable<Document> action_traces = collection.find().filter(Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", currentAccount)));
             MongoCursor<Document> iterator = action_traces.iterator();
             while (iterator.hasNext()) {
                 Document document = iterator.next();
@@ -123,13 +146,17 @@ public class ScoreRecordActivity extends BaseActivity {
                 if (isProgressing) recordBeans.add(recordBean);
             }
             e.onComplete();
-        }).buffer(10).compose(RxUtil.switchSchedulers()).subscribeWith(subscriber);
+        }).buffer(20).compose(RxUtil.switchSchedulers()).subscribeWith(subscriber);
     }
 
     private void setCurrentAccount(String name) {
         setTitleText(name);
         if (TextUtils.equals(name, currentAccount)) return;
         currentAccount = name;
+        obtainAdapter.clearData();
+        obtainRecyclerView.showProgressView();
+        isProgressing = true;
+        totalSize = 0;
         getData();
     }
 
@@ -137,11 +164,7 @@ public class ScoreRecordActivity extends BaseActivity {
         if (panel == null) {
             List<EosAccount> allEosAccount = CarefreeDaoSession.getInstance().getAllEosAccount();
             panel = new SimpleChoosePanel.Builder<>(getCtx(), (SimpleChoosePanel.OnSelectedFinished<EosAccount>) account -> {
-                subscriber.dispose();
                 setCurrentAccount(account.getName());
-                obtainAdapter.clearData();
-                obtainRecyclerView.showProgressView();
-                isProgressing = true;
             }).setData((ArrayList<EosAccount>) allEosAccount).setTitle("选择账户").build();
         }
         panel.show();
@@ -188,7 +211,10 @@ public class ScoreRecordActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        if (mongoClient != null) {
+            mongoClient.close();
+            mongoClient = null;
+        }
         super.onDestroy();
-        if (subscriber != null) subscriber.dispose();
     }
 }
