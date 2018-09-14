@@ -1,24 +1,22 @@
 package com.wuyou.user.mvp.score;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.widget.panel.SimpleChoosePanel;
-import com.mongodb.Block;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.wuyou.user.CarefreeDaoSession;
@@ -38,6 +36,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
 
 /**
  * Created by Solang on 2018/6/1.
@@ -48,13 +47,16 @@ public class ScoreRecordActivity extends BaseActivity {
     TabLayout scoreRecordTab;
     @BindView(R.id.score_record_pager)
     ViewPager scoreRecordPager;
+
     private String[] titles = {"获取记录", "积分支出"};
     private SimpleChoosePanel panel;
     private ScoreRecordAdapter obtainAdapter;
     private ScoreRecordAdapter consumeAdapter;
     private CarefreeRecyclerView obtainRecyclerView;
     private CarefreeRecyclerView consumeRecyclerView;
-    private BaseSubscriber<ArrayList<ScoreRecordBean>> subscriber;
+
+    private BaseSubscriber<List<ScoreRecordBean>> subscriber;
+    private MongoClient mongoClient;
 
     @Override
     protected int getContentLayout() {
@@ -73,83 +75,74 @@ public class ScoreRecordActivity extends BaseActivity {
         scoreRecordPager.setAdapter(new ScoreRecordPagerAdapter());
         scoreRecordTab.setupWithViewPager(scoreRecordPager);
 
+        mongoClient = MongoClients.create(Constant.EOS_MONGO_DB);
         setCurrentAccount(mainAccount.getName());
     }
 
     private boolean isProgressing = true;
 
-    private void getObtainRecord() {
-        subscriber = new BaseSubscriber<ArrayList<ScoreRecordBean>>() {
+    private void getData() {
+        subscriber = new BaseSubscriber<List<ScoreRecordBean>>() {
             @Override
-            public void onSuccess(ArrayList<ScoreRecordBean> data) {
-                Log.e("Carefree", "onSuccess: ");
+            public void onSuccess(List<ScoreRecordBean> data) {
                 if (data.size() != 0) {
                     if (isProgressing) {
                         obtainRecyclerView.showContentView();
                     }
                     obtainAdapter.addData(data);
+                    recordBeans.clear();
                     isProgressing = false;
-                }
-                if (obtainAdapter.getData().size() != 0) {
-                    initDataHandler.removeCallbacks(runnable);
                 }
             }
 
             @Override
             public void onComplete() {
-                if (!isProgressing) subscriber.dispose();
-            }
-
-            @Override
-            protected void onFail(ApiException e) {
-                obtainRecyclerView.showErrorView(e.getDisplayMessage());
+                if (isProgressing) {
+                    isProgressing = false;
+                    obtainRecyclerView.showContentView();
+                }
+                obtainAdapter.addData(recordBeans);
             }
         };
-        Observable.fromCallable(() -> {
-            MongoClient mongoClient = MongoClients.create(Constant.EOS_MONGO_DB);
+        Observable.create((ObservableOnSubscribe<ScoreRecordBean>) e -> {
             MongoDatabase database = mongoClient.getDatabase("EOS");
             MongoCollection<Document> collection = database.getCollection("transaction_traces");
             FindIterable<Document> documents = collection.find();
-            documents.filter(Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", currentAccount)))
-                    .forEach((Block<Document>) document -> {
-                        recordBean = new ScoreRecordBean();
-                        recordBean.created_at = document.get("createdAt").toString();
-                        ArrayList<Document> array = (ArrayList<Document>) document.get("action_traces");
-                        Document act = (Document) array.get(0).get("act");
-                        recordBean.source = act.get("name").toString();
-                        Document data = (Document) act.get("data");
-                        recordBean.points = data.get("rewards").toString();
-                        recordBeans.add(recordBean); //TODO  阻塞直到取出 类似于 new BlockingQueue(100);
-                    });
-            return new ArrayList<ScoreRecordBean>();
-        }).compose(RxUtil.switchSchedulers())
-                .subscribe(subscriber);
-
-        initDataHandler.postDelayed(runnable, 1500);
-    }
-
-    private Handler initDataHandler = new Handler();
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            if (!subscriber.isDisposed()) {
-                initDataHandler.postDelayed(runnable, 1500);
-                subscriber.onNext(recordBeans);
-                recordBeans.clear();
+            FindIterable<Document> action_traces = documents.filter(Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", currentAccount)));
+            MongoCursor<Document> iterator = action_traces.iterator();
+            while (iterator.hasNext()) {
+                Document document = iterator.next();
+                recordBean = new ScoreRecordBean();
+                recordBean.created_at = document.get("createdAt").toString();
+                ArrayList<Document> array = (ArrayList<Document>) document.get("action_traces");
+                Document act = (Document) array.get(0).get("act");
+                recordBean.source = act.get("name").toString();
+                Document data = (Document) act.get("data");
+                recordBean.points = data.get("rewards").toString();
+                e.onNext(recordBean);
+                if (isProgressing) recordBeans.add(recordBean);
             }
-        }
-    };
+            e.onComplete();
+        }).buffer(10).compose(RxUtil.switchSchedulers()).subscribeWith(subscriber);
+    }
 
     private void setCurrentAccount(String name) {
         setTitleText(name);
+        if (TextUtils.equals(name, currentAccount)) return;
         currentAccount = name;
-        getObtainRecord();
+        getData();
     }
 
     private void switchAccount() {
         if (panel == null) {
             List<EosAccount> allEosAccount = CarefreeDaoSession.getInstance().getAllEosAccount();
-            panel = new SimpleChoosePanel.Builder<>(getCtx(), (SimpleChoosePanel.OnSelectedFinished<EosAccount>) account -> setCurrentAccount(account.getName())).setData((ArrayList<EosAccount>) allEosAccount).setTitle("选择账户").build();
+            panel = new SimpleChoosePanel.Builder<>(getCtx(), (SimpleChoosePanel.OnSelectedFinished<EosAccount>) account -> {
+                subscriber.dispose();
+                setCurrentAccount(account.getName());
+                obtainAdapter.clearData();
+                obtainRecyclerView.showProgressView();
+                isProgressing = true;
+            }).setData((ArrayList<EosAccount>) allEosAccount).setTitle("选择账户").build();
         }
         panel.show();
     }
@@ -196,6 +189,6 @@ public class ScoreRecordActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        subscriber.dispose();
+        if (subscriber != null) subscriber.dispose();
     }
 }
