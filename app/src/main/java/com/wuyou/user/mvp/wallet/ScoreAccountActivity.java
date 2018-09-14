@@ -11,12 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.EoscDataManager;
-import com.wuyou.user.data.api.EosAccountInfo;
 import com.wuyou.user.mvp.score.ScoreActivity;
 import com.wuyou.user.mvp.score.ScoreRecordActivity;
 import com.wuyou.user.util.RxUtil;
@@ -55,17 +55,18 @@ public class ScoreAccountActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        String name = CarefreeDaoSession.getInstance().getMainAccount().getName();
-        tvAccountName.setText(name);
-        getAccountScore(name);
+        String account = getIntent().getStringExtra(Constant.IMPORT_ACCOUNT);
+        if (account == null) account = CarefreeDaoSession.getInstance().getMainAccount().getName();
+        tvAccountName.setText(account);
+        getAccountScore(account);
     }
 
     public void getAccountScore(String name) {
-        EoscDataManager.getIns().readAccountInfo(name).compose(RxUtil.switchSchedulers())
-                .subscribe(new BaseSubscriber<EosAccountInfo>() {
+        EoscDataManager.getIns().getCurrencyBalance(Constant.EOSIO_TOKEN_CONTRACT, name, "EOS").compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<JsonArray>() {
                     @Override
-                    public void onSuccess(EosAccountInfo eosAccountInfo) {
-                        scoreAmount = eosAccountInfo.core_liquid_balance.replace("EOS", "");
+                    public void onSuccess(JsonArray eosAccountInfo) {
+                        scoreAmount = eosAccountInfo.get(0).toString().replace("EOS", "").replaceAll("\"", "");
                         tvAccountScore.setText(scoreAmount);
                     }
                 });

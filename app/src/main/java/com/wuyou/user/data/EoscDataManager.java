@@ -26,6 +26,7 @@ package com.wuyou.user.data;
 import android.text.TextUtils;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.utils.TribeDateUtils;
@@ -217,9 +218,9 @@ public class EoscDataManager {
                 .create().fromJson(jsonStr, EosAbiMain.class));
     }
 
-    public Observable<String> getCurrencyBalance(String contract, String account, String symbol) {
-        return ChainRetrofit.getInstance().createApi(NodeosApi.class).getCurrencyBalance(new GetBalanceRequest(contract, account, symbol))
-                .map(result -> CommonUtil.prettyPrintJson(result));
+    public Observable<JsonArray> getCurrencyBalance(String contract, String account, String symbol) {
+        return ChainRetrofit.getInstance().createApi(NodeosApi.class).getCurrencyBalance(new GetBalanceRequest(contract, account, symbol));
+
     }
 
     public Observable<String> getCurrencyStats(String contract, String symbol) {

@@ -26,6 +26,7 @@ public class Constant {
     public static final String SIGN_UP_RECORD = "sign_up_record";
     public static final String LAST_SIGN_TIME = "last_sign_time";
     public static final int COUNT_DOWN = 119;
+    public static final String IMPORT_ACCOUNT = "import_account";
 
 
     public static String BASE_URL = "https://api.iwantmei.com/customer/";

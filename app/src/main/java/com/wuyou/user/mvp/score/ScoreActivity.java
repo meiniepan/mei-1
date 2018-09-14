@@ -97,8 +97,8 @@ public class ScoreActivity extends BaseActivity {
         if (signRecord != -1 && signRecord != 7) {
             TextView textView = (TextView) constraintLayout.getChildAt(signRecord);
             textView.setText("");
-            textView.animate().scaleY(1.3f).scaleX(1.3f).setDuration(0).start();
             textView.setBackgroundResource(R.mipmap.signed_today);
+            textView.animate().scaleY(1.3f).scaleX(1.3f).setDuration(0).start();
         }
     }
 

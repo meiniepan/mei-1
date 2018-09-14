@@ -20,8 +20,7 @@ import com.wuyou.user.data.remote.WalletBalance;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
-import com.wuyou.user.mvp.score.ScoreRecordActivity;
-import com.wuyou.user.mvp.score.SignInActivity;
+import com.wuyou.user.mvp.wallet.CreateOrImportAccountActivity;
 import com.wuyou.user.mvp.wallet.ScoreAccountActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
@@ -137,7 +136,7 @@ public class MineFragment extends BaseFragment {
                 });
     }
 
-    @OnClick({R.id.mine_setting, R.id.mine_warn, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_sign_in, R.id.mine_help})
+    @OnClick({R.id.mine_setting, R.id.mine_warn, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_help})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -168,25 +167,13 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.mine_score:
-                //todo
-                intent.setClass(mCtx, ScoreAccountActivity.class);
-                startActivity(intent);
-//                if (totalScore == -1) {
-//                    ToastUtils.ToastMessage(mCtx, R.string.connect_fail);
-//                    return;
-//                }
-//                intent.setClass(mCtx, ScoreActivity.class);
-//                startActivity(intent);
-                break;
-//            case R.id.mine_scan:
-//                if (askForPermissions(Manifest.permission.CAMERA)) {
-//                    intent.setClass(mCtx, CaptureActivity.class);
-//                    startActivity(intent);
-//                }
-//                break;
-            case R.id.mine_sign_in:
-                intent.setClass(mCtx, SignInActivity.class);
-                startActivity(intent);
+                if (CarefreeDaoSession.getInstance().getMainAccount() == null) {
+                    intent.setClass(mCtx, CreateOrImportAccountActivity.class);
+                    startActivity(intent);
+                } else {
+                    intent.setClass(mCtx, ScoreAccountActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.mine_warn:
                 new CustomAlertDialog.Builder(mCtx).setTitle(R.string.prompt).setMessage(R.string.mine_warn)

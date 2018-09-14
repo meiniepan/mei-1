@@ -26,7 +26,7 @@ public class ScoreRecordAdapter extends BaseQuickAdapter<ScoreRecordBean, BaseHo
     }
 
     private int translateSource(String source) {
-        if ("dailyrewords".equals(source)) {
+        if ("dailyrewards".equals(source)) {
             return R.string.app_sign;
         } else if ("actirewards".equals(source)) {
             return R.string.activity;

@@ -27,6 +27,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.adapter.ScoreRecordAdapter;
 import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.data.remote.ScoreRecordBean;
+import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.CarefreeRecyclerView;
@@ -72,8 +73,8 @@ public class ScoreRecordActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        EosAccount mainAccount = CarefreeDaoSession.getInstance().getMainAccount();
         setTitleIcon(R.mipmap.score_record_switch, v -> switchAccount());
+        EosAccount mainAccount = CarefreeDaoSession.getInstance().getMainAccount();
         scoreRecordPager.setAdapter(new ScoreRecordPagerAdapter());
         scoreRecordTab.setupWithViewPager(scoreRecordPager);
 

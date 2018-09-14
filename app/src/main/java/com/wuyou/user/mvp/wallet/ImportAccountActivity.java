@@ -1,5 +1,6 @@
 package com.wuyou.user.mvp.wallet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,10 +11,10 @@ import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.crypto.ec.EosPrivateKey;
 import com.wuyou.user.data.EoscDataManager;
-import com.wuyou.user.data.api.EosAccountInfo;
 import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
@@ -65,6 +66,7 @@ public class ImportAccountActivity extends BaseActivity {
             return;
         }
         String account = importAccountName.getText().toString().trim();
+        showLoadingDialog();
         EoscDataManager.getIns().readAccountInfo(account).compose(RxUtil.switchSchedulers())
                 .map(eosAccountInfo -> eosAccountInfo.permissions.get(0).required_auth.keys.get(0).key)
                 .subscribeWith(new BaseSubscriber<String>() {
@@ -74,6 +76,9 @@ public class ImportAccountActivity extends BaseActivity {
                         EosPrivateKey privateKey = new EosPrivateKey(pk);
                         if (TextUtils.equals(privateKey.getPublicKey().toString(), publicKey)) {
                             saveAccount(account, publicKey, pk);
+                            Intent intent = new Intent(getCtx(), ScoreAccountActivity.class);
+                            intent.putExtra(Constant.IMPORT_ACCOUNT, account);
+                            startActivity(intent);
                         } else {
                             tvPkError.setText("私钥或账户名称不正确");
                             tvPkError.setVisibility(View.VISIBLE);
@@ -90,13 +95,10 @@ public class ImportAccountActivity extends BaseActivity {
 
     private void saveAccount(String account, String publicKey, String pk) {
         EosAccount eosAccount = new EosAccount();
-        if (CarefreeDaoSession.getInstance().getAllEosAccount().size() == 0) {
-            eosAccount.setMain(true);
-        }
+        eosAccount.setMain(CarefreeDaoSession.getInstance().getAllEosAccount().size() == 0);
         eosAccount.setPublicKey(publicKey);
         eosAccount.setPrivateKey(pk);
         eosAccount.setName(account);
-        eosAccount.setMain(false);
         CarefreeDaoSession.getInstance().getEosDao().insertOrReplace(eosAccount);
         ToastUtils.ToastMessage(getCtx(), "导入成功");
         finish();

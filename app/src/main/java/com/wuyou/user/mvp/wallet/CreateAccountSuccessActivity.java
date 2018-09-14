@@ -31,12 +31,15 @@ public class CreateAccountSuccessActivity extends BaseActivity {
         Intent intent;
         switch (view.getId()) {
             case R.id.btn_backup:
-                intent = new Intent(getCtx(),BackupPKeyActivity.class);
-                intent.putExtra(Constant.BACKUP_FROM_CREATE,true);
+                intent = new Intent(getCtx(), BackupPKeyActivity.class);
+                intent.putExtra(Constant.BACKUP_FROM_CREATE, true);
                 startActivity(intent);
                 break;
             case R.id.btn_check:
+                intent = new Intent(getCtx(), ScoreAccountActivity.class);
+                startActivity(intent);
                 break;
         }
+        finish();
     }
 }

@@ -11,9 +11,6 @@ import org.jivesoftware.smack.util.StringUtils;
  */
 public class GetRequestForCurrency {
     @Expose
-    protected boolean json = false;
-
-    @Expose
     protected TypeName code;
 
     @Expose
