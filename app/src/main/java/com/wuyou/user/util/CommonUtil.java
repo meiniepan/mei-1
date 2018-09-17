@@ -35,6 +35,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
 import com.google.zxing.BarcodeFormat;
@@ -51,6 +52,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -64,6 +66,7 @@ import java.text.NumberFormat;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -73,6 +76,43 @@ import static android.os.Environment.DIRECTORY_DCIM;
  * Created by hjn on 2016/11/10.
  */
 public class CommonUtil {
+
+    public static void saveBitmap2file(Bitmap bmp,Context context) {
+        String savePath;
+        String fileName = UUID.randomUUID().toString() + ".JPEG";
+        if (Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED)) {
+            savePath = Environment.getExternalStorageDirectory().getPath() + "/laidao/";
+        } else {
+            Toast.makeText(context, "保存失败！", Toast.LENGTH_SHORT).show();
+            return ;
+        }
+        File filePic = new File(savePath + fileName);
+        try {
+            if (!filePic.exists()) {
+                filePic.getParentFile().mkdirs();
+                filePic.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(filePic);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            Toast.makeText(context, "保存成功,位置:" + filePic.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        // 其次把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                    filePic.getAbsolutePath(), fileName, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 最后通知图库更新
+        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + savePath+fileName)));
+
+    }
 
     public static boolean checkNetworkNoConnected(Context context) {
         if (!NetTool.isConnected(context)) {

@@ -10,5 +10,5 @@ public class CategoryChild {
     public int position;
     public int services;
     public String remind_image;
-    public String child_image;
+    public String icon;
 }

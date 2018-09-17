@@ -85,7 +85,8 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
                     return;
                 }
                 showLoadingDialog();
-                mPresenter.checkCaptcha(Constant.CAPTCHA_CHECK_NEW_ACCOUNT, tvPhoneNum.getText().toString(), etInputCaptcha.getText().toString().trim());
+//                mPresenter.checkCaptcha(Constant.CAPTCHA_CHECK_NEW_ACCOUNT, tvPhoneNum.getText().toString(), etInputCaptcha.getText().toString().trim());
+                mPresenter.createAccount(etAccountName.getText().toString(), tvPhoneNum.getText().toString());
                 break;
         }
     }

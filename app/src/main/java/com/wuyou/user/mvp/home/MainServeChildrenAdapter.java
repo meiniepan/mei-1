@@ -35,15 +35,15 @@ public class MainServeChildrenAdapter extends BaseQuickAdapter<CategoryChild, Ba
 
 //        int padding = textView.getPaddingStart();
         ImageView imageView = helper.getView(R.id.iv_serve_child);
-        if (item.child_image == null) {
-            item.child_image = "";
+        if (item.icon == null) {
+            item.icon = "";
         }
         if (item.position % 3 == 0) {
-            GlideUtils.loadImageWithHolder(mContext, item.child_image, imageView, R.mipmap.icon_default_orange);
+            GlideUtils.loadImageWithHolder(mContext, item.icon, imageView, R.mipmap.icon_default_orange);
         } else if (item.position % 3 == 1) {
-            GlideUtils.loadImageWithHolder(mContext, item.child_image, imageView, R.mipmap.icon_default_green);
+            GlideUtils.loadImageWithHolder(mContext, item.icon, imageView, R.mipmap.icon_default_green);
         } else {
-            GlideUtils.loadImageWithHolder(mContext, item.child_image, imageView, R.mipmap.icon_default_blue);
+            GlideUtils.loadImageWithHolder(mContext, item.icon, imageView, R.mipmap.icon_default_blue);
         }
 //        textView.setPadding(padding, padding, padding, padding);
     }
