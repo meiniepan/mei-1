@@ -119,9 +119,9 @@ public class ScoreActivity extends BaseActivity {
     }
 
     private void signUpSuccess() {
-        setAlreadySignStatus();
-        SharePreferenceManager.getInstance(getCtx()).setValue(Constant.LAST_SIGN_TIME, System.currentTimeMillis());
         signRecord += 1;
+        SharePreferenceManager.getInstance(getCtx()).setValue(Constant.LAST_SIGN_TIME, System.currentTimeMillis());
+        setAlreadySignStatus();
         SharePreferenceManager.getInstance(getCtx()).setValue(Constant.SIGN_UP_RECORD, signRecord);
         startScoreAnimation();
     }

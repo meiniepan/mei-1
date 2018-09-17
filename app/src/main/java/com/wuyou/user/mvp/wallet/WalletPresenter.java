@@ -19,7 +19,6 @@ import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -42,7 +41,6 @@ public class WalletPresenter extends WalletContract.Presenter {
     public void createAccount(String account, String phone) {
         EosPrivateKey key = new EosPrivateKey();
         addDisposable(EoscDataManager.getIns().createAccount(phone, account, key.getPublicKey().toString())
-                .compose(RxUtil.switchSchedulers())
                 .subscribeOn(Schedulers.io())
                 .doOnNext(jsonObject -> {
                     EosAccountDao eosDao = CarefreeDaoSession.getInstance().getEosDao();
@@ -58,11 +56,11 @@ public class WalletPresenter extends WalletContract.Presenter {
                     eosAccount.setName(account);
                     eosDao.insertOrReplace(eosAccount);
                 })
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.io())
                 .subscribeWith(new BaseSubscriber<JsonObject>() {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
-                        mView.createAccountSuccess();
+                        getWalletInfo();
                     }
 
                     @Override
@@ -79,10 +77,14 @@ public class WalletPresenter extends WalletContract.Presenter {
                 .subscribe(new BaseSubscriber<EosAccountInfo>() {
                     @Override
                     public void onSuccess(EosAccountInfo jsonObject) {
+                        mView.createAccountSuccess();
+                    }
 
+                    @Override
+                    protected void onFail(ApiException e) {
+                        mView.showError("您的手机号已创建过账户，无法再创建", e.getCode());
                     }
                 });
-
     }
 
     @Override

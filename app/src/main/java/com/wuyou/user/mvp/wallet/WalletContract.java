@@ -10,8 +10,6 @@ import com.wuyou.user.mvp.IBaseView;
 public interface WalletContract {
 
     interface View extends IBaseView {
-        void getWalletInfoSuccess();
-
         void createAccountSuccess();
 
         void checkCaptchaSuccess();

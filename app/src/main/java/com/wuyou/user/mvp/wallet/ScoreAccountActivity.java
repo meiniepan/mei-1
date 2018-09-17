@@ -66,8 +66,10 @@ public class ScoreAccountActivity extends BaseActivity {
                 .subscribe(new BaseSubscriber<JsonArray>() {
                     @Override
                     public void onSuccess(JsonArray eosAccountInfo) {
-                        scoreAmount = eosAccountInfo.get(0).toString().replace("EOS", "").replaceAll("\"", "");
-                        tvAccountScore.setText(scoreAmount);
+                        if (eosAccountInfo.size() > 0) {
+                            scoreAmount = eosAccountInfo.get(0).toString().replace("EOS", "").replaceAll("\"", "");
+                            tvAccountScore.setText(scoreAmount);
+                        }
                     }
                 });
     }

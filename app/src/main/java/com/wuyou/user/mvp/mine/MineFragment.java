@@ -20,6 +20,7 @@ import com.wuyou.user.data.remote.WalletBalance;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
+import com.wuyou.user.mvp.score.ScoreActivity;
 import com.wuyou.user.mvp.wallet.CreateOrImportAccountActivity;
 import com.wuyou.user.mvp.wallet.ScoreAccountActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
@@ -136,7 +137,7 @@ public class MineFragment extends BaseFragment {
                 });
     }
 
-    @OnClick({R.id.mine_setting, R.id.mine_warn, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_help})
+    @OnClick({R.id.mine_setting, R.id.mine_warn, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_help, R.id.mine_mission, R.id.mine_auth})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -183,6 +184,13 @@ public class MineFragment extends BaseFragment {
             case R.id.mine_help:
                 intent.setClass(mCtx, HelpActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.mine_mission:
+                intent.setClass(mCtx, ScoreActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.mine_auth:
+
                 break;
         }
     }

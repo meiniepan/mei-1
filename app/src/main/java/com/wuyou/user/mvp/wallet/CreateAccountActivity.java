@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.gs.buluo.common.utils.AppManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
@@ -95,16 +96,12 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
         return new WalletPresenter();
     }
 
-
-    @Override
-    public void getWalletInfoSuccess() {
-    }
-
     @Override
     public void createAccountSuccess() {
         Intent intent = new Intent(getCtx(), CreateAccountSuccessActivity.class);
         startActivity(intent);
         finish();
+        AppManager.getAppManager().finishActivity(CreateOrImportAccountActivity.class);
     }
 
     @Override
