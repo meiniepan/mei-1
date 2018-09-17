@@ -20,7 +20,8 @@ import com.wuyou.user.data.remote.WalletBalance;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
-import com.wuyou.user.mvp.score.ScoreActivity;
+import com.wuyou.user.mvp.score.ScoreMissionActivity;
+import com.wuyou.user.mvp.wallet.ActivityRecordActivity;
 import com.wuyou.user.mvp.wallet.CreateOrImportAccountActivity;
 import com.wuyou.user.mvp.wallet.ScoreAccountActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
@@ -31,7 +32,6 @@ import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.HelpActivity;
 import com.wuyou.user.view.activity.InfoActivity;
 import com.wuyou.user.view.activity.SettingActivity;
-import com.wuyou.user.view.activity.WebActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -155,9 +155,11 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.mine_activity:
-                if (CommonUtil.checkNetworkNoConnected(mCtx)) return;
-                intent.setClass(mCtx, WebActivity.class);
-                intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL + "activity_annal?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
+//                if (CommonUtil.checkNetworkNoConnected(mCtx)) return;
+//                intent.setClass(mCtx, WebActivity.class);
+//                intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL + "activity_annal?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken());
+//                startActivity(intent);
+                intent.setClass(mCtx, ActivityRecordActivity.class);
                 startActivity(intent);
                 break;
             case R.id.mine_card:
@@ -186,8 +188,13 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.mine_mission:
-                intent.setClass(mCtx, ScoreActivity.class);
-                startActivity(intent);
+                if (CarefreeDaoSession.getInstance().getMainAccount() == null) {
+                    intent.setClass(mCtx, CreateOrImportAccountActivity.class);
+                    startActivity(intent);
+                } else {
+                    intent.setClass(mCtx, ScoreMissionActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.mine_auth:
 

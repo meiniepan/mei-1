@@ -151,9 +151,10 @@ public class CarefreeDaoSession {
 
     public EosAccount setMainAccount(EosAccount account){
         EosAccount mainAccount = getMainAccount();
-        mainAccount.setMain(false);
-        getEosDao().update(mainAccount);
-
+        if (mainAccount!=null){
+            mainAccount.setMain(false);
+            getEosDao().update(mainAccount);
+        }
         account.setMain(true);
         getEosDao().update(account);
         return account;

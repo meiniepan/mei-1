@@ -171,7 +171,7 @@
             android:name=".view.activity.ServeWayChooseActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.score.ScoreActivity"
+            android:name=".mvp.score.ScoreMissionActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.score.ScoreRecordActivity"
@@ -198,9 +198,11 @@
         <activity
             android:name=".mvp.wallet.CreateAccountActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".mvp.wallet.ScoreAccountActivity" />
+        <activity android:name=".mvp.wallet.ScoreAccountActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".mvp.wallet.ManagerAccountActivity" />
-        <activity android:name=".mvp.wallet.BackupActivity" />
+        <activity android:name=".mvp.wallet.AccountInfoActivity" />
+        <activity android:name=".mvp.wallet.ActivityRecordActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"

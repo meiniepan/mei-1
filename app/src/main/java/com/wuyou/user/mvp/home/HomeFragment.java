@@ -25,7 +25,6 @@ import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
-import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
@@ -44,11 +43,12 @@ import com.wuyou.user.data.remote.response.ListResponse;
 import com.wuyou.user.event.AddressEvent;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressActivity;
+import com.wuyou.user.mvp.score.ScoreMissionActivity;
+import com.wuyou.user.mvp.wallet.ScoreAccountActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.CommonUtil;
-import com.wuyou.user.util.QMUIStatusBarHelper;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideBannerLoader;
 import com.wuyou.user.util.glide.GlideUtils;
@@ -61,7 +61,6 @@ import com.wuyou.user.view.widget.panel.ShareBottomBoard;
 import com.wuyou.user.view.widget.pullToResfresh.HomeRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
-import com.youth.banner.transformer.GalleryTransformer;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -369,7 +368,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         return null;
     }
 
-    @OnClick({R.id.home_location_area, R.id.home_map, R.id.home_search})
+    @OnClick({R.id.home_location_area, R.id.home_map, R.id.home_search, R.id.home_score_account, R.id.home_score_mission, R.id.home_score_exchange})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -385,6 +384,17 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
             case R.id.home_search:
                 intent.setClass(mCtx, SearchActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.home_score_account:
+                intent.setClass(mCtx, ScoreAccountActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.home_score_mission:
+                intent.setClass(mCtx, ScoreMissionActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.home_score_exchange:
+
                 break;
         }
     }

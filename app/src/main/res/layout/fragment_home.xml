@@ -117,29 +117,32 @@
                         android:gravity="center_vertical"
                         android:background="@color/white">
                         <TextView
+                            android:id="@+id/home_score_account"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
                             android:drawablePadding="4dp"
                             android:drawableTop="@mipmap/mine_point_icon"
-                            android:text="积分账户"/>
+                            android:text="@string/score_account"/>
                         <TextView
+                            android:id="@+id/home_score_mission"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
                             android:drawablePadding="4dp"
                             android:drawableTop="@mipmap/mine_point_mission_icon"
-                            android:text="积分任务"/>
+                            android:text="@string/score_mission"/>
                         <TextView
+                            android:id="@+id/home_score_exchange"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
                             android:drawablePadding="4dp"
                             android:drawableTop="@mipmap/mine_source_icon"
-                            android:text="溯源认证"/>
+                            android:text="@string/score_exchange"/>
                     </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView

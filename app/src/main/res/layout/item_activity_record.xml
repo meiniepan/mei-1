@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/activity_record_picture"
+        android:layout_width="120dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:scaleType="centerInside"
+        android:src="@mipmap/default_pic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/activity_record_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        app:layout_constraintStart_toEndOf="@id/activity_record_picture"
+        app:layout_constraintTop_toTopOf="@id/activity_record_picture"
+        tool:text="活动标题" />
+
+    <TextView
+        android:id="@+id/activity_record_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_record_picture"
+        app:layout_constraintStart_toStartOf="@id/activity_record_title"
+        tool:text="免费" />
+
+
+    <TextView
+        android:id="@+id/activity_record_vip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/common_gray"
+        android:textSize="@dimen/dimens_12sp"
+        android:visibility="gone"
+        app:layout_constraintBaseline_toBaselineOf="@+id/activity_record_price"
+        app:layout_constraintStart_toEndOf="@id/activity_record_price"
+        tool:text="会员" />
+
+    <TextView
+        android:id="@+id/activity_record_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:textColor="@color/common_gray"
+        android:textSize="@dimen/dimens_12sp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_record_price"
+        app:layout_constraintStart_toStartOf="@id/activity_record_title"
+        tool:text="201231231312" />
+
+    <TextView
+        android:id="@+id/activity_record_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/activity_record_price"
+        tool:text="参加" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/tint_bg"
+        app:layout_constraintTop_toBottomOf="@+id/activity_record_picture" />
+
+    <TextView
+        android:id="@+id/activity_record_obtain"
+        style="@style/button_style"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="0dp"
+        android:text="领取活动积分"
+        android:textSize="@dimen/dimens_12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/line" />
+
+    <TextView
+        android:id="@+id/activity_record_ticket"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/night_blue_border"
+        android:gravity="center"
+        android:text="查看电子票"
+        android:textColor="@color/night_blue"
+        android:textSize="@dimen/dimens_12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/activity_record_obtain"
+        app:layout_constraintTop_toTopOf="@+id/line" />
+
+</android.support.constraint.ConstraintLayout>

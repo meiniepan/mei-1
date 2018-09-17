@@ -91,7 +91,7 @@ public class BackupPKeyActivity extends BaseActivity {
                 });
                 break;
             case R.id.back_main:
-                Intent intent = new Intent(getCtx(), MainActivity.class);
+                Intent intent = new Intent(getCtx(), ScoreAccountActivity.class);
                 startActivity(intent);
                 break;
         }

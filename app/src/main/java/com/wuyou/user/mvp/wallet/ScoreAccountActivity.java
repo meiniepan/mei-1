@@ -13,12 +13,11 @@ import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.gs.buluo.common.network.BaseSubscriber;
-import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.EoscDataManager;
-import com.wuyou.user.mvp.score.ScoreActivity;
+import com.wuyou.user.mvp.score.ScoreMissionActivity;
 import com.wuyou.user.mvp.score.ScoreRecordActivity;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
@@ -56,8 +55,7 @@ public class ScoreAccountActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        String account = getIntent().getStringExtra(Constant.IMPORT_ACCOUNT);
-        if (account == null) account = CarefreeDaoSession.getInstance().getMainAccount().getName();
+        String account = CarefreeDaoSession.getInstance().getMainAccount().getName();
         tvAccountName.setText(account);
         getAccountScore(account);
     }
@@ -68,7 +66,7 @@ public class ScoreAccountActivity extends BaseActivity {
                     @Override
                     public void onSuccess(JsonArray eosAccountInfo) {
                         if (eosAccountInfo.size() > 0) {
-                            scoreAmount = eosAccountInfo.get(0).toString().replace("EOS", "").replaceAll("\"", "");
+                            String scoreAmount = eosAccountInfo.get(0).toString().replace("EOS", "").replaceAll("\"", "");
                             tvAccountScore.setText(scoreAmount);
                         }
                     }
@@ -91,8 +89,6 @@ public class ScoreAccountActivity extends BaseActivity {
         return R.layout.activity_score_account;
     }
 
-    private String scoreAmount;
-
     @OnClick({R.id.iv_more, R.id.ll_backup_pk, R.id.tv_exchange, R.id.back_1, R.id.back_2, R.id.ll_import, R.id.ll_manager, R.id.ll_score, R.id.score_obtain_layout})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
@@ -101,8 +97,7 @@ public class ScoreAccountActivity extends BaseActivity {
                 drawerLayout.openDrawer(Gravity.START);
                 break;
             case R.id.ll_backup_pk:
-                intent.setClass(getCtx(), BackupActivity.class);
-                intent.putExtra(Constant.SCORE_AMOUNT, scoreAmount);
+                intent.setClass(getCtx(), BackupPKeyActivity.class);
                 startActivity(intent);
                 break;
             case R.id.tv_exchange:
@@ -126,7 +121,7 @@ public class ScoreAccountActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.score_obtain_layout:
-                intent.setClass(getCtx(), ScoreActivity.class);
+                intent.setClass(getCtx(), ScoreMissionActivity.class);
                 startActivity(intent);
                 break;
         }

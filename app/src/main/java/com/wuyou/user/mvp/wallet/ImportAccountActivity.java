@@ -95,11 +95,12 @@ public class ImportAccountActivity extends BaseActivity {
 
     private void saveAccount(String account, String publicKey, String pk) {
         EosAccount eosAccount = new EosAccount();
-        eosAccount.setMain(CarefreeDaoSession.getInstance().getAllEosAccount().size() == 0);
+        eosAccount.setMain(false);
         eosAccount.setPublicKey(publicKey);
         eosAccount.setPrivateKey(pk);
         eosAccount.setName(account);
         CarefreeDaoSession.getInstance().getEosDao().insertOrReplace(eosAccount);
+        CarefreeDaoSession.getInstance().setMainAccount(eosAccount);
         ToastUtils.ToastMessage(getCtx(), "导入成功");
         finish();
     }

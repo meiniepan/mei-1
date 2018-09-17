@@ -100,8 +100,8 @@ public class ScoreRecordActivity extends BaseActivity {
                     }
                     obtainAdapter.addData(data);
                     totalSize += 10;
-//                    if (totalSize >= MAX_QUERY_AMOUNT) { //换账号问题
-//                        mongoClient.close();
+//                    if (totalSize >= MAX_QUERY_AMOUNT) {
+//                        mongoClient.close();//换账号问题
 //                    }
                 }
             }

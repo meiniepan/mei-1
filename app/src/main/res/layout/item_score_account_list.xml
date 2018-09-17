@@ -9,6 +9,7 @@
     <include layout="@layout/split_area" />
 
     <LinearLayout
+        android:id="@+id/manager_account_layout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:gravity="center_vertical">

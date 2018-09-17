@@ -31,7 +31,7 @@ import butterknife.OnClick;
  * Created by DELL on 2018/6/1.
  */
 
-public class ScoreActivity extends BaseActivity {
+public class ScoreMissionActivity extends BaseActivity {
 
     @BindView(R.id.text_day_1)
     TextView textDay1;
@@ -107,9 +107,9 @@ public class ScoreActivity extends BaseActivity {
         return R.layout.activity_score;
     }
 
-    private void signUp() {
+    private void signUp(int amount) {
         showLoadingDialog();
-        EoscDataManager.getIns().getDailyRewords().compose(RxUtil.switchSchedulers())
+        EoscDataManager.getIns().getDailyRewords(amount).compose(RxUtil.switchSchedulers())
                 .subscribeWith(new BaseSubscriber<JsonObject>() {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
@@ -155,7 +155,7 @@ public class ScoreActivity extends BaseActivity {
             case R.id.score_action_3:
                 break;
             case R.id.score_sign_up:
-                signUp();
+                signUp(signRecord == 6 ? 40 : 10);
                 break;
         }
     }

@@ -177,6 +177,11 @@
     <string name="copy_pk">复制私钥</string>
     <string name="system_rewards">系统奖励</string>
     <string name="no_score">暂无积分记录</string>
+    <string name="my_activity_record">我的活动记录</string>
+    <string name="score_exchange">积分兑换</string>
+    <string name="score_mission">积分任务</string>
+    <string name="score_account">积分账户</string>
+    <string name="account_info">账户信息</string>
 
 
 </resources>

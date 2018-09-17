@@ -27,9 +27,9 @@
 
         <RelativeLayout
             android:id="@+id/mine_info"
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp">
 
             <ImageView
                 android:id="@+id/mine_head"
@@ -169,7 +169,7 @@
                     android:drawablePadding="4dp"
                     android:drawableTop="@mipmap/mine_point_icon"
                     android:gravity="center"
-                    android:text="积分账户" />
+                    android:text="@string/score_account" />
 
                 <TextView
                     android:id="@+id/mine_mission"
@@ -179,7 +179,7 @@
                     android:drawablePadding="4dp"
                     android:drawableTop="@mipmap/mine_point_mission_icon"
                     android:gravity="center"
-                    android:text="积分任务" />
+                    android:text="@string/score_mission" />
 
                 <TextView
                     android:id="@+id/mine_auth"
@@ -189,7 +189,7 @@
                     android:drawablePadding="4dp"
                     android:drawableTop="@mipmap/mine_source_icon"
                     android:gravity="center"
-                    android:text="溯源认证" />
+                    android:text="@string/score_exchange" />
             </LinearLayout>
         </LinearLayout>
 

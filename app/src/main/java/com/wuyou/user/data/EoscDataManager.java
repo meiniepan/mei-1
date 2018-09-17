@@ -94,9 +94,9 @@ public class EoscDataManager {
 
     private EosAccount currentOperateAccount;
 
-    public Observable<JsonObject> getDailyRewords() {
+    public Observable<JsonObject> getDailyRewords(int amount) {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
-        EosDailyRewards dailyRewards = new EosDailyRewards(currentOperateAccount.getName(), TribeDateUtils.dateFormat5(new Date(System.currentTimeMillis())), "hjn", new TypeAsset(1));
+        EosDailyRewards dailyRewards = new EosDailyRewards(currentOperateAccount.getName(), TribeDateUtils.dateFormat5(new Date(System.currentTimeMillis())), "hjn", new TypeAsset(10));
         return pushActionRetJson(Constant.EOSIO_DAILAY_REWARDS, dailyRewards.getActionName(), CommonUtil.prettyPrintJson(dailyRewards), getActivePermission(currentOperateAccount.getName())); //transfer.getAsHex()
     }
 
