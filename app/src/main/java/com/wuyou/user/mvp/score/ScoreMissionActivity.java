@@ -127,6 +127,9 @@ public class ScoreMissionActivity extends BaseActivity {
     }
 
     private void startScoreAnimation() {
+        if (signRecord == 7) {
+            scoreSignSuccess.setText("+40");
+        }
         scoreSignSuccess.setVisibility(View.VISIBLE);
         AnimationSet animationSet = new AnimationSet(true);
         AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0);

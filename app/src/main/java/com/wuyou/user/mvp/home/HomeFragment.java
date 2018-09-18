@@ -386,10 +386,12 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 startActivity(intent);
                 break;
             case R.id.home_score_account:
+                if (!checkUser(getContext())) return;
                 intent.setClass(mCtx, ScoreAccountActivity.class);
                 startActivity(intent);
                 break;
             case R.id.home_score_mission:
+                if (!checkUser(getContext())) return;
                 intent.setClass(mCtx, ScoreMissionActivity.class);
                 startActivity(intent);
                 break;

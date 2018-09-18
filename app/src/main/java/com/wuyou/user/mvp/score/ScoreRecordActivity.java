@@ -21,13 +21,13 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.ScoreRecordAdapter;
 import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.data.remote.ScoreRecordBean;
-import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.CarefreeRecyclerView;
@@ -36,6 +36,7 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
@@ -132,23 +133,31 @@ public class ScoreRecordActivity extends BaseActivity {
             MongoCollection<Document> collection = database.getCollection("transaction_traces");
             //act.authorization.actor
             //"receipt.receiver", "eosio"
-            FindIterable<Document> action_traces = collection.find().filter(Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", currentAccount)));
+            FindIterable<Document> action_traces = collection.find().filter(Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", "mukang123123"))).sort(Sorts.descending("action_traces.inline_traces.receipt.global_sequence"));
             MongoCursor<Document> iterator = action_traces.iterator();
             while (iterator.hasNext()) {
                 Document document = iterator.next();
                 recordBean = new ScoreRecordBean();
                 recordBean.created_at = document.get("createdAt").toString();
+                recordBean.id = document.get("id").toString();
                 ArrayList<Document> array = (ArrayList<Document>) document.get("action_traces");
                 Document act = (Document) array.get(0).get("act");
                 recordBean.source = act.get("name").toString();
                 Document data = (Document) act.get("data");
                 recordBean.points = data.get("rewards").toString();
-                e.onNext(recordBean);
-                if (isProgressing) recordBeans.add(recordBean);
+                if (recordMap.get(recordBean.id) == null) {  //每条记录会有相同的两条，需 去重
+                    e.onNext(recordBean);
+                    if (isProgressing) recordBeans.add(recordBean);
+                    recordMap.put(recordBean.id, recordBean);
+                } else {
+                    recordMap.remove(recordBean.id);
+                }
             }
             e.onComplete();
         }).buffer(20).compose(RxUtil.switchSchedulers()).subscribeWith(subscriber);
     }
+
+    private ConcurrentHashMap<String, ScoreRecordBean> recordMap = new ConcurrentHashMap<>();
 
     private void setCurrentAccount(String name) {
         setTitleText(name);

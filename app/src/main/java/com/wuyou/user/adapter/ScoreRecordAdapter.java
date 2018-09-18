@@ -22,7 +22,14 @@ public class ScoreRecordAdapter extends BaseQuickAdapter<ScoreRecordBean, BaseHo
         helper.setText(R.id.item_score_record_title, (translateSource(bean.source)))
                 .setText(R.id.item_score_record_point, bean.points.replaceAll("EOS", "").split("\\.")[0])
                 .setText(R.id.item_score_record_point_flag, flag == 0 ? "+" : "-")
-                .setText(R.id.item_score_record_time, bean.created_at);
+                .setText(R.id.item_score_record_time, formatString(bean.created_at));
+    }
+
+    private String formatString(String created_at) {
+        return created_at.split("GMT")[0].replace("Mon", "").replace("Tue", "").replace("Wed", "").replace("Thu", "")
+                .replace("Fri", "").replace("Jan", "1 -").replace("Feb", "2 -").replace("Mar", "3 -")
+                .replace("Apr", "4 -").replace("May", "5 -").replace("Jun", "6 -").replace("Jul", "7 -").replace("Aug", "8 -")
+                .replace("Sep", "9 -").replace("Oct", "10 -").replace("Nov", "11 -").replace("Dec", "12 -");
     }
 
     private int translateSource(String source) {
