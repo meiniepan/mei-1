@@ -150,6 +150,11 @@ public class CarefreeRecyclerView extends FrameLayout {
         mRecyclerView.setErrorAction(v -> getData(firstObservable));
     }
 
+    public <T extends BaseItemBean> void initOrderData(Observable<BaseResponse<ListResponse<T>>> firstObservable) {
+        getOrderData(firstObservable);
+        mRecyclerView.setErrorAction(v -> getOrderData(firstObservable));
+    }
+
     private <T extends BaseItemBean> void getData(Observable<BaseResponse<ListResponse<T>>> firstObservable) {
         mSwipeRefreshLayout.setRefreshing(false);
         mRecyclerView.showProgressView();
@@ -189,8 +194,60 @@ public class CarefreeRecyclerView extends FrameLayout {
                         mAdapter.addData(data.list);
                         if (data.has_more == 0) {
                             mAdapter.loadMoreEnd(true);
+                            return;
                         }
                         startId = data.list.get(data.list.size() - 1).id;
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        mAdapter.loadMoreFail();
+                    }
+                });
+    }
+
+    private <T extends BaseItemBean> void getOrderData(Observable<BaseResponse<ListResponse<T>>> firstObservable) {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mRecyclerView.showProgressView();
+        firstObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse<ListResponse<T>>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<ListResponse<T>> listResponseBaseResponse) {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        mRecyclerView.showContentView();
+                        ListResponse<T> data = listResponseBaseResponse.data;
+                        mAdapter.setNewData(data.list);
+                        if (data.list == null || data.list.size() == 0) {
+                            mRecyclerView.showEmptyView(emptyMessage);
+                            return;
+                        }
+                        startId = data.list.get(data.list.size() - 1).order_id;
+                        if (data.has_more == 0) {
+                            mAdapter.loadMoreEnd(true);
+                        }
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        mRecyclerView.showErrorView(e.getDisplayMessage());
+                    }
+                });
+    }
+
+    public <T extends BaseItemBean> void getOrderDataMore(Observable<BaseResponse<ListResponse<T>>> observable) {
+        observable.compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<BaseResponse<ListResponse<T>>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<ListResponse<T>> listResponseBaseResponse) {
+                        ListResponse<T> data = listResponseBaseResponse.data;
+                        mAdapter.addData(data.list);
+                        if (data.has_more == 0) {
+                            mAdapter.loadMoreEnd(true);
+                            return;
+                        }
+                        startId = data.list.get(data.list.size() - 1).order_id;
                     }
 
                     @Override

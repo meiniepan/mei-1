@@ -8,6 +8,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.adapter.ActivityRecordAdapter;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.ScoreApis;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.CarefreeRecyclerView;
 
@@ -24,16 +25,12 @@ public class ActivityRecordActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         setTitleText(R.string.my_activity_record);
+        activityRecord.getRecyclerView().addItemDecoration(CommonUtil.getRecyclerDivider(this));
         ActivityRecordAdapter adapter = new ActivityRecordAdapter();
         activityRecord.setAdapter(adapter);
-        activityRecord.setLoadMoreListener(() -> activityRecord.getDataMore(CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
+        activityRecord.setLoadMoreListener(() -> activityRecord.getOrderDataMore(CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
                 .getActivityRecord(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("flag", "2").put("start_id", activityRecord.startId).buildGet())));
-        activityRecord.getRecyclerView().setErrorAction(v -> getData());
-        getData();
-    }
-
-    private void getData() {
-        activityRecord.initData(CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
+        activityRecord.initOrderData(CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
                 .getActivityRecord(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().put("flag", "1").put("start_id", "0").buildGet()));
     }
 

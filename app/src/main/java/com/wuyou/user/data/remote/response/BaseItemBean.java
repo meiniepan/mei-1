@@ -6,4 +6,5 @@ package com.wuyou.user.data.remote.response;
 
 public class BaseItemBean {
     public String id;
+    public String order_id;
 }

@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.gs.buluo.common.utils.SharePreferenceManager;
-import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.view.activity.BaseActivity;
 

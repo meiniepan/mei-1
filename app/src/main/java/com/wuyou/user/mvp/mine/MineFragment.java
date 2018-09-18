@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
+import com.gs.buluo.common.network.TokenEvent;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.CarefreeDaoSession;
@@ -170,6 +171,11 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.mine_score:
+                if (Constant.DEFAULT_DB_NAME.equals(CarefreeDaoSession.getInstance().getDatabaseFormName())) {
+                    ToastUtils.ToastMessage(mCtx, "检测到区块链数据库升级，需要您重新登录");
+                    EventBus.getDefault().post(new TokenEvent());
+                    return;
+                }
                 if (CarefreeDaoSession.getInstance().getMainAccount() == null) {
                     intent.setClass(mCtx, CreateOrImportAccountActivity.class);
                     startActivity(intent);
@@ -188,6 +194,11 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
                 break;
             case R.id.mine_mission:
+                if (Constant.DEFAULT_DB_NAME.equals(CarefreeDaoSession.getInstance().getDatabaseFormName())) {
+                    ToastUtils.ToastMessage(mCtx, "检测到区块链数据库升级，需要您重新登录");
+                    EventBus.getDefault().post(new TokenEvent());
+                    return;
+                }
                 if (CarefreeDaoSession.getInstance().getMainAccount() == null) {
                     intent.setClass(mCtx, CreateOrImportAccountActivity.class);
                     startActivity(intent);

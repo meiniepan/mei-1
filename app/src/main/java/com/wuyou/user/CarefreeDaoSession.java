@@ -2,6 +2,8 @@ package com.wuyou.user;
 
 import android.text.TextUtils;
 
+import com.gs.buluo.common.utils.SharePreferenceManager;
+import com.wuyou.user.data.local.db.CarefreeOpenHelper;
 import com.wuyou.user.data.local.db.DaoMaster;
 import com.wuyou.user.data.local.db.DaoSession;
 import com.wuyou.user.data.local.db.EosAccount;
@@ -22,11 +24,32 @@ public class CarefreeDaoSession {
     private static DaoSession daoSession;
     private static CarefreeDaoSession instance;
     public static String tempAvatar;
+    private String currentFormName;
 
     private CarefreeDaoSession() {
-        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(CarefreeApplication.getInstance().getApplicationContext(), "carefree.db", null);
+        String formName = SharePreferenceManager.getInstance(CarefreeApplication.getInstance().getApplicationContext()).getStringValue(Constant.FORM_NAME);
+        DaoMaster.OpenHelper devOpenHelper = new CarefreeOpenHelper(CarefreeApplication.getInstance().getApplicationContext(),
+                TextUtils.isEmpty(formName) ? Constant.DEFAULT_DB_NAME : formName, null);
         DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDb());
         daoSession = daoMaster.newSession();
+        currentFormName = devOpenHelper.getDatabaseName();
+    }
+
+    private CarefreeDaoSession(String form) {
+        DaoMaster.OpenHelper devOpenHelper = new CarefreeOpenHelper(CarefreeApplication.getInstance().getApplicationContext(), form, null);
+        DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDb());
+        daoSession = daoMaster.newSession();
+        currentFormName = devOpenHelper.getDatabaseName();
+    }
+
+    public static void setCurrentForm(String currentForm) {
+        currentForm = currentForm + ".db";
+        instance = new CarefreeDaoSession(currentForm);
+        SharePreferenceManager.getInstance(CarefreeApplication.getInstance().getApplicationContext()).setValue(Constant.FORM_NAME, currentForm);
+    }
+
+    public String getDatabaseFormName() {
+        return currentFormName;
     }
 
     public static synchronized CarefreeDaoSession getInstance() {
@@ -149,9 +172,9 @@ public class CarefreeDaoSession {
         return eosAccount;
     }
 
-    public EosAccount setMainAccount(EosAccount account){
+    public EosAccount setMainAccount(EosAccount account) {
         EosAccount mainAccount = getMainAccount();
-        if (mainAccount!=null){
+        if (mainAccount != null) {
             mainAccount.setMain(false);
             getEosDao().update(mainAccount);
         }

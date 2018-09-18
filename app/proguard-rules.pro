@@ -110,3 +110,7 @@ public void *(***);
 -keep class com.youth.banner.** {
     *;
  }
+ -keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+     public static void dropTable(org.greenrobot.greendao.database.Database, boolean);
+     public static void createTable(org.greenrobot.greendao.database.Database, boolean);
+ }

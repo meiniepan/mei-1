@@ -28,6 +28,7 @@ public class LoginPresenter extends LoginContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .flatMap(userInfoBaseResponse -> {
                     token = userInfoBaseResponse.data.getToken();
+                    CarefreeDaoSession.setCurrentForm(phone);
                     CarefreeDaoSession.getInstance().setUserInfo(userInfoBaseResponse.data);
                     return CarefreeRetrofit.getInstance().createApi(UserApis.class)
                             .getUserInfo(userInfoBaseResponse.data.getUid(), QueryMapBuilder.getIns().buildGet());

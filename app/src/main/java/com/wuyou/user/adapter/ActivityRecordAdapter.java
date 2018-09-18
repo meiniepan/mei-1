@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.utils.TribeDateUtils;
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
@@ -46,7 +47,7 @@ public class ActivityRecordAdapter extends BaseQuickAdapter<ActivityRecordBean, 
                 break;
             case 2:
                 tvStatus.setText("未参加");
-                tvStatus.setTextColor(mContext.getResources().getColor(R.color.common_dark));
+                tvStatus.setTextColor(mContext.getResources().getColor(R.color.common_gray));
                 tvObtain.setVisibility(View.GONE);
                 tvTicket.setVisibility(View.VISIBLE);
                 break;
@@ -71,11 +72,10 @@ public class ActivityRecordAdapter extends BaseQuickAdapter<ActivityRecordBean, 
             intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL + "activity_proof?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken() + "&order_id=" + activityRecordBean.order_id + "&type=1");
             mContext.startActivity(intent);
         });
-
     }
 
     private void getActivityRewards(String activityId) {
         //TODO
-
+        ToastUtils.ToastMessage(mContext,"等待后端开发");
     }
 }

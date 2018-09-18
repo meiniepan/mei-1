@@ -106,6 +106,7 @@ dependencies {
     compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     compile 'org.greenrobot:greendao:3.2.2'
+    compile 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.1.0'
     compile 'com.github.techery:properratingbar:0.0.5'
     compile 'cn.jzvd:jiaozivideoplayer:6.2.7'
     compile project(':bangwo8Ui')

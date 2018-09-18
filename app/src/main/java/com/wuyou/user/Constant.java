@@ -6,7 +6,19 @@ package com.wuyou.user;
 
 public class Constant {
     public static final String EOS_MONGO_DB = "mongodb://192.168.1.184:27017/";
+    public static String BASE_URL = "https://api.iwantmei.com/customer/";
+    public static String CHAIN_URL = " http://192.168.1.184:8888/";
+    public static String WEB_URL = "https://activities.iwantmei.com/";
+    public static String ONLINE_BASE_URL = "https://api.iwantmei.com/customer/";
+    public static String ONLINE_WEB_URL = "https://activities.iwantmei.com/";
+    public static String DEV_BASE_URL = "https://develop.api.iwantmei.com/customer/";
+    public static String DEV_WEB_URL = "http://192.168.1.169:6066/";
+    public static String STAGE_BASE_URL = "https://stage.api.iwantmei.com/customer/";
+    public static String STAGE_WEB_URL = "https://stage.activity.iwantmei.com/";
+
+    public static final String DEFAULT_DB_NAME = "carefree.db";
     public static final String DEFAULT_SERVANT_ACCOUNT = "eosio";
+    public static final String FORM_NAME = "form_name";
     public static final String DEFAULT_WALLET_NAME = "pocket";
     public static final boolean DEFAULT_SAVE_PASSWORD = true;
     //    public static final String SAMPLE_PRIV_KEY_FOR_TEST = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"  //have coin;
@@ -28,16 +40,6 @@ public class Constant {
     public static final int COUNT_DOWN = 119;
     public static final String IMPORT_ACCOUNT = "import_account";
 
-
-    public static String BASE_URL = "https://api.iwantmei.com/customer/";
-    public static String CHAIN_URL = "http://192.168.1.184:8888/";
-    public static String WEB_URL = "https://activities.iwantmei.com/";
-    public static String ONLINE_BASE_URL = "https://api.iwantmei.com/customer/";
-    public static String ONLINE_WEB_URL = "https://activities.iwantmei.com/";
-    public static String DEV_BASE_URL = "https://develop.api.iwantmei.com/customer/";
-    public static String DEV_WEB_URL = "http://192.168.1.169:6066/";
-    public static String STAGE_BASE_URL = "https://stage.api.iwantmei.com/customer/";
-    public static String STAGE_WEB_URL = "https://stage.activity.iwantmei.com/";
 
     public static final java.lang.String WX_ID = "wx4b8fec36e1c7dc68";
     public static final java.lang.String WX_SECRET = "1caabc2ff8f95959965c7ffc3dbed21d";
