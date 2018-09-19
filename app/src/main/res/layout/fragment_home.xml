@@ -141,7 +141,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:drawablePadding="4dp"
-                            android:drawableTop="@mipmap/mine_source_icon"
+                            android:drawableTop="@mipmap/icon_score_excharge"
                             android:text="@string/score_exchange"/>
                     </LinearLayout>
 
