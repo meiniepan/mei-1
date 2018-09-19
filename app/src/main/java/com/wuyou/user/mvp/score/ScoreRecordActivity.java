@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,6 +27,7 @@ import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.ScoreRecordAdapter;
+import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.data.remote.ScoreRecordBean;
 import com.wuyou.user.util.RxUtil;
@@ -35,6 +37,7 @@ import com.wuyou.user.view.widget.CarefreeRecyclerView;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -85,6 +88,17 @@ public class ScoreRecordActivity extends BaseActivity {
         getData();
     }
 
+    void getTableData() {
+        EoscDataManager.getIns().getTable("dailyrewards", "dailyrewards", "daily", "hhhhhhhhhhh1", "", "", 100)
+                .compose(RxUtil.switchSchedulers())
+                .subscribeWith(new BaseSubscriber<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        Log.e("Carefree", "onSuccess: " + s);
+                    }
+                });
+    }
+
     private boolean isProgressing = true;
     private int totalSize = 0;
     private final int MAX_QUERY_AMOUNT = 10000;
@@ -126,6 +140,7 @@ public class ScoreRecordActivity extends BaseActivity {
                 if (obtainAdapter.getData().size() == 0) {
                     obtainRecyclerView.showEmptyView(getString(R.string.no_score));
                 }
+
             }
         };
         Observable.create((ObservableOnSubscribe<ScoreRecordBean>) e -> {
@@ -133,17 +148,19 @@ public class ScoreRecordActivity extends BaseActivity {
             MongoCollection<Document> collection = database.getCollection("transaction_traces");
             //act.authorization.actor
             //"receipt.receiver", "eosio"
-            FindIterable<Document> action_traces = collection.find().filter(Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", "mukang123123"))).sort(Sorts.descending("action_traces.inline_traces.receipt.global_sequence"));
+            FindIterable<Document> action_traces = collection.find().filter(Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", currentAccount))).sort(Sorts.descending("action_traces.inline_traces.receipt.global_sequence"));
             MongoCursor<Document> iterator = action_traces.iterator();
             while (iterator.hasNext()) {
                 Document document = iterator.next();
                 recordBean = new ScoreRecordBean();
+                Date date = (Date) document.get("createAt");
                 recordBean.created_at = document.get("createdAt").toString();
                 recordBean.id = document.get("id").toString();
                 ArrayList<Document> array = (ArrayList<Document>) document.get("action_traces");
                 Document act = (Document) array.get(0).get("act");
                 recordBean.source = act.get("name").toString();
                 Document data = (Document) act.get("data");
+
                 recordBean.points = data.get("rewards").toString();
                 if (recordMap.get(recordBean.id) == null) {  //每条记录会有相同的两条，需 去重
                     e.onNext(recordBean);
@@ -158,6 +175,7 @@ public class ScoreRecordActivity extends BaseActivity {
     }
 
     private ConcurrentHashMap<String, ScoreRecordBean> recordMap = new ConcurrentHashMap<>();
+
 
     private void setCurrentAccount(String name) {
         setTitleText(name);

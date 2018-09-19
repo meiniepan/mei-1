@@ -19,6 +19,7 @@ import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -56,7 +57,7 @@ public class WalletPresenter extends WalletContract.Presenter {
                     eosAccount.setName(account);
                     eosDao.insertOrReplace(eosAccount);
                 })
-                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new BaseSubscriber<JsonObject>() {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {

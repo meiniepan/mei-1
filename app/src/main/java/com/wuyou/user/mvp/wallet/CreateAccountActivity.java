@@ -118,7 +118,10 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
 
     @Override
     public void showError(String message, int res) {
-        if (res == Constant.GET_CAPTCHA_FAIL) {
+        if (res == 500) {
+            ToastUtils.ToastMessage(getCtx(), "您的手机号已创建过账户，无法再创建");
+            return;
+        } else if (res == Constant.GET_CAPTCHA_FAIL) {
             observer.onComplete();
         }
         ToastUtils.ToastMessage(getCtx(), message);
