@@ -10,9 +10,11 @@ import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
+import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.utils.SharePreferenceManager;
+import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.EoscDataManager;
@@ -72,7 +74,7 @@ public class ScoreMissionActivity extends BaseActivity {
             }
         }
         if (currentDate == lastDate) { //今天签到了
-            setAlreadySignStatus();
+//            setAlreadySignStatus();
         } else { //新的一天 展示全部未签到状态
             setEnableSignStatus();
             if (signRecord == 7) {
@@ -114,6 +116,15 @@ public class ScoreMissionActivity extends BaseActivity {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
                         signUpSuccess();
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        if (e.getCode() == 500) {
+                            ToastUtils.ToastMessage(getCtx(), R.string.already_sign_up);
+                        } else {
+                            ToastUtils.ToastMessage(getCtx(), e.getDisplayMessage());
+                        }
                     }
                 });
     }

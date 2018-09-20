@@ -21,6 +21,7 @@ import com.wuyou.user.data.remote.WalletBalance;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
+import com.wuyou.user.mvp.score.ScoreExchangeActivity;
 import com.wuyou.user.mvp.score.ScoreMissionActivity;
 import com.wuyou.user.mvp.wallet.ActivityRecordActivity;
 import com.wuyou.user.mvp.wallet.CreateOrImportAccountActivity;
@@ -204,7 +205,8 @@ public class MineFragment extends BaseFragment {
                 }
                 break;
             case R.id.mine_auth:
-
+                intent.setClass(mCtx,ScoreExchangeActivity.class);
+                startActivity(intent);
                 break;
         }
     }

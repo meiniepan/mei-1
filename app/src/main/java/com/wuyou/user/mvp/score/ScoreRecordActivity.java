@@ -147,7 +147,7 @@ public class ScoreRecordActivity extends BaseActivity {
             MongoCollection<Document> collection = database.getCollection("transaction_traces");
             //act.authorization.actor
             //"receipt.receiver", "eosio"
-            FindIterable<Document> action_traces = collection.find().filter(Filters.and((Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", currentAccount))), Filters.exists("action_traces.inline_traces.act"))).sort(Sorts.descending("action_traces.inline_traces.receipt.global_sequence"));
+            FindIterable<Document> action_traces = collection.find().filter((Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", currentAccount)))).sort(Sorts.descending("action_traces.inline_traces.receipt.global_sequence"));
             MongoCursor<Document> iterator = action_traces.iterator();
             while (iterator.hasNext()) {
                 Document document = iterator.next();

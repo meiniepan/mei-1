@@ -199,10 +199,14 @@
             android:name=".mvp.wallet.CreateAccountActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".mvp.wallet.ScoreAccountActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
-        <activity android:name=".mvp.wallet.ManagerAccountActivity" />
-        <activity android:name=".mvp.wallet.AccountInfoActivity" />
+        <activity android:name=".mvp.wallet.ManagerAccountActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".mvp.wallet.AccountInfoActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".mvp.wallet.ActivityRecordActivity" />
+        <activity android:name=".mvp.score.ScoreExchangeActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"

@@ -38,5 +38,6 @@ public class ActivityRecordBean extends BaseItemBean {
         public long start_at;
         public long end_at;
         public List<String> image;
+        public String points;
     }
 }

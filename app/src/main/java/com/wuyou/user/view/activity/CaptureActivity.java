@@ -453,12 +453,12 @@ public class CaptureActivity extends BaseActivity implements Callback {
 
 
     private void handleQRResult(String result) {
-        if (result.contains("signIn://")) {
+//        if (result.contains("signIn://")) {
 //            signIn();
-        } else {
+//        } else {
             ToastUtils.ToastMessage(getCtx(), getString(R.string.wrong_qr_code));
             if (handler != null) previewView.postDelayed(() -> handler.restartDecode(), 3000);
-        }
+//        }
     }
 
     private void signIn() {

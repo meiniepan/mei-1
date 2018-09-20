@@ -70,7 +70,7 @@ public class ActivityRecordAdapter extends BaseQuickAdapter<ActivityRecordBean, 
 
         GlideUtils.loadRoundCornerImage(mContext, activityRecordBean.activity.image.get(0), baseHolder.getView(R.id.activity_record_picture));
 
-        tvObtain.setOnClickListener(v -> getActivityRewards(activityRecordBean.activity.activity_id));
+        tvObtain.setOnClickListener(v -> getActivityRewards(activityRecordBean.activity.title, activityRecordBean.activity.points));
         tvTicket.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, WebActivity.class);
             intent.putExtra(Constant.WEB_INTENT, Constant.WEB_URL + "activity_proof?user_id=" + CarefreeDaoSession.getInstance().getUserId() + "&Authorization=" + CarefreeDaoSession.getInstance().getUserInfo().getToken() + "&order_id=" + activityRecordBean.order_id + "&type=1");
@@ -78,9 +78,8 @@ public class ActivityRecordAdapter extends BaseQuickAdapter<ActivityRecordBean, 
         });
     }
 
-    private void getActivityRewards(String activityId) {
-        ToastUtils.ToastMessage(mContext, "等待后端开发");
-        EoscDataManager.getIns().getActivityRewards(activityId).compose(RxUtil.switchSchedulers())
+    private void getActivityRewards(String topic, String points) {
+        EoscDataManager.getIns().getActivityRewards(topic, points).compose(RxUtil.switchSchedulers())
                 .subscribeWith(new BaseSubscriber<JsonObject>() {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {

@@ -1,30 +1,36 @@
 package com.wuyou.user.data.types;
 
-import com.google.gson.annotations.Expose;
-
 /**
  * Created by DELL on 2018/8/30.
  */
 
-public class EosActivityRewards implements EosType.Packer{
-    @Expose
-    private String participant;
-    @Expose
-    private String id;
+public class EosActivityRewards implements EosType.Packer {
 
-    public EosActivityRewards(String participant, String id) {
+    private String participant;
+
+    private String topic;
+
+    private TypeAsset rewards;
+
+    private String memo;
+
+    public EosActivityRewards(String participant, String topic, String rewards, String memo) {
         this.participant = participant;
-        this.id = id;
+        this.topic = topic;
+        this.rewards = new TypeAsset(rewards);
+        this.memo = memo;
     }
 
     @Override
     public void pack(EosType.Writer writer) {
         writer.putString(participant);
-        writer.putString(id);
+        writer.putString(topic);
+        writer.putLongLE(rewards.getAmount());
+        writer.putString(memo);
     }
 
     public String getActionName() {
-        return "dailyrewards";
+        return "actirewards";
     }
 
 }

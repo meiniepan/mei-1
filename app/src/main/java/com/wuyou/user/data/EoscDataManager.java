@@ -55,7 +55,6 @@ import com.wuyou.user.data.types.EosNewAccount;
 import com.wuyou.user.data.types.EosTransfer;
 import com.wuyou.user.data.types.TypeAsset;
 import com.wuyou.user.data.types.TypeChainId;
-import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.ChainRetrofit;
 import com.wuyou.user.network.apis.NodeosApi;
 import com.wuyou.user.util.CommonUtil;
@@ -112,10 +111,10 @@ public class EoscDataManager {
         return pushActionRetJson(Constant.EOSIO_TOKEN_CONTRACT, transfer.getActionName(), CommonUtil.prettyPrintJson(transfer), getActivePermission(from)); //transfer.getAsHex()
     }
 
-    public Observable<JsonObject> getActivityRewards(String activityId) {
+    public Observable<JsonObject> getActivityRewards(String topic, String points) {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
-        EosActivityRewards activityRewards = new EosActivityRewards(currentOperateAccount.getName(), activityId);
-        return pushActionRetJson(Constant.EOSIO_DAILAY_REWARDS, activityRewards.getActionName(), CommonUtil.prettyPrintJson(activityRewards), getActivePermission(currentOperateAccount.getName()));
+        EosActivityRewards activityRewards = new EosActivityRewards(currentOperateAccount.getName(), topic, points, "android");
+        return pushActionRetJson(Constant.ACTIVITY_DAILAY_REWARDS, activityRewards.getActionName(), CommonUtil.prettyPrintJson(activityRewards), getActivePermission(currentOperateAccount.getName()));
     }
 
 
