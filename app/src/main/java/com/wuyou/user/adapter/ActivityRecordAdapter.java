@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
+import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.utils.TribeDateUtils;
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
@@ -11,8 +13,10 @@ import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.remote.ActivityRecordBean;
 import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.WebActivity;
 
@@ -75,7 +79,13 @@ public class ActivityRecordAdapter extends BaseQuickAdapter<ActivityRecordBean, 
     }
 
     private void getActivityRewards(String activityId) {
-        //TODO
-        ToastUtils.ToastMessage(mContext,"等待后端开发");
+        ToastUtils.ToastMessage(mContext, "等待后端开发");
+        EoscDataManager.getIns().getActivityRewards(activityId).compose(RxUtil.switchSchedulers())
+                .subscribeWith(new BaseSubscriber<JsonObject>() {
+                    @Override
+                    public void onSuccess(JsonObject jsonObject) {
+                        ToastUtils.ToastMessage(mContext, "领取成功");
+                    }
+                });
     }
 }

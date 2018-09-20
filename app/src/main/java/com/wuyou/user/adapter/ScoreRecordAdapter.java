@@ -25,12 +25,49 @@ public class ScoreRecordAdapter extends BaseQuickAdapter<ScoreRecordBean, BaseHo
                 .setText(R.id.item_score_record_time, formatString(bean.created_at));
     }
 
-    private String formatString(String created_at) {
-        return created_at.split("GMT")[0].replace("Mon", "").replace("Tue", "").replace("Wed", "").replace("Thu", "")
-                .replace("Fri", "").replace("Jan", "1 -").replace("Feb", "2 -").replace("Mar", "3 -")
-                .replace("Apr", "4 -").replace("May", "5 -").replace("Jun", "6 -").replace("Jul", "7 -").replace("Aug", "8 -")
-                .replace("Sep", "9 -").replace("Oct", "10 -").replace("Nov", "11 -").replace("Dec", "12 -");
+
+    private String formatString(String dateStr) {
+        String[] aStrings = dateStr.split(" ");
+        // 5
+        if (aStrings[1].equals("Jan")) {
+            aStrings[1] = "01";
+        }
+        if (aStrings[1].equals("Feb")) {
+            aStrings[1] = "02";
+        }
+        if (aStrings[1].equals("Mar")) {
+            aStrings[1] = "03";
+        }
+        if (aStrings[1].equals("Apr")) {
+            aStrings[1] = "04";
+        }
+        if (aStrings[1].equals("May")) {
+            aStrings[1] = "05";
+        }
+        if (aStrings[1].equals("Jun")) {
+            aStrings[1] = "06";
+        }
+        if (aStrings[1].equals("Jul")) {
+            aStrings[1] = "07";
+        }
+        if (aStrings[1].equals("Aug")) {
+            aStrings[1] = "08";
+        }
+        if (aStrings[1].equals("Sep")) {
+            aStrings[1] = "09";
+        }
+        if (aStrings[1].equals("Oct")) {
+            aStrings[1] = "10";
+        }
+        if (aStrings[1].equals("Nov")) {
+            aStrings[1] = "11";
+        }
+        if (aStrings[1].equals("Dec")) {
+            aStrings[1] = "12";
+        }
+        return aStrings[5] + "-" + aStrings[1] + "-" + aStrings[2] + " " + aStrings[3];
     }
+
 
     private int translateSource(String source) {
         if ("dailyrewards".equals(source)) {

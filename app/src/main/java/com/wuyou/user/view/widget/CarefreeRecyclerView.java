@@ -145,6 +145,8 @@ public class CarefreeRecyclerView extends FrameLayout {
     public String emptyMessage;
     public String startId;
 
+    //使用此处封装需要让 item bean对象继承 BaseItemBean--------------------------------------------------------------
+
     public <T extends BaseItemBean> void initData(Observable<BaseResponse<ListResponse<T>>> firstObservable) {
         getData(firstObservable);
         mRecyclerView.setErrorAction(v -> getData(firstObservable));

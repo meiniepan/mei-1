@@ -37,7 +37,6 @@ import com.wuyou.user.view.widget.CarefreeRecyclerView;
 import org.bson.Document;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -121,6 +120,7 @@ public class ScoreRecordActivity extends BaseActivity {
                 }
             }
 
+
             @Override
             protected void onFail(ApiException e) {
                 //此处因为有 mongoClient.close(); 故有java.lang.IllegalStateException: state should be: open
@@ -140,7 +140,6 @@ public class ScoreRecordActivity extends BaseActivity {
                 if (obtainAdapter.getData().size() == 0) {
                     obtainRecyclerView.showEmptyView(getString(R.string.no_score));
                 }
-
             }
         };
         Observable.create((ObservableOnSubscribe<ScoreRecordBean>) e -> {
@@ -148,19 +147,17 @@ public class ScoreRecordActivity extends BaseActivity {
             MongoCollection<Document> collection = database.getCollection("transaction_traces");
             //act.authorization.actor
             //"receipt.receiver", "eosio"
-            FindIterable<Document> action_traces = collection.find().filter(Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", currentAccount))).sort(Sorts.descending("action_traces.inline_traces.receipt.global_sequence"));
+            FindIterable<Document> action_traces = collection.find().filter(Filters.and((Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", currentAccount))), Filters.exists("action_traces.inline_traces.act"))).sort(Sorts.descending("action_traces.inline_traces.receipt.global_sequence"));
             MongoCursor<Document> iterator = action_traces.iterator();
             while (iterator.hasNext()) {
                 Document document = iterator.next();
                 recordBean = new ScoreRecordBean();
-                Date date = (Date) document.get("createAt");
                 recordBean.created_at = document.get("createdAt").toString();
                 recordBean.id = document.get("id").toString();
                 ArrayList<Document> array = (ArrayList<Document>) document.get("action_traces");
                 Document act = (Document) array.get(0).get("act");
                 recordBean.source = act.get("name").toString();
                 Document data = (Document) act.get("data");
-
                 recordBean.points = data.get("rewards").toString();
                 if (recordMap.get(recordBean.id) == null) {  //每条记录会有相同的两条，需 去重
                     e.onNext(recordBean);

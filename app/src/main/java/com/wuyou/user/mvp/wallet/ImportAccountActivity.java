@@ -16,7 +16,6 @@ import com.wuyou.user.R;
 import com.wuyou.user.crypto.ec.EosPrivateKey;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.local.db.EosAccount;
-import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import java.util.List;
@@ -25,6 +24,8 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Solang on 2018/9/10.
@@ -40,7 +41,6 @@ public class ImportAccountActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        List<EosAccount> allEosAccount = CarefreeDaoSession.getInstance().getAllEosAccount();
         setTitleText(getString(R.string.import_account));
     }
 
@@ -66,14 +66,31 @@ public class ImportAccountActivity extends BaseActivity {
             return;
         }
         String account = importAccountName.getText().toString().trim();
+        List<EosAccount> allEosAccount = CarefreeDaoSession.getInstance().getAllEosAccount();
+        for (EosAccount eosAccount : allEosAccount) {
+            if (TextUtils.equals(account, eosAccount.getName())) {
+                ToastUtils.ToastMessage(getCtx(), "账号已存在");
+                return;
+            }
+        }
+        startImport(account);
+    }
+
+    EosPrivateKey privateKey;
+
+    private void startImport(String account) {
         showLoadingDialog();
-        EoscDataManager.getIns().readAccountInfo(account).compose(RxUtil.switchSchedulers())
+        EoscDataManager.getIns().readAccountInfo(account).subscribeOn(Schedulers.io())
                 .map(eosAccountInfo -> eosAccountInfo.permissions.get(0).required_auth.keys.get(0).key)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(s -> {
+                    String pk = importAccountPk.getText().toString().trim();
+                    privateKey = new EosPrivateKey(pk); //check pk is illegal and maybe throw exception
+                })
                 .subscribeWith(new BaseSubscriber<String>() {
                     @Override
                     public void onSuccess(String publicKey) {
                         String pk = importAccountPk.getText().toString().trim();
-                        EosPrivateKey privateKey = new EosPrivateKey(pk);
                         if (TextUtils.equals(privateKey.getPublicKey().toString(), publicKey)) {
                             saveAccount(account, publicKey, pk);
                             Intent intent = new Intent(getCtx(), ScoreAccountActivity.class);
