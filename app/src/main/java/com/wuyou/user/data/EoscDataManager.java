@@ -113,7 +113,7 @@ public class EoscDataManager {
 
     public Observable<JsonObject> getActivityRewards(String topic, String points) {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
-        EosActivityRewards activityRewards = new EosActivityRewards(currentOperateAccount.getName(), topic, points, "android");
+        EosActivityRewards activityRewards = new EosActivityRewards(currentOperateAccount.getName(), topic, Long.parseLong(points), "android");
         return pushActionRetJson(Constant.ACTIVITY_DAILAY_REWARDS, activityRewards.getActionName(), CommonUtil.prettyPrintJson(activityRewards), getActivePermission(currentOperateAccount.getName()));
     }
 

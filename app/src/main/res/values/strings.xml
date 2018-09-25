@@ -182,6 +182,7 @@
     <string name="score_mission">积分任务</string>
     <string name="score_account">积分账户</string>
     <string name="account_info">账户信息</string>
+    <string name="get_record_success">积分领取成功</string>
 
 
 </resources>
