@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import com.gs.buluo.common.network.ApiException;
@@ -54,9 +55,12 @@ public class SearchActivity extends BaseActivity {
     protected void bindView(Bundle savedInstanceState) {
         setTitleText(R.string.search);
         searchEdit.setOnEditorActionListener((v, actionId, event) -> {
-            if (searchEdit.length() == 0) return false;
-            searchText = searchEdit.getText().toString().trim();
-            doSearch();
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (searchEdit.length() == 0) return false;
+                searchText = searchEdit.getText().toString().trim();
+                doSearch();
+                return true;
+            }
             return false;
         });
         searchList.setLayoutManager(new LinearLayoutManager(this));

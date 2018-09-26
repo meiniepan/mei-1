@@ -111,6 +111,7 @@ public class ServeDetailActivity extends BaseActivity {
         });
 
         serveDetailSpecificationLayout.setOnClickListener(v -> buyNow(serveDetailSpecificationLayout));
+        enableErrorAction();
         getStatusData();
     }
 

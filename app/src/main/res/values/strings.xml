@@ -183,6 +183,10 @@
     <string name="score_account">积分账户</string>
     <string name="account_info">账户信息</string>
     <string name="get_record_success">积分领取成功</string>
+    <string name="account_detail">账户信息</string>
+    <string name="transaction_detail">交易信息</string>
+    <string name="block_info">区块信息</string>
+    <string name="searching">查询中</string>
 
 
 </resources>

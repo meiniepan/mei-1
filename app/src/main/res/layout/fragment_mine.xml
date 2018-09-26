@@ -200,7 +200,6 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:drawableTop="@mipmap/mine_point_icon"
             android:gravity="center"
-            android:text="区块链浏览器"
-            android:visibility="gone" />
+            android:text="区块链浏览器" />
     </LinearLayout>
 </FrameLayout>

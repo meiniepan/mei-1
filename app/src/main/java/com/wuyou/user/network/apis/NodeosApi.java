@@ -39,11 +39,13 @@ import com.wuyou.user.data.api.JsonToBinRequest;
 import com.wuyou.user.data.api.JsonToBinResponse;
 import com.wuyou.user.data.api.RequiredKeysResponse;
 import com.wuyou.user.data.chain.PackedTransaction;
+import com.wuyou.user.data.remote.BlockInfo;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by swapnibble on 2017-09-08.
@@ -83,6 +85,9 @@ public interface NodeosApi {
 
     @POST("/v1/account_history/{history_path}")
     Observable<JsonObject> getAccountHistory(@Path("history_path") String historyPath, @Body JsonObject body);
+
+    @POST("v1/chain/get_block")
+    Observable<BlockInfo> getBlock(@Body JsonObject body);
 
     String ACCOUNT_HISTORY_GET_TRANSACTIONS = "get_transactions";
     String GET_TRANSACTIONS_KEY = "account_name";

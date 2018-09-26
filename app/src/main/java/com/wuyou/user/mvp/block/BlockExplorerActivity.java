@@ -1,13 +1,12 @@
 package com.wuyou.user.mvp.block;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.wuyou.user.R;
 import com.wuyou.user.view.activity.BaseActivity;
@@ -26,9 +25,15 @@ public class BlockExplorerActivity extends BaseActivity {
 
     private String[] titles = {"主网", "实时"};
 
+    private BlockMainFragment blockMainFragment;
+    private BlockTransactionFragment blockTransactionFragment;
+
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        blockPager.setAdapter(new BlockPagerAdapter());
+        setTitleText("laidao explorer");
+        blockTransactionFragment = new BlockTransactionFragment();
+        blockMainFragment = new BlockMainFragment();
+        blockPager.setAdapter(new BlockPagerAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(blockPager);
     }
 
@@ -37,26 +42,23 @@ public class BlockExplorerActivity extends BaseActivity {
         return R.layout.activity_block;
     }
 
-    private class BlockPagerAdapter extends PagerAdapter {
+    private class BlockPagerAdapter extends FragmentStatePagerAdapter {
+        BlockPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
-        @NonNull
         @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        public Fragment getItem(int position) {
             if (position == 0) {
-                return new BlockMainFragment();
+                return blockMainFragment;
             } else {
-                return new BlockTranscationFragment();
+                return blockTransactionFragment;
             }
         }
 
         @Override
         public int getCount() {
             return 2;
-        }
-
-        @Override
-        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return view == object;
         }
 
         @Nullable

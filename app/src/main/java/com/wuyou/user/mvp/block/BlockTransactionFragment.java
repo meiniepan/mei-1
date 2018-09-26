@@ -9,7 +9,8 @@ import com.wuyou.user.view.fragment.BaseFragment;
  * Created by DELL on 2018/9/26.
  */
 
-public class BlockTranscationFragment extends BaseFragment {
+public class BlockTransactionFragment extends BaseFragment {
+
     @Override
     protected int getContentLayout() {
         return R.layout.fragment_block_transcation;
@@ -17,6 +18,8 @@ public class BlockTranscationFragment extends BaseFragment {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+
+
 
     }
 }

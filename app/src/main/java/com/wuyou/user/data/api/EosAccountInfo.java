@@ -34,6 +34,7 @@ public class EosAccountInfo {
     public String last_code_update;
     public String core_liquid_balance;
     public List<PermissionsBean> permissions;
+    public String created;
 
     public static class PermissionsBean {
         /**

@@ -18,8 +18,8 @@ android {
         applicationId "com.wuyou.user"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 14
-        versionName "1.6.2"
+        versionCode 15
+        versionName "1.6.3"
         multiDexEnabled true
         ndk { abiFilters 'armeabi', 'armeabi-v7a' ,'x86'}
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -99,7 +99,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    compile 'com.github.ngreedy:tribe_lib:3.3.0'
+    compile 'com.github.ngreedy:tribe_lib:3.3.1'
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile "com.android.support:design:$rootProject.supportLibraryVersion"

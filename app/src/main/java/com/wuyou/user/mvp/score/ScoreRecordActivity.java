@@ -7,7 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,7 +25,6 @@ import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.ScoreRecordAdapter;
-import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.data.remote.ScoreRecordBean;
 import com.wuyou.user.util.RxUtil;
@@ -34,6 +32,7 @@ import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.CarefreeRecyclerView;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -87,17 +86,6 @@ public class ScoreRecordActivity extends BaseActivity {
         getData();
     }
 
-    void getTableData() {
-        EoscDataManager.getIns().getTable("dailyrewards", "dailyrewards", "daily", "hhhhhhhhhhh1", "", "", 100)
-                .compose(RxUtil.switchSchedulers())
-                .subscribeWith(new BaseSubscriber<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        Log.e("Carefree", "onSuccess: " + s);
-                    }
-                });
-    }
-
     private boolean isProgressing = true;
     private int totalSize = 0;
     private final int MAX_QUERY_AMOUNT = 10000;
@@ -147,7 +135,10 @@ public class ScoreRecordActivity extends BaseActivity {
             MongoCollection<Document> collection = database.getCollection("action_traces");
             //act.authorization.actor
             //"receipt.receiver", "eosio"
-            FindIterable<Document> action_traces = collection.find().filter(Filters.eq("act.authorization.actor", currentAccount)).sort(Sorts.descending("receipt.global_sequence"));
+
+            Bson dailyRecord = Filters.and(Filters.eq("act.account", "dailyrewards"), Filters.eq("act.name", "dailyrewards"), Filters.eq("act.authorization.actor", currentAccount));
+            Bson activityRecord = Filters.and(Filters.eq("act.account", "activity1111"), Filters.eq("act.name", "actirewards"), Filters.eq("act.authorization.actor", currentAccount));
+            FindIterable<Document> action_traces = collection.find().filter(Filters.or(dailyRecord, activityRecord)).sort(Sorts.descending("receipt.global_sequence"));
             MongoCursor<Document> iterator = action_traces.iterator();
             while (iterator.hasNext()) {
                 Document document = iterator.next();
@@ -162,13 +153,8 @@ public class ScoreRecordActivity extends BaseActivity {
                 } catch (Exception e1) {
                     recordBean.created_at = 0;
                 }
-                if (recordMap.get(recordBean.created_at + "") == null) {  //每条记录会有相同的两条，需 去重
-                    e.onNext(recordBean);
-                    if (isProgressing) recordBeans.add(recordBean);
-                    recordMap.put(recordBean.created_at + "", recordBean);
-                } else {
-                    recordMap.remove(recordBean.created_at + "");
-                }
+                e.onNext(recordBean);
+                if (isProgressing) recordBeans.add(recordBean);
             }
             e.onComplete();
         }).buffer(20).compose(RxUtil.switchSchedulers()).subscribeWith(subscriber);
