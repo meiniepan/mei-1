@@ -207,6 +207,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".mvp.wallet.ActivityRecordActivity" />
         <activity android:name=".mvp.score.ScoreExchangeActivity" />
+        <activity android:name=".mvp.block.BlockExplorerActivity" />
+        <activity android:name=".mvp.block.BlockSearchActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"

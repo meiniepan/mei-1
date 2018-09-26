@@ -1,0 +1,134 @@
+package com.wuyou.user.mvp.block;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.EditText;
+
+import com.gs.buluo.common.network.ApiException;
+import com.gs.buluo.common.network.BaseResponse;
+import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.QueryMapBuilder;
+import com.gs.buluo.common.widget.CustomAlertDialog;
+import com.gs.buluo.common.widget.StatusLayout;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
+import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
+import com.wuyou.user.R;
+import com.wuyou.user.data.local.db.SearchHistoryBean;
+import com.wuyou.user.data.remote.ServeBean;
+import com.wuyou.user.data.remote.response.ListResponse;
+import com.wuyou.user.mvp.serve.ServeDetailActivity;
+import com.wuyou.user.mvp.serve.ServeListAdapter;
+import com.wuyou.user.network.CarefreeRetrofit;
+import com.wuyou.user.network.apis.ServeApis;
+import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.util.KeyboardUtils;
+import com.wuyou.user.util.RxUtil;
+import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.widget.search.SearchRecyclerViewAdapter;
+
+import org.bson.Document;
+
+import java.util.List;
+
+import butterknife.BindView;
+
+/**
+ * Created by DELL on 2018/9/26.
+ */
+
+public class BlockSearchActivity extends BaseActivity {
+    @BindView(R.id.search_list)
+    RecyclerView searchList;
+    @BindView(R.id.search_status)
+    StatusLayout searchStatus;
+    @BindView(R.id.search_history_recycler)
+    RecyclerView searchHistoryList;
+    @BindView(R.id.search_history_edit)
+    EditText searchEdit;
+    @BindView(R.id.search_history_card)
+    View cardView;
+    private ServeListAdapter adapter;
+    private String searchText;
+
+    private MongoClient mongoClient;
+
+    @Override
+    protected void bindView(Bundle savedInstanceState) {
+        searchEdit.setOnEditorActionListener((v, actionId, event) -> {
+            if (searchEdit.length() == 0) return false;
+            searchText = searchEdit.getText().toString().trim();
+            doSearch();
+            return false;
+        });
+        searchList.setLayoutManager(new LinearLayoutManager(this));
+        searchHistoryList.setLayoutManager(new LinearLayoutManager(this));
+        searchHistoryList.addItemDecoration(CommonUtil.getRecyclerDivider(this));
+
+        adapter = new ServeListAdapter(this, R.layout.item_serve_list);
+        searchList.setAdapter(adapter);
+        adapter.bindToRecyclerView(searchList);
+        adapter.setOnLoadMoreListener(this::getMore, searchList);
+        adapter.setOnItemClickListener((adapter, view, position) -> goDetail((ServeBean) adapter.getData().get(position)));
+
+        SearchRecyclerViewAdapter historyAdapter = new SearchRecyclerViewAdapter(CarefreeDaoSession.getInstance().getHistoryRecords());
+        searchHistoryList.setAdapter(historyAdapter);
+        historyAdapter.bindToRecyclerView(searchHistoryList);
+        if (historyAdapter.getData().size() == 0)
+            findViewById(R.id.search_clear).setVisibility(View.GONE);
+        historyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            searchText = ((SearchHistoryBean) adapter.getData().get(position)).getTitle();
+            KeyboardUtils.hideSoftInput(searchEdit, getCtx());
+            doSearch();
+        });
+
+        searchEdit.setOnTouchListener((v, event) -> {
+            historyAdapter.setNewData(CarefreeDaoSession.getInstance().getHistoryRecords());
+            cardView.setVisibility(View.VISIBLE);
+            return false;
+        });
+
+        findViewById(R.id.search_clear).setOnClickListener(v -> new CustomAlertDialog.Builder(getCtx()).setTitle("提示").setMessage("确定清空历史搜索吗?")
+                .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+                    CarefreeDaoSession.getInstance().clearSearchHistory();
+                    historyAdapter.clearData();
+                }).setNegativeButton(getString(R.string.cancel), null).create().show());
+    }
+
+    private void goDetail(ServeBean serveBean) {
+
+
+
+    }
+
+    private String startId = "0";
+
+    private void doSearch() {
+        MongoDatabase database = mongoClient.getDatabase("EOS");
+        MongoCollection<Document> collection = database.getCollection("transaction_traces");
+        //act.authorization.actor
+        //"receipt.receiver", "eosio"
+        FindIterable<Document> action_traces = collection.find().filter((Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", "")))).sort(Sorts.descending("action_traces.inline_traces.receipt.global_sequence"));
+        MongoCursor<Document> iterator = action_traces.iterator();
+    }
+
+
+    @Override
+    protected int getContentLayout() {
+        return R.layout.activity_search;
+    }
+
+    public void getMore() {
+
+
+    }
+}

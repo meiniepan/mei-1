@@ -109,7 +109,6 @@ public class ActivityRecordAdapter extends BaseQuickAdapter<ActivityRecordBean, 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        Log.e("Carefree", "onError: " + e.toString());
                         if (e.toString().contains("Internal Server Error")) {
                             updateActivityStatus(order_id, CommonUtil.getRandomString(10), position);
                         } else {

@@ -95,7 +95,9 @@ public class EoscDataManager {
 
     public Observable<JsonObject> getDailyRewords(int amount) {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
-        EosDailyRewards dailyRewards = new EosDailyRewards(currentOperateAccount.getName(), TribeDateUtils.dateFormat5(new Date(System.currentTimeMillis())), "hjn", new TypeAsset(10));
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("create_time", System.currentTimeMillis() / 1000);
+        EosDailyRewards dailyRewards = new EosDailyRewards(currentOperateAccount.getName(), TribeDateUtils.dateFormat5(new Date(System.currentTimeMillis())), jsonObject.toString(), new TypeAsset(10));
         return pushActionRetJson(Constant.EOSIO_DAILAY_REWARDS, dailyRewards.getActionName(), CommonUtil.prettyPrintJson(dailyRewards), getActivePermission(currentOperateAccount.getName())); //transfer.getAsHex()
     }
 
@@ -113,7 +115,9 @@ public class EoscDataManager {
 
     public Observable<JsonObject> getActivityRewards(String topic, String points) {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
-        EosActivityRewards activityRewards = new EosActivityRewards(currentOperateAccount.getName(), topic, Long.parseLong(points), "android");
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("create_time", System.currentTimeMillis() / 1000);
+        EosActivityRewards activityRewards = new EosActivityRewards(currentOperateAccount.getName(), topic, Long.parseLong(points), jsonObject.toString());
         return pushActionRetJson(Constant.ACTIVITY_DAILAY_REWARDS, activityRewards.getActionName(), CommonUtil.prettyPrintJson(activityRewards), getActivePermission(currentOperateAccount.getName()));
     }
 

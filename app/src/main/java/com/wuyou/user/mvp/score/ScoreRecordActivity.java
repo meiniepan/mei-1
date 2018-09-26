@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
-import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.panel.SimpleChoosePanel;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -35,6 +34,7 @@ import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.CarefreeRecyclerView;
 
 import org.bson.Document;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,7 +126,7 @@ public class ScoreRecordActivity extends BaseActivity {
                 //此处因为有 mongoClient.close(); 故有java.lang.IllegalStateException: state should be: open
                 //因为不需要查询太多，当达到 MAX_QUERY_AMOUNT 时即关闭数据库查询 防止数据量过大 而且没什么用 所以不需要弹错误提示
                 if (!e.getType().contains("state should be: open")) {
-                    ToastUtils.ToastMessage(getCtx(), e.getDisplayMessage());
+                    obtainRecyclerView.showErrorView(e.getDisplayMessage());
                 }
             }
 
@@ -144,27 +144,30 @@ public class ScoreRecordActivity extends BaseActivity {
         };
         Observable.create((ObservableOnSubscribe<ScoreRecordBean>) e -> {
             MongoDatabase database = mongoClient.getDatabase("EOS");
-            MongoCollection<Document> collection = database.getCollection("transaction_traces");
+            MongoCollection<Document> collection = database.getCollection("action_traces");
             //act.authorization.actor
             //"receipt.receiver", "eosio"
-            FindIterable<Document> action_traces = collection.find().filter((Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", currentAccount)))).sort(Sorts.descending("action_traces.inline_traces.receipt.global_sequence"));
+            FindIterable<Document> action_traces = collection.find().filter(Filters.eq("act.authorization.actor", currentAccount)).sort(Sorts.descending("receipt.global_sequence"));
             MongoCursor<Document> iterator = action_traces.iterator();
             while (iterator.hasNext()) {
                 Document document = iterator.next();
                 recordBean = new ScoreRecordBean();
-                recordBean.created_at = document.get("createdAt").toString();
-                recordBean.id = document.get("id").toString();
-                ArrayList<Document> array = (ArrayList<Document>) document.get("action_traces");
-                Document act = (Document) array.get(0).get("act");
+                Document act = (Document) document.get("act");
                 recordBean.source = act.get("name").toString();
                 Document data = (Document) act.get("data");
                 recordBean.points = data.get("rewards").toString();
-                if (recordMap.get(recordBean.id) == null) {  //每条记录会有相同的两条，需 去重
+                try {
+                    JSONObject jsonObject = new JSONObject(data.get("memo").toString());
+                    recordBean.created_at = Long.parseLong(jsonObject.get("create_time").toString());
+                } catch (Exception e1) {
+                    recordBean.created_at = 0;
+                }
+                if (recordMap.get(recordBean.created_at + "") == null) {  //每条记录会有相同的两条，需 去重
                     e.onNext(recordBean);
                     if (isProgressing) recordBeans.add(recordBean);
-                    recordMap.put(recordBean.id, recordBean);
+                    recordMap.put(recordBean.created_at + "", recordBean);
                 } else {
-                    recordMap.remove(recordBean.id);
+                    recordMap.remove(recordBean.created_at + "");
                 }
             }
             e.onComplete();

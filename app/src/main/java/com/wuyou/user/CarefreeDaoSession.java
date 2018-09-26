@@ -1,6 +1,7 @@
 package com.wuyou.user;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.wuyou.user.data.local.db.CarefreeOpenHelper;
@@ -158,7 +159,8 @@ public class CarefreeDaoSession {
     public EosAccount setMainAccount(String account) throws IllegalStateException { //remember to try/catch
         EosAccount eosAccount = searchName(account);
         if (eosAccount == null) {
-            throw new IllegalStateException("Account not found in database:" + account);
+            Log.e("Carefree", "Account not found in database:" + account);
+            return null;
         }
         if (eosAccount.getMain()) {
             return eosAccount;
