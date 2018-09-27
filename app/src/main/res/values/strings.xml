@@ -187,6 +187,11 @@
     <string name="transaction_detail">交易信息</string>
     <string name="block_info">区块信息</string>
     <string name="searching">查询中</string>
+    <string name="main_net_preview">主网一览</string>
+    <string name="block_height">区块高度</string>
+    <string name="account_num">账户数</string>
+    <string name="transaction">交易</string>
+    <string name="score_category">积分种类</string>
 
 
 </resources>
