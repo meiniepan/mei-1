@@ -47,6 +47,7 @@ import com.wuyou.user.mvp.score.ScoreExchangeActivity;
 import com.wuyou.user.mvp.score.ScoreMissionActivity;
 import com.wuyou.user.mvp.wallet.ScoreAccountActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
+import com.wuyou.user.network.apis.ActivityApis;
 import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.network.apis.ServeApis;
 import com.wuyou.user.util.CommonUtil;
@@ -404,7 +405,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     }
 
     public void getActivityData() {
-        CarefreeRetrofit.getInstance().createApi(HomeApis.class).getActivityData(QueryMapBuilder.getIns().buildGet())
+        CarefreeRetrofit.getInstance().createApi(ActivityApis.class).getActivityData(QueryMapBuilder.getIns().buildGet())
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<BaseResponse<ListResponse<ActivityBean>>>() {
                     @Override

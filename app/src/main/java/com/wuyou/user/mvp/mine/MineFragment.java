@@ -20,6 +20,7 @@ import com.wuyou.user.data.local.db.UserInfo;
 import com.wuyou.user.data.remote.WalletBalance;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressManagerActivity;
+import com.wuyou.user.mvp.block.BlockExplorerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.score.ScoreExchangeActivity;
 import com.wuyou.user.mvp.score.ScoreMissionActivity;
@@ -59,8 +60,6 @@ public class MineFragment extends BaseFragment {
     TextView mineSex;
     @BindView(R.id.mine_phone)
     TextView minePhone;
-    @BindView(R.id.mine_balance)
-    TextView mineBalance;
     @BindView(R.id.mine_login)
     TextView mineLogin;
     private long totalScore = -1;
@@ -104,7 +103,6 @@ public class MineFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         if (CarefreeDaoSession.getInstance().getUserInfo() == null) return;
-        getBalance();
         getInfo();
     }
 
@@ -134,12 +132,12 @@ public class MineFragment extends BaseFragment {
                 .subscribe(new BaseSubscriber<BaseResponse<WalletBalance>>() {
                     @Override
                     public void onSuccess(BaseResponse<WalletBalance> walletBalanceBaseResponse) {
-                        mineBalance.setText(CommonUtil.formatPrice(walletBalanceBaseResponse.data.balance));
+//                        mineBalance.setText(CommonUtil.formatPrice(walletBalanceBaseResponse.data.balance));
                     }
                 });
     }
 
-    @OnClick({R.id.mine_setting, R.id.mine_warn, R.id.mine_login, R.id.mine_card, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_help, R.id.mine_mission, R.id.mine_auth})
+    @OnClick({R.id.mine_setting, R.id.mine_login, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_help, R.id.mine_mission, R.id.mine_auth, R.id.mine_explorer})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -160,9 +158,6 @@ public class MineFragment extends BaseFragment {
                 intent.setClass(mCtx, ActivityRecordActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.mine_card:
-                ToastUtils.ToastMessage(mCtx, R.string.no_function);
-                break;
             case R.id.mine_info:
                 intent.setClass(mCtx, InfoActivity.class);
                 startActivity(intent);
@@ -181,11 +176,11 @@ public class MineFragment extends BaseFragment {
                     startActivity(intent);
                 }
                 break;
-            case R.id.mine_warn:
-                new CustomAlertDialog.Builder(mCtx).setTitle(R.string.prompt).setMessage(R.string.mine_warn)
-                        .setPositiveButton("确定", (dialog, which) -> {
-                        }).create().show();
-                break;
+//            case R.id.mine_warn:
+//                new CustomAlertDialog.Builder(mCtx).setTitle(R.string.prompt).setMessage(R.string.mine_warn)
+//                        .setPositiveButton("确定", (dialog, which) -> {
+//                        }).create().show();
+//                break;
             case R.id.mine_help:
                 intent.setClass(mCtx, HelpActivity.class);
                 startActivity(intent);
@@ -205,7 +200,11 @@ public class MineFragment extends BaseFragment {
                 }
                 break;
             case R.id.mine_auth:
-                intent.setClass(mCtx,ScoreExchangeActivity.class);
+                intent.setClass(mCtx, ScoreExchangeActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.mine_explorer:
+                intent.setClass(mCtx,BlockExplorerActivity.class);
                 startActivity(intent);
                 break;
         }

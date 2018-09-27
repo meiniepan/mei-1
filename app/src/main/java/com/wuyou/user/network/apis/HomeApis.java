@@ -2,8 +2,6 @@ package com.wuyou.user.network.apis;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
-import com.wuyou.user.data.remote.ActivityBean;
-import com.wuyou.user.data.remote.ActivityListBean;
 import com.wuyou.user.data.remote.HomeVideoBean;
 import com.wuyou.user.data.remote.ServeSites;
 import com.wuyou.user.data.remote.response.CommunityListResponse;
@@ -27,10 +25,4 @@ public interface HomeApis {
 
     @GET("v1/sites")
     Observable<BaseResponse<ListResponse<ServeSites>>> getServeSites(@QueryMap SortedTreeMap<String, String> map);
-
-    @GET("v2/activity/recommend")
-    Observable<BaseResponse<ListResponse<ActivityBean>>> getActivityData(@QueryMap SortedTreeMap<String, String> map);
-
-    @GET("v2/activities")
-    Observable<BaseResponse<ListResponse<ActivityListBean>>> getActivityList(@QueryMap SortedTreeMap<String, String> map);
 }

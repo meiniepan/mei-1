@@ -74,7 +74,7 @@ public class ScoreMissionActivity extends BaseActivity {
             }
         }
         if (currentDate == lastDate) { //今天签到了
-//            setAlreadySignStatus();
+            setAlreadySignStatus();
         } else { //新的一天 展示全部未签到状态
             setEnableSignStatus();
             if (signRecord == 7) {

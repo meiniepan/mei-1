@@ -98,6 +98,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
     protected void bindView(Bundle savedInstanceState) {
         orderId = getIntent().getStringExtra(Constant.ORDER_ID);
         setTitleText(R.string.order_detail);
+        enableErrorAction();
         getStatusData();
     }
 

@@ -83,12 +83,20 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         titleTextView = findViewById(R.id.base_tv_title);
         titleTextLayout = findViewById(R.id.base_title_layout);
         baseStatusLayout = findViewById(R.id.id_status);
-        baseStatusLayout.setErrorAction(v -> getStatusData());
         createView();
     }
 
     protected void getStatusData() {
         baseStatusLayout.showProgressView();
+    }
+
+    protected void enableErrorAction(){
+        baseStatusLayout.setErrorAction(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getStatusData();
+            }
+        });
     }
 
     protected void disableFitSystemWindow() {
@@ -130,13 +138,24 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
     protected void showErrMessage(String message) {
         baseStatusLayout.showErrorView(message);
     }
+    protected void  showEmpty(String message){
+        baseStatusLayout.showEmptyView(message);
+    }
 
     protected void showErrMessage(int msgId) {
         baseStatusLayout.showErrorView(getString(msgId));
     }
 
-    protected void showErrMessage() {
-        baseStatusLayout.showErrorView(null);
+    protected void showLoadingView() {
+        baseStatusLayout.showProgressView();
+    }
+
+    protected void showLoadingView(String message) {
+        baseStatusLayout.showProgressView(message);
+    }
+
+    protected void showContent() {
+        baseStatusLayout.showContentView();
     }
 
     private void createView() {

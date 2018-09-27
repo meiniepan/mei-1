@@ -40,7 +40,7 @@
             android:layout_width="120dp"
             android:layout_height="85dp"
             android:layout_marginTop="23dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

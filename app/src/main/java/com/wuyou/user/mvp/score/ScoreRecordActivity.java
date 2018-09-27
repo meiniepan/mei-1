@@ -7,13 +7,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
-import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.panel.SimpleChoosePanel;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -27,7 +25,6 @@ import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.ScoreRecordAdapter;
-import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.data.remote.ScoreRecordBean;
 import com.wuyou.user.util.RxUtil;
@@ -35,6 +32,8 @@ import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.CarefreeRecyclerView;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,17 +86,6 @@ public class ScoreRecordActivity extends BaseActivity {
         getData();
     }
 
-    void getTableData() {
-        EoscDataManager.getIns().getTable("dailyrewards", "dailyrewards", "daily", "hhhhhhhhhhh1", "", "", 100)
-                .compose(RxUtil.switchSchedulers())
-                .subscribeWith(new BaseSubscriber<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        Log.e("Carefree", "onSuccess: " + s);
-                    }
-                });
-    }
-
     private boolean isProgressing = true;
     private int totalSize = 0;
     private final int MAX_QUERY_AMOUNT = 10000;
@@ -126,7 +114,7 @@ public class ScoreRecordActivity extends BaseActivity {
                 //此处因为有 mongoClient.close(); 故有java.lang.IllegalStateException: state should be: open
                 //因为不需要查询太多，当达到 MAX_QUERY_AMOUNT 时即关闭数据库查询 防止数据量过大 而且没什么用 所以不需要弹错误提示
                 if (!e.getType().contains("state should be: open")) {
-                    ToastUtils.ToastMessage(getCtx(), e.getDisplayMessage());
+                    obtainRecyclerView.showErrorView(e.getDisplayMessage());
                 }
             }
 
@@ -144,28 +132,29 @@ public class ScoreRecordActivity extends BaseActivity {
         };
         Observable.create((ObservableOnSubscribe<ScoreRecordBean>) e -> {
             MongoDatabase database = mongoClient.getDatabase("EOS");
-            MongoCollection<Document> collection = database.getCollection("transaction_traces");
+            MongoCollection<Document> collection = database.getCollection("action_traces");
             //act.authorization.actor
             //"receipt.receiver", "eosio"
-            FindIterable<Document> action_traces = collection.find().filter((Filters.elemMatch("action_traces", Filters.eq("act.authorization.actor", currentAccount)))).sort(Sorts.descending("action_traces.inline_traces.receipt.global_sequence"));
+
+            Bson dailyRecord = Filters.and(Filters.eq("act.account", "dailyrewards"), Filters.eq("act.name", "dailyrewards"), Filters.eq("act.authorization.actor", currentAccount));
+            Bson activityRecord = Filters.and(Filters.eq("act.account", "activity1111"), Filters.eq("act.name", "actirewards"), Filters.eq("act.authorization.actor", currentAccount));
+            FindIterable<Document> action_traces = collection.find().filter(Filters.or(dailyRecord, activityRecord)).sort(Sorts.descending("receipt.global_sequence"));
             MongoCursor<Document> iterator = action_traces.iterator();
             while (iterator.hasNext()) {
                 Document document = iterator.next();
                 recordBean = new ScoreRecordBean();
-                recordBean.created_at = document.get("createdAt").toString();
-                recordBean.id = document.get("id").toString();
-                ArrayList<Document> array = (ArrayList<Document>) document.get("action_traces");
-                Document act = (Document) array.get(0).get("act");
+                Document act = (Document) document.get("act");
                 recordBean.source = act.get("name").toString();
                 Document data = (Document) act.get("data");
                 recordBean.points = data.get("rewards").toString();
-                if (recordMap.get(recordBean.id) == null) {  //每条记录会有相同的两条，需 去重
-                    e.onNext(recordBean);
-                    if (isProgressing) recordBeans.add(recordBean);
-                    recordMap.put(recordBean.id, recordBean);
-                } else {
-                    recordMap.remove(recordBean.id);
+                try {
+                    JSONObject jsonObject = new JSONObject(data.get("memo").toString());
+                    recordBean.created_at = Long.parseLong(jsonObject.get("create_time").toString());
+                } catch (Exception e1) {
+                    recordBean.created_at = 0;
                 }
+                e.onNext(recordBean);
+                if (isProgressing) recordBeans.add(recordBean);
             }
             e.onComplete();
         }).buffer(20).compose(RxUtil.switchSchedulers()).subscribeWith(subscriber);

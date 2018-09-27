@@ -20,6 +20,7 @@ public class ActivityRecordBean extends BaseItemBean {
 
     public float price;
     public int status;
+    public int points_is_received;
     public ActivityBean activity;
     public List<Integer> fee_type;
 

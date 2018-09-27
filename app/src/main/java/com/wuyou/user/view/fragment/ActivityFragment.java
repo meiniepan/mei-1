@@ -15,6 +15,7 @@ import com.wuyou.user.adapter.ActivityFragmentAdapter;
 import com.wuyou.user.data.remote.ActivityListBean;
 import com.wuyou.user.data.remote.response.ListResponse;
 import com.wuyou.user.network.CarefreeRetrofit;
+import com.wuyou.user.network.apis.ActivityApis;
 import com.wuyou.user.network.apis.HomeApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
@@ -74,7 +75,7 @@ public class ActivityFragment extends BaseFragment {
         page = 1;
         activityRecyclerView.showProgressView();
         activityRecyclerView.setRefreshFinished();
-        CarefreeRetrofit.getInstance().createApi(HomeApis.class).getActivityList(QueryMapBuilder.getIns().put("page", page + "").buildGet())
+        CarefreeRetrofit.getInstance().createApi(ActivityApis.class).getActivityList(QueryMapBuilder.getIns().put("page", page + "").buildGet())
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<BaseResponse<ListResponse<ActivityListBean>>>() {
                     @Override
@@ -101,7 +102,7 @@ public class ActivityFragment extends BaseFragment {
 
 
     public void getDataMore() {
-        CarefreeRetrofit.getInstance().createApi(HomeApis.class).getActivityList(QueryMapBuilder.getIns().put("page", page+"").buildGet())
+        CarefreeRetrofit.getInstance().createApi(ActivityApis.class).getActivityList(QueryMapBuilder.getIns().put("page", page+"").buildGet())
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<BaseResponse<ListResponse<ActivityListBean>>>() {
                     @Override
