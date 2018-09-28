@@ -32,7 +32,6 @@ public class CarefreeApplication extends BaseApplication {
     private static CarefreeApplication instance;
     public long lastSignTime;
     private String webUrl;
-    private boolean threadIsStop;
 
     @Override
     public void onCreate() {
@@ -126,10 +125,4 @@ public class CarefreeApplication extends BaseApplication {
         return 0;
     }
 
-    public void setThreadIsStop(boolean isStop) {
-        threadIsStop = isStop;
-    }
-    public boolean getThreadIsStop() {
-        return threadIsStop ;
-    }
 }

@@ -48,7 +48,7 @@ public class ChartViewportAnimatorV14 implements ChartViewportAnimator, Animator
     public void onAnimationUpdate(ValueAnimator animation) {
         float scale = animation.getAnimatedFraction();
         float diffLeft = (targetViewport.left - startViewport.left) * scale;
-        float diffTop = (targetViewport.top - startViewport.top) * 1;
+        float diffTop = (targetViewport.top - startViewport.top) * scale;
         float diffRight = (targetViewport.right - startViewport.right) * scale;
         float diffBottom = (targetViewport.bottom - startViewport.bottom) * scale;
         newViewport.set(startViewport.left + diffLeft, startViewport.top + diffTop, startViewport.right + diffRight,

@@ -30,7 +30,7 @@ public class PointValue {
 
     public void update(float scale) {
         x = originX + diffX * scale;
-        y = originY + diffY ;
+        y = originY + diffY* scale;
     }
 
     public void finish() {
