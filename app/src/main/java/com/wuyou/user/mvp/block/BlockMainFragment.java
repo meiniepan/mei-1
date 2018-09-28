@@ -38,7 +38,7 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
     @BindView(R.id.block_main_search)
     EditText blockSearch;
     LineChartView chartBottom;
-    public final static String[] axisDadaX = new String[]{"1", "2", "3", "4", "5",};
+    public final static String[] axisDadaX = new String[]{"0","1", "2", "3", "4", };
     private static LineChartData lineData;
     int numValues = 5;
     float maxY = 20;//Y坐标最大值
@@ -113,8 +113,9 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
         List<Line> lines = new ArrayList<>();
         lines.add(line);
         lineData = new LineChartData(lines);
-        lineData.setAxisXBottom(new Axis(axisValues).setHasLines(true));
+        lineData.setAxisXBottom(new Axis(axisValues));
         lineData.setAxisYLeft(new Axis().setHasLines(true).setMaxLabelChars(3));
+
         chartBottom.setLineChartData(lineData);
         // For build-up animation you have to disable viewport recalculation.
         chartBottom.setViewportCalculationEnabled(false);
@@ -127,6 +128,7 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
             @Override
             public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
                 ToastUtils.ToastMessage(getContext(), "x:" + value.getX() + " y:" + value.getY());
+
             }
 
             @Override
@@ -150,7 +152,7 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
         for (int i = 0; i < numValues; ++i) {
             axisValues.add(new AxisValue(i).setLabel(i + ""));
         }
-        lineData.setAxisXBottom(new Axis(axisValues).setHasLines(true));
+        lineData.setAxisXBottom(new Axis(axisValues));
         float y = (float) (Math.random() * range);//给新加入的点赋值
         curMaxY = y;
         for (int i = 0; i < values.size(); i++) {

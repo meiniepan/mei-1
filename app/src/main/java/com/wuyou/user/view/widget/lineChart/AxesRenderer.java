@@ -553,10 +553,17 @@ public class AxesRenderer {
                 } else {
                     lineX1 = lineX2 = rawValuesTab[position][valueToDrawIndex];
                 }
-                linesDrawBufferTab[position][valueToDrawIndex * 4 + 0] = lineX1;
-                linesDrawBufferTab[position][valueToDrawIndex * 4 + 1] = lineY1;
-                linesDrawBufferTab[position][valueToDrawIndex * 4 + 2] = lineX2;
-                linesDrawBufferTab[position][valueToDrawIndex * 4 + 3] = lineY2;
+                if (valueToDrawIndex == 0) {
+                    linesDrawBufferTab[position][valueToDrawIndex * 4 + 0] = 0;
+                    linesDrawBufferTab[position][valueToDrawIndex * 4 + 1] = 0;
+                    linesDrawBufferTab[position][valueToDrawIndex * 4 + 2] = 0;
+                    linesDrawBufferTab[position][valueToDrawIndex * 4 + 3] = 0;
+                } else {
+                    linesDrawBufferTab[position][valueToDrawIndex * 4 + 0] = lineX1;
+                    linesDrawBufferTab[position][valueToDrawIndex * 4 + 1] = lineY1;
+                    linesDrawBufferTab[position][valueToDrawIndex * 4 + 2] = lineX2;
+                    linesDrawBufferTab[position][valueToDrawIndex * 4 + 3] = lineY2;
+                }
             }
             canvas.drawLines(linesDrawBufferTab[position], 0, valueToDrawIndex * 4, linePaintTab[position]);
         }
@@ -590,12 +597,8 @@ public class AxesRenderer {
             }
 
             if (!isAxisVertical) {
-                canvas.save();
-                canvas.translate(tiltedLabelXTranslation[position], tiltedLabelYTranslation[position]);
-                canvas.rotate(-45, labelX, labelY);
                 canvas.drawText(labelBuffer, labelBuffer.length - charsNumber, charsNumber, labelX, labelY,
                         labelPaintTab[position]);
-                canvas.restore();
             } else {
                 canvas.drawText(labelBuffer, labelBuffer.length - charsNumber, charsNumber, labelX, labelY,
                         labelPaintTab[position]);
