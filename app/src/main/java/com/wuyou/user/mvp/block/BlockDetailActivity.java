@@ -2,6 +2,8 @@ package com.wuyou.user.mvp.block;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.TextView;
@@ -10,6 +12,7 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.api.EosAccountInfo;
 import com.wuyou.user.data.remote.BlockInfo;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import org.bson.Document;
@@ -81,6 +84,7 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
         showContent();
         hasView = true;
         TransactionView blockTransferView = new TransactionView(blockDetailTransaction.inflate());
+        blockTransferView.blockTransferJson.setText(CommonUtil.stringToJSON(transactionInfo.toJson()));
     }
 
     @Override
@@ -109,6 +113,9 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
     }
 
     class TransactionView {
+        @BindView(R.id.block_transfer_json)
+        TextView blockTransferJson;
+
         TransactionView(View view) {
             ButterKnife.bind(this, view);
         }

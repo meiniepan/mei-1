@@ -59,6 +59,11 @@
 
         <include layout="@layout/split_line" />
 
+        <TextView
+            android:id="@+id/block_transfer_json"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

@@ -10,6 +10,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.wuyou.user.Constant;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.api.EosAccountInfo;
 import com.wuyou.user.data.remote.BlockInfo;
@@ -30,7 +31,7 @@ public class BlockPresenter extends BlockContract.Presenter {
     private MongoClient mongoClient;
 
     public BlockPresenter() {
-        this.mongoClient = MongoClients.create();
+        this.mongoClient = MongoClients.create(Constant.EOS_MONGO_DB);
     }
 
     @Override

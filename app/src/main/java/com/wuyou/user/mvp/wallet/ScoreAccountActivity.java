@@ -13,11 +13,11 @@ import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.gs.buluo.common.network.BaseSubscriber;
-import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.EoscDataManager;
+import com.wuyou.user.mvp.score.ScoreExchangeActivity;
 import com.wuyou.user.mvp.score.ScoreMissionActivity;
 import com.wuyou.user.mvp.score.ScoreRecordActivity;
 import com.wuyou.user.util.RxUtil;
@@ -90,7 +90,7 @@ public class ScoreAccountActivity extends BaseActivity {
         return R.layout.activity_score_account;
     }
 
-    @OnClick({R.id.iv_more, R.id.ll_backup_pk, R.id.tv_exchange, R.id.back_1, R.id.back_2, R.id.ll_import, R.id.ll_manager, R.id.ll_score, R.id.score_obtain_layout})
+    @OnClick({R.id.iv_more, R.id.ll_backup_pk, R.id.back_1, R.id.back_2, R.id.ll_import, R.id.ll_manager, R.id.ll_score, R.id.score_obtain_layout, R.id.score_exchange_layout})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -100,8 +100,6 @@ public class ScoreAccountActivity extends BaseActivity {
             case R.id.ll_backup_pk:
                 intent.setClass(getCtx(), BackupPKeyActivity.class);
                 startActivity(intent);
-                break;
-            case R.id.tv_exchange:
                 break;
             case R.id.back_1:
                 finish();
@@ -123,6 +121,10 @@ public class ScoreAccountActivity extends BaseActivity {
                 break;
             case R.id.score_obtain_layout:
                 intent.setClass(getCtx(), ScoreMissionActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.score_exchange_layout:
+                intent.setClass(getCtx(), ScoreExchangeActivity.class);
                 startActivity(intent);
                 break;
         }

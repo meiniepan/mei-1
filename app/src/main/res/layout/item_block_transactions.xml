@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="76dp"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="48dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/gray_round_bg"
+        android:gravity="center"
+        android:text="@string/account"
+        android:textColor="@color/common_gray"
+        android:textSize="@dimen/dimens_10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_block_transaction_actor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textSize="@dimen/dimens_12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/text1"
+        app:layout_constraintStart_toEndOf="@id/text1"
+        tool:text="asjdkadkladkls" />
+
+    <ImageView
+        android:id="@+id/icon1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:src="@mipmap/arrow_account"
+        android:textColor="@color/common_gray"
+        app:layout_constraintBottom_toBottomOf="@id/text1"
+        app:layout_constraintStart_toEndOf="@id/item_block_transaction_actor"
+        app:layout_constraintTop_toTopOf="@id/text1" />
+
+    <TextView
+        android:id="@id/text2"
+        android:layout_width="48dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/gray_round_bg"
+        android:gravity="center"
+        android:text="@string/account"
+        android:textColor="@color/common_gray"
+        android:textSize="@dimen/dimens_10sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/text1"
+        app:layout_constraintStart_toEndOf="@id/icon1" />
+
+    <TextView
+        android:id="@+id/item_block_transaction_receiver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/text1"
+        app:layout_constraintStart_toEndOf="@id/text2"
+        tool:text="aslkdalkdla" />
+
+
+    <TextView
+        android:id="@+id/text3"
+        android:layout_width="48dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/gray_round_bg"
+        android:gravity="center"
+        android:text="@string/transfer_content"
+        android:textColor="@color/common_gray"
+        android:textSize="@dimen/dimens_10sp"
+        app:layout_constraintStart_toStartOf="@id/text1"
+        app:layout_constraintTop_toBottomOf="@id/text1" />
+
+    <TextView
+        android:id="@+id/item_block_transaction_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/text3"
+        app:layout_constraintStart_toEndOf="@id/text3"
+        tool:text="asdkasdkas" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="10dp"
+        android:src="@mipmap/arrow_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

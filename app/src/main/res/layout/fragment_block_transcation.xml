@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<com.gs.buluo.common.widget.StatusLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/block_transactions_status"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/common_gray">
+    app:emptyDrawable="@mipmap/empty_score"
+    app:errorDrawable="@mipmap/net_error"
+    android:orientation="vertical">
 
-
-</LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/block_transactions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</com.gs.buluo.common.widget.StatusLayout>

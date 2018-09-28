@@ -192,6 +192,8 @@
     <string name="account_num">账户数</string>
     <string name="transaction">交易</string>
     <string name="score_category">积分种类</string>
+    <string name="account">账户</string>
+    <string name="transfer_content">交易内容</string>
 
 
 </resources>

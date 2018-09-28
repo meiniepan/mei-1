@@ -45,6 +45,7 @@ import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressActivity;
 import com.wuyou.user.mvp.score.ScoreExchangeActivity;
 import com.wuyou.user.mvp.score.ScoreMissionActivity;
+import com.wuyou.user.mvp.wallet.CreateOrImportAccountActivity;
 import com.wuyou.user.mvp.wallet.ScoreAccountActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.ActivityApis;
@@ -389,12 +390,20 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                 break;
             case R.id.home_score_account:
                 if (!checkUser(getContext())) return;
-                intent.setClass(mCtx, ScoreAccountActivity.class);
+                if (CarefreeDaoSession.getInstance().getMainAccount() == null) {
+                    intent.setClass(mCtx, CreateOrImportAccountActivity.class);
+                } else {
+                    intent.setClass(mCtx, ScoreAccountActivity.class);
+                }
                 startActivity(intent);
                 break;
             case R.id.home_score_mission:
                 if (!checkUser(getContext())) return;
-                intent.setClass(mCtx, ScoreMissionActivity.class);
+                if (CarefreeDaoSession.getInstance().getMainAccount() == null) {
+                    intent.setClass(mCtx, CreateOrImportAccountActivity.class);
+                } else {
+                    intent.setClass(mCtx, ScoreMissionActivity.class);
+                }
                 startActivity(intent);
                 break;
             case R.id.home_score_exchange:
