@@ -2,68 +2,249 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingEnd="@dimen/activity_horizontal_margin_end"
-        android:paddingStart="@dimen/activity_horizontal_margin">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/common_height"
-            android:gravity="center_vertical"
-            android:text="交易概览" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
+            android:paddingEnd="@dimen/activity_horizontal_margin_end"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:text="交易概览"
+            android:textSize="@dimen/dimens_16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/common_height"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="82dp"
                 android:layout_height="wrap_content"
-                android:text="交易ID" />
+                android:gravity="end"
+                android:text="交易ID"
+                android:textColor="@color/common_gray" />
 
             <TextView
                 android:id="@+id/block_transfer_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp" />
-
+                android:layout_marginStart="15dp" />
         </LinearLayout>
-
-        <include layout="@layout/split_line" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/common_height"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="82dp"
                 android:layout_height="wrap_content"
-                android:text="所属区块ID" />
+                android:gravity="end"
+                android:text="完成时间"
+                android:textColor="@color/common_gray" />
 
             <TextView
-                android:id="@+id/block_transfer_block_id"
+                android:id="@+id/block_transfer_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp" />
-
+                android:layout_marginStart="15dp" />
         </LinearLayout>
 
-        <include layout="@layout/split_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="82dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="操作账户"
+                android:textColor="@color/common_gray" />
+
+            <TextView
+                android:id="@+id/block_transfer_act_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="82dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="操作数"
+                android:textColor="@color/common_gray" />
+
+            <TextView
+                android:id="@+id/block_transfer_act_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
+            android:orientation="horizontal"
+            android:layout_marginBottom="15dp">
+
+            <TextView
+                android:layout_width="82dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="交易类型"
+                android:textColor="@color/common_gray" />
+
+            <TextView
+                android:id="@+id/block_transfer_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp" />
+        </LinearLayout>
+
+        <include layout="@layout/split_area"/>
+
+
+        <LinearLayout
+            android:id="@+id/block_transfer_transfer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="top"
+                android:paddingEnd="@dimen/activity_horizontal_margin_end"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:text="转账明细"
+                android:textSize="@dimen/dimens_16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="top"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="82dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="转出账户"
+                    android:textColor="@color/common_gray" />
+
+                <TextView
+                    android:id="@+id/block_transfer_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="top"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="82dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="转入账户"
+                    android:textColor="@color/common_gray" />
+
+                <TextView
+                    android:id="@+id/block_transfer_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="top"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="82dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="交易内容"
+                    android:textColor="@color/common_gray" />
+
+                <TextView
+                    android:id="@+id/block_transfer_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="top"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+
+                <TextView
+                    android:layout_width="82dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="备注"
+                    android:textColor="@color/common_gray" />
+
+                <TextView
+                    android:id="@+id/block_transfer_memo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp" />
+            </LinearLayout>
+            <include layout="@layout/split_area"/>
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/block_transfer_json"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
+            android:paddingEnd="@dimen/activity_horizontal_margin_end"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:text="原始数据"
+            android:textSize="@dimen/dimens_16sp" />
 
+        <TextView
+            android:id="@+id/block_transfer_origin_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

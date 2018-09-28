@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,78 +11,293 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/common_height"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:gravity="center_vertical"
             android:paddingEnd="@dimen/activity_horizontal_margin_end"
             android:paddingStart="@dimen/activity_horizontal_margin"
-            android:text="账户概览" />
+            android:text="账户概览"
+            android:textSize="@dimen/dimens_16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/common_height"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingEnd="@dimen/activity_horizontal_margin_end"
-            android:paddingStart="@dimen/activity_horizontal_margin">
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="82dp"
                 android:layout_height="wrap_content"
-                android:text="账户名" />
+                android:gravity="end"
+                android:text="账户名"
+                android:textColor="@color/common_gray" />
 
             <TextView
                 android:id="@+id/block_account_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp" />
+                android:layout_marginStart="15dp" />
         </LinearLayout>
 
-        <include layout="@layout/split_line" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/common_height"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
             android:orientation="horizontal"
-            android:paddingEnd="@dimen/activity_horizontal_margin_end"
-            android:paddingStart="@dimen/activity_horizontal_margin">
+            android:visibility="gone">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="82dp"
                 android:layout_height="wrap_content"
-                android:text="创建者" />
+                android:gravity="end"
+                android:text="创建者"
+                android:textColor="@color/common_gray" />
 
             <TextView
                 android:id="@+id/block_account_creator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp" />
+                android:layout_marginStart="15dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/common_height"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingEnd="@dimen/activity_horizontal_margin_end"
-            android:paddingStart="@dimen/activity_horizontal_margin">
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="82dp"
                 android:layout_height="wrap_content"
-                android:text="创建时间" />
+                android:gravity="end"
+                android:text="创建时间"
+                android:textColor="@color/common_gray" />
 
             <TextView
                 android:id="@+id/block_account_create_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp" />
+                android:layout_marginStart="15dp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="82dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="owner key"
+                android:textColor="@color/common_gray" />
+
+            <TextView
+                android:id="@+id/block_account_owner_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="82dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="active key"
+                android:textColor="@color/common_gray" />
+
+            <TextView
+                android:id="@+id/block_account_active_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="82dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="threshold"
+                android:textColor="@color/common_gray" />
+
+            <TextView
+                android:id="@+id/block_account_threshold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="82dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="RAM"
+                android:textColor="@color/common_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp">
+
+                <TextView
+                    android:id="@+id/block_account_ram_used"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已用"
+                    android:textSize="@dimen/dimens_10sp" />
+
+                <TextView
+                    android:id="@+id/block_account_ram_available"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="可用"
+                    android:textSize="@dimen/dimens_10sp" />
+
+                <ProgressBar
+                    android:id="@+id/block_account_ram_progress"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:layout_below="@+id/block_account_ram_used"
+                    android:indeterminateDrawable="@color/common_gray"
+                    android:progressDrawable="@color/night_blue" />
+            </RelativeLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="82dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="CPU"
+                android:textColor="@color/common_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp">
+
+                <TextView
+                    android:id="@+id/block_account_cpu_used"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已用"
+                    android:textSize="@dimen/dimens_10sp" />
+
+                <TextView
+                    android:id="@+id/block_account_cpu_available"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="可用"
+                    android:textSize="@dimen/dimens_10sp" />
+
+                <ProgressBar
+                    android:id="@+id/block_account_cpu_progress"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:layout_below="@+id/block_account_cpu_used"
+                    android:indeterminateDrawable="@color/common_gray"
+                    android:progressDrawable="@color/night_blue" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="82dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="NET"
+                android:textColor="@color/common_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp">
+
+                <TextView
+                    android:id="@+id/block_account_net_used"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已用"
+                    android:textSize="@dimen/dimens_10sp" />
+
+                <TextView
+                    android:id="@+id/block_account_net_available"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="可用"
+                    android:textSize="@dimen/dimens_10sp" />
+
+                <ProgressBar
+                    android:id="@+id/block_account_net_progress"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:layout_below="@+id/block_account_net_used"
+                    android:indeterminateDrawable="@color/common_gray"
+                    android:progressDrawable="@color/night_blue" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <include layout="@layout/split_area" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="15dp"
+            android:text="账户名下交易"
+            android:textSize="@dimen/dimens_16sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/block_account_transactions"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

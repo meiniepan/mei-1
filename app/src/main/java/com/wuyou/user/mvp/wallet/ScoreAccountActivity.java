@@ -62,6 +62,7 @@ public class ScoreAccountActivity extends BaseActivity {
     }
 
     public void getAccountScore(String name) {
+        showLoadingDialog();
         EoscDataManager.getIns().getCurrencyBalance(Constant.EOSIO_TOKEN_CONTRACT, name, "EOS").compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonArray>() {
                     @Override

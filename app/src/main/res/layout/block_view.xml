@@ -1,61 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="@dimen/activity_horizontal_margin"
-        android:paddingEnd="@dimen/activity_horizontal_margin_end"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/common_height"
-            android:gravity="center_vertical"
-            android:text="区块概览"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
+            android:paddingEnd="@dimen/activity_horizontal_margin_end"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:text="区块概览"
+            android:textSize="@dimen/dimens_16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/common_height"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="82dp"
                 android:layout_height="wrap_content"
-                android:text="区块高度"/>
+                android:gravity="end"
+                android:text="区块高度"
+                android:textColor="@color/common_gray" />
+
             <TextView
                 android:id="@+id/block_block_height"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"/>
-
+                android:layout_marginStart="15dp" />
         </LinearLayout>
-        <include layout="@layout/split_line"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/common_height"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="82dp"
                 android:layout_height="wrap_content"
-                android:text="区块ID"/>
+                android:gravity="end"
+                android:text="区块ID"
+                android:textColor="@color/common_gray" />
+
             <TextView
                 android:id="@+id/block_block_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"/>
-
+                android:layout_marginStart="15dp" />
         </LinearLayout>
-        <include layout="@layout/split_line"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="82dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="时间戳"
+                android:textColor="@color/common_gray" />
+
+            <TextView
+                android:id="@+id/block_block_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="82dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="产块节点"
+                android:textColor="@color/common_gray" />
+
+            <TextView
+                android:id="@+id/block_block_spot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
+            android:orientation="horizontal"
+            android:layout_marginBottom="15dp">
+
+            <TextView
+                android:layout_width="82dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="节点签名"
+                android:textColor="@color/common_gray" />
+
+            <TextView
+                android:id="@+id/block_block_spot_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp" />
+        </LinearLayout>
+        <include layout="@layout/split_area"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/block_block_transactions"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

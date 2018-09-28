@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.functions.Consumer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by DELL on 2018/9/26.
@@ -52,6 +52,7 @@ public class BlockTransactionFragment extends BaseFragment {
 
     private MongoClient mongoClient;
     private BlockTransactionsAdapter adapter;
+    private Disposable intervalDisposable;
 
 
     @Override
@@ -78,9 +79,9 @@ public class BlockTransactionFragment extends BaseFragment {
     }
 
     @Override
-    protected void loadDataWhenVisible() {
+    protected void fetchData() {
         getData();
-        Observable.interval(2, TimeUnit.SECONDS).subscribe(aLong -> getNewData());
+        intervalDisposable = Observable.interval(2, TimeUnit.SECONDS).subscribe(aLong -> getNewData());
     }
 
     TransactionBean transactionBean = null;
@@ -117,7 +118,6 @@ public class BlockTransactionFragment extends BaseFragment {
             transactionBean = new TransactionBean();
             Document document = iterator.next();
             transactionBean.id = document.get("id").toString();
-            Log.e("Carefree", "getTransactionBeans: get data success" + transactionBean.id);
             ArrayList<Document> array = (ArrayList<Document>) document.get("action_traces");
             Document data = null;
             try {
@@ -191,5 +191,12 @@ public class BlockTransactionFragment extends BaseFragment {
                     .setText(R.id.item_block_transaction_receiver, transactionBean.receiver)
                     .setText(R.id.item_block_transaction_content, transactionBean.content + transactionBean.time);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mongoClient.close();
+        if (intervalDisposable != null) intervalDisposable.dispose();
     }
 }

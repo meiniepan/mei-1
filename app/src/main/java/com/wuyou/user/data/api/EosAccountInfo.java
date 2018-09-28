@@ -35,6 +35,38 @@ public class EosAccountInfo {
     public String core_liquid_balance;
     public List<PermissionsBean> permissions;
     public String created;
+    public long ram_usage;
+    public TotalResource total_resources;
+    public Limit net_limit;
+    public Limit cpu_limit;
+
+    /**
+     * used : 0
+     * available : 2032941176470
+     * max : 2032941176470
+     */
+
+
+    public static class Limit {
+        public long used;
+        public long available;
+        public long max;
+    }
+
+    /**
+     * owner : houjingnan32
+     * net_weight : 2.0000 EOS
+     * cpu_weight : 2.0000 EOS
+     * ram_bytes : 136739
+     */
+
+    public static class TotalResource {
+
+        public String owner;
+        public String net_weight;
+        public String cpu_weight;
+        public long ram_bytes;
+    }
 
     public static class PermissionsBean {
         /**

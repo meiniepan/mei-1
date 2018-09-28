@@ -13,20 +13,17 @@ import org.bson.Document;
 
 public interface BlockContract {
 
-    public interface View extends IBaseView {
+    interface View extends IBaseView {
         void getBlockInfoSuccess(BlockInfo blockInfo);
 
         void getTransactionSuccess(Document transactionInfo);
 
         void getAccountInfoSuccess(EosAccountInfo accountInfo);
-
-
     }
 
-    public abstract class Presenter extends BasePresenter<View> {
+    abstract class Presenter extends BasePresenter<View> {
         abstract void getBlockInfo(String searchText);
         abstract void getTransactionInfo(String searchText);
         abstract void getAccountInfo(String searchText);
-
     }
 }

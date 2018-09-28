@@ -2,18 +2,15 @@ package com.wuyou.user.mvp.block;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.gs.buluo.common.utils.ToastUtils;
-import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.util.RxUtil;
+import com.wuyou.user.data.local.LinePoint;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.lineChart.Axis;
 import com.wuyou.user.view.widget.lineChart.AxisValue;
@@ -23,23 +20,21 @@ import com.wuyou.user.view.widget.lineChart.LineChartOnValueSelectListener;
 import com.wuyou.user.view.widget.lineChart.LineChartView;
 import com.wuyou.user.view.widget.lineChart.PointValue;
 import com.wuyou.user.view.widget.lineChart.Viewport;
-import com.wuyou.user.view.widget.lineChart.ZoomType;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import butterknife.Unbinder;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by DELL on 2018/9/26.
  */
 
-public class BlockMainFragment extends BaseFragment {
+public class BlockMainFragment extends BaseFragment<BlockMainContract.View, BlockMainContract.Presenter> implements BlockMainContract.View {
     @BindView(R.id.block_main_search)
     EditText blockSearch;
     LineChartView chartBottom;
@@ -49,7 +44,17 @@ public class BlockMainFragment extends BaseFragment {
     float maxY = 20;//Y坐标最大值
     static private int range = 100;
     private final float baseMaxY = 20;//Y坐标的最小范围
+    @BindView(R.id.tv_main_block_height)
+    TextView tvMainBlockHeight;
+    @BindView(R.id.tv_main_block_account_num)
+    TextView tvMainBlockAccountNum;
+    @BindView(R.id.tv_main_block_transaction)
+    TextView tvMainBlockTransaction;
+    @BindView(R.id.tv_main_block_score_category)
+    TextView tvMainBlockScoreCategory;
+    Unbinder unbinder;
     private Disposable subscribe;
+    private Disposable heighSubscibe;
 
     @Override
     protected int getContentLayout() {
@@ -69,11 +74,21 @@ public class BlockMainFragment extends BaseFragment {
             return false;
         });
         initChart();
+        mPresenter.getTransactionsAmount();
+        mPresenter.getAccountAmount();
+        mPresenter.getBlockHeight();
+        mPresenter.getPointTypeAmount();
+        mPresenter.getOriginData();
+        heighSubscibe = Observable.interval(2, TimeUnit.SECONDS).subscribe(aLong -> mPresenter.getBlockHeight());
+    }
+
+    @Override
+    protected BlockMainContract.Presenter getPresenter() {
+        return new BlockPresenter();
     }
 
     private void initChart() {
         generateInitialLineData();
-        subscribe = Observable.interval(2, TimeUnit.SECONDS).compose(RxUtil.switchSchedulers()).subscribe(aLong -> generateLineData(0xFF3285FF, range));
     }
 
     private void doSearch(String searchText) {
@@ -166,7 +181,37 @@ public class BlockMainFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        subscribe.dispose();
+        if (subscribe != null) subscribe.dispose();
+        if (heighSubscibe != null) heighSubscibe.dispose();
     }
 
+    @Override
+    public void getBlockHeightSuccess(String height) {
+        tvMainBlockHeight.setText(height);
+    }
+
+    int anInt = 0;
+
+    @Override
+    public void getTransactionsAmountSuccess(String amount) {
+        Log.e("Carefree", "getTransactionsAmountSuccess: " + (Integer.parseInt(amount) - anInt));
+        anInt = Integer.parseInt(amount);
+        tvMainBlockTransaction.setText(amount);
+        generateLineData(getResources().getColor(R.color.night_blue), range);
+    }
+
+    @Override
+    public void getAccountAmountSuccess(String amount) {
+        tvMainBlockAccountNum.setText(amount);
+    }
+
+    @Override
+    public void getPointTypeAmountSuccess(String amount) {
+        tvMainBlockScoreCategory.setText(amount);
+    }
+
+    @Override
+    public void getOriginDataSuccess(ArrayList<LinePoint> amount) {
+        subscribe = Observable.interval(2, TimeUnit.SECONDS).subscribe(aLong -> mPresenter.getTransactionsAmount());
+    }
 }

@@ -149,7 +149,7 @@ public class ScoreRecordActivity extends BaseActivity {
                 recordBean.points = data.get("rewards").toString();
                 try {
                     JSONObject jsonObject = new JSONObject(data.get("memo").toString());
-                    recordBean.created_at = Long.parseLong(jsonObject.get("create_time").toString());
+                    recordBean.created_at = (long) Float.parseFloat(jsonObject.get("create_time").toString());
                 } catch (Exception e1) {
                     recordBean.created_at = 0;
                 }

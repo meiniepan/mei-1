@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:background="@color/white">
 
     <EditText
         android:id="@+id/block_main_search"
@@ -13,8 +16,8 @@
         android:layout_marginTop="20dp"
         android:background="@color/tint_bg"
         android:drawablePadding="4dp"
-        android:drawableStart="@mipmap/location_search"
-        android:hint="请输入区块ID、区块高度、交易Tx、账户名"
+        android:drawableStart="@mipmap/icon_search"
+        android:hint="区块ID、区块高度、交易Tx、账户名"
         android:imeOptions="actionSearch"
         android:paddingStart="6dp"
         android:singleLine="true"
@@ -50,7 +53,7 @@
                 android:id="@+id/tv_main_block_height"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/block_height"
+                android:text="..."
                 android:textSize="@dimen/dimens_16sp"
                 android:layout_marginTop="5dp"
                 />
@@ -65,7 +68,7 @@
                 android:id="@+id/tv_main_block_account_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/block_height"
+                android:text="..."
                 android:textSize="@dimen/dimens_16sp"
                 android:layout_marginTop="5dp"
                 />
@@ -92,7 +95,7 @@
                 android:id="@+id/tv_main_block_transaction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/block_height"
+                android:text="..."
                 android:textSize="@dimen/dimens_16sp"
                 android:layout_marginTop="5dp"
                 />
@@ -107,16 +110,13 @@
                 android:id="@+id/tv_main_block_score_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/block_height"
+                android:text="..."
                 android:textSize="@dimen/dimens_16sp"
                 android:layout_marginTop="5dp"
                 />
         </LinearLayout>
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@color/divide_gray"/>
+    <include layout="@layout/split_line"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
