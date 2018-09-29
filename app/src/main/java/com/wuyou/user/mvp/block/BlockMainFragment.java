@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.util.ArraySet;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gs.buluo.common.utils.ToastUtils;
+import com.wanglu.lib.WPopup;
+import com.wanglu.lib.WPopupModel;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.view.fragment.BaseFragment;
@@ -38,7 +42,7 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
     @BindView(R.id.block_main_search)
     EditText blockSearch;
     LineChartView chartBottom;
-    public final static String[] axisDadaX = new String[]{"1", "2", "3", "4", "5",};
+    public final static String[] axisDadaX = new String[]{"0", "1", "2", "3", "4",};
     private static LineChartData lineData;
     int numValues = 5;
     float maxY = 20;//Y坐标最大值
@@ -113,8 +117,9 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
         List<Line> lines = new ArrayList<>();
         lines.add(line);
         lineData = new LineChartData(lines);
-        lineData.setAxisXBottom(new Axis(axisValues).setHasLines(true));
+        lineData.setAxisXBottom(new Axis(axisValues));
         lineData.setAxisYLeft(new Axis().setHasLines(true).setMaxLabelChars(3));
+
         chartBottom.setLineChartData(lineData);
         // For build-up animation you have to disable viewport recalculation.
         chartBottom.setViewportCalculationEnabled(false);
@@ -123,10 +128,19 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
         chartBottom.setMaximumViewport(v);
         chartBottom.setCurrentViewport(v);
         chartBottom.setZoomEnabled(false);
+        List<WPopupModel> list = new ArrayList<>();
+        list.add(new WPopupModel("haha", -1, "haha", -1));
+        WPopup wPopup = new WPopup.Builder(getActivity())
+                .setData(list)
+                .setPopupOrientation(WPopup.Builder.VERTICAL)
+                .setClickView(chartBottom) // 点击的View，如果是RV/LV，则只需要传入RV/LV
+                .create();
+
         chartBottom.setOnValueTouchListener(new LineChartOnValueSelectListener() {
             @Override
             public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
-                ToastUtils.ToastMessage(getContext(), "x:" + value.getX() + " y:" + value.getY());
+//                ToastUtils.ToastMessage(getContext(), "x:" + value.getCoordinateX() + " y:" + value.getCoordinateY());
+                wPopup.showAtFingerLocation();
             }
 
             @Override
@@ -150,7 +164,7 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
         for (int i = 0; i < numValues; ++i) {
             axisValues.add(new AxisValue(i).setLabel(i + ""));
         }
-        lineData.setAxisXBottom(new Axis(axisValues).setHasLines(true));
+        lineData.setAxisXBottom(new Axis(axisValues));
         float y = (float) (Math.random() * range);//给新加入的点赋值
         curMaxY = y;
         for (int i = 0; i < values.size(); i++) {

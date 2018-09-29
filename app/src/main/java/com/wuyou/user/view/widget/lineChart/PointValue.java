@@ -9,6 +9,25 @@ public class PointValue {
 
     private float x;
     private float y;
+    private float coordinateX;
+
+    public float getCoordinateX() {
+        return coordinateX;
+    }
+
+    public void setCoordinateX(float coordinateX) {
+        this.coordinateX = coordinateX;
+    }
+
+    public float getCoordinateY() {
+        return coordinateY;
+    }
+
+    public void setCoordinateY(float coordinateY) {
+        this.coordinateY = coordinateY;
+    }
+
+    private float coordinateY;
     private float originX;
     private float originY;
     private float diffX;
@@ -30,7 +49,7 @@ public class PointValue {
 
     public void update(float scale) {
         x = originX + diffX * scale;
-        y = originY + diffY* scale;
+        y = originY + diffY * scale;
     }
 
     public void finish() {

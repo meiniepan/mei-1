@@ -100,8 +100,8 @@ public class ChartComputator {
         }
 
         currentViewport.left = Math.max(maxViewport.left, left);
-        currentViewport.top = Math.min(maxViewport.top, top);
-        currentViewport.right = Math.min(maxViewport.right, right);
+        currentViewport.top = Math.min(maxViewport.top, top) + 10f;
+        currentViewport.right = Math.min(maxViewport.right, right) + 0.2f;
         currentViewport.bottom = Math.max(maxViewport.bottom, bottom);
 
         viewportChangeListener.onViewportChanged(currentViewport);
@@ -134,9 +134,10 @@ public class ChartComputator {
     public float computeRawX(float valueX) {
         // TODO: (contentRectMinusAllMargins.width() / currentViewport.width()) can be recalculated only when viewport
         // change.
+        int xOffSet = 20;
         final float pixelOffset = (valueX - currentViewport.left) * (contentRectMinusAllMargins.width() /
                 currentViewport.width());
-        return contentRectMinusAllMargins.left + pixelOffset;
+        return contentRectMinusAllMargins.left + pixelOffset + xOffSet;
     }
 
     /**
@@ -145,9 +146,10 @@ public class ChartComputator {
      * 0 that means top most pixel of the screen.
      */
     public float computeRawY(float valueY) {
+        int xOffSet = 20;
         final float pixelOffset = (valueY - currentViewport.bottom) * (contentRectMinusAllMargins.height() /
                 currentViewport.height());
-        return contentRectMinusAllMargins.bottom - pixelOffset;
+        return contentRectMinusAllMargins.bottom - pixelOffset - xOffSet;
     }
 
     /**

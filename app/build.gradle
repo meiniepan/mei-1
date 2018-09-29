@@ -125,4 +125,5 @@ dependencies {
     implementation 'com.google.guava:guava:23.0-android'
     compile 'io.github.novacrypto:BIP32:0.0.8'
 //    implementation files('libs/bcprov-jdk15on-159.jar')
+    implementation 'com.github.wanglu1209:WPopup:0.21'
 }
