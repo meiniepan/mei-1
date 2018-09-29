@@ -3,11 +3,15 @@ package com.wuyou.user.mvp.block;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gs.buluo.common.utils.ToastUtils;
+import com.wanglu.lib.WPopup;
+import com.wanglu.lib.WPopupModel;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.local.LinePoint;
@@ -38,7 +42,7 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
     @BindView(R.id.block_main_search)
     EditText blockSearch;
     LineChartView chartBottom;
-    public final static String[] axisDadaX = new String[]{"0","1", "2", "3", "4", };
+    public final static String[] axisDadaX = new String[]{"0", "1", "2", "3", "4",};
     private static LineChartData lineData;
     int numValues = 5;
     float maxY = 20;//Y坐标最大值
@@ -124,11 +128,19 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
         chartBottom.setMaximumViewport(v);
         chartBottom.setCurrentViewport(v);
         chartBottom.setZoomEnabled(false);
+        List<WPopupModel> list = new ArrayList<>();
+        list.add(new WPopupModel("haha", -1, "haha", -1));
+        WPopup wPopup = new WPopup.Builder(getActivity())
+                .setData(list)
+                .setPopupOrientation(WPopup.Builder.VERTICAL)
+                .setClickView(chartBottom) // 点击的View，如果是RV/LV，则只需要传入RV/LV
+                .create();
+
         chartBottom.setOnValueTouchListener(new LineChartOnValueSelectListener() {
             @Override
             public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
-                ToastUtils.ToastMessage(getContext(), "x:" + value.getX() + " y:" + value.getY());
-
+//                ToastUtils.ToastMessage(getContext(), "x:" + value.getCoordinateX() + " y:" + value.getCoordinateY());
+                wPopup.showAtFingerLocation();
             }
 
             @Override
