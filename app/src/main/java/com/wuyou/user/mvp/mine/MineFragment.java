@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
@@ -16,7 +15,6 @@ import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.local.db.UserInfo;
 import com.wuyou.user.data.remote.WalletBalance;
 import com.wuyou.user.event.LoginEvent;
@@ -31,7 +29,6 @@ import com.wuyou.user.mvp.wallet.ScoreAccountActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.UserApis;
-import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.HelpActivity;
 import com.wuyou.user.view.activity.InfoActivity;
@@ -201,17 +198,8 @@ public class MineFragment extends BaseFragment {
                 }
                 break;
             case R.id.mine_auth:
-//                intent.setClass(mCtx, ScoreExchangeActivity.class);
-//                startActivity(intent);
-
-                EoscDataManager.getIns().transfer(CarefreeDaoSession.getInstance().getMainAccount().getName(),"mukang123123",1,"")
-                        .compose(RxUtil.switchSchedulers())
-                        .subscribe(new BaseSubscriber<JsonObject>() {
-                            @Override
-                            public void onSuccess(JsonObject jsonObject) {
-
-                            }
-                        });
+                intent.setClass(mCtx, ScoreExchangeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.mine_explorer:
                 intent.setClass(mCtx, BlockExplorerActivity.class);
