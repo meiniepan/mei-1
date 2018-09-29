@@ -2,6 +2,7 @@ package com.wuyou.user.view.widget.lineChart;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
@@ -48,7 +49,6 @@ public class LineChartRenderer extends AbstractChartRenderer {
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeCap(Cap.ROUND);
         linePaint.setStrokeWidth(ChartUtils.dp2px(density, DEFAULT_LINE_STROKE_WIDTH_DP));
-
         pointPaint.setAntiAlias(true);
         pointPaint.setStyle(Paint.Style.FILL);
 

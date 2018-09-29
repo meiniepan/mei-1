@@ -59,6 +59,9 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
     Unbinder unbinder;
     private Disposable subscribe;
     private Disposable heighSubscibe;
+    List<AxisValue> axisValues = new ArrayList<>();
+    private int LAST_POSITION = 4;
+    private WPopup wPopup;
 
     @Override
     protected int getContentLayout() {
@@ -103,7 +106,7 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
     }
 
     private void generateInitialLineData() {
-        List<AxisValue> axisValues = new ArrayList<>();
+
         List<PointValue> values = new ArrayList<>();
         for (int i = 0; i < numValues; ++i) {
             float y = (float) (Math.random() * range);
@@ -129,23 +132,31 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
         chartBottom.setCurrentViewport(v);
         chartBottom.setZoomEnabled(false);
         List<WPopupModel> list = new ArrayList<>();
-        list.add(new WPopupModel("haha", -1, "haha", -1));
-        WPopup wPopup = new WPopup.Builder(getActivity())
-                .setData(list)
-                .setPopupOrientation(WPopup.Builder.VERTICAL)
-                .setClickView(chartBottom) // 点击的View，如果是RV/LV，则只需要传入RV/LV
-                .create();
-
         chartBottom.setOnValueTouchListener(new LineChartOnValueSelectListener() {
             @Override
             public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
+                list.clear();
+                int bacId = -1;
 //                ToastUtils.ToastMessage(getContext(), "x:" + value.getCoordinateX() + " y:" + value.getCoordinateY());
+                if (pointIndex == 0) {
+                    bacId = R.mipmap.bac_pop_left;
+                } else if (pointIndex == LAST_POSITION) {
+                    bacId = R.mipmap.bac_pop_right;
+                } else {
+                    bacId = R.mipmap.bac_pop_middle;
+                }
+                list.add(new WPopupModel(axisValues.get(pointIndex).getLabelAsChars() + "\n交易数:" + value.getY(), -1, "haha", -1));
+                wPopup = new WPopup.Builder(getActivity())
+                        .setData(list)
+                        .setPopupOrientation(WPopup.Builder.VERTICAL)
+                        .setClickView(chartBottom) // 点击的View，如果是RV/LV，则只需要传入RV/LV
+                        .create();
                 wPopup.showAtFingerLocation();
             }
 
             @Override
             public void onValueDeselected() {
-
+//                wPopup.dismiss();
             }
         });
     }
@@ -154,7 +165,7 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
         // Cancel last animation if not finished.
         float curMaxY;//本轮Y坐标的最大值
         chartBottom.cancelDataAnimation();
-        List<AxisValue> axisValues = new ArrayList<>();
+        axisValues.clear();
         List<PointValue> values;
         // Modify data targets
         Line line = lineData.getLines().get(0);// For this example there is always only one line.
