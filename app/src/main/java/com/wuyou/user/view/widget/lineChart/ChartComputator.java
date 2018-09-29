@@ -100,7 +100,7 @@ public class ChartComputator {
         }
 
         currentViewport.left = Math.max(maxViewport.left, left);
-        currentViewport.top = Math.min(maxViewport.top, top) + 10f;
+        currentViewport.top = Math.min(maxViewport.top, top) ;
         currentViewport.right = Math.min(maxViewport.right, right) + 0.2f;
         currentViewport.bottom = Math.max(maxViewport.bottom, bottom);
 
