@@ -175,7 +175,7 @@ public class BlockDetailPresenter extends BlockContract.Presenter {
         addDisposable(Observable.create((ObservableOnSubscribe<ArrayList<TransactionBean>>) e -> {
             MongoDatabase database = mongoClient.getDatabase("EOS");
             MongoCollection<Document> collection = database.getCollection("transactions");
-            FindIterable<Document> action_traces = collection.find().filter(Filters.eq("ref_block_num", blockNumber));
+            FindIterable<Document> action_traces = collection.find().filter(Filters.eq("block_num", blockNumber));
             MongoCursor<Document> iterator = action_traces.iterator();
             ArrayList<TransactionBean> transactionBeans = new ArrayList<>();
             TransactionBean bean;

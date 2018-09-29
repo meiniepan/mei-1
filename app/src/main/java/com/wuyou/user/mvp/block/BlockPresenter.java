@@ -1,9 +1,5 @@
 package com.wuyou.user.mvp.block;
 
-import android.support.annotation.NonNull;
-import android.support.v4.util.ArraySet;
-import android.util.Log;
-
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -17,23 +13,17 @@ import com.wuyou.user.data.local.LinePoint;
 import com.wuyou.user.util.RxUtil;
 
 import org.bson.Document;
-import org.reactivestreams.Subscriber;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Action;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by DELL on 2018/9/28.
@@ -42,6 +32,7 @@ import io.reactivex.schedulers.Schedulers;
 public class BlockPresenter extends BlockMainContract.Presenter {
 
     private MongoCollection<Document> collection;
+    private long lineDataLastTime;
 
     @Override
     void getBlockHeight() {
@@ -62,8 +53,8 @@ public class BlockPresenter extends BlockMainContract.Presenter {
             e.onNext(collection.countDocuments() + "");
         }).compose(RxUtil.switchSchedulers()).subscribeWith(new BaseSubscriber<String>() {
             @Override
-            public void onSuccess(String s) {
-                if (isAttach()) mView.getTransactionsAmountSuccess(s);
+            public void onSuccess(String amount) {
+                if (isAttach()) mView.getTransactionsAmountSuccess(amount);
             }
         }));
     }
@@ -98,66 +89,65 @@ public class BlockPresenter extends BlockMainContract.Presenter {
         }));
     }
 
-    private MongoClient mongoClient;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-    SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
-    private long currentTime;
-
-    private long time;
-    private ConcurrentHashMap<String,Long> concurrentHashMap;
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+    private SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
 
     @Override
     void getOriginData() {
-        ArraySet arraySet = new ArraySet();
-        time = System.currentTimeMillis();
-        currentTime = System.currentTimeMillis() - 8 * 3600 * 1000;
+        long east8Time = System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis() - 8 * 3600 * 1000;
+        lineDataLastTime = currentTime;
         String lastExpiration = simpleDateFormat.format(new Date(currentTime)) + "T" + simpleDateFormat1.format(new Date(currentTime));
-        currentTime -= 5000;
-        String currentExpiration = simpleDateFormat.format(new Date(currentTime)) + "T" + simpleDateFormat1.format(new Date(currentTime));
-        Flowable<Long> source1 = executeQuery(lastExpiration, currentExpiration).subscribeOn(Schedulers.newThread());
-        lastExpiration = currentExpiration;
-        currentTime -= 5000;
-        currentExpiration = simpleDateFormat.format(new Date(currentTime)) + "T" + simpleDateFormat1.format(new Date(currentTime));
-        Flowable<Long> source2 = executeQuery(lastExpiration, currentExpiration).subscribeOn(Schedulers.newThread());
-        lastExpiration = currentExpiration;
-        currentTime -= 5000;
-        currentExpiration = simpleDateFormat.format(new Date(currentTime)) + "T" + simpleDateFormat1.format(new Date(currentTime));
-        Flowable<Long> source3 = executeQuery(lastExpiration, currentExpiration).subscribeOn(Schedulers.newThread());
-        lastExpiration = currentExpiration;
-        currentTime -= 5000;
-        currentExpiration = simpleDateFormat.format(new Date(currentTime)) + "T" + simpleDateFormat1.format(new Date(currentTime));
-        Flowable<Long> source4 = executeQuery(lastExpiration, currentExpiration).subscribeOn(Schedulers.newThread());
-        lastExpiration = currentExpiration;
-        currentTime -= 5000;
-        currentExpiration = simpleDateFormat.format(new Date(currentTime)) + "T" + simpleDateFormat1.format(new Date(currentTime));
-        Flowable<Long> source5 = executeQuery(lastExpiration, currentExpiration).subscribeOn(Schedulers.newThread());
+        for (int i = 1; i <= 5; i++) {
+            currentTime -= 5000;
+            String currentExpiration = simpleDateFormat.format(new Date(currentTime)) + "T" + simpleDateFormat1.format(new Date(currentTime));
+            getFiveSecondsData(lastExpiration, currentExpiration, east8Time);
+            east8Time -= 5000;
+            lastExpiration = currentExpiration;
+        }
+    }
 
-        Flowable<Long> merge = Flowable.merge(source1, source2, source3, source4).mergeWith(source5);
+    private ConcurrentHashMap<String, Long> concurrentHashMap = new ConcurrentHashMap<>();
 
-        Flowable.create((FlowableOnSubscribe<String>) e -> {
+    private void getFiveSecondsData(String lastExpiration, String currentExpiration, long east8Time) {
+        Observable.create((ObservableOnSubscribe<Long>) e -> {
             MongoClient mongoClient = MongoClients.create(Constant.EOS_MONGO_DB);
             MongoDatabase database = mongoClient.getDatabase("EOS");
             collection = database.getCollection("transactions");
-            e.onNext("");
-        }, BackpressureStrategy.BUFFER).flatMap(s -> merge).subscribeOn(Schedulers.io()
-        ).observeOn(AndroidSchedulers.mainThread()).
-                subscribe(aLong -> {
-                    Log.e("Carefree", "onSuccess: " + aLong + "..............." + (System.currentTimeMillis() - time));
-                    arraySet.add(aLong);
-                    if (arraySet.size() == 5) {
-                        mView.getOriginDataSuccess(arraySet);
+            e.onNext(collection.countDocuments(Filters.and(Filters.lte("expiration", lastExpiration), Filters.gt("expiration", currentExpiration))) / 5);
+        }).compose(RxUtil.switchSchedulers()).subscribe(new BaseSubscriber<Long>() {
+            @Override
+            public void onSuccess(Long aLong) {
+                concurrentHashMap.put(simpleDateFormat1.format(new Date(east8Time)), aLong);
+                if (concurrentHashMap.size() == 5) {
+                    ArrayList<LinePoint> linePoints = new ArrayList<>();
+                    for (Map.Entry<String, Long> entry : concurrentHashMap.entrySet()) {
+                        linePoints.add(new LinePoint(entry.getKey(), entry.getValue() + ""));
                     }
-                }, throwable -> mView.showError("数据库请求失败", 500), () -> {});
+                    Collections.sort(linePoints, (o1, o2) -> o1.x.compareTo(o2.x));
+                    mView.getOriginDataSuccess(linePoints);
+                }
+            }
+        });
     }
 
-    @NonNull
-    private Flowable<Long> executeQuery(String lastExpiration, String currentExpiration) {
-        return new Flowable<Long>() {
+    @Override
+    void getLastFiveSecondsData() {
+        String formatTime = simpleDateFormat.format(new Date(lineDataLastTime)) + "T" + simpleDateFormat1.format(new Date(lineDataLastTime));
+        lineDataLastTime += 5000;
+        String newFormatTime = simpleDateFormat.format(new Date(lineDataLastTime)) + "T" + simpleDateFormat1.format(new Date(lineDataLastTime));
+        String east8time = simpleDateFormat1.format(new Date(lineDataLastTime + 8 * 3600 * 1000));
+        addDisposable(Observable.create((ObservableOnSubscribe<Long>) e -> {
+            MongoClient mongoClient = MongoClients.create(Constant.EOS_MONGO_DB);
+            MongoDatabase database = mongoClient.getDatabase("EOS");
+            MongoCollection<Document> collection = database.getCollection("transactions");
+            e.onNext(collection.countDocuments(Filters.and(Filters.lte("expiration", newFormatTime), Filters.gt("expiration", formatTime))) / 5);
+        }).compose(RxUtil.switchSchedulers()).subscribeWith(new BaseSubscriber<Long>() {
             @Override
-            protected void subscribeActual(Subscriber<? super Long> s) {
-                Log.e("Carefree", "subscribeActual: " + lastExpiration + "...." + currentExpiration + "....." + Thread.currentThread());
-                s.onNext(collection.countDocuments(Filters.and(Filters.lte("expiration", lastExpiration), Filters.gt("expiration", currentExpiration))));
+            public void onSuccess(Long amount) {
+                if (isAttach())
+                    mView.getLastFiveSecondsDataSuccess(new LinePoint(east8time, amount + ""));
             }
-        };
+        }));
     }
 }

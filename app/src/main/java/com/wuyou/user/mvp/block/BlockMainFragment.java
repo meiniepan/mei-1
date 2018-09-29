@@ -2,19 +2,15 @@ package com.wuyou.user.mvp.block;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.util.ArraySet;
-import android.util.Log;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.gs.buluo.common.utils.ToastUtils;
 import com.wanglu.lib.WPopup;
 import com.wanglu.lib.WPopupModel;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.data.local.LinePoint;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.lineChart.Axis;
 import com.wuyou.user.view.widget.lineChart.AxisValue;
@@ -30,7 +26,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
@@ -42,12 +37,10 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
     @BindView(R.id.block_main_search)
     EditText blockSearch;
     LineChartView chartBottom;
-    public final static String[] axisDadaX = new String[]{"0", "1", "2", "3", "4",};
     private static LineChartData lineData;
     int numValues = 5;
-    float maxY = 20;//Y坐标最大值
-    static private int range = 100;
-    private final float baseMaxY = 20;//Y坐标的最小范围
+    float maxY = 1;//Y坐标最大值
+    private final float baseMaxY = 4;//Y坐标的最小范围
     @BindView(R.id.tv_main_block_height)
     TextView tvMainBlockHeight;
     @BindView(R.id.tv_main_block_account_num)
@@ -56,7 +49,6 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
     TextView tvMainBlockTransaction;
     @BindView(R.id.tv_main_block_score_category)
     TextView tvMainBlockScoreCategory;
-    Unbinder unbinder;
     private Disposable subscribe;
     private Disposable heighSubscibe;
     List<AxisValue> axisValues = new ArrayList<>();
@@ -80,13 +72,13 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
             }
             return false;
         });
-        initChart();
-        mPresenter.getTransactionsAmount();
         mPresenter.getAccountAmount();
+        mPresenter.getTransactionsAmount();
+        subscribe = Observable.interval(5, TimeUnit.SECONDS).subscribe(aLong -> mPresenter.getTransactionsAmount());
         mPresenter.getBlockHeight();
         mPresenter.getPointTypeAmount();
         mPresenter.getOriginData();
-        heighSubscibe = Observable.interval(2, TimeUnit.SECONDS).subscribe(aLong -> mPresenter.getBlockHeight());
+        heighSubscibe = Observable.interval(5, TimeUnit.SECONDS).subscribe(aLong -> mPresenter.getBlockHeight());
     }
 
     @Override
@@ -94,9 +86,6 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
         return new BlockPresenter();
     }
 
-    private void initChart() {
-        generateInitialLineData();
-    }
 
     private void doSearch(String searchText) {
         if (searchText.length() == 0) return;
@@ -105,14 +94,14 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
         startActivity(intent);
     }
 
-    private void generateInitialLineData() {
-
+    private void generateInitialLineData(ArrayList<LinePoint> linePoints) {
+        axisValues = new ArrayList<>();
         List<PointValue> values = new ArrayList<>();
         for (int i = 0; i < numValues; ++i) {
-            float y = (float) (Math.random() * range);
+            float y = Float.parseFloat(linePoints.get(i).y);
             if (y > maxY) maxY = (float) (y * 1.2);
-            values.add(new PointValue(i, y));
-            axisValues.add(new AxisValue(i).setLabel(axisDadaX[i]));
+            values.add(new PointValue(i, Float.parseFloat(linePoints.get(i).y)));
+            axisValues.add(new AxisValue(i).setLabel(linePoints.get(i).x));
         }
 
         Line line = new Line(values);
@@ -161,22 +150,22 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
         });
     }
 
-    private void generateLineData(int color, float range) {
+    private void generateLineData(LinePoint linePoint) {
         // Cancel last animation if not finished.
         float curMaxY;//本轮Y坐标的最大值
         chartBottom.cancelDataAnimation();
-        axisValues.clear();
         List<PointValue> values;
         // Modify data targets
         Line line = lineData.getLines().get(0);// For this example there is always only one line.
-        line.setColor(color);
+        line.setColor(getResources().getColor(R.color.night_blue));
         values = line.getValues();
         //设置X轴刻度
-        for (int i = 0; i < numValues; ++i) {
-            axisValues.add(new AxisValue(i).setLabel(i + ""));
+        for (int i = 0; i < axisValues.size() - 1; i++) {
+            axisValues.set(i, axisValues.get(i).setLabel(new String(axisValues.get(i + 1).getLabelAsChars())));
         }
+        axisValues.set(4, new AxisValue(4).setLabel(linePoint.x));
         lineData.setAxisXBottom(new Axis(axisValues));
-        float y = (float) (Math.random() * range);//给新加入的点赋值
+        float y = Float.parseFloat(linePoint.y);//给新加入的点赋值
         curMaxY = y;
         for (int i = 0; i < values.size(); i++) {
             if (i < values.size() - 1) {
@@ -215,14 +204,9 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
         tvMainBlockHeight.setText(height);
     }
 
-    int anInt = 0;
-
     @Override
     public void getTransactionsAmountSuccess(String amount) {
-        Log.e("Carefree", "getTransactionsAmountSuccess: " + (Integer.parseInt(amount) - anInt));
-        anInt = Integer.parseInt(amount);
         tvMainBlockTransaction.setText(amount);
-        generateLineData(getResources().getColor(R.color.night_blue), range);
     }
 
     @Override
@@ -236,7 +220,13 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
     }
 
     @Override
-    public void getOriginDataSuccess(ArraySet amount) {
-        subscribe = Observable.interval(2, TimeUnit.SECONDS).subscribe(aLong -> mPresenter.getTransactionsAmount());
+    public void getOriginDataSuccess(ArrayList<LinePoint> linePoints) {
+        subscribe = Observable.interval(5, TimeUnit.SECONDS).subscribe(aLong -> mPresenter.getLastFiveSecondsData());
+        generateInitialLineData(linePoints);
+    }
+
+    @Override
+    public void getLastFiveSecondsDataSuccess(LinePoint linePoint) {
+        generateLineData(linePoint);
     }
 }
