@@ -10,4 +10,5 @@ public class TransactionBean {
     public String receiver;
     public String content;
     public long time;
+    public String expiration;
 }

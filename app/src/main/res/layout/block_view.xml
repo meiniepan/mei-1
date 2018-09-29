@@ -128,10 +128,23 @@
         </LinearLayout>
         <include layout="@layout/split_area"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/block_block_transactions"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/dimens_16sp"
+            android:text="区块内交易"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"/>
+
+        <com.gs.buluo.common.widget.StatusLayout
+            android:id="@+id/block_block_transactions_status"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/block_block_transactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.gs.buluo.common.widget.StatusLayout>
 
     </LinearLayout>
 

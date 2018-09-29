@@ -68,13 +68,10 @@ public class BlockTransactionFragment extends BaseFragment {
         adapter = new BlockTransactionsAdapter(R.layout.item_block_transactions);
         recyclerView.setAdapter(adapter);
         adapter.setOnLoadMoreListener(() -> getMoreData(), recyclerView);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                Intent intent = new Intent(getContext(), BlockDetailActivity.class);
-                intent.putExtra(Constant.SEARCH_TEXT, adapter.getItem(i).id);
-                startActivity(intent);
-            }
+        adapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
+            Intent intent = new Intent(getContext(), BlockDetailActivity.class);
+            intent.putExtra(Constant.SEARCH_TEXT, adapter.getItem(i).id);
+            startActivity(intent);
         });
     }
 
@@ -152,10 +149,23 @@ public class BlockTransactionFragment extends BaseFragment {
                     @Override
                     public void onSuccess(ArrayList<TransactionBean> transactionBeans) {
                         adapter.addData(0, transactionBeans);
-                        recyclerView.scrollToPosition(0);
+                        if (!canScrollVertically(-1)) {//判断是否滑动到顶部，只有在顶部 新数据才有滚动效果
+                            recyclerView.scrollToPosition(0);
+                        }
                         if (transactionBeans.size() > 0) firstDate = transactionBeans.get(0).time;
                     }
                 });
+    }
+
+    public boolean canScrollVertically(int direction) {
+        final int offset = recyclerView.computeVerticalScrollOffset();
+        final int range = recyclerView.computeVerticalScrollRange() - recyclerView.computeVerticalScrollExtent();
+        if (range == 0) return false;
+        if (direction < 0) {
+            return offset > 0;
+        } else {
+            return offset < range - 1;
+        }
     }
 
     public void getMoreData() {

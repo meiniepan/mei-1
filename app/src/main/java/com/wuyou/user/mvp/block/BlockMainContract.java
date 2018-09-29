@@ -1,14 +1,9 @@
 package com.wuyou.user.mvp.block;
 
-import com.wuyou.user.data.api.EosAccountInfo;
-import com.wuyou.user.data.local.LinePoint;
-import com.wuyou.user.data.remote.BlockInfo;
-import com.wuyou.user.data.remote.PointBean;
+import android.support.v4.util.ArraySet;
+
 import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.mvp.IBaseView;
-import com.wuyou.user.view.widget.lineChart.PointValue;
-
-import org.bson.Document;
 
 import java.util.ArrayList;
 
@@ -23,7 +18,7 @@ public interface BlockMainContract {
         void getTransactionsAmountSuccess(String amount);
         void getAccountAmountSuccess(String amount);
         void getPointTypeAmountSuccess(String amount);
-        void getOriginDataSuccess(ArrayList<LinePoint> amount);
+        void getOriginDataSuccess(ArraySet amount);
     }
 
     abstract class Presenter extends BasePresenter<View> {

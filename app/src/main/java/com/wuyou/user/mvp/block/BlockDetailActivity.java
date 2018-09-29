@@ -1,7 +1,9 @@
 package com.wuyou.user.mvp.block;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewStub;
@@ -9,10 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.gs.buluo.common.utils.ToastUtils;
+import com.gs.buluo.common.widget.StatusLayout;
+import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
+import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.api.EosAccountInfo;
 import com.wuyou.user.data.remote.BlockInfo;
+import com.wuyou.user.data.remote.TransactionBean;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
@@ -37,6 +44,9 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
     ViewStub blockDetailTransaction;
 
     private String searchText;
+    private BlockTransferAdapter transferAdapter;
+    private StatusLayout blockAccountTransactionsStatus;
+    private StatusLayout blockBlockTransactionsStatus;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -47,7 +57,7 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
 
     @Override
     protected BlockContract.Presenter getPresenter() {
-        return new BlockTransferPresenter();
+        return new BlockDetailPresenter();
     }
 
     private void doSearch() {
@@ -78,11 +88,24 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
         showContent();
         hasView = true;
         BlockView blockInfoView = new BlockView(blockDetailBlockView.inflate());
-        blockInfoView.blockBlockHeight.setText(blockInfo.block_num);
+        blockInfoView.blockBlockHeight.setText(blockInfo.block_num + "");
         blockInfoView.blockBlockId.setText(blockInfo.id);
         blockInfoView.blockBlockSpot.setText(blockInfo.producer);
         blockInfoView.blockBlockSpotSign.setText(blockInfo.producer_signature);
+        blockInfoView.blockBlockTime.setText(blockInfo.timestamp);
 
+        blockBlockTransactionsStatus = blockInfoView.blockBlockTransactionsStatus;
+        blockBlockTransactionsStatus.showProgressView();
+        mPresenter.getBlockTransfer(blockInfo.block_num);
+        blockInfoView.blockBlockTransactions.addItemDecoration(CommonUtil.getRecyclerDivider(getCtx()));
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getCtx());
+        mLinearLayoutManager.setAutoMeasureEnabled(true);
+        blockInfoView.blockBlockTransactions.setLayoutManager(mLinearLayoutManager);
+        blockInfoView.blockBlockTransactions.setHasFixedSize(true);
+        blockInfoView.blockBlockTransactions.setNestedScrollingEnabled(false);
+        transferAdapter = new BlockTransferAdapter(R.layout.item_block_detail_transactions);
+        blockInfoView.blockBlockTransactions.setAdapter(transferAdapter);
+        transferAdapter.setOnItemClickListener((baseQuickAdapter, view, i) -> goTransferDetail(i));
     }
 
     @SuppressLint("SetTextI18n")
@@ -102,12 +125,12 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
 
         if ("transfer".equals(transferType)) {
             blockTransferView.blockTransferLayout.setVisibility(View.VISIBLE);
+            Document data = (Document) actions.get(0).get("data");
+            blockTransferView.blockTransferFrom.setText(data.getString("from"));
+            blockTransferView.blockTransferTo.setText(data.getString("to"));
+            blockTransferView.blockTransferContent.setText(data.getString("quantity"));
+            blockTransferView.blockTransferMemo.setText(data.getString("memo"));
         }
-        Document data = (Document) actions.get(0).get("data");
-        blockTransferView.blockTransferFrom.setText(data.getString("from"));
-        blockTransferView.blockTransferTo.setText(data.getString("to"));
-        blockTransferView.blockTransferContent.setText(data.getString("quantity"));
-        blockTransferView.blockTransferMemo.setText(data.getString("memo"));
 
         blockTransferView.blockTransferOriginData.setText(CommonUtil.stringToJSON(transactionInfo.toJson()));
     }
@@ -122,17 +145,17 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
 //        blockAccountView.blockAccountCreator.setText(accountInfo.);
         blockAccountView.blockAccountCreateTime.setText(accountInfo.created);
         String activeThreshold = "";
-        String ownerThreashold = "";
+        String ownerThreshold = "";
         for (EosAccountInfo.PermissionsBean permissionsBean : accountInfo.permissions) {
             if ("actitive".equals(permissionsBean.perm_name)) {
                 blockAccountView.blockAccountActiveKey.setText(permissionsBean.required_auth.keys.get(0).key);
                 activeThreshold = permissionsBean.required_auth.threshold + "";
             } else if ("owner".equals(permissionsBean.perm_name)) {
                 blockAccountView.blockAccountOwnerKey.setText(permissionsBean.required_auth.keys.get(0).key);
-                ownerThreashold = permissionsBean.required_auth.threshold + "";
+                ownerThreshold = permissionsBean.required_auth.threshold + "";
             }
         }
-        blockAccountView.blockAccountThreshold.setText("owner:" + ownerThreashold + " active:" + activeThreshold);
+        blockAccountView.blockAccountThreshold.setText("owner:" + ownerThreshold + " active:" + activeThreshold);
         blockAccountView.blockAccountRamUsed.setText("已用：" + accountInfo.ram_usage);
         blockAccountView.blockAccountRamAvailable.setText("可用：" + (accountInfo.total_resources.ram_bytes - accountInfo.ram_usage));
         blockAccountView.blockAccountRamProgress.setProgress((int) (accountInfo.ram_usage / accountInfo.total_resources.ram_bytes));
@@ -145,6 +168,47 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
         blockAccountView.blockAccountNetAvailable.setText("可用：" + accountInfo.net_limit.available + "");
         blockAccountView.blockAccountNetProgress.setProgress((int) (accountInfo.net_limit.used / accountInfo.net_limit.max));
 
+        mPresenter.getAccountTransfers(accountInfo.account_name);
+        blockAccountTransactionsStatus = blockAccountView.blockAccountTransactionsStatus;
+        blockAccountTransactionsStatus.showProgressView();
+        blockAccountView.blockAccountTransactions.addItemDecoration(CommonUtil.getRecyclerDivider(getCtx()));
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getCtx());
+        mLinearLayoutManager.setAutoMeasureEnabled(true);
+        blockAccountView.blockAccountTransactions.setLayoutManager(mLinearLayoutManager);
+        blockAccountView.blockAccountTransactions.setHasFixedSize(true);
+        blockAccountView.blockAccountTransactions.setNestedScrollingEnabled(false);
+        transferAdapter = new BlockTransferAdapter(R.layout.item_block_detail_transactions);
+        blockAccountView.blockAccountTransactions.setAdapter(transferAdapter);
+        transferAdapter.setOnLoadMoreListener(() -> mPresenter.getAccountTransferMore(accountInfo.account_name), blockAccountView.blockAccountTransactions);//load more 导致scroll绘制出错
+        transferAdapter.setOnItemClickListener((baseQuickAdapter, view, i) -> goTransferDetail(i));
+    }
+
+    private void goTransferDetail(int i) {
+        Intent intent = new Intent(getCtx(), BlockDetailActivity.class);
+        intent.putExtra(Constant.SEARCH_TEXT, transferAdapter.getData().get(i).id);
+        startActivity(intent);
+    }
+
+    @Override
+    public void getAccountTransactionsSuccess(ArrayList<TransactionBean> transactionBeans) {
+        blockAccountTransactionsStatus.showContentView();
+        transferAdapter.setNewData(transactionBeans);
+    }
+
+    @Override
+    public void getAccountTransactionsMore(ArrayList<TransactionBean> beans) {
+        if (beans.size() == 0) {
+            transferAdapter.loadMoreEnd(true);
+            return;
+        }
+        transferAdapter.getData().addAll(beans);
+        transferAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getBlockTransactionSuccess(ArrayList<TransactionBean> transactionBeans) {
+        blockBlockTransactionsStatus.showContentView();
+        transferAdapter.setNewData(transactionBeans);
     }
 
 
@@ -157,6 +221,8 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
         TextView blockAccountCreateTime;
         @BindView(R.id.block_account_transactions)
         RecyclerView blockAccountTransactions;
+        @BindView(R.id.block_account_transactions_status)
+        StatusLayout blockAccountTransactionsStatus;
         @BindView(R.id.block_account_owner_key)
         TextView blockAccountOwnerKey;
         @BindView(R.id.block_account_active_key)
@@ -231,6 +297,8 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
         TextView blockBlockSpotSign;
         @BindView(R.id.block_block_transactions)
         RecyclerView blockBlockTransactions;
+        @BindView(R.id.block_block_transactions_status)
+        StatusLayout blockBlockTransactionsStatus;
 
         BlockView(View view) {
             ButterKnife.bind(this, view);
@@ -240,7 +308,22 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
 
     @Override
     public void showError(String message, int res) {
-        if (!hasView) showEmpty(message);
+        if (res == 501) {
+            ToastUtils.ToastMessage(getCtx(), message);
+        } else {
+            if (!hasView) showEmpty(message);
+        }
     }
 
+    private class BlockTransferAdapter extends BaseQuickAdapter<TransactionBean, BaseHolder> {
+        public BlockTransferAdapter(int layoutResId) {
+            super(layoutResId);
+        }
+
+        @Override
+        protected void convert(BaseHolder baseHolder, TransactionBean transactionBean) {
+            baseHolder.setText(R.id.item_block_detail_trans_id, transactionBean.id)
+                    .setText(R.id.item_block_detail_trans_time, transactionBean.expiration);
+        }
+    }
 }

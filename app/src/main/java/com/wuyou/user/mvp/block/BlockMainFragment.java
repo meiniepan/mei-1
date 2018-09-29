@@ -2,6 +2,7 @@ package com.wuyou.user.mvp.block;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.util.ArraySet;
 import android.util.Log;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -10,7 +11,6 @@ import android.widget.TextView;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.data.local.LinePoint;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.lineChart.Axis;
 import com.wuyou.user.view.widget.lineChart.AxisValue;
@@ -211,7 +211,7 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
     }
 
     @Override
-    public void getOriginDataSuccess(ArrayList<LinePoint> amount) {
+    public void getOriginDataSuccess(ArraySet amount) {
         subscribe = Observable.interval(2, TimeUnit.SECONDS).subscribe(aLong -> mPresenter.getTransactionsAmount());
     }
 }

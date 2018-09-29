@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_end">
 
             <TextView
                 android:layout_width="82dp"
@@ -47,7 +48,8 @@
             android:layout_marginTop="15dp"
             android:gravity="top"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_end">
 
             <TextView
                 android:layout_width="82dp"
@@ -68,7 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_end">
 
             <TextView
                 android:layout_width="82dp"
@@ -89,7 +92,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="top"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_end">
 
             <TextView
                 android:layout_width="82dp"
@@ -110,7 +114,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="top"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_end">
 
             <TextView
                 android:layout_width="82dp"
@@ -131,7 +136,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="top"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_end">
 
             <TextView
                 android:layout_width="82dp"
@@ -151,6 +157,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -198,6 +205,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="center_vertical"
+            android:layout_marginEnd="30dp"
             android:orientation="horizontal">
 
             <TextView
@@ -243,6 +251,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -293,11 +302,16 @@
             android:layout_marginTop="15dp"
             android:text="账户名下交易"
             android:textSize="@dimen/dimens_16sp" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/block_account_transactions"
+        <com.gs.buluo.common.widget.StatusLayout
+            android:id="@+id/block_account_transactions_status"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/block_account_transactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.gs.buluo.common.widget.StatusLayout>
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
