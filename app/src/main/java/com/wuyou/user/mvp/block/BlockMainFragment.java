@@ -2,11 +2,14 @@ package com.wuyou.user.mvp.block;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wanglu.lib.WPopup;
+import com.wanglu.lib.WPopupDirection;
 import com.wanglu.lib.WPopupModel;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -54,6 +57,7 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
     List<AxisValue> axisValues = new ArrayList<>();
     private int LAST_POSITION = 4;
     private WPopup wPopup;
+    private TextView popTextView;
 
     @Override
     protected int getContentLayout() {
@@ -121,31 +125,38 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
         chartBottom.setCurrentViewport(v);
         chartBottom.setZoomEnabled(false);
         List<WPopupModel> list = new ArrayList<>();
+        list.add(new WPopupModel("", -1, "", -1));
+        wPopup = new WPopup.Builder(getActivity())
+                .setData(list)
+                .setPopupOrientation(WPopup.Builder.VERTICAL)
+                .setClickView(chartBottom) // 点击的View，如果是RV/LV，则只需要传入RV/LV
+                .create();
+        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.pop_line_chart, null);
+        popTextView = rootView.findViewById(R.id.tv_pop_line_chart);
+
         chartBottom.setOnValueTouchListener(new LineChartOnValueSelectListener() {
             @Override
             public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
-                list.clear();
-                int bacId = -1;
-//                ToastUtils.ToastMessage(getContext(), "x:" + value.getCoordinateX() + " y:" + value.getCoordinateY());
+                popTextView.setText(new String(axisValues.get(pointIndex).getLabelAsChars()) + "\n交易数:" + value.getY());
                 if (pointIndex == 0) {
-                    bacId = R.mipmap.bac_pop_left;
+                    popTextView.setBackgroundResource(R.mipmap.bac_pop_left);
+                    wPopup.setContentView(rootView);
+                    wPopup.showAtFingerLocation(WPopupDirection.RIGHT_TOP);
                 } else if (pointIndex == LAST_POSITION) {
-                    bacId = R.mipmap.bac_pop_right;
+                    popTextView.setBackgroundResource(R.mipmap.bac_pop_right);
+                    wPopup.setContentView(rootView);
+                    wPopup.showAtFingerLocation(WPopupDirection.LEFT_TOP);
                 } else {
-                    bacId = R.mipmap.bac_pop_middle;
+                    popTextView.setBackgroundResource(R.mipmap.bac_pop_middle);
+                    wPopup.setContentView(rootView);
+                    wPopup.showAtFingerLocation(WPopupDirection.TOP);
                 }
-                list.add(new WPopupModel(axisValues.get(pointIndex).getLabelAsChars() + "\n交易数:" + value.getY(), -1, "haha", -1));
-                wPopup = new WPopup.Builder(getActivity())
-                        .setData(list)
-                        .setPopupOrientation(WPopup.Builder.VERTICAL)
-                        .setClickView(chartBottom) // 点击的View，如果是RV/LV，则只需要传入RV/LV
-                        .create();
-                wPopup.showAtFingerLocation();
+
             }
 
             @Override
             public void onValueDeselected() {
-//                wPopup.dismiss();
+                wPopup.dismiss();
             }
         });
     }
