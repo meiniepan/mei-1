@@ -3,6 +3,11 @@ package com.wuyou.user.view.widget.lineChart;
 import android.graphics.Color;
 import android.graphics.Typeface;
 
+import com.gs.buluo.common.utils.DensityUtils;
+import com.gs.buluo.common.utils.Utils;
+import com.wuyou.user.CarefreeApplication;
+import com.wuyou.user.util.CommonUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +21,7 @@ import java.util.List;
  * name is empty and therefore not displayed.
  */
 public class Axis {
-    public static final int DEFAULT_TEXT_SIZE_SP = 12;
+    public static final int DEFAULT_TEXT_SIZE_SP = 10;
     public static final int DEFAULT_MAX_AXIS_LABEL_CHARS = 3;
     /**
      * Text size for axis labels and name.

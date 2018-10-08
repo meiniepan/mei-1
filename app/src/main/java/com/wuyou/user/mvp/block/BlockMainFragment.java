@@ -2,6 +2,7 @@ package com.wuyou.user.mvp.block;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -31,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by DELL on 2018/9/26.
@@ -42,7 +44,7 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
     LineChartView chartBottom;
     private static LineChartData lineData;
     int numValues = 5;
-    float maxY = 1;//Y坐标最大值
+    float maxY = 4;//Y坐标最大值
     private final float baseMaxY = 4;//Y坐标的最小范围
     @BindView(R.id.tv_main_block_height)
     TextView tvMainBlockHeight;
@@ -125,7 +127,7 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
         chartBottom.setCurrentViewport(v);
         chartBottom.setZoomEnabled(false);
         List<WPopupModel> list = new ArrayList<>();
-        list.add(new WPopupModel("", -1, "", -1));
+        list.add(new WPopupModel("", -1, "", -1));//必须的无意义代码
         wPopup = new WPopup.Builder(getActivity())
                 .setData(list)
                 .setPopupOrientation(WPopup.Builder.VERTICAL)
@@ -150,13 +152,20 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
                     popTextView.setBackgroundResource(R.mipmap.bac_pop_middle);
                     wPopup.setContentView(rootView);
                     wPopup.showAtFingerLocation(WPopupDirection.TOP);
-                }
 
+                }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (wPopup != null)
+                            wPopup.dismiss();
+                    }
+                }, 2000);
             }
 
             @Override
             public void onValueDeselected() {
-                wPopup.dismiss();
+
             }
         });
     }

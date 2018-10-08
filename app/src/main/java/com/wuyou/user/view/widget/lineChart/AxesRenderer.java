@@ -156,10 +156,10 @@ public class AxesRenderer {
             namePaintTab[position].setTypeface(typeface);
         }
         labelPaintTab[position].setColor(axis.getTextColor());
-        labelPaintTab[position].setTextSize(ChartUtils.sp2px(scaledDensity, axis.getTextSize()));
+        labelPaintTab[position].setTextSize(ChartUtils.dp2px(scaledDensity, axis.getTextSize()));
         labelPaintTab[position].getFontMetricsInt(fontMetricsTab[position]);
         namePaintTab[position].setColor(axis.getTextColor());
-        namePaintTab[position].setTextSize(ChartUtils.sp2px(scaledDensity, axis.getTextSize()));
+        namePaintTab[position].setTextSize(ChartUtils.dp2px(scaledDensity, axis.getTextSize()));
         linePaintTab[position].setColor(axis.getLineColor());
 
         labelTextAscentTab[position] = Math.abs(fontMetricsTab[position].ascent);
