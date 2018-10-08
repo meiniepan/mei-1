@@ -9,6 +9,10 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 
+import com.gs.buluo.common.utils.DensityUtils;
+import com.gs.buluo.common.utils.Utils;
+import com.wuyou.user.util.CommonUtil;
+
 
 /**
  * Default axes renderer. Can draw maximum four axes - two horizontal(top/bottom) and two vertical(left/right).
@@ -156,10 +160,10 @@ public class AxesRenderer {
             namePaintTab[position].setTypeface(typeface);
         }
         labelPaintTab[position].setColor(axis.getTextColor());
-        labelPaintTab[position].setTextSize(ChartUtils.dp2px(scaledDensity, axis.getTextSize()));
+        labelPaintTab[position].setTextSize(axis.getTextSize());
         labelPaintTab[position].getFontMetricsInt(fontMetricsTab[position]);
         namePaintTab[position].setColor(axis.getTextColor());
-        namePaintTab[position].setTextSize(ChartUtils.dp2px(scaledDensity, axis.getTextSize()));
+        namePaintTab[position].setTextSize(axis.getTextSize());
         linePaintTab[position].setColor(axis.getLineColor());
 
         labelTextAscentTab[position] = Math.abs(fontMetricsTab[position].ascent);

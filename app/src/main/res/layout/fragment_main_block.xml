@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/white"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:background="@color/white">
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/block_main_search"
@@ -22,115 +22,122 @@
         android:paddingStart="6dp"
         android:singleLine="true"
         android:textColor="@color/common_gray" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
-        android:textSize="@dimen/dimens_16sp"
+        android:layout_marginTop="20dp"
         android:text="@string/main_net_preview"
-        />
+        android:textSize="@dimen/dimens_16sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/activity_horizontal_margin"
-        >
+        android:paddingTop="@dimen/activity_horizontal_margin">
+
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/block_height"
-                android:textSize="@dimen/dimens_12sp"
-                />
+                android:textSize="@dimen/dimens_12sp" />
+
             <TextView
                 android:id="@+id/tv_main_block_height"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="..."
-                android:textSize="@dimen/dimens_16sp"
                 android:layout_marginTop="5dp"
-                />
+                android:text="..."
+                android:textSize="@dimen/dimens_16sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/account_num"
                 android:layout_marginTop="19dp"
-                android:textSize="@dimen/dimens_12sp"
-                />
+                android:text="@string/account_num"
+                android:textSize="@dimen/dimens_12sp" />
+
             <TextView
                 android:id="@+id/tv_main_block_account_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="..."
-                android:textSize="@dimen/dimens_16sp"
                 android:layout_marginTop="5dp"
-                />
+                android:text="..."
+                android:textSize="@dimen/dimens_16sp" />
         </LinearLayout>
+
         <View
             android:layout_width="2dp"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
-            android:background="@color/divide_gray"/>
+            android:background="@color/divide_gray" />
+
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/transaction"
-                android:textSize="@dimen/dimens_12sp"
-                />
+                android:textSize="@dimen/dimens_12sp" />
+
             <TextView
                 android:id="@+id/tv_main_block_transaction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="..."
-                android:textSize="@dimen/dimens_16sp"
                 android:layout_marginTop="5dp"
-                />
+                android:text="..."
+                android:textSize="@dimen/dimens_16sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/score_category"
                 android:layout_marginTop="19dp"
-                android:textSize="@dimen/dimens_12sp"
-                />
+                android:text="@string/score_category"
+                android:textSize="@dimen/dimens_12sp" />
+
             <TextView
                 android:id="@+id/tv_main_block_score_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="..."
-                android:textSize="@dimen/dimens_16sp"
                 android:layout_marginTop="5dp"
-                />
+                android:text="..."
+                android:textSize="@dimen/dimens_16sp" />
         </LinearLayout>
     </LinearLayout>
-    <include layout="@layout/split_line"/>
+
+    <include layout="@layout/split_line" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TPS"
-        android:textSize="@dimen/dimens_16sp"
+        android:layout_marginBottom="15dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        />
-    <com.wuyou.user.view.widget.lineChart.LineChartView
-        android:id="@+id/chart_bottom"
+        android:text="TPS"
+        android:textSize="@dimen/dimens_16sp" />
+
+    <com.gs.buluo.common.widget.StatusLayout
+        android:id="@+id/sl_main_block"
         android:layout_width="match_parent"
-        android:paddingBottom="30dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
-    </com.wuyou.user.view.widget.lineChart.LineChartView>
+        android:layout_height="match_parent">
+
+        <com.wuyou.user.view.widget.lineChart.LineChartView
+            android:id="@+id/chart_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="30dp"></com.wuyou.user.view.widget.lineChart.LineChartView>
+    </com.gs.buluo.common.widget.StatusLayout>
 </LinearLayout>

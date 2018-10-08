@@ -36,10 +36,10 @@ public class LineChartData extends AbstractChartData {
         final int numValues = 4;
         LineChartData data = new LineChartData();
         List<PointValue> values = new ArrayList<PointValue>(numValues);
-        values.add(new PointValue(0, 2));
-        values.add(new PointValue(1, 2));
-        values.add(new PointValue(2, 2));
-        values.add(new PointValue(3, 2));
+        values.add(new PointValue(0, 1));
+        values.add(new PointValue(1, 1));
+        values.add(new PointValue(2, 1));
+        values.add(new PointValue(3, 1));
         Line line = new Line(values);
         List<Line> lines = new ArrayList<Line>(1);
         lines.add(line);

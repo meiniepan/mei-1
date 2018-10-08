@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.gs.buluo.common.widget.StatusLayout;
 import com.wanglu.lib.WPopup;
 import com.wanglu.lib.WPopupDirection;
 import com.wanglu.lib.WPopupModel;
@@ -41,6 +42,8 @@ import io.reactivex.functions.Consumer;
 public class BlockMainFragment extends BaseFragment<BlockMainContract.View, BlockMainContract.Presenter> implements BlockMainContract.View {
     @BindView(R.id.block_main_search)
     EditText blockSearch;
+    @BindView(R.id.sl_main_block)
+    StatusLayout statusLayout;
     LineChartView chartBottom;
     private static LineChartData lineData;
     int numValues = 5;
@@ -68,6 +71,7 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        statusLayout.showProgressView("数据获取中");
         chartBottom = getActivity().findViewById(R.id.chart_bottom);
         blockSearch.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -241,6 +245,7 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
 
     @Override
     public void getOriginDataSuccess(ArrayList<LinePoint> linePoints) {
+        statusLayout.showContentView();
         subscribe = Observable.interval(5, TimeUnit.SECONDS).subscribe(aLong -> mPresenter.getLastFiveSecondsData());
         generateInitialLineData(linePoints);
     }

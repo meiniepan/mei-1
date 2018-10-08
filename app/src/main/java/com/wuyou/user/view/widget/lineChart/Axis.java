@@ -21,7 +21,7 @@ import java.util.List;
  * name is empty and therefore not displayed.
  */
 public class Axis {
-    public static final int DEFAULT_TEXT_SIZE_SP = 10;
+    public static final int DEFAULT_TEXT_SIZE_SP = DensityUtils.dip2px(CarefreeApplication.getInstance().getApplicationContext(),10);
     public static final int DEFAULT_MAX_AXIS_LABEL_CHARS = 3;
     /**
      * Text size for axis labels and name.
