@@ -10,8 +10,8 @@ import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
-import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.ErrorBody;
 import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.gs.buluo.common.utils.ToastUtils;
@@ -119,12 +119,8 @@ public class ScoreMissionActivity extends BaseActivity {
                     }
 
                     @Override
-                    protected void onFail(ApiException e) {
-                        if (e.getCode() == 500) {
-                            ToastUtils.ToastMessage(getCtx(), R.string.already_sign_up);
-                        } else {
-                            ToastUtils.ToastMessage(getCtx(), e.getDisplayMessage());
-                        }
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        ToastUtils.ToastMessage(getCtx(), message.message.contains("have checked today") ? "您今天已经签到了" : message.message);
                     }
                 });
     }

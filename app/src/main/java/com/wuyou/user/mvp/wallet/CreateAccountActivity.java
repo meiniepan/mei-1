@@ -118,10 +118,7 @@ public class CreateAccountActivity extends BaseActivity<WalletContract.View, Wal
 
     @Override
     public void showError(String message, int res) {
-        if (res == 500) {
-            ToastUtils.ToastMessage(getCtx(), "创建失败，账号或手机号有误");
-            return;
-        } else if (res == Constant.GET_CAPTCHA_FAIL) {
+        if (res == Constant.GET_CAPTCHA_FAIL) {
             observer.onComplete();
         }
         ToastUtils.ToastMessage(getCtx(), message);

@@ -2,13 +2,17 @@ package com.wuyou.user.mvp.wallet;
 
 import android.util.Log;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.gs.buluo.common.BaseApplication;
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.ErrorBody;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
+import com.wuyou.user.R;
 import com.wuyou.user.crypto.ec.EosPrivateKey;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.api.EosAccountInfo;
@@ -19,14 +23,28 @@ import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 
+import java.io.IOException;
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.HttpException;
 
 /**
  * Created by DELL on 2018/9/3.
  */
 
 public class WalletPresenter extends WalletContract.Presenter {
+
+    /**
+     * code : 500
+     * message : Internal Service Error
+     * error : {"code":3050003,"name":"eosio_assert_message_exception","what":"eosio_assert_message assertion failure","details":[{"message":"assertion failure with message: The same phone  number have existed","file":"wasm_interface.cpp","line_number":930,"method":"eosio_assert"},{"message":"pending console output: ","file":"apply_context.cpp","line_number":61,"method":"exec_one"}]}
+     */
+
+    public int code;
+    public String message;
 
     @Override
     public void createAccount(String account, String phone) {
@@ -51,15 +69,23 @@ public class WalletPresenter extends WalletContract.Presenter {
                 .subscribeWith(new BaseSubscriber<JsonObject>() {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
-                        getWalletInfo();
+                        mView.createAccountSuccess();
                     }
 
                     @Override
-                    protected void onFail(ApiException e) {
-                        mView.showError(e.getDisplayMessage(), e.getCode());
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        super.onNodeFail(code, message);
+                        if (message.message.contains("number have existed")){
+                            mView.showError("您的手机号已创建过账户，无法再创建",code);
+                        }else if (message.message.contains("name is already taken")){
+                            mView.showError("该账户名称已存在",code);
+                        }else {
+                            mView.showError(message.message,code);
+                        }
                     }
                 }));
     }
+
 
     @Override
     void getWalletInfo() {
@@ -68,7 +94,7 @@ public class WalletPresenter extends WalletContract.Presenter {
                 .subscribe(new BaseSubscriber<EosAccountInfo>() {
                     @Override
                     public void onSuccess(EosAccountInfo jsonObject) {
-                        mView.createAccountSuccess();
+
                     }
 
                     @Override
@@ -126,4 +152,5 @@ public class WalletPresenter extends WalletContract.Presenter {
                     }
                 });
     }
+
 }

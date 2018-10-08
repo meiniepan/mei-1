@@ -128,7 +128,7 @@ public class BlockPresenter extends BlockMainContract.Presenter {
                         linePoints.add(new LinePoint(entry.getKey(), entry.getValue() + ""));
                     }
                     Collections.sort(linePoints, (o1, o2) -> o1.x.compareTo(o2.x));
-                    mView.getOriginDataSuccess(linePoints);
+                    if (isAttach())mView.getOriginDataSuccess(linePoints);
                 }
             }
         });
