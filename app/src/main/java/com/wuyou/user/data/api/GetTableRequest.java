@@ -10,7 +10,7 @@ import org.jivesoftware.smack.util.StringUtils;
  */
 
 public class GetTableRequest {
-    private static final int DEFAULT_FETCH_LIMIT = 10;
+    private static final int DEFAULT_FETCH_LIMIT = 20;
 
     @Expose
     private boolean json = true;
@@ -34,7 +34,7 @@ public class GetTableRequest {
     private String upper_bound= "";
 
     @Expose
-    private int limit ;
+    private int limit =DEFAULT_FETCH_LIMIT;
 
 
 
@@ -47,5 +47,11 @@ public class GetTableRequest {
         this.lower_bound = StringUtils.isEmpty( lowerBound) ? "" : lowerBound;
         this.upper_bound = StringUtils.isEmpty( upperBound) ? "" : upperBound;
         this.limit = limit <= 0 ? DEFAULT_FETCH_LIMIT : limit;
+    }
+
+    public GetTableRequest(String scope, String code, String table) {
+        this.scope = scope;
+        this.code = code;
+        this.table = table;
     }
 }

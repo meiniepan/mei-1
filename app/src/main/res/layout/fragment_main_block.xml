@@ -138,6 +138,7 @@
             android:id="@+id/chart_bottom"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="30dp"></com.wuyou.user.view.widget.lineChart.LineChartView>
+            android:paddingBottom="30dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin_end"/>
     </com.gs.buluo.common.widget.StatusLayout>
 </LinearLayout>

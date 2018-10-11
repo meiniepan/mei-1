@@ -685,7 +685,6 @@ public class CommonUtil {
     public static String prettyPrintJson(Object object) {
         return new GsonBuilder()
                 .registerTypeAdapterFactory(new GsonEosTypeAdapterFactory())
-                .excludeFieldsWithoutExposeAnnotation()
                 .setPrettyPrinting().create().toJson(object);
     }
 }

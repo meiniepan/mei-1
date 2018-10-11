@@ -93,11 +93,12 @@
                     android:hint="价值≈" />
 
                 <TextView
+                    android:id="@+id/score_account_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="2dp"
                     android:layout_marginStart="2dp"
-                    android:text="10" />
+                    android:text="..." />
 
                 <TextView
                     android:layout_width="wrap_content"

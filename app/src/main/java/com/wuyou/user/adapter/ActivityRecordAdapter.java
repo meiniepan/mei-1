@@ -1,14 +1,14 @@
 package com.wuyou.user.adapter;
 
 import android.content.Intent;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
-import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.ErrorBody;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.utils.TribeDateUtils;
@@ -59,7 +59,11 @@ public class ActivityRecordAdapter extends BaseQuickAdapter<ActivityRecordBean, 
                 case 1:
                     tvStatus.setText("已参加");
                     tvStatus.setTextColor(0xff666666);
-                    tvObtain.setVisibility(View.VISIBLE);
+                    if (!TextUtils.equals(activityRecordBean.activity.points, "0")) {
+                        tvObtain.setVisibility(View.VISIBLE);
+                    } else {
+                        tvObtain.setVisibility(View.GONE);
+                    }
                     tvTicket.setVisibility(View.VISIBLE);
                     break;
                 case 2:
@@ -75,6 +79,11 @@ public class ActivityRecordAdapter extends BaseQuickAdapter<ActivityRecordBean, 
                     tvTicket.setVisibility(View.GONE);
                     break;
             }
+        }
+        if (TextUtils.equals(activityRecordBean.activity.points, "0")) {
+
+        } else {
+
         }
 
         baseHolder.setText(R.id.activity_record_time, "活动时间：" + TribeDateUtils.dateFormat9(new Date(activityRecordBean.activity.start_at * 1000))
@@ -103,17 +112,11 @@ public class ActivityRecordAdapter extends BaseQuickAdapter<ActivityRecordBean, 
                     }
 
                     @Override
-                    protected void onFail(ApiException e) {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        if (e.toString().contains("Internal Server Error")) {
-                            updateActivityStatus(order_id, CommonUtil.getRandomString(10), position);
-                        } else {
-                            ToastUtils.ToastMessage(mContext, R.string.connect_fail);
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        if (message.message.contains("This topic has rewarded")) {
+                            ToastUtils.ToastMessage(mContext, "您已经领取过积分了");
                         }
+//                        updateActivityStatus(order_id, CommonUtil.getRandomString(10), position);//链上已领取，但是未更更新后台状态
                     }
                 });
     }

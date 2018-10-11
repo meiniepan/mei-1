@@ -3,6 +3,7 @@ package com.wuyou.user.mvp.block;
 import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.ErrorBody;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -51,8 +52,8 @@ public class BlockDetailPresenter extends BlockContract.Presenter {
                     }
 
                     @Override
-                    protected void onFail(ApiException e) {
-                        if (isAttach()) mView.showError("查询不到当前区块信息", e.getCode());
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        if (isAttach()) mView.showError("查询不到当前区块信息", code);
                     }
                 }));
     }
@@ -67,7 +68,7 @@ public class BlockDetailPresenter extends BlockContract.Presenter {
             if (iterator.hasNext()) {
                 e.onNext(iterator.next());
             } else {
-                e.onError(new ApiException(600, "no result", ""));
+                e.onError(new ApiException(600, "查询不到当前交易信息", ""));
             }
         }).compose(RxUtil.switchSchedulers())
                 .subscribeWith(new BaseSubscriber<Document>() {
@@ -77,8 +78,8 @@ public class BlockDetailPresenter extends BlockContract.Presenter {
                     }
 
                     @Override
-                    protected void onFail(ApiException e) {
-                        if (isAttach()) mView.showError("查询不到当前交易信息", e.getCode());
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        if (isAttach()) mView.showError("查询不到当前交易信息", code);
                     }
                 }));
 
@@ -94,8 +95,8 @@ public class BlockDetailPresenter extends BlockContract.Presenter {
                     }
 
                     @Override
-                    protected void onFail(ApiException e) {
-                        if (isAttach()) mView.showError("查询不到当前账户信息", e.getCode());
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        if (isAttach()) mView.showError("查询不到当前账户信息", code);
                     }
                 }));
     }
@@ -128,8 +129,8 @@ public class BlockDetailPresenter extends BlockContract.Presenter {
                     }
 
                     @Override
-                    protected void onFail(ApiException e) {
-                        if (isAttach()) mView.showError(e.getDisplayMessage(), 501);
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        if (isAttach()) mView.showError(message.message, 501);
                     }
                 }));
     }
@@ -164,8 +165,8 @@ public class BlockDetailPresenter extends BlockContract.Presenter {
                     }
 
                     @Override
-                    protected void onFail(ApiException e) {
-                        if (isAttach()) mView.showError(e.getDisplayMessage(), 501);
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        if (isAttach()) mView.showError(message.message, 501);
                     }
                 }));
     }
@@ -195,9 +196,10 @@ public class BlockDetailPresenter extends BlockContract.Presenter {
                     }
 
                     @Override
-                    protected void onFail(ApiException e) {
-                        if (isAttach()) mView.showError(e.getDisplayMessage(), 501);
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        if (isAttach()) mView.showError(message.message, 501);
                     }
+
                 }));
     }
 

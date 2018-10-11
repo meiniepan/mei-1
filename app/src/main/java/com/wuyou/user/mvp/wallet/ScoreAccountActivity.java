@@ -20,6 +20,7 @@ import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.mvp.score.ScoreExchangeActivity;
 import com.wuyou.user.mvp.score.ScoreMissionActivity;
 import com.wuyou.user.mvp.score.ScoreRecordActivity;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
@@ -47,6 +48,8 @@ public class ScoreAccountActivity extends BaseActivity {
     DrawerLayout drawerLayout;
     @BindView(R.id.ll_above)
     LinearLayout layout;
+    @BindView(R.id.score_account_value)
+    TextView scoreAccountValue;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -70,6 +73,7 @@ public class ScoreAccountActivity extends BaseActivity {
                         if (eosAccountInfo.size() > 0) {
                             String scoreAmount = eosAccountInfo.get(0).toString().replace("EOS", "").replaceAll("\"", "");
                             tvAccountScore.setText(scoreAmount);
+                            scoreAccountValue.setText(CommonUtil.formatPrice(Float.parseFloat(scoreAmount) / 100.0f));
                         }
                     }
                 });

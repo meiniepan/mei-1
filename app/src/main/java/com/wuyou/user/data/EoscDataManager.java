@@ -29,7 +29,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.ApiException;
-import com.gs.buluo.common.utils.TribeDateUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.crypto.ec.EosPrivateKey;
@@ -58,9 +57,9 @@ import com.wuyou.user.data.types.TypeChainId;
 import com.wuyou.user.network.ChainRetrofit;
 import com.wuyou.user.network.apis.NodeosApi;
 import com.wuyou.user.util.CommonUtil;
+import com.wuyou.user.util.EosUtil;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -97,7 +96,7 @@ public class EoscDataManager {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("create_time", System.currentTimeMillis() / 1000);
-        EosDailyRewards dailyRewards = new EosDailyRewards(currentOperateAccount.getName(), TribeDateUtils.dateFormat5(new Date(System.currentTimeMillis())), jsonObject.toString(), new TypeAsset(10));
+        EosDailyRewards dailyRewards = new EosDailyRewards(currentOperateAccount.getName(), EosUtil.formatTimePoint(System.currentTimeMillis()), jsonObject.toString(), new TypeAsset(10));
         return pushActionRetJson(Constant.EOSIO_DAILAY_REWARDS, dailyRewards.getActionName(), CommonUtil.prettyPrintJson(dailyRewards), getActivePermission(currentOperateAccount.getName())); //transfer.getAsHex()
     }
 
@@ -121,7 +120,6 @@ public class EoscDataManager {
         return pushActionRetJson(Constant.ACTIVITY_DAILAY_REWARDS, activityRewards.getActionName(), CommonUtil.prettyPrintJson(activityRewards), getActivePermission(currentOperateAccount.getName()));
     }
 
-
     public Observable<EosChainInfo> getChainInfo() {
         return ChainRetrofit.getInstance().createApi(NodeosApi.class).readInfo("get_info");
     }
@@ -131,7 +129,6 @@ public class EoscDataManager {
                 new GetTableRequest(accountName, code, table, tableKey, lowerBound, upperBound, limit))
                 .map(tableResult -> CommonUtil.prettyPrintJson(tableResult));
     }
-
 
     private SignedTransaction createTransaction(String contract, String actionName, String dataAsHex, String[] permissions, EosChainInfo chainInfo) {
         currentBlockInfo = chainInfo;
@@ -230,4 +227,6 @@ public class EoscDataManager {
         return ChainRetrofit.getInstance().createApi(NodeosApi.class).getCurrencyStats(new GetRequestForCurrency(contract, symbol))
                 .map(result -> CommonUtil.prettyPrintJson(result));
     }
+
+
 }

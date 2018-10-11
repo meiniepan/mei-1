@@ -8,6 +8,7 @@ public class Constant {
     public static final String EOS_MONGO_DB = "mongodb://192.168.1.184:27017/";
     public static String BASE_URL = "https://api.iwantmei.com/customer/";
     public static String CHAIN_URL = " http://192.168.1.186:8888/";
+    public static String IPFS_URL = "192.168.1.184:5001";
     public static String WEB_URL = "https://activities.iwantmei.com/";
     public static String ONLINE_BASE_URL = "https://api.iwantmei.com/customer/";
     public static String ONLINE_WEB_URL = "https://activities.iwantmei.com/";
@@ -26,6 +27,7 @@ public class Constant {
     public static final String EOSIO_SYSTEM_ACCOUNT = "signupcoming";
     public static final String EOSIO_DAILAY_REWARDS = "dailyrewards";
     public static final String ACTIVITY_DAILAY_REWARDS = "activity1111";
+    public static final String ACTIVITY_CREATE_VOTE = "votevotevote";
     public static final String EOSIO_TOKEN_CONTRACT = "eosio.token";
     public static final int TX_EXPIRATION_IN_MILSEC = 30000;
     public static final String BACKUP_FROM_CREATE = "backup_from_create";

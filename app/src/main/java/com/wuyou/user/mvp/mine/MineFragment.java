@@ -174,11 +174,6 @@ public class MineFragment extends BaseFragment {
                     startActivity(intent);
                 }
                 break;
-//            case R.id.mine_warn:
-//                new CustomAlertDialog.Builder(mCtx).setTitle(R.string.prompt).setMessage(R.string.mine_warn)
-//                        .setPositiveButton("确定", (dialog, which) -> {
-//                        }).create().show();
-//                break;
             case R.id.mine_help:
                 intent.setClass(mCtx, HelpActivity.class);
                 startActivity(intent);

@@ -1,8 +1,6 @@
 package com.wuyou.user.mvp.block;
 
 import com.gs.buluo.common.network.BaseSubscriber;
-import com.gs.buluo.common.utils.TribeDateUtils;
-import com.gs.buluo.common.utils.Utils;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -12,7 +10,6 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.api.EosChainInfo;
 import com.wuyou.user.data.local.LinePoint;
-import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 
 import org.bson.Document;
@@ -36,6 +33,13 @@ public class BlockPresenter extends BlockMainContract.Presenter {
 
     private MongoCollection<Document> collection;
     private long lineDataLastTime;
+    private MongoClient transactionClient;
+    private MongoClient lastTPSClient;
+
+    public BlockPresenter() {
+        transactionClient = MongoClients.create(Constant.EOS_MONGO_DB);
+        lastTPSClient = MongoClients.create(Constant.EOS_MONGO_DB);
+    }
 
     @Override
     void getBlockHeight() {
@@ -50,8 +54,7 @@ public class BlockPresenter extends BlockMainContract.Presenter {
     @Override
     void getTransactionsAmount() {
         addDisposable(Observable.create((ObservableOnSubscribe<String>) e -> {
-            MongoClient mongoClient = MongoClients.create(Constant.EOS_MONGO_DB);
-            MongoDatabase database = mongoClient.getDatabase("EOS");
+            MongoDatabase database = transactionClient.getDatabase("EOS");
             MongoCollection<Document> collection = database.getCollection("transactions");
             e.onNext(collection.countDocuments() + "");
         }).compose(RxUtil.switchSchedulers()).subscribeWith(new BaseSubscriber<String>() {
@@ -78,10 +81,12 @@ public class BlockPresenter extends BlockMainContract.Presenter {
     }
 
     @Override
+
     void getPointTypeAmount() {
         addDisposable(Observable.create((ObservableOnSubscribe<String>) e -> {
             MongoClient mongoClient = MongoClients.create(Constant.EOS_MONGO_DB);
             MongoDatabase database = mongoClient.getDatabase("EOS");
+
             MongoCollection<Document> collection = database.getCollection("action_traces");
             e.onNext(collection.countDocuments(Filters.eq("act.name", "issue")) + "");
         }).compose(RxUtil.switchSchedulers()).subscribeWith(new BaseSubscriber<String>() {
@@ -128,7 +133,7 @@ public class BlockPresenter extends BlockMainContract.Presenter {
                         linePoints.add(new LinePoint(entry.getKey(), entry.getValue() + ""));
                     }
                     Collections.sort(linePoints, (o1, o2) -> o1.x.compareTo(o2.x));
-                    if (isAttach())mView.getOriginDataSuccess(linePoints);
+                    if (isAttach()) mView.getOriginDataSuccess(linePoints);
                 }
             }
         });
@@ -141,8 +146,7 @@ public class BlockPresenter extends BlockMainContract.Presenter {
         String newFormatTime = simpleDateFormat.format(new Date(lineDataLastTime)) + "T" + simpleDateFormat1.format(new Date(lineDataLastTime));
         String east8time = simpleDateFormat1.format(new Date(lineDataLastTime + 8 * 3600 * 1000));
         addDisposable(Observable.create((ObservableOnSubscribe<Long>) e -> {
-            MongoClient mongoClient = MongoClients.create(Constant.EOS_MONGO_DB);
-            MongoDatabase database = mongoClient.getDatabase("EOS");
+            MongoDatabase database = lastTPSClient.getDatabase("EOS");
             MongoCollection<Document> collection = database.getCollection("transactions");
             e.onNext(collection.countDocuments(Filters.and(Filters.lte("expiration", newFormatTime), Filters.gt("expiration", formatTime))) / 5);
         }).compose(RxUtil.switchSchedulers()).subscribeWith(new BaseSubscriber<Long>() {
