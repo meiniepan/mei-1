@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
@@ -116,6 +117,7 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
         hasView = true;
         TransactionView blockTransferView = new TransactionView(blockDetailTransaction.inflate());
         blockTransferView.blockTransferId.setText(transactionInfo.getString("trx_id"));
+        blockTransferView.blockTransferBlock.setText(transactionInfo.getString("block_id"));
         blockTransferView.blockTransferTime.setText(transactionInfo.get("expiration").toString());
         ArrayList<Document> actions = (ArrayList<Document>) transactionInfo.get("actions");
         blockTransferView.blockTransferActAccount.setText(actions.get(0).getString("account"));
@@ -155,10 +157,11 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
                 ownerThreshold = permissionsBean.required_auth.threshold + "";
             }
         }
-        blockAccountView.blockAccountThreshold.setText("owner:" + ownerThreshold + " active:" + activeThreshold);
+        if (blockAccountView.blockAccountActiveKey.length()==0)blockAccountView.blockAccountActiveKey.setText(blockAccountView.blockAccountOwnerKey.getText().toString().trim());
+        blockAccountView.blockAccountThreshold.setText("owner:" + ownerThreshold + " active:" + (TextUtils.isEmpty(activeThreshold) ? ownerThreshold : activeThreshold));
         blockAccountView.blockAccountRamUsed.setText("已用：" + accountInfo.ram_usage);
         blockAccountView.blockAccountRamAvailable.setText("可用：" + (accountInfo.total_resources.ram_bytes - accountInfo.ram_usage));
-        blockAccountView.blockAccountRamProgress.setProgress((int) (accountInfo.ram_usage / accountInfo.total_resources.ram_bytes));
+        blockAccountView.blockAccountRamProgress.setProgress((int) (accountInfo.ram_usage * 100 / accountInfo.total_resources.ram_bytes));
 
         blockAccountView.blockAccountCpuUsed.setText("已用：" + accountInfo.cpu_limit.used);
         blockAccountView.blockAccountCpuAvailable.setText("可用：" + accountInfo.cpu_limit.available + "");
@@ -257,6 +260,8 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
     class TransactionView {
         @BindView(R.id.block_transfer_id)
         TextView blockTransferId;
+        @BindView(R.id.block_transfer_block)
+        TextView blockTransferBlock;
         @BindView(R.id.block_transfer_time)
         TextView blockTransferTime;
         @BindView(R.id.block_transfer_act_account)

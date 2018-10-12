@@ -52,6 +52,27 @@
                 android:layout_width="82dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
+                android:text="所属区块"
+                android:textColor="@color/common_gray" />
+
+            <TextView
+                android:id="@+id/block_transfer_block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="82dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
                 android:text="完成时间"
                 android:textColor="@color/common_gray" />
 

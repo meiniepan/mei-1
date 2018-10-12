@@ -199,7 +199,7 @@ public class BlockTransactionFragment extends BaseFragment {
         protected void convert(BaseHolder baseHolder, TransactionBean transactionBean) {
             baseHolder.setText(R.id.item_block_transaction_actor, transactionBean.actor)
                     .setText(R.id.item_block_transaction_receiver, transactionBean.receiver)
-                    .setText(R.id.item_block_transaction_content, transactionBean.content + transactionBean.time);
+                    .setText(R.id.item_block_transaction_content, transactionBean.content);
         }
     }
 
