@@ -37,6 +37,7 @@ import com.wuyou.user.data.abi.EosAbiMain;
 import com.wuyou.user.data.api.AccountInfoRequest;
 import com.wuyou.user.data.api.EosAccountInfo;
 import com.wuyou.user.data.api.EosChainInfo;
+import com.wuyou.user.data.api.EosVoteBean;
 import com.wuyou.user.data.api.GetBalanceRequest;
 import com.wuyou.user.data.api.GetCodeRequest;
 import com.wuyou.user.data.api.GetCodeResponse;
@@ -44,6 +45,7 @@ import com.wuyou.user.data.api.GetRequestForCurrency;
 import com.wuyou.user.data.api.GetRequiredKeys;
 import com.wuyou.user.data.api.GetTableRequest;
 import com.wuyou.user.data.api.JsonToBinRequest;
+import com.wuyou.user.data.api.VoteOption;
 import com.wuyou.user.data.chain.Action;
 import com.wuyou.user.data.chain.PackedTransaction;
 import com.wuyou.user.data.chain.SignedTransaction;
@@ -120,6 +122,14 @@ public class EoscDataManager {
         return pushActionRetJson(Constant.ACTIVITY_DAILAY_REWARDS, activityRewards.getActionName(), CommonUtil.prettyPrintJson(activityRewards), getActivePermission(currentOperateAccount.getName()));
     }
 
+    public Observable<JsonObject> doVote(String id, List<VoteOption> option) {
+        currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
+        EosVoteBean voteBean = new EosVoteBean(id, currentOperateAccount.getName(), option);
+        return pushActionRetJson(Constant.ACTIVITY_CREATE_VOTE, voteBean.getActionName(), CommonUtil.prettyPrintJson(voteBean), getActivePermission(currentOperateAccount.getName()));
+
+    }
+
+
     public Observable<EosChainInfo> getChainInfo() {
         return ChainRetrofit.getInstance().createApi(NodeosApi.class).readInfo("get_info");
     }
@@ -127,7 +137,13 @@ public class EoscDataManager {
     public Observable<String> getTable(String accountName, String code, String table, String tableKey, String lowerBound, String upperBound, int limit) {
         return ChainRetrofit.getInstance().createApi(NodeosApi.class).getTable(
                 new GetTableRequest(accountName, code, table, tableKey, lowerBound, upperBound, limit))
-                .map(tableResult -> CommonUtil.prettyPrintJson(tableResult));
+                .map(CommonUtil::prettyPrintJson);
+    }
+
+    public Observable<String> getTable(String accountName, String code, String table) {
+        return ChainRetrofit.getInstance().createApi(NodeosApi.class).getTable(
+                new GetTableRequest(accountName, code, table))
+                .map(CommonUtil::prettyPrintJson);
     }
 
     private SignedTransaction createTransaction(String contract, String actionName, String dataAsHex, String[] permissions, EosChainInfo chainInfo) {

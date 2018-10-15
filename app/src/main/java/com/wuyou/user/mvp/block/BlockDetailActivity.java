@@ -145,7 +145,7 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
         AccountView blockAccountView = new AccountView(blockDetailAccountView.inflate());
         blockAccountView.blockAccountName.setText(accountInfo.account_name);
 //        blockAccountView.blockAccountCreator.setText(accountInfo.);
-        blockAccountView.blockAccountCreateTime.setText(accountInfo.created);
+        blockAccountView.blockAccountCreateTime.setText("UTC "+accountInfo.created.split("\\.")[0].replace("T"," "));
         String activeThreshold = "";
         String ownerThreshold = "";
         for (EosAccountInfo.PermissionsBean permissionsBean : accountInfo.permissions) {
@@ -165,11 +165,11 @@ public class BlockDetailActivity extends BaseActivity<BlockContract.View, BlockC
 
         blockAccountView.blockAccountCpuUsed.setText("已用：" + accountInfo.cpu_limit.used);
         blockAccountView.blockAccountCpuAvailable.setText("可用：" + accountInfo.cpu_limit.available + "");
-        blockAccountView.blockAccountCpuProgress.setProgress((int) (accountInfo.cpu_limit.used / accountInfo.cpu_limit.max));
+        blockAccountView.blockAccountCpuProgress.setProgress((int) (accountInfo.cpu_limit.used*100 / accountInfo.cpu_limit.max));
 
         blockAccountView.blockAccountNetUsed.setText("已用：" + accountInfo.net_limit.used + "");
         blockAccountView.blockAccountNetAvailable.setText("可用：" + accountInfo.net_limit.available + "");
-        blockAccountView.blockAccountNetProgress.setProgress((int) (accountInfo.net_limit.used / accountInfo.net_limit.max));
+        blockAccountView.blockAccountNetProgress.setProgress((int) (accountInfo.net_limit.used *100/ accountInfo.net_limit.max));
 
         mPresenter.getAccountTransfers(accountInfo.account_name);
         blockAccountTransactionsStatus = blockAccountView.blockAccountTransactionsStatus;
