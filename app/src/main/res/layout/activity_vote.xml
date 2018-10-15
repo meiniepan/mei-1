@@ -8,7 +8,7 @@
         android:id="@+id/vote_tab"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_height"
-        app:tabSelectedTextColor="@color/night_blue"
+        app:tabSelectedTextColor="@color/common_dark"
         app:tabTextAppearance="@style/TabLayoutStyle_14"
         app:tabTextColor="@color/common_gray"
         android:background="@color/white"

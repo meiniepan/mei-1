@@ -32,7 +32,7 @@ public class EosVoteListBean {
          * end_time : 2018-10-13T02:48:06.000
          */
 
-        public int id;
+        public String id;
         public String creator;
         public String title;
         public String logo;
@@ -42,6 +42,9 @@ public class EosVoteListBean {
         public List<VoteQuestion> contents;
         public List<String> voters;
 
+        public RowsBean() {
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -49,7 +52,7 @@ public class EosVoteListBean {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(this.id);
+            dest.writeString(this.id);
             dest.writeString(this.creator);
             dest.writeString(this.title);
             dest.writeString(this.logo);
@@ -60,11 +63,8 @@ public class EosVoteListBean {
             dest.writeStringList(this.voters);
         }
 
-        public RowsBean() {
-        }
-
         protected RowsBean(Parcel in) {
-            this.id = in.readInt();
+            this.id = in.readString();
             this.creator = in.readString();
             this.title = in.readString();
             this.logo = in.readString();
@@ -75,7 +75,7 @@ public class EosVoteListBean {
             this.voters = in.createStringArrayList();
         }
 
-        public static final Parcelable.Creator<RowsBean> CREATOR = new Parcelable.Creator<RowsBean>() {
+        public static final Creator<RowsBean> CREATOR = new Creator<RowsBean>() {
             @Override
             public RowsBean createFromParcel(Parcel source) {
                 return new RowsBean(source);

@@ -45,7 +45,7 @@ public class VotePresenter {
         VoteOption voteOption = new VoteOption(new int[]{1});
         ArrayList<VoteOption> list = new ArrayList<>();
         list.add(voteOption);
-        EoscDataManager.getIns().doVote("0", list)
+        EoscDataManager.getIns().doVote("2", list)
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override

@@ -10,7 +10,10 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.wuyou.user.R;
+import com.wuyou.user.data.api.EosVoteListBean;
 import com.wuyou.user.view.activity.BaseActivity;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 
@@ -57,6 +60,10 @@ public class VoteActivity extends BaseActivity {
         }else {
             bottomAlpha.setVisibility(View.GONE);
         }
+    }
+
+    public void setMyVotedMap(HashMap<String,EosVoteListBean.RowsBean> myVotedMap) {
+        myVoteListFragment.setVotedData(myVotedMap);
     }
 
     private class VotePagerAdapter extends FragmentPagerAdapter {

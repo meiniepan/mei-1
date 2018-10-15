@@ -15,14 +15,20 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.api.EosVoteListBean;
+import com.wuyou.user.util.EosUtil;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.CarefreeRecyclerView;
 import com.wuyou.user.view.widget.ConditionSelectView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Function;
 
 /**
  * Created by DELL on 2018/10/15.
@@ -66,12 +72,7 @@ public class VoteListFragment extends BaseFragment {
 
         getAllVoteList();
 
-        listAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                navigateToVoteDetail(i);
-            }
-        });
+        listAdapter.setOnItemClickListener((baseQuickAdapter, view, i) -> navigateToVoteDetail(i));
     }
 
     private void navigateToVoteDetail(int i) {
@@ -82,15 +83,30 @@ public class VoteListFragment extends BaseFragment {
         startActivity(intent);
     }
 
+    private HashMap<String, EosVoteListBean.RowsBean> myVotedMap = new HashMap<>();
 
     public void getAllVoteList() {
-        EoscDataManager.getIns().getTable("votevotevote", "votevotevote", "votelist")
-                .compose(RxUtil.switchSchedulers()).subscribe(new BaseSubscriber<String>() {
+        EoscDataManager.getIns().getTable("votevotevote1", Constant.ACTIVITY_CREATE_VOTE, "votelist")
+                .map((Function<String, List<EosVoteListBean.RowsBean>>) s -> {
+                    EosVoteListBean listBean = new GsonBuilder().create().fromJson(s, EosVoteListBean.class);
+                    ArrayList<EosVoteListBean.RowsBean> list = new ArrayList<>();
+                    for (EosVoteListBean.RowsBean rowsBean : listBean.rows) {
+                        myVotedMap.put(rowsBean.id, rowsBean);
+                        if (EosUtil.formatTimePoint(System.currentTimeMillis()).compareTo(rowsBean.end_time) < 0) {
+                            list.add(rowsBean);
+                        }
+                    }
+                    return list;
+                })
+                .compose(RxUtil.switchSchedulers()).subscribe(new BaseSubscriber<List<EosVoteListBean.RowsBean>>() {
             @Override
-            public void onSuccess(String s) {
+            public void onSuccess(List<EosVoteListBean.RowsBean> data) {
                 voteList.showContentView();
-                EosVoteListBean listBean = new GsonBuilder().create().fromJson(s, EosVoteListBean.class);
-                listAdapter.setNewData(listBean.rows);
+                listAdapter.setNewData(data);
+                ownerActivity.setMyVotedMap(myVotedMap);
+                if (data.size() == 0) {
+                    voteList.showEmptyView("当前暂无可用投票");
+                }
             }
 
             @Override
@@ -213,7 +229,7 @@ public class VoteListFragment extends BaseFragment {
         @Override
         protected void convert(BaseHolder baseHolder, EosVoteListBean.RowsBean rowsBean) {
             baseHolder.setText(R.id.item_vote_list_title, rowsBean.title)
-                    .setText(R.id.item_vote_list_location, rowsBean.description)
+                    .setText(R.id.item_vote_list_end_time, rowsBean.end_time)
                     .setText(R.id.item_vote_list_voter, rowsBean.voters.size() + "");
             GlideUtils.loadImage(mContext, Constant.IPFS_URL + rowsBean.logo, baseHolder.getView(R.id.item_vote_list_picture));
         }

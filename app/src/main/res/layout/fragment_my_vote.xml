@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/night_blue"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.wuyou.user.view.widget.CarefreeRecyclerView
+        android:id="@+id/vote_my_record"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:emptyDrawable="@mipmap/empty_score"
+        app:errorDrawable="@mipmap/net_error" />
 </LinearLayout>

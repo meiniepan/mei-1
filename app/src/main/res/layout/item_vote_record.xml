@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="171dp"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/item_vote_record_picture"
+        android:layout_width="120dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"/>
+
+    <TextView
+        android:id="@+id/item_vote_record_title"
+        android:layout_alignTop="@+id/item_vote_record_picture"
+        android:layout_toEndOf="@+id/item_vote_record_picture"
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:lineSpacingMultiplier="1.2"
+        android:ellipsize="end"
+        android:layout_marginEnd="15dp"
+        tool:text="撒旦叫啊交定金ask的骄傲看了觉得斯科拉的" />
+
+    <View
+        android:layout_below="@+id/item_vote_record_picture"
+        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divide_gray"/>
+
+    <TextView
+        android:id="@+id/item_vote_record_statistic"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:textColor="@color/night_blue"
+        android:background="@drawable/night_blue_border"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
+        android:text="@string/vote_statistic" />
+</RelativeLayout>

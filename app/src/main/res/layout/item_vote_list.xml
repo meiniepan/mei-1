@@ -35,20 +35,22 @@
         android:paddingStart="@dimen/activity_horizontal_margin"
         android:paddingTop="10dp">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@mipmap/activity_location" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="结束时间:"
+            android:textColor="@color/common_gray"
+            android:textSize="@dimen/dimens_12sp"/>
 
         <TextView
-            android:id="@+id/item_vote_list_location"
+            android:id="@+id/item_vote_list_end_time"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/common_gray"
             android:textSize="@dimen/dimens_12sp"
-            tool:text="数据库搭建卡手机打开撒娇的手机爱卡了解到速度快垃圾堆上空间打开啦" />
+            tool:text="数据库开啦" />
 
 
         <ImageView
