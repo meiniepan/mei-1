@@ -23,6 +23,9 @@ import com.wuyou.user.mvp.block.BlockExplorerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.score.ScoreExchangeActivity;
 import com.wuyou.user.mvp.score.ScoreMissionActivity;
+import com.wuyou.user.mvp.vote.VoteActivity;
+import com.wuyou.user.mvp.vote.VoteListFragment;
+import com.wuyou.user.mvp.vote.VotePresenter;
 import com.wuyou.user.mvp.wallet.ActivityRecordActivity;
 import com.wuyou.user.mvp.wallet.CreateOrImportAccountActivity;
 import com.wuyou.user.mvp.wallet.ScoreAccountActivity;
@@ -135,7 +138,8 @@ public class MineFragment extends BaseFragment {
                 });
     }
 
-    @OnClick({R.id.mine_setting, R.id.mine_login, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_help, R.id.mine_mission, R.id.mine_auth, R.id.mine_explorer})
+    @OnClick({R.id.mine_setting, R.id.mine_login, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_help,
+            R.id.mine_mission, R.id.mine_auth, R.id.mine_explorer,R.id.mine_vote})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -175,8 +179,9 @@ public class MineFragment extends BaseFragment {
                 }
                 break;
             case R.id.mine_help:
-                intent.setClass(mCtx, HelpActivity.class);
-                startActivity(intent);
+//                intent.setClass(mCtx, HelpActivity.class);
+//                startActivity(intent);
+                new VotePresenter().doVote();
                 break;
             case R.id.mine_mission:
                 if (Constant.DEFAULT_DB_NAME.equals(CarefreeDaoSession.getInstance().getDatabaseFormName())) {
@@ -198,6 +203,10 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.mine_explorer:
                 intent.setClass(mCtx, BlockExplorerActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.mine_vote:
+                intent.setClass(mCtx, VoteActivity.class);
                 startActivity(intent);
                 break;
         }

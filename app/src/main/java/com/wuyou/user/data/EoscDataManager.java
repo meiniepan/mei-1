@@ -129,7 +129,6 @@ public class EoscDataManager {
 
     }
 
-
     public Observable<EosChainInfo> getChainInfo() {
         return ChainRetrofit.getInstance().createApi(NodeosApi.class).readInfo("get_info");
     }

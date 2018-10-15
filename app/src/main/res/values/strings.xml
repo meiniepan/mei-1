@@ -194,6 +194,10 @@
     <string name="score_category">积分种类</string>
     <string name="account">账户</string>
     <string name="transfer_content">交易内容</string>
+    <string name="vote">投票</string>
+    <string name="create_time">创建时间</string>
+    <string name="end_time">结束时间</string>
+    <string name="creator">创建者</string>
 
 
 </resources>

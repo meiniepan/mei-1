@@ -209,6 +209,7 @@
         <activity android:name=".mvp.score.ScoreExchangeActivity" />
         <activity android:name=".mvp.block.BlockExplorerActivity" />
         <activity android:name=".mvp.block.BlockDetailActivity" />
+        <activity android:name=".mvp.vote.VoteActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"

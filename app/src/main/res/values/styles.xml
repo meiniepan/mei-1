@@ -16,6 +16,9 @@
     <style name="TabLayoutStyle" parent="@android:style/TextAppearance">
         <item name="android:textSize">@dimen/dimens_16sp</item>
     </style>
+    <style name="TabLayoutStyle_14" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/dimens_14sp</item>
+    </style>
 
     <style name="sheet_dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
