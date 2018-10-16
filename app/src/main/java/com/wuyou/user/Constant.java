@@ -27,7 +27,7 @@ public class Constant {
     public static final String EOSIO_SYSTEM_ACCOUNT = "signupcoming";
     public static final String EOSIO_DAILAY_REWARDS = "dailyrewards";
     public static final String ACTIVITY_DAILAY_REWARDS = "activity1111";
-    public static final String ACTIVITY_CREATE_VOTE = "votevotevote";
+    public static final String ACTIVITY_CREATE_VOTE = "votevotevot1";
     public static final String EOSIO_TOKEN_CONTRACT = "eosio.token";
     public static final int TX_EXPIRATION_IN_MILSEC = 30000;
     public static final String BACKUP_FROM_CREATE = "backup_from_create";

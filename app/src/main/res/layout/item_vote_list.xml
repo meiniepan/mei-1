@@ -44,7 +44,7 @@
 
         <TextView
             android:id="@+id/item_vote_list_end_time"
-            android:layout_width="220dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"

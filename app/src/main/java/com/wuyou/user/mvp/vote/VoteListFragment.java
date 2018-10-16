@@ -2,6 +2,7 @@ package com.wuyou.user.mvp.vote;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +29,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.ipfs.api.IPFS;
+import io.ipfs.multihash.Multihash;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Function;
 
 /**
@@ -86,7 +92,7 @@ public class VoteListFragment extends BaseFragment {
     private HashMap<String, EosVoteListBean.RowsBean> myVotedMap = new HashMap<>();
 
     public void getAllVoteList() {
-        EoscDataManager.getIns().getTable("votevotevote1", Constant.ACTIVITY_CREATE_VOTE, "votelist")
+        EoscDataManager.getIns().getTable( Constant.ACTIVITY_CREATE_VOTE, Constant.ACTIVITY_CREATE_VOTE, "votelist")
                 .map((Function<String, List<EosVoteListBean.RowsBean>>) s -> {
                     EosVoteListBean listBean = new GsonBuilder().create().fromJson(s, EosVoteListBean.class);
                     ArrayList<EosVoteListBean.RowsBean> list = new ArrayList<>();
@@ -231,7 +237,26 @@ public class VoteListFragment extends BaseFragment {
             baseHolder.setText(R.id.item_vote_list_title, rowsBean.title)
                     .setText(R.id.item_vote_list_end_time, rowsBean.end_time)
                     .setText(R.id.item_vote_list_voter, rowsBean.voters.size() + "");
+//            URL url =new URL("http",Constant.IPFS_URL,"");
+//            url.toString();
             GlideUtils.loadImage(mContext, Constant.IPFS_URL + rowsBean.logo, baseHolder.getView(R.id.item_vote_list_picture));
+
+//            Observable.create(new ObservableOnSubscribe<String>() {
+//                @Override
+//                public void subscribe(ObservableEmitter<String> e) throws Exception {
+//                    IPFS ipfs = new IPFS(Constant.IPFS_URL);
+//                    Multihash filePointer = Multihash.fromBase58("QmWuW8X5KVTKjg7LHGVqLCJGS3VHquxNc9QAAqBaPxST6x");
+//                    byte[] fileContents = ipfs.cat(filePointer);
+//                    e.onNext(new String(fileContents));
+//                }
+//            }).compose(RxUtil.switchSchedulers())
+//                    .subscribe(new BaseSubscriber<String>() {
+//                        @Override
+//                        public void onSuccess(String s) {
+//                            Log.e("Carefree", "onSuccess:" + s);
+//                        }
+//                    });
+
         }
     }
 }

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tool="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
@@ -42,7 +43,9 @@
         <com.wuyou.user.view.widget.CarefreeRecyclerView
             android:id="@+id/vote_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:emptyDrawable="@mipmap/empty_score"
+            app:errorDrawable="@mipmap/net_error"/>
 
         <LinearLayout
             android:id="@+id/vote_list_time_layout"
