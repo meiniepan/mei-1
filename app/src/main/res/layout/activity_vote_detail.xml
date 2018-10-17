@@ -131,6 +131,7 @@
             <TextView
                 android:id="@+id/tv_vote_detail_confirm"
                 style="@style/button_style"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp" />
         </LinearLayout>
     </LinearLayout>
