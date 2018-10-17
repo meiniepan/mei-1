@@ -47,7 +47,7 @@ public class VoteDetailActivity extends BaseActivity {
     @BindView(R.id.tv_vote_detail_intro)
     TextView tvVoteDetailIntro;
     @BindView(R.id.rv_vote_detail)
-    FatherRv rvVoteDetail;
+    RecyclerView rvVoteDetail;
     @BindView(R.id.tv_vote_detail_community_name)
     TextView tvVoteDetailCommunityName;
 

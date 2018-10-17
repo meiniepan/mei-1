@@ -91,7 +91,7 @@
             tool:text="简介：健身餐为什么这么好看，" />
 
 
-        <com.wuyou.user.view.widget.FatherRv
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_vote_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
