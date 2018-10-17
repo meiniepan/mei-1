@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.EoscDataManager;
@@ -60,7 +61,7 @@ public class MyVoteListFragment extends BaseFragment {
 
     public void getVoteRecord() {
         if (votedData == null) return;
-        EoscDataManager.getIns().getTable("ayiuivl52fnq", "votevotevote", "infos")
+        EoscDataManager.getIns().getTable(CarefreeDaoSession.getInstance().getMainAccount().getName(),  Constant.ACTIVITY_CREATE_VOTE, "infos")
                 .map(s -> {
                     VoteRecord listBean = new GsonBuilder().create().fromJson(s, VoteRecord.class);
                     ArrayList<EosVoteListBean.RowsBean> data = new ArrayList<>();
@@ -99,8 +100,9 @@ public class MyVoteListFragment extends BaseFragment {
         }
 
         private void navigateToDetail(EosVoteListBean.RowsBean rowsBean) {
-            Intent intent = new Intent(mContext, VoteActivity.class);
-            intent.putExtra("", "");
+            Intent intent = new Intent(mContext, VoteDetailActivity.class);
+            intent.putExtra(Constant.HAS_VOTE, true);
+            intent.putExtra(Constant.VOTE_ROW_BEAN, rowsBean);
             startActivity(intent);
         }
     }

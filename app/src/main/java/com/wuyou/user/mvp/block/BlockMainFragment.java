@@ -156,7 +156,6 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
                     popTextView.setBackgroundResource(R.mipmap.bac_pop_middle);
                     wPopup.setContentView(rootView);
                     wPopup.showAtFingerLocation(WPopupDirection.TOP);
-
                 }
                 new Handler().postDelayed(new Runnable() {
                     @Override

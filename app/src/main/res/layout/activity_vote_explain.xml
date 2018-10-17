@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:text="@string/explain"
+        android:textSize="@dimen/dimens_18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="@string/explain_text" />
+
+    <include layout="@layout/split_area" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="@string/vote_step"
+        android:textSize="@dimen/dimens_18sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="112dp"
+                android:layout_height="30dp"
+                android:background="@drawable/night_blue_border"
+                android:gravity="center"
+                android:text="创建积分账户"
+                android:textColor="@color/night_blue" />
+
+            <TextView
+                android:layout_width="112dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="43dp"
+                android:background="@drawable/night_blue_border"
+                android:gravity="center"
+                android:text="投票结束"
+                android:textColor="@color/night_blue" />
+
+            <TextView
+                android:layout_width="112dp"
+                android:layout_height="43dp"
+                android:gravity="center"
+                android:rotation="90"
+                android:text="--->"
+                android:textColor="@color/night_blue" />
+
+            <TextView
+                android:layout_width="112dp"
+                android:layout_height="43dp"
+                android:background="@drawable/night_blue_border"
+                android:gravity="center"
+                android:text="积分返还"
+                android:textColor="@color/night_blue" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="--->"
+                android:textColor="@color/night_blue" />
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="43dp"
+                android:gravity="center"
+                android:text="--->"
+                android:textColor="@color/night_blue" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="112dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/night_blue_border"
+                    android:gravity="center"
+                    android:text="获取积分"
+                    android:textColor="@color/night_blue" />
+
+                <TextView
+                    android:layout_width="112dp"
+                    android:layout_height="43dp"
+                    android:gravity="center"
+                    android:rotation="90"
+                    android:text="--->"
+                    android:textColor="@color/night_blue" />
+
+                <TextView
+                    android:layout_width="112dp"
+                    android:layout_height="43dp"
+                    android:background="@drawable/night_blue_border"
+                    android:gravity="center"
+                    android:text="质押积分投票"
+                    android:textColor="@color/night_blue" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

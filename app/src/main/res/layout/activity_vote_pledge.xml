@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tint_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/split_area" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="账户积分" />
+
+            <TextView
+                android:id="@+id/tv_vote_pledge_score_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="LDBP" />
+        </LinearLayout>
+
+        <include layout="@layout/split_line" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="投票数" />
+
+            <TextView
+                android:id="@+id/tv_vote_pledge_vote_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="LDBP" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_gravity="center_horizontal"
+        android:text="账户积分越多，投票所占比例就越高，做积分任务，提升投票权！"
+        android:textColor="@color/common_red"
+        android:textSize="@dimen/dimens_12sp"
+        />
+    <TextView
+        android:id="@+id/tv_vote_pledge_confirm"
+        style="@style/button_style"
+        android:layout_marginBottom="30dp"
+        />
+</LinearLayout>

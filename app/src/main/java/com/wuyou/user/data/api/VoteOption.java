@@ -1,13 +1,15 @@
 package com.wuyou.user.data.api;
 
+import java.util.List;
+
 /**
  * Created by DELL on 2018/10/11.
  */
 
 public class VoteOption {
-    public  int[] option;
+    public  List<Integer> option;
 
-    public VoteOption(int[] ints) {
+    public VoteOption(List<Integer> ints) {
         option = ints;
     }
 }

@@ -248,9 +248,9 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
     }
 
 
-    protected abstract void bindView(Bundle savedInstanceState);
-
     protected abstract int getContentLayout();
+
+    protected abstract void bindView(Bundle savedInstanceState);
 
 
     protected boolean checkUser(Context context) {

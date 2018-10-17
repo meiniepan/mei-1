@@ -94,6 +94,8 @@ public class Constant {
     public static final String NICK = "nick";
     public static final String EMAIL = "email";
     public static final String FROM = "from";
+    public static final String VOTE_ROW_BEAN = "vote_row_bean";
+    public static final String HAS_VOTE = "has_vote";
     public static final String WEB_INTENT = "web_url";
     public static final String WEB_TYPE = "web_type";
     public static final String SCORE_FLAG = "score_flag";

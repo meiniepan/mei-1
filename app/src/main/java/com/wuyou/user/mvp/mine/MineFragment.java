@@ -24,7 +24,6 @@ import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.score.ScoreExchangeActivity;
 import com.wuyou.user.mvp.score.ScoreMissionActivity;
 import com.wuyou.user.mvp.vote.VoteActivity;
-import com.wuyou.user.mvp.vote.VoteListFragment;
 import com.wuyou.user.mvp.vote.VotePresenter;
 import com.wuyou.user.mvp.wallet.ActivityRecordActivity;
 import com.wuyou.user.mvp.wallet.CreateOrImportAccountActivity;
@@ -33,7 +32,6 @@ import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.glide.GlideUtils;
-import com.wuyou.user.view.activity.HelpActivity;
 import com.wuyou.user.view.activity.InfoActivity;
 import com.wuyou.user.view.activity.SettingActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
@@ -181,7 +179,7 @@ public class MineFragment extends BaseFragment {
             case R.id.mine_help:
 //                intent.setClass(mCtx, HelpActivity.class);
 //                startActivity(intent);
-                new VotePresenter().doVote();
+//                new VotePresenter().doVote(rowsBean.id, list);
                 break;
             case R.id.mine_mission:
                 if (Constant.DEFAULT_DB_NAME.equals(CarefreeDaoSession.getInstance().getDatabaseFormName())) {

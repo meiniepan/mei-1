@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include layout="@layout/split_area" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/tv_vote_detail_ques"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1、你愿意吃好看但不好吃的健身餐吗？"
+            android:textSize="@dimen/dimens_16sp" />
+
+        <TextView
+            android:id="@+id/tv_vote_detail_ques_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="(单选)"
+            android:textColor="@color/common_gray"
+            android:textSize="@dimen/dimens_12sp" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_vote_detail_opt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

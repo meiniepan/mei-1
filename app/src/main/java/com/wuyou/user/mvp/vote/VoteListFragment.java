@@ -83,9 +83,9 @@ public class VoteListFragment extends BaseFragment {
 
     private void navigateToVoteDetail(int i) {
         //TODO
+        Intent intent = new Intent(getContext(), VoteDetailActivity.class);
         EosVoteListBean.RowsBean rowsBean = listAdapter.getData().get(i);
-        Intent intent = new Intent(getContext(), VoteActivity.class);
-        intent.putExtra("", "");
+        intent.putExtra(Constant.VOTE_ROW_BEAN, rowsBean);
         startActivity(intent);
     }
 

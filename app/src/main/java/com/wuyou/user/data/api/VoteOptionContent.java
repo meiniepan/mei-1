@@ -8,8 +8,10 @@ import android.os.Parcelable;
  */
 
 public class VoteOptionContent implements Parcelable {
-    String optioncontent;
+    public String optioncontent;
+    public int id;
     public int number;
+    public boolean isChecked;
 
     public VoteOptionContent(String content) {
         optioncontent = content;

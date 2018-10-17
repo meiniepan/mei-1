@@ -194,6 +194,11 @@
     <string name="score_category">积分种类</string>
     <string name="account">账户</string>
     <string name="transfer_content">交易内容</string>
+    <string name="vote_explain">投票说明</string>
+    <string name="explain">说明</string>
+    <string name="explain_text">1、投票需要质押积分账户里的来到积分，请确保积分账户有余额。如果未创建积分账户，请先创建积分账户，并通过积分任务获取相应的积分。\n 2、参与投票，需要质押一定量的积分，质押的数量可自由决定。投票未结束，质押投票的积分不可进行消费，投票结束后，恢复正常。\n 3、投票比重和所质押投票积分数量有关，质押的积分越多，所占投票比重越大。\n 4、1积分=1张选票，快去做积分任务，获取更多积分吧！</string>
+    <string name="vote_step">投票步骤</string>
+    <string name="vote_detail">投票详情</string>
     <string name="vote">投票</string>
     <string name="create_time">创建时间</string>
     <string name="end_time">结束时间</string>
