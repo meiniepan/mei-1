@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
@@ -66,7 +67,7 @@
 
             <TextView
                 android:layout_width="112dp"
-                android:layout_height="43dp"
+                android:layout_height="30dp"
                 android:background="@drawable/night_blue_border"
                 android:gravity="center"
                 android:text="积分返还"
@@ -92,7 +93,7 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="43dp"
                 android:gravity="center"
-                android:text="--->"
+                android:text="@string/arrow_left"
                 android:textColor="@color/night_blue" />
 
         </LinearLayout>
@@ -126,7 +127,7 @@
 
                 <TextView
                     android:layout_width="112dp"
-                    android:layout_height="43dp"
+                    android:layout_height="30dp"
                     android:background="@drawable/night_blue_border"
                     android:gravity="center"
                     android:text="质押积分投票"

@@ -212,6 +212,7 @@
         <activity android:name=".mvp.vote.VoteExplainActivity" />
         <activity android:name=".mvp.vote.VoteDetailActivity" />
         <activity android:name=".mvp.vote.VoteActivity" />
+        <activity android:name=".mvp.vote.VotePledgeActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"
