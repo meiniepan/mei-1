@@ -33,7 +33,7 @@ public class VotePresenter {
     }
 
     public void getAllVoteList() {
-        EoscDataManager.getIns().getTable("votevotevote", "votevotevote", "votelist")
+        EoscDataManager.getIns().getTable("votevotevote", "votevotevote", "votelist","end_time","","",20)
                 .compose(RxUtil.switchSchedulers()).subscribe(new BaseSubscriber<String>() {
             @Override
             public void onSuccess(String s) {

@@ -76,20 +76,18 @@ public class ScoreMissionActivity extends BaseActivity {
         if (currentDate == lastDate) { //今天签到了
             setAlreadySignStatus();
         } else { //新的一天 展示全部未签到状态
-            setEnableSignStatus();
-            if (signRecord == 7) {
+            if (signRecord == 6) {
                 signRecord = -1;
             }
+            setEnableSignStatus();
         }
     }
 
     private void setEnableSignStatus() {
-        if (signRecord != -1 && signRecord != 7) {
-            TextView textView = (TextView) constraintLayout.getChildAt(signRecord + 1);
-            textView.setText("");
-            textView.animate().scaleY(1.3f).scaleX(1.3f).setDuration(0).start();
-            textView.setBackgroundResource(R.mipmap.sign_today);
-        }
+        TextView textView = (TextView) constraintLayout.getChildAt(signRecord + 1);
+        textView.setText("");
+        textView.animate().scaleY(1.3f).scaleX(1.3f).setDuration(0).start();
+        textView.setBackgroundResource(R.mipmap.sign_today);
     }
 
     private void setAlreadySignStatus() {
@@ -120,7 +118,7 @@ public class ScoreMissionActivity extends BaseActivity {
 
                     @Override
                     protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
-                        ToastUtils.ToastMessage(getCtx(), message.message.contains("have checked today") ? "您今天已经签到了" : message.message);
+                        ToastUtils.ToastMessage(getCtx(), message.message.contains("have ch ecked today") ? "您今天已经签到了" : message.message);
                     }
                 });
     }
@@ -134,7 +132,7 @@ public class ScoreMissionActivity extends BaseActivity {
     }
 
     private void startScoreAnimation() {
-        if (signRecord == 7) {
+        if (signRecord == 6) {
             scoreSignSuccess.setText("+40");
         }
         scoreSignSuccess.setVisibility(View.VISIBLE);
@@ -165,7 +163,7 @@ public class ScoreMissionActivity extends BaseActivity {
             case R.id.score_action_3:
                 break;
             case R.id.score_sign_up:
-                signUp(signRecord == 6 ? 40 : 10);
+                signUp(signRecord == 5 ? 40 : 10);
                 break;
         }
     }

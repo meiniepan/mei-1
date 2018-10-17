@@ -49,9 +49,9 @@ public class CarefreeApplication extends BaseApplication {
 
     private void initUrl() {
         String baseUrl = SharePreferenceManager.getInstance(this).getStringValue(Constant.SP_BASE_URL);
-//        if (!TextUtils.isEmpty(baseUrl)) Constant.BASE_URL = baseUrl;
-//        webUrl = SharePreferenceManager.getInstance(this).getStringValue(Constant.SP_WEB_URL);
-//        if (!TextUtils.isEmpty(webUrl)) Constant.WEB_URL = webUrl;
+        if (!TextUtils.isEmpty(baseUrl)) Constant.BASE_URL = baseUrl;
+        webUrl = SharePreferenceManager.getInstance(this).getStringValue(Constant.SP_WEB_URL);
+        if (!TextUtils.isEmpty(webUrl)) Constant.WEB_URL = webUrl;
         if (TextUtils.equals(baseUrl, Constant.ONLINE_BASE_URL)) {
             TCAgent.setReportUncaughtExceptions(true);
         } else {

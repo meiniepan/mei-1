@@ -2,6 +2,8 @@ package com.wuyou.user.data.api;
 
 import com.google.gson.annotations.Expose;
 
+import org.jivesoftware.smack.util.StringUtils;
+
 
 /**
  * Created by swapnibble on 2017-09-15.
@@ -22,6 +24,14 @@ public class GetTableRequest {
     @Expose
     private String table;
 
+    @Expose
+    private String table_key = "";
+
+    @Expose
+    private String lower_bound= "";
+
+    @Expose
+    private String upper_bound= "";
 
     @Expose
     private int limit = DEFAULT_FETCH_LIMIT;
@@ -31,7 +41,9 @@ public class GetTableRequest {
         this.scope = scope;
         this.code = code;
         this.table = table;
-
+        this.table_key = StringUtils.isEmpty( tableKey ) ? "" : tableKey;
+        this.lower_bound = StringUtils.isEmpty( lowerBound) ? "" : lowerBound;
+        this.upper_bound = StringUtils.isEmpty( upperBound) ? "" : upperBound;
         this.limit = limit <= 0 ? DEFAULT_FETCH_LIMIT : limit;
     }
 

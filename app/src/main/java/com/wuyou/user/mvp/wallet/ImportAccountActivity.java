@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.ErrorBody;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
@@ -103,7 +104,7 @@ public class ImportAccountActivity extends BaseActivity {
                     }
 
                     @Override
-                    protected void onFail(ApiException e) {
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
                         tvPkError.setText("私钥或账户名称不正确");
                         tvPkError.setVisibility(View.VISIBLE);
                     }

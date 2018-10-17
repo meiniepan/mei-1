@@ -8,7 +8,7 @@ public class Constant {
     public static final String EOS_MONGO_DB = "mongodb://192.168.1.184:27017/";
     public static String BASE_URL = "https://api.iwantmei.com/customer/";
     public static String CHAIN_URL = "http://192.168.1.186:8888/";
-    public static String IPFS_URL = "http://192.168.1.184:8080/ipfs/";
+    public static String IPFS_URL = "http://192.168.1.184:5001/api/v0/cat?arg=";
     public static String WEB_URL = "https://activities.iwantmei.com/";
     public static String ONLINE_BASE_URL = "https://api.iwantmei.com/customer/";
     public static String ONLINE_WEB_URL = "https://activities.iwantmei.com/";

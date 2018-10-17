@@ -30,7 +30,7 @@ public class BlockExplorerActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        setTitleText("laidao explorer");
+        setTitleText(getString(R.string.laidao_explore));
         blockTransactionFragment = new BlockTransactionFragment();
         blockMainFragment = new BlockMainFragment();
         blockPager.setAdapter(new BlockPagerAdapter(getSupportFragmentManager()));

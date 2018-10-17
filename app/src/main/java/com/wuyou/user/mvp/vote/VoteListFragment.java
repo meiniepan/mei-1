@@ -2,7 +2,6 @@ package com.wuyou.user.mvp.vote;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,16 +23,13 @@ import com.wuyou.user.view.widget.CarefreeRecyclerView;
 import com.wuyou.user.view.widget.ConditionSelectView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.ipfs.api.IPFS;
-import io.ipfs.multihash.Multihash;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Function;
 
 /**
@@ -92,7 +88,7 @@ public class VoteListFragment extends BaseFragment {
     private HashMap<String, EosVoteListBean.RowsBean> myVotedMap = new HashMap<>();
 
     public void getAllVoteList() {
-        EoscDataManager.getIns().getTable( Constant.ACTIVITY_CREATE_VOTE, Constant.ACTIVITY_CREATE_VOTE, "votelist")
+        EoscDataManager.getIns().getTable(Constant.ACTIVITY_CREATE_VOTE, Constant.ACTIVITY_CREATE_VOTE, "votelist","1","","",20)
                 .map((Function<String, List<EosVoteListBean.RowsBean>>) s -> {
                     EosVoteListBean listBean = new GsonBuilder().create().fromJson(s, EosVoteListBean.class);
                     ArrayList<EosVoteListBean.RowsBean> list = new ArrayList<>();
@@ -140,6 +136,7 @@ public class VoteListFragment extends BaseFragment {
                 voteListTimeLayout.setVisibility(View.GONE);
                 voteListFilterLayout.setVisibility(View.GONE);
                 ownerActivity.setBottomAlpha(false);
+                sortData(0);
                 break;
             case R.id.vote_list_time:
                 voteListTimeLayout.setVisibility(View.VISIBLE);
@@ -165,6 +162,7 @@ public class VoteListFragment extends BaseFragment {
                 voteListTime1.setTextColor(getResources().getColor(R.color.night_blue));
                 voteListTime2.setTextColor(getResources().getColor(R.color.common_dark));
                 hideShadow();
+                sortData(0);
                 break;
             case R.id.vote_list_time_2:
                 voteListRecommend.setTextColor(getResources().getColor(R.color.common_gray));
@@ -174,6 +172,7 @@ public class VoteListFragment extends BaseFragment {
                 voteListTime1.setTextColor(getResources().getColor(R.color.common_dark));
                 voteListTime2.setTextColor(getResources().getColor(R.color.night_blue));
                 hideShadow();
+                sortData(1);
                 break;
             case R.id.vote_list_filter_1:
                 voteListRecommend.setTextColor(getResources().getColor(R.color.common_gray));
@@ -217,6 +216,21 @@ public class VoteListFragment extends BaseFragment {
         }
     }
 
+    private void sortData(int type) {
+        List<EosVoteListBean.RowsBean> data = listAdapter.getData();
+        switch (type){
+            case 0: //默认 或 创建时间 排序
+                Collections.sort(data, (o1, o2) -> o1.id.compareTo(o2.id));
+                break;
+            case 1: //结束时间
+                Collections.sort(data, (o1, o2) -> o1.end_time.compareTo(o2.end_time));
+                break;
+            case 2:
+                break;
+        }
+        listAdapter.setNewData(data);
+    }
+
     private void hideShadow() {
         voteListTimeLayout.setVisibility(View.GONE);
         voteListFilterLayout.setVisibility(View.GONE);
@@ -237,26 +251,7 @@ public class VoteListFragment extends BaseFragment {
             baseHolder.setText(R.id.item_vote_list_title, rowsBean.title)
                     .setText(R.id.item_vote_list_end_time, rowsBean.end_time)
                     .setText(R.id.item_vote_list_voter, rowsBean.voters.size() + "");
-//            URL url =new URL("http",Constant.IPFS_URL,"");
-//            url.toString();
             GlideUtils.loadImage(mContext, Constant.IPFS_URL + rowsBean.logo, baseHolder.getView(R.id.item_vote_list_picture));
-
-//            Observable.create(new ObservableOnSubscribe<String>() {
-//                @Override
-//                public void subscribe(ObservableEmitter<String> e) throws Exception {
-//                    IPFS ipfs = new IPFS(Constant.IPFS_URL);
-//                    Multihash filePointer = Multihash.fromBase58("QmWuW8X5KVTKjg7LHGVqLCJGS3VHquxNc9QAAqBaPxST6x");
-//                    byte[] fileContents = ipfs.cat(filePointer);
-//                    e.onNext(new String(fileContents));
-//                }
-//            }).compose(RxUtil.switchSchedulers())
-//                    .subscribe(new BaseSubscriber<String>() {
-//                        @Override
-//                        public void onSuccess(String s) {
-//                            Log.e("Carefree", "onSuccess:" + s);
-//                        }
-//                    });
-
         }
     }
 }
