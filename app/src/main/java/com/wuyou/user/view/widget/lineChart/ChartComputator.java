@@ -44,7 +44,7 @@ public class ChartComputator {
                                int paddingBottom) {
         chartWidth = width;
         chartHeight = height;
-        maxContentRect.set(paddingLeft, paddingTop, width - paddingRight, height - paddingBottom);
+        maxContentRect.set(paddingLeft, paddingTop+20, width - paddingRight, height - paddingBottom);
         contentRectMinusAxesMargins.set(maxContentRect);
         contentRectMinusAllMargins.set(maxContentRect);
     }

@@ -26,7 +26,7 @@ public class VoteQuestionAdapter extends BaseQuickAdapter<VoteQuestion, BaseHold
     private VoteQuestionOptAdapter adapter;
     private int voteSum;
 
-    public VoteQuestionAdapter(int layoutResId, @Nullable List<VoteQuestion> data, boolean hasVote,int voteSum) {
+    public VoteQuestionAdapter(int layoutResId, @Nullable List<VoteQuestion> data, boolean hasVote, int voteSum) {
         super(layoutResId, data);
         this.hasVote = hasVote;
         this.voteSum = voteSum;
@@ -47,23 +47,25 @@ public class VoteQuestionAdapter extends BaseQuickAdapter<VoteQuestion, BaseHold
 
     private void initRv(BaseHolder holder, VoteQuestion data) {
         RecyclerView recyclerView = holder.getView(R.id.rv_vote_detail_opt);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        adapter = new VoteQuestionOptAdapter(R.layout.item_vote_detail_question_opt, data.option, this,isSingle,hasVote,voteSum);
-        recyclerView.setAdapter(adapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new VoteQuestionOptAdapter(R.layout.item_vote_detail_question_opt, data.option, this, isSingle, hasVote, voteSum);
+        if (recyclerView.getAdapter() == null)
+            recyclerView.setAdapter(adapter);
 
     }
 
     @Override
-    public void doChoose(VoteOptionContent data, boolean isSingle, List<VoteOptionContent> voteOptionContents, VoteQuestionOptAdapter adapter) {
+    public void doChoose(VoteOptionContent data, boolean isSingle, List<VoteOptionContent> voteOptionContents) {
         if (isSingle) {
-
+            data.isChecked = true;
             for (VoteOptionContent e : voteOptionContents
                     ) {
                 if (data.id != e.id) {
                     e.isChecked = false;
                 }
             }
-            adapter.notifyDataSetChanged();
+            notifyDataSetChanged();
         }
     }
 }

@@ -10,5 +10,5 @@ import java.util.List;
  */
 
 public interface DoChooseListener {
-    void doChoose(VoteOptionContent data, boolean isSingle, List<VoteOptionContent> voteOptionContents, VoteQuestionOptAdapter voteQuestionOptAdapter);
+    void doChoose(VoteOptionContent data, boolean isSingle, List<VoteOptionContent> voteOptionContents);
 }

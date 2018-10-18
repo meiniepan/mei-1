@@ -43,4 +43,29 @@ public class VotePresenter {
         });
     }
 
+    public void doVote(String id, ArrayList<VoteOption> list,int num) {
+//        List<Integer> optList = new ArrayList();
+//        optList.add(1);
+//        VoteOption voteOption = new VoteOption(optList);
+//        ArrayList<VoteOption> list = new ArrayList<>();
+//        list.add(voteOption);
+        EoscDataManager.getIns().doVote(id, list,num)
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<JsonObject>() {
+                    @Override
+                    public void onSuccess(JsonObject jsonObject) {
+                        Log.e("Carefree", "onSuccess: " + jsonObject);
+                    }
+
+
+                    @Override
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        if (message.message.contains("You have voted")) {
+//                            ToastUtils.ToastMessage(getContext(), "您已经投过票了");
+                        } else {
+//                            ToastUtils.ToastMessage(getContext(), message.message);
+                        }
+                    }
+                });
+    }
 }

@@ -1,5 +1,6 @@
 package com.wuyou.user.mvp.vote;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +20,6 @@ import com.wuyou.user.data.api.EosVoteListBean;
 import com.wuyou.user.data.api.VoteOption;
 import com.wuyou.user.data.api.VoteOptionContent;
 import com.wuyou.user.data.api.VoteQuestion;
-import com.wuyou.user.util.EosUtil;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
@@ -71,7 +71,7 @@ public class VoteDetailActivity extends BaseActivity {
         hasVote = getIntent().getBooleanExtra(Constant.HAS_VOTE, false);
         GlideUtils.loadImage(getCtx(), Constant.IPFS_URL + rowsBean.logo, ivVoteDetailBac);
         tvTitle.setText(rowsBean.title);
-        tvVoteDetailDeadline.setText(EosUtil.UTCToCST(rowsBean.end_time));
+        tvVoteDetailDeadline.setText(rowsBean.end_time);
         String peopleNum;
         if (rowsBean.voters.size() > 999) {
             peopleNum = "999+";
@@ -79,7 +79,7 @@ public class VoteDetailActivity extends BaseActivity {
             peopleNum = rowsBean.voters.size() + "";
         }
         tvVoteDetailPeopleNum.setText(peopleNum);
-        tvVoteDetailCommunityName.setText(rowsBean.organization);
+        tvVoteDetailCommunityName.setText(rowsBean.creator);
         tvVoteDetailIntro.setText(rowsBean.description);
         initRv();
     }
@@ -97,7 +97,6 @@ public class VoteDetailActivity extends BaseActivity {
             //todo
             finish();
         } else {
-//            startActivity(new Intent(getCtx(), VotePledgeActivity.class));
             ArrayList<VoteOption> list = new ArrayList<>();
             for (VoteQuestion e1 : rowsBean.contents
                     ) {
@@ -115,29 +114,13 @@ public class VoteDetailActivity extends BaseActivity {
                 VoteOption voteOption = new VoteOption(chosenData);
                 list.add(voteOption);
             }
-            doVote(list);
+            Intent intent = new Intent(getCtx(), VotePledgeActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constant.VOTE_OPT_LIST,list);
+            intent.putExtras(bundle);
+            intent.putExtra(Constant.VOTE_ID,rowsBean.id);
+            startActivity(intent);
+            finish();
         }
-    }
-
-    private void doVote(ArrayList<VoteOption> list) {
-        showLoadingDialog();
-        EoscDataManager.getIns().doVote(rowsBean.id, list,1)
-                .compose(RxUtil.switchSchedulers())
-                .subscribe(new BaseSubscriber<JsonObject>() {
-                    @Override
-                    public void onSuccess(JsonObject jsonObject) {
-                        ToastUtils.ToastMessage(getCtx(), "投票成功！");
-                        finish();
-                    }
-
-                    @Override
-                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
-                        if (message.message.contains("You have voted")) {
-                            ToastUtils.ToastMessage(getCtx(), "您已经投过票了");
-                        } else {
-                            ToastUtils.ToastMessage(getCtx(), message.message);
-                        }
-                    }
-                });
     }
 }
