@@ -1,5 +1,6 @@
 package com.wuyou.user.mvp.vote;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -12,6 +13,7 @@ import android.view.View;
 import com.wuyou.user.R;
 import com.wuyou.user.data.api.EosVoteListBean;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.activity.MainActivity;
 
 import java.util.HashMap;
 
@@ -51,6 +53,7 @@ public class VoteActivity extends BaseActivity {
     }
 
     private void showWarnActivity() {
+        startActivity(new Intent(getCtx(), VoteExplainActivity.class));
 
     }
 

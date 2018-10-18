@@ -17,26 +17,31 @@ public class VoteOptionContent implements Parcelable {
         optioncontent = content;
     }
 
+
+    protected VoteOptionContent(Parcel in) {
+        optioncontent = in.readString();
+        id = in.readInt();
+        number = in.readInt();
+        isChecked = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(optioncontent);
+        dest.writeInt(id);
+        dest.writeInt(number);
+        dest.writeByte((byte) (isChecked ? 1 : 0));
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.optioncontent);
-        dest.writeInt(this.number);
-    }
-
-    protected VoteOptionContent(Parcel in) {
-        this.optioncontent = in.readString();
-        this.number = in.readInt();
-    }
-
-    public static final Parcelable.Creator<VoteOptionContent> CREATOR = new Parcelable.Creator<VoteOptionContent>() {
+    public static final Creator<VoteOptionContent> CREATOR = new Creator<VoteOptionContent>() {
         @Override
-        public VoteOptionContent createFromParcel(Parcel source) {
-            return new VoteOptionContent(source);
+        public VoteOptionContent createFromParcel(Parcel in) {
+            return new VoteOptionContent(in);
         }
 
         @Override

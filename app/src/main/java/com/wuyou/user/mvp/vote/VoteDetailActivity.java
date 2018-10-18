@@ -22,13 +22,11 @@ import com.wuyou.user.data.api.VoteQuestion;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.widget.FatherRv;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -73,14 +71,20 @@ public class VoteDetailActivity extends BaseActivity {
         GlideUtils.loadImage(getCtx(), Constant.IPFS_URL + rowsBean.logo, ivVoteDetailBac);
         tvTitle.setText(rowsBean.title);
         tvVoteDetailDeadline.setText(rowsBean.end_time);
-        tvVoteDetailPeopleNum.setText(rowsBean.voters.size() + "");
+        String peopleNum;
+        if (rowsBean.voters.size() > 999) {
+            peopleNum = "999+";
+        } else {
+            peopleNum = rowsBean.voters.size() + "";
+        }
+        tvVoteDetailPeopleNum.setText(peopleNum);
         tvVoteDetailCommunityName.setText(rowsBean.creator);
         tvVoteDetailIntro.setText(rowsBean.description);
         initRv();
     }
 
     private void initRv() {
-        adapter = new VoteQuestionAdapter(R.layout.item_vote_detail_question, rowsBean.contents, hasVote,rowsBean.voters.size());
+        adapter = new VoteQuestionAdapter(R.layout.item_vote_detail_question, rowsBean.contents, hasVote, rowsBean.voters.size());
         rvVoteDetail.setLayoutManager(new LinearLayoutManager(getCtx()));
         rvVoteDetail.setAdapter(adapter);
     }
@@ -90,8 +94,9 @@ public class VoteDetailActivity extends BaseActivity {
     public void onViewClicked() {
         if (hasVote) {
             //todo
-
+            finish();
         } else {
+//            startActivity(new Intent(getCtx(), VotePledgeActivity.class));
             ArrayList<VoteOption> list = new ArrayList<>();
             for (VoteQuestion e1 : rowsBean.contents
                     ) {
@@ -120,6 +125,8 @@ public class VoteDetailActivity extends BaseActivity {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
                         Log.e("Carefree", "onSuccess: " + jsonObject);
+                        ToastUtils.ToastMessage(getCtx(), "投票成功！");
+                        finish();
                     }
 
 
