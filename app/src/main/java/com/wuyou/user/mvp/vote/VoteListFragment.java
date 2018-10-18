@@ -88,7 +88,7 @@ public class VoteListFragment extends BaseFragment {
 
     public void getAllVoteList() {
         voteList.showProgressView();
-        EoscDataManager.getIns().getTable(Constant.ACTIVITY_CREATE_VOTE, Constant.ACTIVITY_CREATE_VOTE, "votelist", "1", "", "", 20)
+        EoscDataManager.getIns().getTable(Constant.ACTIVITY_CREATE_VOTE, Constant.ACTIVITY_CREATE_VOTE, "votelist")
                 .map((Function<String, List<EosVoteListBean.RowsBean>>) s -> {
                     EosVoteListBean listBean = new GsonBuilder().create().fromJson(s, EosVoteListBean.class);
                     ArrayList<EosVoteListBean.RowsBean> list = new ArrayList<>();
@@ -249,7 +249,7 @@ public class VoteListFragment extends BaseFragment {
         @Override
         protected void convert(BaseHolder baseHolder, EosVoteListBean.RowsBean rowsBean) {
             baseHolder.setText(R.id.item_vote_list_title, rowsBean.title)
-                    .setText(R.id.item_vote_list_end_time, rowsBean.end_time)
+                    .setText(R.id.item_vote_list_end_time, EosUtil.UTCToCST(rowsBean.end_time))
                     .setText(R.id.item_vote_list_voter, rowsBean.voters.size() + "");
             GlideUtils.loadImage(mContext, Constant.IPFS_URL + rowsBean.logo, baseHolder.getView(R.id.item_vote_list_picture));
         }

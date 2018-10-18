@@ -2,9 +2,9 @@ package com.wuyou.user.mvp.vote;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import com.google.gson.GsonBuilder;
+import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
@@ -44,6 +44,7 @@ public class MyVoteListFragment extends BaseFragment {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         voteMyRecord.getRecyclerView().addItemDecoration(CommonUtil.getRecyclerDivider(mCtx, 8));
+        voteMyRecord.setRefreshAction(() -> getVoteRecord());
     }
 
     @Override
@@ -61,7 +62,7 @@ public class MyVoteListFragment extends BaseFragment {
     public void getVoteRecord() {
         if (votedData == null) return;
         voteMyRecord.showProgressView();
-        EoscDataManager.getIns().getTable(CarefreeDaoSession.getInstance().getMainAccount().getName(),  Constant.ACTIVITY_CREATE_VOTE, "infos")
+        EoscDataManager.getIns().getTable(CarefreeDaoSession.getInstance().getMainAccount().getName(), Constant.ACTIVITY_CREATE_VOTE, "infos")
                 .map(s -> {
                     VoteRecord listBean = new GsonBuilder().create().fromJson(s, VoteRecord.class);
                     ArrayList<EosVoteListBean.RowsBean> data = new ArrayList<>();
@@ -76,10 +77,17 @@ public class MyVoteListFragment extends BaseFragment {
                 .compose(RxUtil.switchSchedulers()).subscribe(new BaseSubscriber<ArrayList<EosVoteListBean.RowsBean>>() {
             @Override
             public void onSuccess(ArrayList<EosVoteListBean.RowsBean> data) {
-                if (data.size()==0){
+                voteMyRecord.setRefreshFinished();
+                voteMyRecord.showContentView();
+                if (data.size() == 0) {
                     voteMyRecord.showEmptyView();
                 }
                 recordAdapter.setNewData(data);
+            }
+
+            @Override
+            protected void onFail(ApiException e) {
+                voteMyRecord.showErrorView(e.getDisplayMessage());
             }
         });
     }

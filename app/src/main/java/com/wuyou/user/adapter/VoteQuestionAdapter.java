@@ -35,7 +35,7 @@ public class VoteQuestionAdapter extends BaseQuickAdapter<VoteQuestion, BaseHold
     @Override
     protected void convert(BaseHolder holder, VoteQuestion data) {
         holder.setText(R.id.tv_vote_detail_ques, data.question);
-        if (data.single == 0) {
+        if (data.single == 1) {
             holder.setText(R.id.tv_vote_detail_ques_style, "(单选)");
             isSingle = true;
         } else {
