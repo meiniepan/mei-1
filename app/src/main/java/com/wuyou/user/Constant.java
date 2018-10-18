@@ -5,18 +5,25 @@ package com.wuyou.user;
  */
 
 public class Constant {
-    public static final String EOS_MONGO_DB = "mongodb://192.168.1.186:27017/";
+    public static String EOS_MONGO_DB = "mongodb://mainnet.eosoasis.io:27017/";
     public static String BASE_URL = "https://api.iwantmei.com/customer/";
-    public static String CHAIN_URL = "http://192.168.1.186:8888/";
+    public static String CHAIN_URL = "http://mainnet.eosoasis.io:8889/";
     public static String IPFS_URL = "http://192.168.1.186:5001/api/v0/cat?arg=";
     public static String WEB_URL = "https://activities.iwantmei.com/";
+
+    public static String ONLINE_CHAIN_URL="http://mainnet.eosoasis.io:8889/";
     public static String ONLINE_BASE_URL = "https://api.iwantmei.com/customer/";
     public static String ONLINE_WEB_URL = "https://activities.iwantmei.com/";
+    public static String ONLINE_MONGO_URL = "mongodb://mainnet.eosoasis.io:27017/";
     public static String DEV_BASE_URL = "https://develop.api.iwantmei.com/customer/";
+    public static String DEV_CHAIN_URL = "http://192.168.1.186:8888/";
     public static String DEV_WEB_URL = "http://192.168.1.169:6066/";
+    public static String DEV_MONGO_URL = "mongodb://192.168.1.184:27017/";
     public static String STAGE_BASE_URL = "https://stage.api.iwantmei.com/customer/";
     public static String STAGE_WEB_URL = "https://stage.activity.iwantmei.com/";
-
+    public static String STAGE_CHAIN_URL = "http://192.168.1.186:8888/";
+    public static String STAGE_MONGO_URL = "mongodb://192.168.1.184:27017/";
+    public static final String SP_MONGO_URL = "sp_mongo_url";
     public static final String DEFAULT_DB_NAME = "carefree.db";
     public static final String DEFAULT_SERVANT_ACCOUNT = "eosio";
     public static final String FORM_NAME = "form_name";
@@ -42,7 +49,7 @@ public class Constant {
     public static final String LAST_SIGN_TIME = "last_sign_time";
     public static final int COUNT_DOWN = 119;
     public static final String IMPORT_ACCOUNT = "import_account";
-
+    public static final String SP_CHAIN_URL = "sp_chain_url";
 
     public static final java.lang.String WX_ID = "wx4b8fec36e1c7dc68";
     public static final java.lang.String WX_SECRET = "1caabc2ff8f95959965c7ffc3dbed21d";

@@ -12,13 +12,13 @@ public class EosVoteBean {
     public String id;
     public String voter;
     public List<VoteOption> option;
-    public TypeAsset asset;
+    public TypeAsset quant;
 
     public EosVoteBean(String id, String voter, List<VoteOption> option, int asset) {
         this.id = id;
         this.option = option;
         this.voter = voter;
-        this.asset = new TypeAsset(asset);
+        this.quant = new TypeAsset(asset);
     }
 
     public EosVoteBean() {

@@ -52,7 +52,7 @@ public class EnvironmentChoosePanel extends Dialog {
         else if (Constant.BASE_URL.equals(Constant.ONLINE_BASE_URL))
             radioGroup.check(R.id.env_online);
 
-        findViewById(R.id.env_login).setOnClickListener(v ->{
+        findViewById(R.id.env_login).setOnClickListener(v -> {
             EventBus.getDefault().post(new TokenEvent());
             dismiss();
         });
@@ -64,17 +64,25 @@ public class EnvironmentChoosePanel extends Dialog {
             case R.id.env_dev:
                 Constant.WEB_URL = Constant.DEV_WEB_URL;
                 Constant.BASE_URL = Constant.DEV_BASE_URL;
+                Constant.CHAIN_URL = Constant.DEV_CHAIN_URL;
+                Constant.EOS_MONGO_DB = Constant.DEV_MONGO_URL;
                 break;
             case R.id.env_test:
                 Constant.WEB_URL = Constant.STAGE_WEB_URL;
                 Constant.BASE_URL = Constant.STAGE_BASE_URL;
+                Constant.CHAIN_URL = Constant.STAGE_CHAIN_URL;
+                Constant.EOS_MONGO_DB = Constant.STAGE_MONGO_URL;
                 break;
             case R.id.env_online:
                 Constant.WEB_URL = Constant.ONLINE_WEB_URL;
                 Constant.BASE_URL = Constant.ONLINE_BASE_URL;
+                Constant.CHAIN_URL = Constant.ONLINE_CHAIN_URL;
+                Constant.EOS_MONGO_DB = Constant.ONLINE_MONGO_URL;
                 break;
         }
         SharePreferenceManager.getInstance(getContext()).setValue(Constant.SP_BASE_URL, Constant.BASE_URL);
-        SharePreferenceManager.getInstance(CarefreeApplication.getInstance().getApplicationContext()).setValue(Constant.SP_WEB_URL, Constant.WEB_URL);
+        SharePreferenceManager.getInstance(getContext()).setValue(Constant.SP_WEB_URL, Constant.WEB_URL);
+        SharePreferenceManager.getInstance(getContext()).setValue(Constant.SP_CHAIN_URL, Constant.CHAIN_URL);
+        SharePreferenceManager.getInstance(getContext()).setValue(Constant.SP_MONGO_URL, Constant.EOS_MONGO_DB);
     }
 }

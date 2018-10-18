@@ -119,7 +119,7 @@ public class VoteDetailActivity extends BaseActivity {
     }
 
     private void doVote(ArrayList<VoteOption> list) {
-        EoscDataManager.getIns().doVote(rowsBean.id, list)
+        EoscDataManager.getIns().doVote(rowsBean.id, list,1)
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override

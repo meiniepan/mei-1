@@ -31,7 +31,6 @@ import io.reactivex.schedulers.Schedulers;
 public class CarefreeApplication extends BaseApplication {
     private static CarefreeApplication instance;
     public long lastSignTime;
-    private String webUrl;
 
     @Override
     public void onCreate() {
@@ -50,8 +49,12 @@ public class CarefreeApplication extends BaseApplication {
     private void initUrl() {
         String baseUrl = SharePreferenceManager.getInstance(this).getStringValue(Constant.SP_BASE_URL);
         if (!TextUtils.isEmpty(baseUrl)) Constant.BASE_URL = baseUrl;
-        webUrl = SharePreferenceManager.getInstance(this).getStringValue(Constant.SP_WEB_URL);
+        String webUrl = SharePreferenceManager.getInstance(this).getStringValue(Constant.SP_WEB_URL);
         if (!TextUtils.isEmpty(webUrl)) Constant.WEB_URL = webUrl;
+        String chainUrl = SharePreferenceManager.getInstance(this).getStringValue(Constant.SP_CHAIN_URL);
+        if (!TextUtils.isEmpty(chainUrl)) Constant.CHAIN_URL = chainUrl;
+        String mongoUrl = SharePreferenceManager.getInstance(this).getStringValue(Constant.SP_MONGO_URL);
+        if (!TextUtils.isEmpty(chainUrl)) Constant.EOS_MONGO_DB = mongoUrl;
         if (TextUtils.equals(baseUrl, Constant.ONLINE_BASE_URL)) {
             TCAgent.setReportUncaughtExceptions(true);
         } else {
