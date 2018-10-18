@@ -205,6 +205,7 @@
     <string name="creator">创建者</string>
     <string name="vote_statistic">投票统计</string>
     <string name="laidao_explore">来到区块链浏览器</string>
+    <string name="create_vote">创建投票</string>
 
 
 </resources>

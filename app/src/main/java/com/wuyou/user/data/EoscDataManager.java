@@ -122,11 +122,10 @@ public class EoscDataManager {
         return pushActionRetJson(Constant.ACTIVITY_DAILAY_REWARDS, activityRewards.getActionName(), CommonUtil.prettyPrintJson(activityRewards), getActivePermission(currentOperateAccount.getName()));
     }
 
-    public Observable<JsonObject> doVote(String id, List<VoteOption> option) {
+    public Observable<JsonObject> doVote(String id, List<VoteOption> option,int asset) {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
-        EosVoteBean voteBean = new EosVoteBean(id, currentOperateAccount.getName(), option);
+        EosVoteBean voteBean = new EosVoteBean(id, currentOperateAccount.getName(), option,asset);
         return pushActionRetJson(Constant.ACTIVITY_CREATE_VOTE, voteBean.getActionName(), CommonUtil.prettyPrintJson(voteBean), getActivePermission(currentOperateAccount.getName()));
-
     }
 
     public Observable<EosChainInfo> getChainInfo() {

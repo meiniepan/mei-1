@@ -118,7 +118,7 @@ public class ScoreMissionActivity extends BaseActivity {
 
                     @Override
                     protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
-                        ToastUtils.ToastMessage(getCtx(), message.message.contains("have ch ecked today") ? "您今天已经签到了" : message.message);
+                        ToastUtils.ToastMessage(getCtx(), message.message.contains("have checked today") ? "您今天已经签到了" : message.message);
                     }
                 });
     }

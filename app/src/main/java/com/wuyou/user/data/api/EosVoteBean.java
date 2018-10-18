@@ -1,5 +1,7 @@
 package com.wuyou.user.data.api;
 
+import com.wuyou.user.data.types.TypeAsset;
+
 import java.util.List;
 
 /**
@@ -10,11 +12,13 @@ public class EosVoteBean {
     public String id;
     public String voter;
     public List<VoteOption> option;
+    public TypeAsset asset;
 
-    public EosVoteBean(String id, String voter, List<VoteOption> option) {
+    public EosVoteBean(String id, String voter, List<VoteOption> option, int asset) {
         this.id = id;
         this.option = option;
-        this.voter  =voter;
+        this.voter = voter;
+        this.asset = new TypeAsset(asset);
     }
 
     public EosVoteBean() {
