@@ -8,14 +8,14 @@ public class Constant {
     public static String EOS_MONGO_DB = "mongodb://mainnet.eosoasis.io:27017/";
     public static String BASE_URL = "https://api.iwantmei.com/customer/";
     public static String CHAIN_URL = "http://mainnet.eosoasis.io:8889/";
-    public static String IPFS_URL = "http://mainnet.eosoasis/api/v0/cat?arg=";
+    public static String IPFS_URL = "http://mainnet.eosoasis.io:5001/api/v0/cat?arg=";
     public static String WEB_URL = "https://activities.iwantmei.com/";
 
     public static String ONLINE_CHAIN_URL = "http://mainnet.eosoasis.io:8889/";
     public static String ONLINE_BASE_URL = "https://api.iwantmei.com/customer/";
     public static String ONLINE_WEB_URL = "https://activities.iwantmei.com/";
     public static String ONLINE_MONGO_URL = "mongodb://mainnet.eosoasis.io:27017/";
-    public static String ONLINE_IPFS_URL = "http://mainnet.eosoasis/api/v0/cat?arg=";
+    public static String ONLINE_IPFS_URL = "http://mainnet.eosoasis.io:5001/api/v0/cat?arg=";
     public static String DEV_BASE_URL = "https://develop.api.iwantmei.com/customer/";
     public static String DEV_CHAIN_URL = "http://192.168.1.186:8888/";
     public static String DEV_WEB_URL = "http://192.168.1.169:6066/";

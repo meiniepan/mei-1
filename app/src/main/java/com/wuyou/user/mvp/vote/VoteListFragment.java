@@ -2,7 +2,6 @@ package com.wuyou.user.mvp.vote;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,17 +24,11 @@ import com.wuyou.user.view.widget.ConditionSelectView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.ipfs.api.IPFS;
-import io.ipfs.multihash.Multihash;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Function;
 
 /**
@@ -94,7 +87,8 @@ public class VoteListFragment extends BaseFragment {
     private HashMap<String, EosVoteListBean.RowsBean> myVotedMap = new HashMap<>();
 
     public void getAllVoteList() {
-        EoscDataManager.getIns().getTable(Constant.ACTIVITY_CREATE_VOTE, Constant.ACTIVITY_CREATE_VOTE, "votelist","1","","",20)
+        voteList.showProgressView();
+        EoscDataManager.getIns().getTable(Constant.ACTIVITY_CREATE_VOTE, Constant.ACTIVITY_CREATE_VOTE, "votelist", "1", "", "", 20)
                 .map((Function<String, List<EosVoteListBean.RowsBean>>) s -> {
                     EosVoteListBean listBean = new GsonBuilder().create().fromJson(s, EosVoteListBean.class);
                     ArrayList<EosVoteListBean.RowsBean> list = new ArrayList<>();
@@ -224,7 +218,7 @@ public class VoteListFragment extends BaseFragment {
 
     private void sortData(int type) {
         List<EosVoteListBean.RowsBean> data = listAdapter.getData();
-        switch (type){
+        switch (type) {
             case 0: //默认 或 创建时间 排序
                 Collections.sort(data, (o1, o2) -> o1.id.compareTo(o2.id));
                 break;
@@ -257,7 +251,7 @@ public class VoteListFragment extends BaseFragment {
             baseHolder.setText(R.id.item_vote_list_title, rowsBean.title)
                     .setText(R.id.item_vote_list_end_time, rowsBean.end_time)
                     .setText(R.id.item_vote_list_voter, rowsBean.voters.size() + "");
-            GlideUtils.loadImage(mContext, Constant.IPFS_URL +rowsBean.logo, baseHolder.getView(R.id.item_vote_list_picture));
+            GlideUtils.loadImage(mContext, Constant.IPFS_URL + rowsBean.logo, baseHolder.getView(R.id.item_vote_list_picture));
         }
     }
 }

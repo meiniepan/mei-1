@@ -48,7 +48,6 @@ public class MyVoteListFragment extends BaseFragment {
 
     @Override
     protected void fetchData() {
-        voteMyRecord.showProgressView();
         recordAdapter = new VoteRecordAdapter();
         voteMyRecord.setAdapter(recordAdapter);
         getVoteRecord();
@@ -61,6 +60,7 @@ public class MyVoteListFragment extends BaseFragment {
 
     public void getVoteRecord() {
         if (votedData == null) return;
+        voteMyRecord.showProgressView();
         EoscDataManager.getIns().getTable(CarefreeDaoSession.getInstance().getMainAccount().getName(),  Constant.ACTIVITY_CREATE_VOTE, "infos")
                 .map(s -> {
                     VoteRecord listBean = new GsonBuilder().create().fromJson(s, VoteRecord.class);
