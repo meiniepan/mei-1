@@ -8,28 +8,26 @@ public class Constant {
     public static String EOS_MONGO_DB = "mongodb://mainnet.eosoasis.io:27017/";
     public static String BASE_URL = "https://api.iwantmei.com/customer/";
     public static String CHAIN_URL = "http://mainnet.eosoasis.io:8889/";
-    public static String IPFS_URL = "http://192.168.1.186:5001/api/v0/cat?arg=";
+    public static String IPFS_URL = "http://mainnet.eosoasis/api/v0/cat?arg=";
     public static String WEB_URL = "https://activities.iwantmei.com/";
 
-    public static String ONLINE_CHAIN_URL="http://mainnet.eosoasis.io:8889/";
+    public static String ONLINE_CHAIN_URL = "http://mainnet.eosoasis.io:8889/";
     public static String ONLINE_BASE_URL = "https://api.iwantmei.com/customer/";
     public static String ONLINE_WEB_URL = "https://activities.iwantmei.com/";
     public static String ONLINE_MONGO_URL = "mongodb://mainnet.eosoasis.io:27017/";
+    public static String ONLINE_IPFS_URL = "http://mainnet.eosoasis/api/v0/cat?arg=";
     public static String DEV_BASE_URL = "https://develop.api.iwantmei.com/customer/";
     public static String DEV_CHAIN_URL = "http://192.168.1.186:8888/";
     public static String DEV_WEB_URL = "http://192.168.1.169:6066/";
     public static String DEV_MONGO_URL = "mongodb://192.168.1.184:27017/";
+    public static String DEV_IPFS_URL = "http://192.168.1.186:5001/api/v0/cat?arg=";
     public static String STAGE_BASE_URL = "https://stage.api.iwantmei.com/customer/";
     public static String STAGE_WEB_URL = "https://stage.activity.iwantmei.com/";
-    public static String STAGE_CHAIN_URL = "http://192.168.1.186:8888/";
-    public static String STAGE_MONGO_URL = "mongodb://192.168.1.184:27017/";
+
     public static final String SP_MONGO_URL = "sp_mongo_url";
+    public static final String SP_IPFS_URL = "sp_ipfs_url";
     public static final String DEFAULT_DB_NAME = "carefree.db";
-    public static final String DEFAULT_SERVANT_ACCOUNT = "eosio";
     public static final String FORM_NAME = "form_name";
-    public static final String DEFAULT_WALLET_NAME = "pocket";
-    public static final boolean DEFAULT_SAVE_PASSWORD = true;
-    //    public static final String SAMPLE_PRIV_KEY_FOR_TEST = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"  //have coin;
     public static final String SAMPLE_PRIV_KEY_FOR_TEST = "5J6HXZiXDrJqZAzn7CjoJ6HoPbw7zYUovz9H1gDzZbqKL2bqZTn";
     public static final String EOSIO_SYSTEM_ACCOUNT = "signupcoming";
     public static final String EOSIO_DAILAY_REWARDS = "dailyrewards";

@@ -257,23 +257,7 @@ public class VoteListFragment extends BaseFragment {
             baseHolder.setText(R.id.item_vote_list_title, rowsBean.title)
                     .setText(R.id.item_vote_list_end_time, rowsBean.end_time)
                     .setText(R.id.item_vote_list_voter, rowsBean.voters.size() + "");
-            GlideUtils.loadImage(mContext, Constant.IPFS_URL + rowsBean.logo, baseHolder.getView(R.id.item_vote_list_picture));
-
-            Observable.create(new ObservableOnSubscribe<String>() {
-                @Override
-                public void subscribe(ObservableEmitter<String> e) throws Exception {
-                    IPFS ipfs = new IPFS("mainnet.eosoasis.io",5001);
-                    Multihash filePointer = Multihash.fromBase58("Qmaya14TmyCLBCbs7RhoTNdJtAeoeYJHLmJBYADpuK5v5C");
-                    byte[] fileContents = ipfs.cat(filePointer);
-                    e.onNext(new String(fileContents));
-                }
-            }).compose(RxUtil.switchSchedulers())
-                    .subscribe(new BaseSubscriber<String>() {
-                        @Override
-                        public void onSuccess(String s) {
-                            Log.e("Carefree", "onSuccess:" + s);
-                        }
-                    });
+            GlideUtils.loadImage(mContext, Constant.IPFS_URL +rowsBean.logo, baseHolder.getView(R.id.item_vote_list_picture));
         }
     }
 }

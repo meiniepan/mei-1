@@ -54,7 +54,10 @@ public class CarefreeApplication extends BaseApplication {
         String chainUrl = SharePreferenceManager.getInstance(this).getStringValue(Constant.SP_CHAIN_URL);
         if (!TextUtils.isEmpty(chainUrl)) Constant.CHAIN_URL = chainUrl;
         String mongoUrl = SharePreferenceManager.getInstance(this).getStringValue(Constant.SP_MONGO_URL);
-        if (!TextUtils.isEmpty(chainUrl)) Constant.EOS_MONGO_DB = mongoUrl;
+        if (!TextUtils.isEmpty(mongoUrl)) Constant.EOS_MONGO_DB = mongoUrl;
+        String ipfs = SharePreferenceManager.getInstance(this).getStringValue(Constant.SP_IPFS_URL);
+        if (!TextUtils.isEmpty(ipfs))Constant.IPFS_URL = ipfs;
+
         if (TextUtils.equals(baseUrl, Constant.ONLINE_BASE_URL)) {
             TCAgent.setReportUncaughtExceptions(true);
         } else {
