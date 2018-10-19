@@ -1,7 +1,6 @@
 package com.wuyou.user.mvp.vote;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -15,16 +14,13 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.api.VoteOption;
-import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.measite.minidns.record.A;
 
 /**
  * Created by Solang on 2018/10/15.
@@ -35,7 +31,7 @@ public class VotePledgeActivity extends BaseActivity {
     TextView tvVotePledgeScoreNum;
     @BindView(R.id.et_vote_pledge_vote_num)
     EditText etVotePledgeVoteNum;
-    private int scoreInt;
+    private float scoreInt;
 
     @Override
     protected int getContentLayout() {
@@ -52,13 +48,13 @@ public class VotePledgeActivity extends BaseActivity {
     @OnClick(R.id.tv_vote_pledge_confirm)
     public void onViewClicked() {
         int input = Integer.parseInt(etVotePledgeVoteNum.getText().toString());
-        if (input>scoreInt){
-            ToastUtils.ToastMessage(getCtx(),"请检查输入！");
+        if (input > scoreInt || input == 0) {
+            ToastUtils.ToastMessage(getCtx(), "请检查输入！");
             return;
         }
         ArrayList<VoteOption> list = (ArrayList<VoteOption>) getIntent().getSerializableExtra(Constant.VOTE_OPT_LIST);
         String id = getIntent().getStringExtra(Constant.VOTE_ID);
-        doVote(list,id,input);
+        doVote(list, id, input);
     }
 
     public void getAccountScore() {
@@ -69,19 +65,23 @@ public class VotePledgeActivity extends BaseActivity {
                     public void onSuccess(JsonArray eosAccountInfo) {
                         if (eosAccountInfo.size() > 0) {
                             String scoreAmount = eosAccountInfo.get(0).toString().replace("EOS", "").replaceAll("\"", "");
-                            scoreInt = Integer.parseInt(scoreAmount);
+                            scoreInt = Float.parseFloat(scoreAmount);
                             tvVotePledgeScoreNum.setText(scoreInt + "");
+                            etVotePledgeVoteNum.setText(scoreInt + "");
+                            etVotePledgeVoteNum.setSelection(etVotePledgeVoteNum.length());
+                            etVotePledgeVoteNum.requestFocus();
                         }
                     }
                 });
     }
-    private void doVote(ArrayList<VoteOption> list,String id,int scoreNum) {
-        EoscDataManager.getIns().doVote(id, list,scoreNum)
+
+    private void doVote(ArrayList<VoteOption> list, String id, int scoreNum) {
+        showLoadingDialog();
+        EoscDataManager.getIns().doVote(id, list, scoreNum)
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
-                        Log.e("Carefree", "onSuccess: " + jsonObject);
                         ToastUtils.ToastMessage(getCtx(), "投票成功！");
                         finish();
                     }
@@ -92,7 +92,7 @@ public class VotePledgeActivity extends BaseActivity {
                         if (message.message.contains("You have voted")) {
                             ToastUtils.ToastMessage(getCtx(), "您已经投过票了");
                         } else {
-//                            ToastUtils.ToastMessage(getContext(), message.message);
+                            ToastUtils.ToastMessage(getCtx(), message.message);
                         }
                     }
                 });

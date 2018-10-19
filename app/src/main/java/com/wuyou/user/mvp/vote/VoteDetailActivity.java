@@ -4,23 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
-import com.gs.buluo.common.network.BaseSubscriber;
-import com.gs.buluo.common.network.ErrorBody;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.VoteQuestionAdapter;
-import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.api.EosVoteListBean;
 import com.wuyou.user.data.api.VoteOption;
 import com.wuyou.user.data.api.VoteOptionContent;
 import com.wuyou.user.data.api.VoteQuestion;
-import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
 
@@ -94,15 +88,12 @@ public class VoteDetailActivity extends BaseActivity {
     @OnClick(R.id.tv_vote_detail_confirm)
     public void onViewClicked() {
         if (hasVote) {
-            //todo
             finish();
         } else {
             ArrayList<VoteOption> list = new ArrayList<>();
-            for (VoteQuestion e1 : rowsBean.contents
-                    ) {
+            for (VoteQuestion e1 : rowsBean.contents) {
                 List<Integer> chosenData = new ArrayList<>();
-                for (VoteOptionContent e2 : e1.option
-                        ) {
+                for (VoteOptionContent e2 : e1.option) {
                     if (e2.isChecked) {
                         chosenData.add(e2.id);
                     }
@@ -116,9 +107,9 @@ public class VoteDetailActivity extends BaseActivity {
             }
             Intent intent = new Intent(getCtx(), VotePledgeActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putSerializable(Constant.VOTE_OPT_LIST,list);
+            bundle.putSerializable(Constant.VOTE_OPT_LIST, list);
             intent.putExtras(bundle);
-            intent.putExtra(Constant.VOTE_ID,rowsBean.id);
+            intent.putExtra(Constant.VOTE_ID, rowsBean.id);
             startActivity(intent);
             finish();
         }
