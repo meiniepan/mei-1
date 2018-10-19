@@ -208,6 +208,11 @@
     <string name="arrow_left"><![CDATA[<---]]></string>
     <string name="create_vote">创建投票</string>
     <string name="check_db_to_update">检测到区块链数据库升级，需要您重新登录</string>
+    <string name="real_name">实名信息</string>
+    <string name="please_input_id">请输入身份证号码</string>
+    <string name="face_recognition">人脸识别</string>
+    <string name="auth_info">认证信息</string>
+    <string name="auto_finish">验证通过</string>
 
 
 </resources>
