@@ -213,6 +213,9 @@
     <string name="face_recognition">人脸识别</string>
     <string name="auth_info">认证信息</string>
     <string name="auto_finish">验证通过</string>
+    <string name="pledge_score">质押积分</string>
+    <string name="upload">上传</string>
+    <string name="trace_auth">溯源认证</string>
 
 
 </resources>

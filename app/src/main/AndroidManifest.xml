@@ -215,6 +215,7 @@
         <activity android:name=".mvp.vote.VotePledgeActivity" />
         <activity android:name=".mvp.kyc.KycAuthActivity" />
         <activity android:name=".mvp.kyc.KycAuthFinishActivity" />
+        <activity android:name=".mvp.trace.TraceAuthActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"

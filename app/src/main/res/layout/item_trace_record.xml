@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/split_area" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/item_tv_trace_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="新科节点"
+            android:textSize="@dimen/dimens_16sp" />
+
+        <TextView
+            android:id="@+id/item_tv_trace_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="待审核"
+            android:textSize="@dimen/dimens_16sp" />
+
+    </LinearLayout>
+
+    <include layout="@layout/split_line" />
+
+    <TextView
+        android:id="@+id/item_tv_trace_spec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/item_rv_trace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin" />
+
+    <TextView
+        android:id="@+id/item_tv_trace_time"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="2018"
+        android:textColor="@color/common_gray" />
+</LinearLayout>
