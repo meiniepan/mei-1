@@ -52,7 +52,7 @@ public class EosUtil {
 
     public void uploadFileToIpfs(File des) throws IOException {
         Observable.create((ObservableOnSubscribe<String>) e -> {
-            IPFS ipfs = new IPFS(Constant.IPFS_URL, 5001);
+            IPFS ipfs = new IPFS(Constant.IPFS_URL.contains(Constant.BASE_CHAIN_URL) ? Constant.BASE_CHAIN_URL : Constant.DEV_BASE_CHAIN_URL, 5001);
             ipfs.refs.local();
             NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(des);
             MerkleNode addResult = ipfs.add(file).get(0);
