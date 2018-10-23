@@ -47,7 +47,7 @@ public class VotePledgeActivity extends BaseActivity {
 
     @OnClick(R.id.tv_vote_pledge_confirm)
     public void onViewClicked() {
-        int input = Integer.parseInt(etVotePledgeVoteNum.getText().toString());
+        int input = (int) Float.parseFloat(etVotePledgeVoteNum.getText().toString());
         if (input > scoreInt || input == 0) {
             ToastUtils.ToastMessage(getCtx(), "请检查输入！");
             return;
