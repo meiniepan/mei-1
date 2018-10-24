@@ -6,15 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView;
 import com.wuyou.user.R;
-import com.wuyou.user.adapter.TraceRecordAdapter;
-import com.wuyou.user.data.api.TraceRecordEntity;
-import com.wuyou.user.data.remote.OrderBean;
-import com.wuyou.user.mvp.order.OrderStatusFragment;
 import com.wuyou.user.view.activity.BaseActivity;
-
-import java.util.List;
 
 import butterknife.BindView;
 

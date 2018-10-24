@@ -1,109 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/tint_bg"
-    android:orientation="vertical">
-
-    <include layout="@layout/split_area" />
-
-    <TextView
-        android:id="@+id/tv_trace_spec"
-        android:layout_width="match_parent"
-        android:layout_height="132dp"
-        android:background="@color/white"
-        android:hint="请填写说明…"
-        android:padding="@dimen/activity_horizontal_margin" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingBottom="20dp"
-        android:paddingStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="-8dp"
-        android:paddingEnd="7dp"
-        >
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_trace_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/tv_trace_hint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="114dp"
-            android:hint="最多上传6张照片"
-            android:textSize="@dimen/dimens_10sp" />
-    </FrameLayout>
-
-    <include layout="@layout/split_area" />
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="match_parent"
         android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="0dp"
+        <include layout="@layout/split_area" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/pledge_score" />
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:background="@color/white">
 
-        <TextView
-            android:id="@+id/tv_trace_minus"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/gray_corner_bac"
-            android:gravity="center"
-            android:text="-" />
+            <EditText
+                android:id="@+id/tv_trace_spec"
+                android:layout_width="match_parent"
+                android:layout_height="132dp"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="请填写说明…"
+                android:padding="@dimen/activity_horizontal_margin" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/et_trace_score_num"
-            android:layout_width="44dp"
-            android:layout_height="25dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/gray_corner_bac"
-            android:gravity="center"
-            android:text="10"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tv_trace_plus"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/gray_corner_bac"
-            android:gravity="center"
-            android:text="+" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="LDBP" />
+            android:layout_marginTop="-8dp"
+            android:background="@color/white"
+            android:paddingBottom="20dp"
+            android:paddingEnd="7dp"
+            android:paddingStart="@dimen/activity_horizontal_margin">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_trace_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_trace_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="125dp"
+                android:hint="最多上传6张照片"
+                android:textSize="@dimen/dimens_10sp" />
+        </FrameLayout>
+
+        <include layout="@layout/split_area" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:paddingStart="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="溯源关键词" />
+
+            <TextView
+                android:id="@+id/tv_trace_keyword"
+                android:layout_width="220dp"
+                android:layout_height="30dp"
+                android:background="@drawable/text_background_round"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:text="时间银行" />
+
+        </LinearLayout>
+
+        <include layout="@layout/split_line_margin" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:paddingStart="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/pledge_score" />
+
+            <TextView
+                android:id="@+id/tv_trace_minus"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/gray_corner_bac"
+                android:gravity="center"
+                android:text="-" />
+
+            <EditText
+                android:id="@+id/et_trace_score_num"
+                android:layout_width="44dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/gray_corner_bac"
+                android:gravity="center"
+                android:text="10"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_trace_plus"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/gray_corner_bac"
+                android:gravity="center"
+                android:text="+" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LDBP" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/tint_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="8dp"
+                android:hint="为维护良好社区环境，请勿上传不符合国家法律或违规的资料，否 则将扣除质押积分，审核通过，积分不受影响。"
+                android:textSize="@dimen/dimens_12sp" />
+
+            <TextView
+                android:id="@+id/btn_trace_upload"
+                style="@style/button_style"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/upload" />
+        </LinearLayout>
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:textSize="@dimen/dimens_12sp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        android:hint="为维护良好社区环境，请勿上传不符合国家法律或违规的资料，否 则将扣除质押积分，审核通过，积分不受影响。" />
-
-    <TextView
-        android:id="@+id/btn_trace_upload"
-        style="@style/button_style"
-        android:layout_marginBottom="30dp"
-        android:text="@string/upload" />
-</LinearLayout>
+</android.support.v4.widget.NestedScrollView>

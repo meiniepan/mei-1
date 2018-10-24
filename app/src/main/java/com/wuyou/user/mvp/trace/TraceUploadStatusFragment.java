@@ -4,11 +4,8 @@ import android.os.Bundle;
 
 import com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView;
 import com.wuyou.user.R;
-import com.wuyou.user.adapter.TraceRecordAdapter;
-import com.wuyou.user.data.api.TraceRecordEntity;
 import com.wuyou.user.data.local.db.TraceIPFSBean;
 import com.wuyou.user.data.remote.OrderBean;
-import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
 import java.util.List;
@@ -43,13 +40,7 @@ public class TraceUploadStatusFragment extends BaseFragment {
                 dealWithOrangeButtonClick(position, (OrderBean) adapter.getData().get(position));
             }
         });
-        adapter.setOnItemClickListener((adapter, view, position) -> {
-            //todo
-//            OrderBean bean = (OrderBean) adapter.getData().get(position);
-//            Intent intent = new Intent(mCtx, OrderDetailActivity.class);
-//            intent.putExtra(Constant.ORDER_ID, bean.order_id);
-//            startActivity(intent);
-        });
+
         adapter.setOnLoadMoreListener(() -> getMore(), recyclerView.getRecyclerView());
         adapter.disableLoadMoreIfNotFullPage();
     }

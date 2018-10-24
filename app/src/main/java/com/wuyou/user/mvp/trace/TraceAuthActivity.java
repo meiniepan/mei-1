@@ -35,7 +35,7 @@ import butterknife.OnClick;
 
 public class TraceAuthActivity extends BaseActivity {
     @BindView(R.id.tv_trace_spec)
-    TextView tvTraceSpec;
+    EditText etTraceSpec;
     @BindView(R.id.tv_trace_minus)
     TextView tvTraceMinus;
     @BindView(R.id.et_trace_score_num)
@@ -79,7 +79,6 @@ public class TraceAuthActivity extends BaseActivity {
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
                 if (data.get(i).equals("00")) {
                     chosePhoto();
-
                 }
             }
         });
@@ -126,7 +125,7 @@ public class TraceAuthActivity extends BaseActivity {
                         path = localMedia.getPath();
                     }
                 }
-                data.add(0, path);
+                data.add(data.size()-1, path);
                 if (data.size() > 6) {
                     data.remove(6);
                 }

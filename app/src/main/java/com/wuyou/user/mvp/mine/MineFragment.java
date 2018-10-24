@@ -142,8 +142,7 @@ public class MineFragment extends BaseFragment {
     }
 
     @OnClick({R.id.mine_setting, R.id.mine_login, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_help,
-            R.id.mine_mission, R.id.mine_auth, R.id.mine_explorer, R.id.mine_vote, R.id.mine_trace})
-            R.id.mine_mission, R.id.mine_auth, R.id.mine_explorer, R.id.mine_vote, R.id.mine_kyc})
+            R.id.mine_mission, R.id.mine_auth, R.id.mine_explorer, R.id.mine_vote, R.id.mine_trace, R.id.mine_kyc})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
