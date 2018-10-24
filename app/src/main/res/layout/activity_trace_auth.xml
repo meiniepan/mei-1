@@ -15,27 +15,30 @@
         android:hint="请填写说明…"
         android:padding="@dimen/activity_horizontal_margin" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingBottom="20dp"
-        android:paddingStart="@dimen/activity_horizontal_margin">
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="-8dp"
+        android:paddingEnd="7dp"
+        >
 
-        <ImageView
-            android:id="@+id/iv_trace_upload"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:background="@mipmap/icon_trace_upload" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_trace_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
+            android:id="@+id/tv_trace_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="114dp"
             android:hint="最多上传6张照片"
             android:textSize="@dimen/dimens_10sp" />
-    </LinearLayout>
+    </FrameLayout>
 
     <include layout="@layout/split_area" />
 
@@ -93,9 +96,10 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/dimens_12sp"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
-        android:hint="为维护良好社区环境，请勿上传不符合国家法律或违规的" />
+        android:hint="为维护良好社区环境，请勿上传不符合国家法律或违规的资料，否 则将扣除质押积分，审核通过，积分不受影响。" />
 
     <TextView
         android:id="@+id/btn_trace_upload"
