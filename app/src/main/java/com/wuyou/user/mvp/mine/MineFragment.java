@@ -23,6 +23,7 @@ import com.wuyou.user.mvp.block.BlockExplorerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.score.ScoreExchangeActivity;
 import com.wuyou.user.mvp.score.ScoreMissionActivity;
+import com.wuyou.user.mvp.trace.TracePresenter;
 import com.wuyou.user.mvp.vote.VoteActivity;
 import com.wuyou.user.mvp.wallet.ActivityRecordActivity;
 import com.wuyou.user.mvp.wallet.CreateOrImportAccountActivity;
@@ -39,6 +40,8 @@ import com.wuyou.user.view.fragment.BaseFragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -137,7 +140,7 @@ public class MineFragment extends BaseFragment {
     }
 
     @OnClick({R.id.mine_setting, R.id.mine_login, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_help,
-            R.id.mine_mission, R.id.mine_auth, R.id.mine_explorer, R.id.mine_vote})
+            R.id.mine_mission, R.id.mine_auth, R.id.mine_explorer, R.id.mine_vote, R.id.mine_kyc})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -180,6 +183,16 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.mine_vote:
                 checkDbAndAccount(intent, VoteActivity.class);
+                break;
+            case R.id.mine_kyc:
+//                ArrayList<String> pictureHashList = new ArrayList<>();
+//                pictureHashList.add("QmeWNdnA6nY6BdABdL9BcD2ACCkKi7QmTqRycJ55VQ417v");
+//                pictureHashList.add("QmZFm3TxcXb1pieN4itmAdFdjyRxo8jym2hgrzSnbsRemt");
+//                pictureHashList.add("QmadipibuuLFd9SD6QBTsu946jvo4nMGgLNLn2SmWKzoK3");
+//                new TracePresenter().uploadTrace("hahahahahahahah", pictureHashList, 10);
+
+                new TracePresenter().getProposalTable();
+                new TracePresenter().getApproveTable();
                 break;
         }
     }

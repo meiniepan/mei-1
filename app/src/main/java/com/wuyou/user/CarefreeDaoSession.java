@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.gs.buluo.common.utils.SharePreferenceManager;
+import com.wuyou.user.data.local.db.TraceIPFSBean;
 import com.wuyou.user.data.local.db.CarefreeOpenHelper;
 import com.wuyou.user.data.local.db.DaoMaster;
 import com.wuyou.user.data.local.db.DaoSession;
@@ -183,5 +184,15 @@ public class CarefreeDaoSession {
         account.setMain(true);
         getEosDao().update(account);
         return account;
+    }
+
+//    ----------------------------------------------------------------------------------
+
+    public void addTraceRecord(TraceIPFSBean bean) {
+        daoSession.getTraceIPFSBeanDao().save(bean);
+    }
+
+    public List<TraceIPFSBean> getAllTraceRecord() {
+        return daoSession.getTraceIPFSBeanDao().loadAll();
     }
 }

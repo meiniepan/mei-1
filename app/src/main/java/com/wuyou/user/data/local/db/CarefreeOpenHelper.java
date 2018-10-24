@@ -28,6 +28,6 @@ public class CarefreeOpenHelper extends DaoMaster.OpenHelper {
             public void onDropAllTables(Database db, boolean ifExists) {
                 DaoMaster.dropAllTables(db, ifExists);
             }
-        }, EosAccountDao.class, UserInfoDao.class, SearchHistoryBeanDao.class);
+        }, EosAccountDao.class, UserInfoDao.class, SearchHistoryBeanDao.class, TraceIPFSBeanDao.class);
     }
 }

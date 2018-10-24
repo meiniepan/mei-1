@@ -6,6 +6,7 @@ import com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.TraceRecordAdapter;
 import com.wuyou.user.data.api.TraceRecordEntity;
+import com.wuyou.user.data.local.db.TraceIPFSBean;
 import com.wuyou.user.data.remote.OrderBean;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
@@ -24,11 +25,11 @@ public class TraceUploadStatusFragment extends BaseFragment {
     @BindView(R.id.rv_trace_upload_record)
     RefreshRecyclerView recyclerView;
     TraceRecordAdapter adapter;
-    List<TraceRecordEntity> data;
+    List<TraceIPFSBean> data;
 
     @Override
     protected int getContentLayout() {
-        return R.layout.activity_trace_upload_record;
+        return R.layout.fragment_trace_upload_status;
     }
 
     @Override
