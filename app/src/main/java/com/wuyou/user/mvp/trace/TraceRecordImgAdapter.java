@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.util.glide.GlideUtils;
 
@@ -24,7 +25,7 @@ public class TraceRecordImgAdapter extends BaseQuickAdapter<String, BaseHolder> 
     @Override
     protected void convert(BaseHolder helper, String item) {
         ImageView img = helper.getView(R.id.iv_item_trace);
-        GlideUtils.loadRoundCornerImage(mContext, item, img);
+        GlideUtils.loadRoundCornerImage(mContext, Constant.IPFS_URL+item, img);
         ImageView delete = helper.getView(R.id.iv_item_delete);
         delete.setVisibility(View.GONE);
 
