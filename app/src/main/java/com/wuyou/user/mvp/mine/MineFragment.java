@@ -23,6 +23,7 @@ import com.wuyou.user.mvp.block.BlockExplorerActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.score.ScoreExchangeActivity;
 import com.wuyou.user.mvp.score.ScoreMissionActivity;
+import com.wuyou.user.mvp.trace.TraceAuthActivity;
 import com.wuyou.user.mvp.trace.TracePresenter;
 import com.wuyou.user.mvp.vote.VoteActivity;
 import com.wuyou.user.mvp.wallet.ActivityRecordActivity;
@@ -34,6 +35,7 @@ import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.HelpActivity;
 import com.wuyou.user.view.activity.InfoActivity;
+import com.wuyou.user.view.activity.MainActivity;
 import com.wuyou.user.view.activity.SettingActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
@@ -140,6 +142,7 @@ public class MineFragment extends BaseFragment {
     }
 
     @OnClick({R.id.mine_setting, R.id.mine_login, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_help,
+            R.id.mine_mission, R.id.mine_auth, R.id.mine_explorer, R.id.mine_vote, R.id.mine_trace})
             R.id.mine_mission, R.id.mine_auth, R.id.mine_explorer, R.id.mine_vote, R.id.mine_kyc})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
@@ -193,6 +196,9 @@ public class MineFragment extends BaseFragment {
 
                 new TracePresenter().getProposalTable();
                 new TracePresenter().getApproveTable();
+                break;
+            case R.id.mine_trace:
+                startActivity(new Intent(getContext(), TraceAuthActivity.class));
                 break;
         }
     }

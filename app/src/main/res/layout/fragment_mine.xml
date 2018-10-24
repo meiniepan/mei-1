@@ -144,10 +144,11 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="218dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin_end"
                 android:layout_marginStart="@dimen/activity_horizontal_margin_end"
                 android:layout_marginTop="8dp"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
                 android:background="@drawable/text_background_8_round"
                 android:orientation="vertical">
 
@@ -228,6 +229,22 @@
                         android:drawableTop="@drawable/mine_explore"
                         android:gravity="center"
                         android:text="区块浏览器" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/mine_trace"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="2dp"
+                        android:drawableTop="@drawable/mine_kyc"
+                        android:gravity="center"
+                        android:text="@string/trace_auth" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
