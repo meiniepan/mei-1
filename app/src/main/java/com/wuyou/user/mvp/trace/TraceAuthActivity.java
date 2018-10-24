@@ -68,7 +68,7 @@ public class TraceAuthActivity extends BaseActivity {
                 if (!data.get(data.size() - 1).equals("00")) {
                     data.add(data.size(), "00");
                 }
-                if (data.size() == 1){
+                if (data.size() == 1) {
                     tvHint.setVisibility(View.VISIBLE);
                 }
                 adapter.notifyDataSetChanged();
@@ -86,12 +86,27 @@ public class TraceAuthActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.btn_trace_upload,R.id.tv_trace_plus,R.id.tv_trace_minus})
+    @OnClick({R.id.btn_trace_upload, R.id.tv_trace_plus, R.id.tv_trace_minus})
     public void onViewClicked(View view) {
+        int score = Integer.parseInt(etTraceScoreNum.getText().toString());
         switch (view.getId()) {
             case R.id.btn_trace_upload:
+                upload();
+                break;
+            case R.id.tv_trace_plus:
+                etTraceScoreNum.setText(score + 1 + "");
+                break;
+            case R.id.tv_trace_minus:
+                if (score < 1) {
+                    return;
+                }
+                etTraceScoreNum.setText(score - 1 + "");
                 break;
         }
+    }
+
+    private void upload() {
+
     }
 
     @Override
