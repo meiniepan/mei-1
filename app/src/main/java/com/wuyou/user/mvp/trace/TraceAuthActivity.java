@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.ErrorBody;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.utils.TribeDateUtils;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
@@ -111,6 +113,10 @@ public class TraceAuthActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.btn_trace_upload:
                 if (pictureCodeList.size() == 0 || etTraceSpec.length() == 0) {
+                    return;
+                }
+                if (score == 0) {
+                    ToastUtils.ToastMessage(getCtx(), "质押积分不能为0");
                     return;
                 }
                 uploadTrace(etTraceSpec.getText().toString().trim(), pictureCodeList, score, "溯源认证");
@@ -238,6 +244,14 @@ public class TraceAuthActivity extends BaseActivity {
                         Intent intent = new Intent(getCtx(), TraceUploadRecordActivity.class);
                         startActivity(intent);
                         finish();
+                    }
+
+                    @Override
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        super.onNodeFail(code, message);
+                        if (message.message.contains("overdrawn balance")) {
+                            ToastUtils.ToastMessage(getCtx(), "积分余额不足");
+                        }
                     }
                 });
     }

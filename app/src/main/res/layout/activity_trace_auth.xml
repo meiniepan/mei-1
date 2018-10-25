@@ -34,7 +34,6 @@
             android:layout_marginTop="-8dp"
             android:background="@color/white"
             android:paddingBottom="20dp"
-            android:paddingEnd="7dp"
             android:paddingStart="@dimen/activity_horizontal_margin">
 
             <android.support.v7.widget.RecyclerView
@@ -112,6 +111,7 @@
                 android:background="@drawable/gray_corner_bac"
                 android:gravity="center"
                 android:text="10"
+                android:inputType="number"
                 android:textSize="12sp" />
 
             <TextView
