@@ -20,6 +20,7 @@ import com.wuyou.user.data.remote.WalletBalance;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.block.BlockExplorerActivity;
+import com.wuyou.user.mvp.kyc.KycAuthActivity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.score.ScoreExchangeActivity;
 import com.wuyou.user.mvp.score.ScoreMissionActivity;
@@ -35,7 +36,6 @@ import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.HelpActivity;
 import com.wuyou.user.view.activity.InfoActivity;
-import com.wuyou.user.view.activity.MainActivity;
 import com.wuyou.user.view.activity.SettingActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
@@ -187,17 +187,10 @@ public class MineFragment extends BaseFragment {
                 checkDbAndAccount(intent, VoteActivity.class);
                 break;
             case R.id.mine_kyc:
-//                ArrayList<String> pictureHashList = new ArrayList<>();
-//                pictureHashList.add("QmeWNdnA6nY6BdABdL9BcD2ACCkKi7QmTqRycJ55VQ417v");
-//                pictureHashList.add("QmZFm3TxcXb1pieN4itmAdFdjyRxo8jym2hgrzSnbsRemt");
-//                pictureHashList.add("QmadipibuuLFd9SD6QBTsu946jvo4nMGgLNLn2SmWKzoK3");
-//                new TracePresenter().uploadTrace("hahahahahahahah", pictureHashList, 10);
-
-                new TracePresenter().getProposalTable();
-                new TracePresenter().getApproveTable();
+                checkDbAndAccount(intent,KycAuthActivity.class);
                 break;
             case R.id.mine_trace:
-                startActivity(new Intent(getContext(), TraceAuthActivity.class));
+                checkDbAndAccount(intent,TraceAuthActivity.class);
                 break;
         }
     }

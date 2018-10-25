@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <android.support.design.widget.TabLayout
@@ -11,9 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_height"
         android:background="@color/white"
-        app:tabTextAppearance="@style/TabLayoutStyle"
         app:tabIndicatorColor="@color/night_blue"
-        app:tabSelectedTextColor="@color/night_blue" />
+        app:tabSelectedTextColor="@color/night_blue"
+        app:tabTextAppearance="@style/TabLayoutStyle" />
+
+    <include layout="@layout/split_area" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/trace_pager"

@@ -4,7 +4,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.gs.buluo.common.utils.SharePreferenceManager;
-import com.wuyou.user.data.local.db.TraceIPFSBean;
 import com.wuyou.user.data.local.db.CarefreeOpenHelper;
 import com.wuyou.user.data.local.db.DaoMaster;
 import com.wuyou.user.data.local.db.DaoSession;
@@ -12,9 +11,13 @@ import com.wuyou.user.data.local.db.EosAccount;
 import com.wuyou.user.data.local.db.EosAccountDao;
 import com.wuyou.user.data.local.db.SearchHistoryBean;
 import com.wuyou.user.data.local.db.SearchHistoryBeanDao;
+import com.wuyou.user.data.local.db.TraceIPFSBean;
+import com.wuyou.user.data.local.db.TraceIPFSBeanDao;
 import com.wuyou.user.data.local.db.UserInfo;
 import com.wuyou.user.data.local.db.UserInfoDao;
 import com.wuyou.user.data.remote.AddressBean;
+
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
@@ -192,7 +195,22 @@ public class CarefreeDaoSession {
         daoSession.getTraceIPFSBeanDao().save(bean);
     }
 
-    public List<TraceIPFSBean> getAllTraceRecord() {
-        return daoSession.getTraceIPFSBeanDao().loadAll();
+    public List<TraceIPFSBean> getAllUnAuthTraceRecord() {
+        QueryBuilder<TraceIPFSBean> traceIPFSBeanQueryBuilder = daoSession.getTraceIPFSBeanDao().queryBuilder();
+        return traceIPFSBeanQueryBuilder.where(traceIPFSBeanQueryBuilder.and(TraceIPFSBeanDao.Properties.Status.eq(-1), TraceIPFSBeanDao.Properties.Account_name.like(getMainAccount().getName()))).list();
+    }
+
+    public TraceIPFSBean findTraceBean(TraceIPFSBean bean) {
+        return daoSession.getTraceIPFSBeanDao().queryBuilder().where(TraceIPFSBeanDao.Properties.Timestamp.like(bean.getTimestamp())).unique();
+    }
+
+
+    public List<TraceIPFSBean> getAllFinishedTraceRecord() {
+        QueryBuilder<TraceIPFSBean> traceIPFSBeanQueryBuilder = daoSession.getTraceIPFSBeanDao().queryBuilder();
+        return traceIPFSBeanQueryBuilder.where(traceIPFSBeanQueryBuilder.and(TraceIPFSBeanDao.Properties.Status.eq(1), TraceIPFSBeanDao.Properties.Account_name.like(getMainAccount().getName()))).list();
+    }
+
+    public void updateTraceBean(TraceIPFSBean traceBean) {
+        daoSession.getTraceIPFSBeanDao().update(traceBean);
     }
 }

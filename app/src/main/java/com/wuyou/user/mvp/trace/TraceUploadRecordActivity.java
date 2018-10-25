@@ -36,17 +36,18 @@ public class TraceUploadRecordActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText("溯源记录");
         initView();
     }
 
     private void initView() {
         //防止Activity被回收后Fragment状态不正确
         Bundle bundle1 = new Bundle();
-        bundle1.putInt("h", 1);
+        bundle1.putInt("h", 0);
         Bundle bundle2 = new Bundle();
-        bundle2.putInt("h", 2);
+        bundle2.putInt("h", 1);
         Bundle bundle3 = new Bundle();
-        bundle3.putInt("h", 3);
+        bundle3.putInt("h", 2);
         fragment1 = new TraceUploadStatusFragment();
         fragment1.setArguments(bundle1);
         fragment2 = new TraceUploadStatusFragment();
@@ -83,6 +84,7 @@ public class TraceUploadRecordActivity extends BaseActivity {
             }
         };
         mViewPager.setAdapter(fragmentPagerAdapter);
+        mViewPager.setOffscreenPageLimit(3);
         //将ViewPager关联到TabLayout上
         mTabLayout.setupWithViewPager(mViewPager);
     }

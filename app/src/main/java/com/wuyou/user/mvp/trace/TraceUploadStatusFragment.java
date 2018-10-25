@@ -3,9 +3,9 @@ package com.wuyou.user.mvp.trace;
 import android.os.Bundle;
 
 import com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.data.local.db.TraceIPFSBean;
-import com.wuyou.user.data.remote.OrderBean;
 import com.wuyou.user.view.fragment.BaseFragment;
 
 import java.util.List;
@@ -16,13 +16,11 @@ import butterknife.BindView;
  * Created by Solang on 2018/10/22.
  */
 
-public class TraceUploadStatusFragment extends BaseFragment {
-
-
+public class TraceUploadStatusFragment extends BaseFragment<TraceContract.View, TraceContract.Presenter> implements TraceContract.View {
     @BindView(R.id.rv_trace_upload_record)
     RefreshRecyclerView recyclerView;
     TraceRecordAdapter adapter;
-    List<TraceIPFSBean> data;
+    private int status = 0;
 
     @Override
     protected int getContentLayout() {
@@ -30,32 +28,60 @@ public class TraceUploadStatusFragment extends BaseFragment {
     }
 
     @Override
+    protected TraceContract.Presenter getPresenter() {
+        return new TracePresenter();
+    }
+
+    @Override
     protected void bindView(Bundle savedInstanceState) {
-        adapter = new TraceRecordAdapter(R.layout.item_trace_record, data);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setRefreshAction(this::refreshData);
+        status = getArguments().getInt("h");
+        recyclerView.setRefreshAction(() -> mPresenter.getData(status));
+        if (adapter == null) {
+            adapter = new TraceRecordAdapter(R.layout.item_trace_record);
+            recyclerView.setAdapter(adapter);
+        }
         adapter.setOnItemChildClickListener((adapter, view, position) -> {
-            //todo
-            if (view.getId() == R.id.order_item_orange) {
-                dealWithOrangeButtonClick(position, (OrderBean) adapter.getData().get(position));
+            if (view.getId() == R.id.item_btn_trace_confirm) {
+                showLoadingDialog();
+                mPresenter.approveAndExec(position, (TraceIPFSBean) adapter.getData().get(position));
             }
         });
-
-        adapter.setOnLoadMoreListener(() -> getMore(), recyclerView.getRecyclerView());
         adapter.disableLoadMoreIfNotFullPage();
-    }
+        if (status == 1) {
+            recyclerView.showProgressView();
+            mPresenter.getData(status);
+        }
 
-    private void getMore() {
-        //todo
-    }
-
-    private void dealWithOrangeButtonClick(int position, OrderBean orderBean) {
-        //todo
-    }
-
-    private void refreshData() {
-        //todo
+        CarefreeDaoSession.getInstance().getAllFinishedTraceRecord();
     }
 
 
+    @Override
+    protected void loadDataWhenVisible() {
+        status = getArguments().getInt("h");
+        if (adapter == null) {
+            adapter = new TraceRecordAdapter(R.layout.item_trace_record);
+            recyclerView.setAdapter(adapter);
+        }
+        if (status == 0 || status == 2) {
+            recyclerView.showProgressView();
+            mPresenter.getData(status);
+        }
+    }
+
+    @Override
+    public void getAuthDataSuccess(List<TraceIPFSBean> data) {
+        if (data.size() == 0) {
+            recyclerView.showEmptyView();
+        } else {
+            recyclerView.showContentView();
+            adapter.setNewData(data);
+        }
+    }
+
+    @Override
+    public void approveAndExecSuccess(int position) {
+        adapter.remove(position);
+        recyclerView.showEmptyView();
+    }
 }

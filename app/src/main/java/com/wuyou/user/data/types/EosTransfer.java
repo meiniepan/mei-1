@@ -34,16 +34,16 @@ import com.wuyou.user.crypto.util.HexUtils;
 
 public class EosTransfer implements EosType.Packer {
     @Expose
-    private String from;
+    public String from;
 
     @Expose
-    private String to;
+    public String to;
 
     @Expose
-    private TypeAsset quantity;
+    public TypeAsset quantity;
 
     @Expose
-    private String memo;
+    public String memo;
 
 
     public EosTransfer(String from, String to, long quantity, String memo ) {

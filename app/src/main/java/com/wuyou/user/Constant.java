@@ -34,6 +34,7 @@ public class Constant {
     public static final String EOSIO_SYSTEM_ACCOUNT = "signupcoming";
     public static final String EOSIO_DAILAY_REWARDS = "dailyrewards";
     public static final String EOSIO_TRACE_SCOPE = "eosio.msig";
+    public static final String EOSIO_TRACE_PC = "wuyoulianqqq";
     public static final String ACTIVITY_DAILAY_REWARDS = "activity1111";
     public static final String ACTIVITY_CREATE_VOTE = "votevotevot1";
     public static final String EOSIO_TOKEN_CONTRACT = "eosio.token";

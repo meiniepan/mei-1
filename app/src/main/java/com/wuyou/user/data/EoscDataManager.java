@@ -35,9 +35,11 @@ import com.wuyou.user.crypto.ec.EosPrivateKey;
 import com.wuyou.user.crypto.ec.EosPublicKey;
 import com.wuyou.user.data.abi.EosAbiMain;
 import com.wuyou.user.data.api.AccountInfoRequest;
+import com.wuyou.user.data.api.ApproveBean;
 import com.wuyou.user.data.api.EosAccountInfo;
 import com.wuyou.user.data.api.EosChainInfo;
 import com.wuyou.user.data.api.EosVoteBean;
+import com.wuyou.user.data.api.ExecuterBean;
 import com.wuyou.user.data.api.GetBalanceRequest;
 import com.wuyou.user.data.api.GetCodeRequest;
 import com.wuyou.user.data.api.GetCodeResponse;
@@ -62,8 +64,6 @@ import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.EosUtil;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -128,6 +128,18 @@ public class EoscDataManager {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
         EosVoteBean voteBean = new EosVoteBean(id, currentOperateAccount.getName(), option,asset);
         return pushActionRetJson(Constant.ACTIVITY_CREATE_VOTE, voteBean.getActionName(), CommonUtil.prettyPrintJson(voteBean), getActivePermission(currentOperateAccount.getName()));
+    }
+
+    public Observable<JsonObject> doTraceApprove(){
+        currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
+        ApproveBean approveBean = new ApproveBean(Constant.EOSIO_TRACE_PC,currentOperateAccount.getName());
+        return pushActionRetJson(Constant.EOSIO_TRACE_SCOPE, approveBean.getActionName(), CommonUtil.prettyPrintJson(approveBean), getActivePermission(currentOperateAccount.getName()));
+    }
+
+    public Observable<JsonObject> doTraceExec(){
+        currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
+        ExecuterBean approveBean = new ExecuterBean(Constant.EOSIO_TRACE_PC,currentOperateAccount.getName(),currentOperateAccount.getName());
+        return pushActionRetJson(Constant.EOSIO_TRACE_SCOPE, approveBean.getActionName(), CommonUtil.prettyPrintJson(approveBean), getActivePermission(currentOperateAccount.getName()));
     }
 
     public Observable<EosChainInfo> getChainInfo() {

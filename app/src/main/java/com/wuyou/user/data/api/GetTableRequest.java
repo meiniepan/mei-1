@@ -10,7 +10,7 @@ import org.jivesoftware.smack.util.StringUtils;
  */
 
 public class GetTableRequest {
-    private static final int DEFAULT_FETCH_LIMIT = 20;
+    private static final int DEFAULT_FETCH_LIMIT = 20000;
 
     @Expose
     private boolean json = true;

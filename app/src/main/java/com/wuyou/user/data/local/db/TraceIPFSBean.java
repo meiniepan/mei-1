@@ -2,13 +2,13 @@ package com.wuyou.user.data.local.db;
 
 import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.converter.PropertyConverter;
 
 import java.util.Arrays;
 import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by DELL on 2018/10/23.
@@ -38,11 +38,15 @@ public class TraceIPFSBean {
     @Property(nameInDb = "PICTURE")
     @Convert(converter = ListConverter.class, columnType = String.class)
     public List<String> picture;
+    @Property(nameInDb = "STATUS")
+    public int status = -1;  //-1 待审核  0 待确认  1 已完成
+    @Property(nameInDb = "KEYWORD")
+    public String keyword;
 
 
-    @Generated(hash = 1688177183)
+    @Generated(hash = 2030500379)
     public TraceIPFSBean(Long id, String timestamp, String account_name, String phone, String node_name,
-            String content, List<String> picture) {
+            String content, List<String> picture, int status, String keyword) {
         this.id = id;
         this.timestamp = timestamp;
         this.account_name = account_name;
@@ -50,6 +54,8 @@ public class TraceIPFSBean {
         this.node_name = node_name;
         this.content = content;
         this.picture = picture;
+        this.status = status;
+        this.keyword = keyword;
     }
 
 
@@ -128,7 +134,27 @@ public class TraceIPFSBean {
     }
 
 
-   static class ListConverter implements PropertyConverter<List<String>, String> {
+    public int getStatus() {
+        return this.status;
+    }
+
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+
+    public String getKeyword() {
+        return this.keyword;
+    }
+
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+
+    static class ListConverter implements PropertyConverter<List<String>, String> {
         @Override
         public List<String> convertToEntityProperty(String databaseValue) {
             if (databaseValue == null) {

@@ -27,6 +27,8 @@ package com.wuyou.user.network.apis;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.wuyou.user.data.api.AccountInfoRequest;
+import com.wuyou.user.data.api.BinToJsonRequest;
+import com.wuyou.user.data.api.BinToJsonResponse;
 import com.wuyou.user.data.api.EosAccountInfo;
 import com.wuyou.user.data.api.EosChainInfo;
 import com.wuyou.user.data.api.GetBalanceRequest;
@@ -39,12 +41,15 @@ import com.wuyou.user.data.api.JsonToBinRequest;
 import com.wuyou.user.data.api.JsonToBinResponse;
 import com.wuyou.user.data.api.RequiredKeysResponse;
 import com.wuyou.user.data.chain.PackedTransaction;
+import com.wuyou.user.data.local.db.TraceIPFSBean;
 import com.wuyou.user.data.remote.BlockInfo;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by swapnibble on 2017-09-08.
@@ -87,6 +92,16 @@ public interface NodeosApi {
 
     @POST("v1/chain/get_block")
     Observable<BlockInfo> getBlock(@Body JsonObject body);
+
+    @POST("v1/chain/get_data")
+    Observable<JsonObject> getDataForPrx(@Body JsonObject body);
+
+    @POST("v1/chain/abi_bin_to_json")
+    Observable<BinToJsonResponse> getBeanFromData(@Body BinToJsonRequest body);
+
+    @GET("http://192.168.1.186:5001/api/v0/cat")
+    Observable<TraceIPFSBean> getIPFSData(@Query("arg") String hashCode);
+
 
     String ACCOUNT_HISTORY_GET_TRANSACTIONS = "get_transactions";
     String GET_TRANSACTIONS_KEY = "account_name";
