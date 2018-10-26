@@ -30,7 +30,7 @@ public class Constant {
     public static final String SP_IPFS_URL = "sp_ipfs_url";
     public static final String DEFAULT_DB_NAME = "carefree.db";
     public static final String FORM_NAME = "form_name";
-    public static final String SAMPLE_PRIV_KEY_FOR_TEST = "5J6HXZiXDrJqZAzn7CjoJ6HoPbw7zYUovz9H1gDzZbqKL2bqZTn";
+
     public static final String EOSIO_SYSTEM_ACCOUNT = "signupcoming";
     public static final String EOSIO_DAILAY_REWARDS = "dailyrewards";
     public static final String EOSIO_TRACE_SCOPE = "eosio.msig";
@@ -38,6 +38,8 @@ public class Constant {
     public static final String ACTIVITY_DAILAY_REWARDS = "activity1111";
     public static final String ACTIVITY_CREATE_VOTE = "votevotevot1";
     public static final String EOSIO_TOKEN_CONTRACT = "eosio.token";
+    public static final String EOS_TIME_BANK = "timebanktime";
+
     public static final int TX_EXPIRATION_IN_MILSEC = 30000;
     public static final String BACKUP_FROM_CREATE = "backup_from_create";
     public static final int GET_CAPTCHA_FAIL = 600;
@@ -106,7 +108,7 @@ public class Constant {
     public static final String VOTE_ROW_BEAN = "vote_row_bean";
     public static final String HAS_VOTE = "has_vote";
     public static final String VOTE_OPT_LIST = "vote_opt_list";
-    public static final String VOTE_ID= "vote_id";
+    public static final String VOTE_ID = "vote_id";
     public static final String WEB_INTENT = "web_url";
     public static final String WEB_TYPE = "web_type";
     public static final String SCORE_FLAG = "score_flag";

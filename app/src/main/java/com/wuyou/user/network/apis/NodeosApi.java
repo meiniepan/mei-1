@@ -99,9 +99,8 @@ public interface NodeosApi {
     @POST("v1/chain/abi_bin_to_json")
     Observable<BinToJsonResponse> getBeanFromData(@Body BinToJsonRequest body);
 
-    @GET("http://192.168.1.186:5001/api/v0/cat")
+    @GET("api/v0/cat")
     Observable<TraceIPFSBean> getIPFSData(@Query("arg") String hashCode);
-
 
     String ACCOUNT_HISTORY_GET_TRANSACTIONS = "get_transactions";
     String GET_TRANSACTIONS_KEY = "account_name";

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.wuyou.user.view.widget.UnScrollViewPager
+        android:id="@+id/time_main_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <include layout="@layout/split_line" />
+
+    <com.wuyou.user.view.widget.bottom.AlphaTabsIndicator
+        android:id="@+id/time_main_tab"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/white">
+
+        <com.wuyou.user.view.widget.bottom.AlphaTabView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:tabIconNormal="@mipmap/home"
+            app:tabIconSelected="@mipmap/home_selected"
+            app:tabText="@string/main_home"
+            app:textColorNormal="@color/common_dark"
+            app:textColorSelected="@color/night_blue" />
+
+
+        <com.wuyou.user.view.widget.bottom.AlphaTabView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:tabIconNormal="@mipmap/profile"
+            app:tabIconSelected="@mipmap/profile_selected"
+            app:tabText="@string/main_mine"
+            app:textColorNormal="@color/common_dark"
+            app:textColorSelected="@color/night_blue" />
+    </com.wuyou.user.view.widget.bottom.AlphaTabsIndicator>
+</LinearLayout>

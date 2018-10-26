@@ -216,6 +216,7 @@
     <string name="pledge_score">质押积分</string>
     <string name="upload">上传</string>
     <string name="trace_auth">溯源认证</string>
+    <string name="time_bank">时间银行</string>
 
 
 </resources>

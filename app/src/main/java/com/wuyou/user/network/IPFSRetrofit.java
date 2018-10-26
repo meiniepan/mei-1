@@ -36,7 +36,7 @@ public class IPFSRetrofit {
         builder.readTimeout(20, TimeUnit.SECONDS);
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(Constant.CHAIN_URL)
+                .baseUrl(Constant.IPFS_URL.split("api/v0")[0])
                 .client(builder.build())
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
                         .registerTypeAdapterFactory(new GsonEosTypeAdapterFactory())

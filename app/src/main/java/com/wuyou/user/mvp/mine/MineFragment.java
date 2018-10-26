@@ -16,7 +16,6 @@ import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.local.db.UserInfo;
-import com.wuyou.user.data.remote.WalletBalance;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressManagerActivity;
 import com.wuyou.user.mvp.block.BlockExplorerActivity;
@@ -25,13 +24,12 @@ import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.score.ScoreExchangeActivity;
 import com.wuyou.user.mvp.score.ScoreMissionActivity;
 import com.wuyou.user.mvp.trace.TraceAuthActivity;
-import com.wuyou.user.mvp.trace.TracePresenter;
+import com.wuyou.user.mvp.volunteer.TimeBankMainActivity;
 import com.wuyou.user.mvp.vote.VoteActivity;
 import com.wuyou.user.mvp.wallet.ActivityRecordActivity;
 import com.wuyou.user.mvp.wallet.CreateOrImportAccountActivity;
 import com.wuyou.user.mvp.wallet.ScoreAccountActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
-import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.HelpActivity;
@@ -42,8 +40,6 @@ import com.wuyou.user.view.fragment.BaseFragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -128,21 +124,9 @@ public class MineFragment extends BaseFragment {
                 });
     }
 
-    private void getBalance() {
-        CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
-                .getWalletBalance(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse<WalletBalance>>() {
-                    @Override
-                    public void onSuccess(BaseResponse<WalletBalance> walletBalanceBaseResponse) {
-//                        mineBalance.setText(CommonUtil.formatPrice(walletBalanceBaseResponse.data.balance));
-                    }
-                });
-    }
 
     @OnClick({R.id.mine_setting, R.id.mine_login, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_help,
-            R.id.mine_mission, R.id.mine_auth, R.id.mine_explorer, R.id.mine_vote, R.id.mine_trace, R.id.mine_kyc})
+            R.id.mine_mission, R.id.mine_auth, R.id.mine_explorer, R.id.mine_vote, R.id.mine_trace, R.id.mine_kyc, R.id.mine_time_bank})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -187,10 +171,13 @@ public class MineFragment extends BaseFragment {
                 checkDbAndAccount(intent, VoteActivity.class);
                 break;
             case R.id.mine_kyc:
-                checkDbAndAccount(intent,KycAuthActivity.class);
+                checkDbAndAccount(intent, KycAuthActivity.class);
                 break;
             case R.id.mine_trace:
-                checkDbAndAccount(intent,TraceAuthActivity.class);
+                checkDbAndAccount(intent, TraceAuthActivity.class);
+                break;
+            case R.id.mine_time_bank:
+                checkDbAndAccount(intent, TimeBankMainActivity.class);
                 break;
         }
     }

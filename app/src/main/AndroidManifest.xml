@@ -218,6 +218,8 @@
         <activity android:name=".mvp.trace.TraceAuthActivity" />
         <activity android:name=".mvp.trace.TraceUploadRecordActivity" />
         <activity android:name=".mvp.volunteer.VolunteerProjListActivity" />
+        <activity android:name=".mvp.volunteer.TimeBankMainActivity"
+            android:windowSoftInputMode="stateHidden"/>
 
         <meta-data
             android:name="WEIXIN_APP_ID"
