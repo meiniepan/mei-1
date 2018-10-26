@@ -217,6 +217,7 @@
         <activity android:name=".mvp.kyc.KycAuthFinishActivity" />
         <activity android:name=".mvp.trace.TraceAuthActivity" />
         <activity android:name=".mvp.trace.TraceUploadRecordActivity" />
+        <activity android:name=".mvp.volunteer.VolunteerProjListActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"
