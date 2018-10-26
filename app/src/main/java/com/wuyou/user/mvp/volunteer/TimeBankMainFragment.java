@@ -1,5 +1,6 @@
 package com.wuyou.user.mvp.volunteer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +14,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.api.VolunteerProjectBean;
 import com.wuyou.user.util.RxUtil;
+import com.wuyou.user.view.activity.MainActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
 import java.util.List;
@@ -62,6 +64,7 @@ public class TimeBankMainFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.time_bank_main_project:
+                startActivity(new Intent(mCtx, VolunteerProListActivity.class));
             case R.id.time_bank_main_more:
                 break;
             case R.id.time_bank_main_map:

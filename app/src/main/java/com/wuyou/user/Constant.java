@@ -37,6 +37,7 @@ public class Constant {
     public static final String EOSIO_TRACE_PC = "wuyoulianqqq";
     public static final String ACTIVITY_DAILAY_REWARDS = "activity1111";
     public static final String ACTIVITY_CREATE_VOTE = "votevotevot1";
+    public static final String ACTIVITY_TIME_BANK = "timebanktime";
     public static final String EOSIO_TOKEN_CONTRACT = "eosio.token";
     public static final String EOS_TIME_BANK = "timebanktime";
 

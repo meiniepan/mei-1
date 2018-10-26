@@ -217,7 +217,7 @@
         <activity android:name=".mvp.kyc.KycAuthFinishActivity" />
         <activity android:name=".mvp.trace.TraceAuthActivity" />
         <activity android:name=".mvp.trace.TraceUploadRecordActivity" />
-        <activity android:name=".mvp.volunteer.VolunteerProjListActivity" />
+        <activity android:name=".mvp.volunteer.VolunteerProListActivity" />
         <activity android:name=".mvp.volunteer.TimeBankMainActivity"
             android:windowSoftInputMode="stateHidden"/>
 
