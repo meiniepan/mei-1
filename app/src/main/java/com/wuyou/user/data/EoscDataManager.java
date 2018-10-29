@@ -47,7 +47,7 @@ import com.wuyou.user.data.api.GetRequestForCurrency;
 import com.wuyou.user.data.api.GetRequiredKeys;
 import com.wuyou.user.data.api.GetTableRequest;
 import com.wuyou.user.data.api.JsonToBinRequest;
-import com.wuyou.user.data.api.VolunteerRegisterBean;
+import com.wuyou.user.data.api.VolunteerActionBean;
 import com.wuyou.user.data.api.VoteOption;
 import com.wuyou.user.data.chain.Action;
 import com.wuyou.user.data.chain.PackedTransaction;
@@ -145,8 +145,14 @@ public class EoscDataManager {
 
     public Observable<JsonObject> registTimeBank(String id, String organizer, String projectName) {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
-        VolunteerRegisterBean registerBean = new VolunteerRegisterBean(currentOperateAccount.getName(), id, organizer, projectName);
+        VolunteerActionBean registerBean = new VolunteerActionBean(currentOperateAccount.getName(), id, organizer, projectName);
         return pushActionRetJson(Constant.EOS_TIME_BANK, registerBean.getReisterAction(), CommonUtil.prettyPrintJson(registerBean), getActivePermission(currentOperateAccount.getName()));
+    }
+
+    public Observable<JsonObject> participateTimeBank(String id, String organizer, String projectName,String positionName) {
+        currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
+        VolunteerActionBean registerBean = new VolunteerActionBean(currentOperateAccount.getName(), id, organizer, projectName,positionName);
+        return pushActionRetJson(Constant.EOS_TIME_BANK, registerBean.getParticipateAction(), CommonUtil.prettyPrintJson(registerBean), getActivePermission(currentOperateAccount.getName()));
     }
 
     public Observable<EosChainInfo> getChainInfo() {

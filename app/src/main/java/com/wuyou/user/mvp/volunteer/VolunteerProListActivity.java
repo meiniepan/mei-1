@@ -1,10 +1,13 @@
 package com.wuyou.user.mvp.volunteer;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.gson.GsonBuilder;
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -15,6 +18,7 @@ import com.wuyou.user.data.api.VolunteerProjectBean;
 import com.wuyou.user.util.EosUtil;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,7 @@ public class VolunteerProListActivity extends BaseActivity {
     @BindView(R.id.rv_volunteer)
     RefreshRecyclerView recyclerView;
     VolunteerProListAdapter adapter;
+    ArrayList<VolunteerProjectBean.RowsBean> data;
 
     @Override
     protected int getContentLayout() {
@@ -38,9 +43,22 @@ public class VolunteerProListActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(getString(R.string.volunteer_project));
+        initRv();
+        getVolunteerProList();
+    }
+
+    private void initRv() {
         adapter = new VolunteerProListAdapter(R.layout.item_volunteer_list);
         recyclerView.setAdapter(adapter);
-        getVolunteerProList();
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                Intent intent = new Intent(getCtx(), VolunteerProDetailActivity.class);
+                intent.putExtra(Constant.VOLUNTEER_PROJECT, data.get(i));
+                startActivity(intent);
+            }
+        });
     }
 
     public void getVolunteerProList() {
@@ -48,11 +66,11 @@ public class VolunteerProListActivity extends BaseActivity {
         EoscDataManager.getIns().getTable("samkunnbanb1", Constant.ACTIVITY_TIME_BANK, "task")
                 .map((Function<String, List<VolunteerProjectBean.RowsBean>>) (String s) -> {
                     VolunteerProjectBean listBean = new GsonBuilder().create().fromJson(s, VolunteerProjectBean.class);
-                    ArrayList<VolunteerProjectBean.RowsBean> list = new ArrayList<>();
+                    data = new ArrayList<>();
                     for (VolunteerProjectBean.RowsBean rowsBean : listBean.rows) {
-                            list.add(rowsBean);
+                        data.add(rowsBean);
                     }
-                    return list;
+                    return data;
                 })
                 .compose(RxUtil.switchSchedulers()).subscribe(new BaseSubscriber<List<VolunteerProjectBean.RowsBean>>() {
             @Override

@@ -220,6 +220,7 @@
         <activity android:name=".mvp.volunteer.VolunteerProListActivity" />
         <activity android:name=".mvp.volunteer.TimeBankMainActivity"
             android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".mvp.volunteer.VolunteerProDetailActivity" />
         <activity android:name=".mvp.volunteer.TBVolunteerRecordActivity" />
 
         <meta-data

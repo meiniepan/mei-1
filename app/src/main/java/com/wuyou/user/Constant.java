@@ -110,6 +110,7 @@ public class Constant {
     public static final String HAS_VOTE = "has_vote";
     public static final String VOTE_OPT_LIST = "vote_opt_list";
     public static final String VOTE_ID = "vote_id";
+    public static final String VOLUNTEER_PROJECT = "volunteer_project";
     public static final String WEB_INTENT = "web_url";
     public static final String WEB_TYPE = "web_type";
     public static final String SCORE_FLAG = "score_flag";
