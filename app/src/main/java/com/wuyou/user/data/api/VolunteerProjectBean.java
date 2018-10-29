@@ -27,9 +27,12 @@ public class VolunteerProjectBean implements Parcelable{
     public String creator;
     public String name;
     public String service_time;
+    public String service_end_time;
     public String address;
     public String enroll_time;
+    public String enroll_end_time;
     public String detailfile;
+    public String logofile;
     public List<PositionsBean> positions;
 
     public static class PositionsBean implements Parcelable{
@@ -120,14 +123,18 @@ public class VolunteerProjectBean implements Parcelable{
         };
     }
 
+
     protected VolunteerProjectBean(Parcel in) {
         id = in.readInt();
         creator = in.readString();
         name = in.readString();
         service_time = in.readString();
+        service_end_time = in.readString();
         address = in.readString();
         enroll_time = in.readString();
+        enroll_end_time = in.readString();
         detailfile = in.readString();
+        logofile = in.readString();
         positions = in.createTypedArrayList(PositionsBean.CREATOR);
     }
 
@@ -137,9 +144,12 @@ public class VolunteerProjectBean implements Parcelable{
         dest.writeString(creator);
         dest.writeString(name);
         dest.writeString(service_time);
+        dest.writeString(service_end_time);
         dest.writeString(address);
         dest.writeString(enroll_time);
+        dest.writeString(enroll_end_time);
         dest.writeString(detailfile);
+        dest.writeString(logofile);
         dest.writeTypedList(positions);
     }
 

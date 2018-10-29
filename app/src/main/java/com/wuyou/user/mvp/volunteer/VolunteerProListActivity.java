@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
@@ -15,20 +14,14 @@ import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.VolunteerProListAdapter;
 import com.wuyou.user.data.EoscDataManager;
-import com.wuyou.user.data.api.EosVoteListBean;
 import com.wuyou.user.data.api.ListRowResponse;
 import com.wuyou.user.data.api.VolunteerProjectBean;
-import com.wuyou.user.data.api.VolunteerRecordBean;
-import com.wuyou.user.util.EosUtil;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.activity.MainActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.functions.Function;
 
 /**
  * Created by Solang on 2018/10/26.
@@ -53,7 +46,7 @@ public class VolunteerProListActivity extends BaseActivity {
     }
 
     private void initRv() {
-        adapter = new VolunteerProListAdapter(R.layout.item_volunteer_list);
+        adapter = new VolunteerProListAdapter(R.layout.item_volunteer_project);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -68,7 +61,7 @@ public class VolunteerProListActivity extends BaseActivity {
     public void getVolunteerProList() {
         recyclerView.showProgressView();
         EoscDataManager.getIns().getTable("samkunnbanb1", Constant.ACTIVITY_TIME_BANK, "task")
-                .map((Function<String, List<VolunteerProjectBean>>) (String s) -> {
+                .map((String s) -> {
                     ListRowResponse<VolunteerProjectBean> listBean = new Gson().fromJson(s, new TypeToken<ListRowResponse<VolunteerProjectBean>>() {
                     }.getType());
                     data = listBean.rows;

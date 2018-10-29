@@ -3,7 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        >
+        <EditText
+            android:id="@+id/block_main_search"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bac_gray_5_round"
+            android:drawableEnd="@mipmap/icon_search"
+            android:paddingEnd="10dp"
+            android:hint="搜索项目名称"
+            android:gravity="center"
+            android:imeOptions="actionSearch"
+            android:paddingStart="6dp"
+            android:singleLine="true"
+            android:textSize="@dimen/dimens_12sp"
+            android:textColor="@color/common_gray" />
+    </LinearLayout>
     <com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView
         android:id="@+id/rv_volunteer"
         android:layout_width="match_parent"
