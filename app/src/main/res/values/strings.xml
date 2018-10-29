@@ -217,6 +217,7 @@
     <string name="upload">上传</string>
     <string name="trace_auth">溯源认证</string>
     <string name="time_bank">时间银行</string>
+    <string name="project_record">项目记录</string>
 
 
 </resources>

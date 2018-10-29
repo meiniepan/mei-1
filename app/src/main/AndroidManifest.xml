@@ -220,6 +220,7 @@
         <activity android:name=".mvp.volunteer.VolunteerProjListActivity" />
         <activity android:name=".mvp.volunteer.TimeBankMainActivity"
             android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".mvp.volunteer.TBVolunteerRecordActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"

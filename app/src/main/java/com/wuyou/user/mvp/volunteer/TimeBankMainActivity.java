@@ -34,6 +34,7 @@ public class TimeBankMainActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        setTitleText(R.string.time_bank);
         fragments.add(new TimeBankMainFragment());
         fragments.add(new TimeBankMineFragment());
         timeMainPager.setAdapter(new MainPagerAdapter(getSupportFragmentManager(), fragments));

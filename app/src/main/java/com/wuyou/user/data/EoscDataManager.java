@@ -47,6 +47,7 @@ import com.wuyou.user.data.api.GetRequestForCurrency;
 import com.wuyou.user.data.api.GetRequiredKeys;
 import com.wuyou.user.data.api.GetTableRequest;
 import com.wuyou.user.data.api.JsonToBinRequest;
+import com.wuyou.user.data.api.VolunteerRegisterBean;
 import com.wuyou.user.data.api.VoteOption;
 import com.wuyou.user.data.chain.Action;
 import com.wuyou.user.data.chain.PackedTransaction;
@@ -124,22 +125,28 @@ public class EoscDataManager {
         return pushActionRetJson(Constant.ACTIVITY_DAILAY_REWARDS, activityRewards.getActionName(), CommonUtil.prettyPrintJson(activityRewards), getActivePermission(currentOperateAccount.getName()));
     }
 
-    public Observable<JsonObject> doVote(String id, List<VoteOption> option,int asset) {
+    public Observable<JsonObject> doVote(String id, List<VoteOption> option, int asset) {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
-        EosVoteBean voteBean = new EosVoteBean(id, currentOperateAccount.getName(), option,asset);
+        EosVoteBean voteBean = new EosVoteBean(id, currentOperateAccount.getName(), option, asset);
         return pushActionRetJson(Constant.ACTIVITY_CREATE_VOTE, voteBean.getActionName(), CommonUtil.prettyPrintJson(voteBean), getActivePermission(currentOperateAccount.getName()));
     }
 
-    public Observable<JsonObject> doTraceApprove(){
+    public Observable<JsonObject> doTraceApprove() {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
-        ApproveBean approveBean = new ApproveBean(Constant.EOSIO_TRACE_PC,currentOperateAccount.getName());
+        ApproveBean approveBean = new ApproveBean(Constant.EOSIO_TRACE_PC, currentOperateAccount.getName());
         return pushActionRetJson(Constant.EOSIO_TRACE_SCOPE, approveBean.getActionName(), CommonUtil.prettyPrintJson(approveBean), getActivePermission(currentOperateAccount.getName()));
     }
 
-    public Observable<JsonObject> doTraceExec(){
+    public Observable<JsonObject> doTraceExec() {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
-        ExecuterBean approveBean = new ExecuterBean(Constant.EOSIO_TRACE_PC,currentOperateAccount.getName(),currentOperateAccount.getName());
+        ExecuterBean approveBean = new ExecuterBean(Constant.EOSIO_TRACE_PC, currentOperateAccount.getName(), currentOperateAccount.getName());
         return pushActionRetJson(Constant.EOSIO_TRACE_SCOPE, approveBean.getActionName(), CommonUtil.prettyPrintJson(approveBean), getActivePermission(currentOperateAccount.getName()));
+    }
+
+    public Observable<JsonObject> registTimeBank(String id, String organizer, String projectName) {
+        currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
+        VolunteerRegisterBean registerBean = new VolunteerRegisterBean(currentOperateAccount.getName(), id, organizer, projectName);
+        return pushActionRetJson(Constant.EOS_TIME_BANK, registerBean.getReisterAction(), CommonUtil.prettyPrintJson(registerBean), getActivePermission(currentOperateAccount.getName()));
     }
 
     public Observable<EosChainInfo> getChainInfo() {
