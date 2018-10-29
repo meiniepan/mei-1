@@ -18,7 +18,7 @@ public class TimeBankPresenter extends TimeBankRecordContract.Presenter {
 
 
     public void attendVolunteerProject() {
-        EoscDataManager.getIns().registerTimeBank("", "", "")
+        EoscDataManager.getIns().registTimeBank("", "", "")
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override
@@ -31,7 +31,7 @@ public class TimeBankPresenter extends TimeBankRecordContract.Presenter {
 
     @Override
     void registerProject(int position, VolunteerProjectBean bean) {
-        EoscDataManager.getIns().registerTimeBank(bean.id + "", bean.creator, bean.name)
+        EoscDataManager.getIns().registTimeBank(bean.id + "", bean.creator, bean.name)
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override
@@ -44,7 +44,7 @@ public class TimeBankPresenter extends TimeBankRecordContract.Presenter {
 
     @Override
     void rewardProject(int position, VolunteerProjectBean bean) {
-        EoscDataManager.getIns().registerTimeBank(bean.id + "", bean.creator, bean.name)
+        EoscDataManager.getIns().registTimeBank(bean.id + "", bean.creator, bean.name)
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override

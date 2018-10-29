@@ -1,12 +1,15 @@
 package com.wuyou.user.data.api;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * Created by DELL on 2018/10/26.
  */
 
-public class VolunteerProjectBean {
+public class VolunteerProjectBean implements Parcelable{
 
 
     /**
@@ -29,7 +32,7 @@ public class VolunteerProjectBean {
     public String detailfile;
     public List<PositionsBean> positions;
 
-    public static class PositionsBean {
+    public static class PositionsBean implements Parcelable{
         /**
          * name : position_name_1
          * amount : 8
@@ -42,7 +45,7 @@ public class VolunteerProjectBean {
         public String rewards;
         public List<EnrolledBean> enrolled;
 
-        public static class EnrolledBean {
+        public static class EnrolledBean implements Parcelable{
             /**
              * volunteer : samkunnbanb2
              * registered : 0
@@ -52,6 +55,108 @@ public class VolunteerProjectBean {
             public String volunteer;
             public int registered;
             public int rewards;
+
+            protected EnrolledBean(Parcel in) {
+                volunteer = in.readString();
+                registered = in.readInt();
+                rewards = in.readInt();
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(volunteer);
+                dest.writeInt(registered);
+                dest.writeInt(rewards);
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            public static final Creator<EnrolledBean> CREATOR = new Creator<EnrolledBean>() {
+                @Override
+                public EnrolledBean createFromParcel(Parcel in) {
+                    return new EnrolledBean(in);
+                }
+
+                @Override
+                public EnrolledBean[] newArray(int size) {
+                    return new EnrolledBean[size];
+                }
+            };
         }
+
+        protected PositionsBean(Parcel in) {
+            name = in.readString();
+            amount = in.readInt();
+            rewards = in.readString();
+            enrolled = in.createTypedArrayList(EnrolledBean.CREATOR);
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(name);
+            dest.writeInt(amount);
+            dest.writeString(rewards);
+            dest.writeTypedList(enrolled);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<PositionsBean> CREATOR = new Creator<PositionsBean>() {
+            @Override
+            public PositionsBean createFromParcel(Parcel in) {
+                return new PositionsBean(in);
+            }
+
+            @Override
+            public PositionsBean[] newArray(int size) {
+                return new PositionsBean[size];
+            }
+        };
     }
+
+    protected VolunteerProjectBean(Parcel in) {
+        id = in.readInt();
+        creator = in.readString();
+        name = in.readString();
+        service_time = in.readString();
+        address = in.readString();
+        enroll_time = in.readString();
+        detailfile = in.readString();
+        positions = in.createTypedArrayList(PositionsBean.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(creator);
+        dest.writeString(name);
+        dest.writeString(service_time);
+        dest.writeString(address);
+        dest.writeString(enroll_time);
+        dest.writeString(detailfile);
+        dest.writeTypedList(positions);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<VolunteerProjectBean> CREATOR = new Creator<VolunteerProjectBean>() {
+        @Override
+        public VolunteerProjectBean createFromParcel(Parcel in) {
+            return new VolunteerProjectBean(in);
+        }
+
+        @Override
+        public VolunteerProjectBean[] newArray(int size) {
+            return new VolunteerProjectBean[size];
+        }
+    };
 }

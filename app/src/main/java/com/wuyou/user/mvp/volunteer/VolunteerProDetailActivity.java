@@ -18,7 +18,7 @@ import com.wuyou.user.view.activity.BaseActivity;
  */
 
 public class VolunteerProDetailActivity extends BaseActivity {
-    VolunteerProjectBean.RowsBean data;
+    VolunteerProjectBean data;
 
     @Override
     protected int getContentLayout() {

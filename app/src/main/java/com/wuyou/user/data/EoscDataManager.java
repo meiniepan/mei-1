@@ -47,6 +47,7 @@ import com.wuyou.user.data.api.GetRequestForCurrency;
 import com.wuyou.user.data.api.GetRequiredKeys;
 import com.wuyou.user.data.api.GetTableRequest;
 import com.wuyou.user.data.api.JsonToBinRequest;
+import com.wuyou.user.data.api.VolunteerActionBean;
 import com.wuyou.user.data.api.VolunteerRegisterBean;
 import com.wuyou.user.data.api.VoteOption;
 import com.wuyou.user.data.chain.Action;

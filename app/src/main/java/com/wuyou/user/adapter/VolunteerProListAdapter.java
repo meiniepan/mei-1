@@ -13,13 +13,13 @@ import java.util.List;
  * Created by DELL on 2018/8/13.
  */
 
-public class VolunteerProListAdapter extends BaseQuickAdapter<VolunteerProjectBean.RowsBean, BaseHolder> {
+public class VolunteerProListAdapter extends BaseQuickAdapter<VolunteerProjectBean, BaseHolder> {
     public VolunteerProListAdapter(int layoutResId) {
         super(layoutResId);
     }
 
     @Override
-    protected void convert(BaseHolder holder, VolunteerProjectBean.RowsBean data) {
+    protected void convert(BaseHolder holder, VolunteerProjectBean data) {
         holder.setText(R.id.tv_volunteer_pro_list, data.name);
     }
 

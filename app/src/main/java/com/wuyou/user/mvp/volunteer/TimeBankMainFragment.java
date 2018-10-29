@@ -74,7 +74,7 @@ public class TimeBankMainFragment extends BaseFragment {
 
                 break;
             case R.id.time_bank_main_map:
-                EoscDataManager.getIns().registerTimeBank("0", "samkunnbanb1", "task9")
+                EoscDataManager.getIns().registTimeBank("0", "samkunnbanb1", "task9")
                         .compose(RxUtil.switchSchedulers())
                         .subscribe(new BaseSubscriber<JsonObject>() {
                             @Override
