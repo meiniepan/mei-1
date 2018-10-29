@@ -143,10 +143,16 @@ public class EoscDataManager {
         return pushActionRetJson(Constant.EOSIO_TRACE_SCOPE, approveBean.getActionName(), CommonUtil.prettyPrintJson(approveBean), getActivePermission(currentOperateAccount.getName()));
     }
 
-    public Observable<JsonObject> registTimeBank(String id, String organizer, String projectName) {
+    public Observable<JsonObject> registerTimeBank(String id, String organizer, String projectName) {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
         VolunteerRegisterBean registerBean = new VolunteerRegisterBean(currentOperateAccount.getName(), id, organizer, projectName);
-        return pushActionRetJson(Constant.EOS_TIME_BANK, registerBean.getReisterAction(), CommonUtil.prettyPrintJson(registerBean), getActivePermission(currentOperateAccount.getName()));
+        return pushActionRetJson(Constant.EOS_TIME_BANK, registerBean.getRegisterAction(), CommonUtil.prettyPrintJson(registerBean), getActivePermission(currentOperateAccount.getName()));
+    }
+
+    public Observable<JsonObject> rewardTimeBank(String id, String organizer, String projectName) {
+        currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
+        VolunteerRegisterBean registerBean = new VolunteerRegisterBean(currentOperateAccount.getName(), id, organizer, projectName);
+        return pushActionRetJson(Constant.EOS_TIME_BANK, registerBean.getRewardAction(), CommonUtil.prettyPrintJson(registerBean), getActivePermission(currentOperateAccount.getName()));
     }
 
     public Observable<EosChainInfo> getChainInfo() {

@@ -10,6 +10,7 @@ public class VolunteerRegisterBean {
     public String volunteer;
     public String organizer;
     public String name;
+    public String position_name="position_name_1";
 
     public VolunteerRegisterBean(String accountName, String id, String organizer, String projectName) {
         this.name = projectName;
@@ -19,8 +20,12 @@ public class VolunteerRegisterBean {
     }
 
 
-    public String getReisterAction() {
+    public String getRegisterAction() {
         return "registration";
+    }
+
+    public String getRewardAction() {
+        return "rewards";
     }
 }
 

@@ -76,7 +76,6 @@ import static android.os.Environment.DIRECTORY_DCIM;
  * Created by hjn on 2016/11/10.
  */
 public class CommonUtil {
-
     public static String stringToJSON(String strJson) {
         // 计数tab的个数
         int tabNum = 0;

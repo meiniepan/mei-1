@@ -7,14 +7,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.EoscDataManager;
+import com.wuyou.user.data.api.ListRowResponse;
 import com.wuyou.user.data.api.VolunteerProjectBean;
+import com.wuyou.user.data.api.VolunteerRecordBean;
 import com.wuyou.user.util.RxUtil;
-import com.wuyou.user.view.activity.MainActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
 import java.util.List;
@@ -46,17 +50,18 @@ public class TimeBankMainFragment extends BaseFragment {
         EoscDataManager.getIns().getTable("samkunnbanb1 ", Constant.EOS_TIME_BANK, "task")
                 .compose(RxUtil.switchSchedulers())
                 .map(s -> {
-                    VolunteerProjectBean projectBean = new GsonBuilder().create().fromJson(s, VolunteerProjectBean.class);
-                    Log.e("Carefree", "apply: " + s);
-                    return projectBean.rows;
+                    ListRowResponse<VolunteerProjectBean> rowResponse = new Gson().fromJson(s, new TypeToken<ListRowResponse<VolunteerProjectBean>>() {
+                    }.getType());
+                    return rowResponse.rows;
                 })
                 .compose(RxUtil.switchSchedulers())
-                .subscribe(new BaseSubscriber<List<VolunteerProjectBean.RowsBean>>() {
+                .subscribe(new BaseSubscriber<List<VolunteerProjectBean>>() {
                     @Override
-                    public void onSuccess(List<VolunteerProjectBean.RowsBean> rowsBeans) {
+                    public void onSuccess(List<VolunteerProjectBean> rowsBeans) {
                         Log.e("Carefree", "onSuccess: " + rowsBeans.size());
                     }
                 });
+
     }
 
 
@@ -66,8 +71,17 @@ public class TimeBankMainFragment extends BaseFragment {
             case R.id.time_bank_main_project:
                 startActivity(new Intent(mCtx, VolunteerProListActivity.class));
             case R.id.time_bank_main_more:
+
                 break;
             case R.id.time_bank_main_map:
+                EoscDataManager.getIns().registerTimeBank("0", "samkunnbanb1", "task9")
+                        .compose(RxUtil.switchSchedulers())
+                        .subscribe(new BaseSubscriber<JsonObject>() {
+                            @Override
+                            public void onSuccess(JsonObject jsonObject) {
+                                Log.e("Carefree", "onSuccess: " + jsonObject);
+                            }
+                        });
                 break;
         }
     }
