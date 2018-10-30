@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -13,33 +12,79 @@
 
     <include layout="@layout/split_line" />
 
-    <com.wuyou.user.view.widget.bottom.AlphaTabsIndicator
+
+    <LinearLayout
         android:id="@+id/time_main_tab"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="horizontal">
 
-        <com.wuyou.user.view.widget.bottom.AlphaTabView
+        <LinearLayout
+            android:id="@+id/tb_main_ll"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="5dp"
-            app:tabIconNormal="@mipmap/home"
-            app:tabIconSelected="@mipmap/home_selected"
-            app:tabText="@string/main_home"
-            app:textColorNormal="@color/common_dark"
-            app:textColorSelected="@color/night_blue" />
+            android:gravity="center"
+            android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/tb_main_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/tb_main_selected" />
 
-        <com.wuyou.user.view.widget.bottom.AlphaTabView
+            <TextView
+                android:id="@+id/tb_main_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/main_home"
+                android:textColor="@color/night_blue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tb_sign_ll"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="5dp"
-            app:tabIconNormal="@mipmap/profile"
-            app:tabIconSelected="@mipmap/profile_selected"
-            app:tabText="@string/main_mine"
-            app:textColorNormal="@color/common_dark"
-            app:textColorSelected="@color/night_blue" />
-    </com.wuyou.user.view.widget.bottom.AlphaTabsIndicator>
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/tb_sign_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/tb_sign" />
+
+            <TextView
+                android:id="@+id/tb_sign_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/sign_in" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tb_mine_ll"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/tb_mine_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/tb_mine" />
+
+            <TextView
+                android:id="@+id/tb_mine_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/mine" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

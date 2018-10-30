@@ -670,8 +670,8 @@ public class CommonUtil {
         return new RecycleViewDivider(context, LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(context, 0.5f), context.getResources().getColor(R.color.tint_bg));
     }
 
-    public static RecycleViewDivider getRecyclerDivider(Context context, float px) {
-        return new RecycleViewDivider(context, LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(context, px), context.getResources().getColor(R.color.tint_bg));
+    public static RecycleViewDivider getRecyclerDivider(Context context, float dp) {
+        return new RecycleViewDivider(context, LinearLayoutManager.HORIZONTAL, DensityUtils.dip2px(context, dp), context.getResources().getColor(R.color.tint_bg));
     }
 
     public static String getPhoneWithStar(String mobile) {

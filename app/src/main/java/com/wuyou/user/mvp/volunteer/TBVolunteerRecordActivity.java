@@ -6,30 +6,19 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
-import com.wuyou.user.CarefreeDaoSession;
-import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.data.EoscDataManager;
-import com.wuyou.user.data.api.ListRowResponse;
 import com.wuyou.user.data.api.VolunteerProjectBean;
-import com.wuyou.user.data.api.VolunteerRecordBean;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.CarefreeRecyclerView;
 
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.Observable;
-import io.reactivex.functions.BiFunction;
 
 /**
  * Created by DELL on 2018/10/26.
@@ -57,45 +46,17 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
     }
 
     @Override
+    protected TimeBankRecordContract.Presenter getPresenter() {
+        return new TimeBankPresenter();
+    }
+
+    @Override
     protected void bindView(Bundle savedInstanceState) {
         setTitleText(R.string.project_record);
         tbRecordPager.setAdapter(new TBRecordPagerAdapter());
+        tbRecordPager.setOffscreenPageLimit(3);
         tbRecordTab.setupWithViewPager(tbRecordPager);
-        tbRecordPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Log.e("Carefree", "onPageSelected: +po" + position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        getData();
-    }
-
-    public void getData() {
-        Observable.zip(EoscDataManager.getIns().getTable(CarefreeDaoSession.getInstance().getMainAccount().getName(), Constant.EOS_TIME_BANK, "infos"),
-                EoscDataManager.getIns().getTable("samkunnbanb1", Constant.EOS_TIME_BANK, "task"),
-                (BiFunction<String, String, List<VolunteerProjectBean>>) (recordData, all) -> {
-                    ListRowResponse<VolunteerRecordBean> recordResponse = new Gson().fromJson(recordData, new TypeToken<ListRowResponse<VolunteerRecordBean>>() {
-                    }.getType());
-                    ListRowResponse<VolunteerProjectBean> projectResponse = new Gson().fromJson(all, new TypeToken<ListRowResponse<VolunteerRecordBean>>() {
-                    }.getType());
-                    if (recordResponse.rows.size() == 0) return Collections.emptyList();
-                    for (VolunteerRecordBean.Participated participated : recordResponse.rows.get(0).enrolled) {
-
-                    }
-                    return null;
-                });
-
+        mPresenter.getRecordData();
     }
 
     @Override
@@ -111,14 +72,29 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
 
     @Override
     public void getAttendingDataSuccess(List<VolunteerProjectBean> data) {
-
+        attendingAdapter.setNewData(data);
+        if (attendingAdapter.getData().size() == 0) {
+            attendingRecyclerView.showEmptyView(getString(R.string.no_project_record));
+        } else {
+            attendingRecyclerView.showContentView();
+        }
     }
 
     @Override
     public void getFinishAttendDataSuccess(List<VolunteerProjectBean> data) {
-
+        finishedAdapter.setNewData(data);
+        if (finishedAdapter.getData().size() == 0) {
+            finishAttendRecyclerView.showEmptyView(getString(R.string.no_project_record));
+        } else {
+            finishAttendRecyclerView.showContentView();
+        }
     }
 
+    @Override
+    public void showError(String message, int res) {
+        attendingRecyclerView.showErrorView(message);
+        finishAttendRecyclerView.showErrorView(message);
+    }
 
     class TBRecordPagerAdapter extends PagerAdapter {
         @Override
@@ -167,15 +143,16 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
     }
 
     class TBVolunteerAdapter extends BaseQuickAdapter<VolunteerProjectBean, BaseHolder> {
+        private int status;
 
         public TBVolunteerAdapter(int status) {
             super(R.layout.item_tb_volunteer_record);
+            this.status = status;
         }
 
         @Override
         protected void convert(BaseHolder baseHolder, VolunteerProjectBean rowsBean) {
             baseHolder.setText(R.id.item_tb_record_name, rowsBean.name);
         }
-
     }
 }

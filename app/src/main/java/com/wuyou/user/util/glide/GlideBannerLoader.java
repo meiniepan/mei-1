@@ -5,6 +5,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.wuyou.user.Constant;
+import com.wuyou.user.R;
 import com.youth.banner.loader.ImageLoader;
 
 /**
@@ -30,6 +32,10 @@ public class GlideBannerLoader extends ImageLoader {
         }
         if (path == null) return;
         String url = path.toString();
+        if (!url.contains("http://")) {
+            Glide.with(context).load(Constant.IPFS_URL + url).apply(new RequestOptions().placeholder(R.mipmap.default_pic)).into(imageView);
+            return;
+        }
         if (isRound) {
             RequestOptions options = new RequestOptions().optionalTransform(new GlideRoundTransform(context, 4, GlideRoundTransform.CornerType.ALL));
             Glide.with(context).load(url).apply(options).into(imageView);

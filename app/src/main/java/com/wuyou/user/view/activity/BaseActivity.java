@@ -146,7 +146,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         baseStatusLayout.showErrorView(getString(msgId));
     }
 
-    protected void showLoadingView() {
+    public void showLoadingView() {
         baseStatusLayout.showProgressView();
     }
 
@@ -154,7 +154,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         baseStatusLayout.showProgressView(message);
     }
 
-    protected void showContent() {
+    public void showContent() {
         baseStatusLayout.showContentView();
     }
 

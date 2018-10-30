@@ -219,6 +219,7 @@
     <string name="time_bank">时间银行</string>
     <string name="project_detail">项目详情</string>
     <string name="project_record">项目记录</string>
+    <string name="no_project_record">暂无项目记录</string>
     <string name="volunteer_project">志愿项目</string>
 
 
