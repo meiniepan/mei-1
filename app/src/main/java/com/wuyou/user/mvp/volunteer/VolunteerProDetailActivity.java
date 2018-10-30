@@ -6,6 +6,8 @@ import android.view.View;
 
 import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.ErrorBody;
+import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.EoscDataManager;
@@ -45,7 +47,17 @@ public class VolunteerProDetailActivity extends BaseActivity {
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
-                        Log.e("Carefree", "onSuccess: " + jsonObject);
+                        ToastUtils.ToastMessage(getCtx(), "报名成功！");
+                        finish();
+                    }
+                    @Override
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        if (message.message.contains("You have enrolled")) {
+                            ToastUtils.ToastMessage(getCtx(), "您已经报过名了");
+                        } else {
+                            ToastUtils.ToastMessage(getCtx(), message.message);
+                        }
+                        finish();
                     }
                 });
     }

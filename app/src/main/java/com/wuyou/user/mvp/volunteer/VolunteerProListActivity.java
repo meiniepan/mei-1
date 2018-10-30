@@ -48,13 +48,10 @@ public class VolunteerProListActivity extends BaseActivity {
     private void initRv() {
         adapter = new VolunteerProListAdapter(R.layout.item_volunteer_project);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                Intent intent = new Intent(getCtx(), VolunteerProDetailActivity.class);
-                intent.putExtra(Constant.VOLUNTEER_PROJECT, data.get(i));
-                startActivity(intent);
-            }
+        adapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
+            Intent intent = new Intent(getCtx(), VolunteerProDetailActivity.class);
+            intent.putExtra(Constant.VOLUNTEER_PROJECT, data.get(i));
+            startActivity(intent);
         });
     }
 
