@@ -3,6 +3,7 @@ package com.wuyou.user.mvp.trace;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -25,8 +26,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -93,7 +97,18 @@ public class TracePresenter extends TraceContract.Presenter {
                     JsonElement data = jsonObject1.get("data");
                     return ChainRetrofit.getInstance().createApi(NodeosApi.class).getBeanFromData(new BinToJsonRequest(Constant.EOSIO_TOKEN_CONTRACT, "transfer", data.getAsString()));
                 })
-                .flatMap(binToJsonResponse -> IPFSRetrofit.getInstance().createApi(NodeosApi.class).getIPFSData(binToJsonResponse.args.memo));
+                .flatMap(binToJsonResponse -> IPFSRetrofit.getInstance().createApi(NodeosApi.class).getIPFSData(binToJsonResponse.args.memo))
+                .flatMap(new Function<JsonObject, ObservableSource<TraceIPFSBean>>() {
+                    @Override
+                    public ObservableSource<TraceIPFSBean> apply(JsonObject s) throws Exception {
+                        return Observable.create(new ObservableOnSubscribe<TraceIPFSBean>() {
+                            @Override
+                            public void subscribe(ObservableEmitter<TraceIPFSBean> e) throws Exception {
+                                e.onNext(new Gson().fromJson(s, TraceIPFSBean.class));
+                            }
+                        });
+                    }
+                });
     }
 
     public void getApproveTable() {

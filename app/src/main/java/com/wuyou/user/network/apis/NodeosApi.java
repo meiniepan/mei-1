@@ -100,7 +100,7 @@ public interface NodeosApi {
     Observable<BinToJsonResponse> getBeanFromData(@Body BinToJsonRequest body);
 
     @GET("api/v0/cat")
-    Observable<TraceIPFSBean> getIPFSData(@Query("arg") String hashCode);
+    Observable<JsonObject> getIPFSData(@Query("arg") String hashCode);
 
     String ACCOUNT_HISTORY_GET_TRANSACTIONS = "get_transactions";
     String GET_TRANSACTIONS_KEY = "account_name";
