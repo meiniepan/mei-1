@@ -48,9 +48,16 @@
 
                 <TextView
                     android:id="@+id/tv_volunteer_pro_rewards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                     />
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:text="小时币"
+                    />
 
                 <TextView
                     android:id="@+id/tv_volunteer_pro_is_end"
