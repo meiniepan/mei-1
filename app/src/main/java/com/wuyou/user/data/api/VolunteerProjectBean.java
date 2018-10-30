@@ -35,7 +35,7 @@ public class VolunteerProjectBean implements Parcelable{
     public String logofile;
     public List<PositionsBean> positions;
 
-    public static class PositionsBean implements Parcelable{
+    public static class PositionsBean implements Parcelable {
         /**
          * name : position_name_1
          * amount : 8
@@ -46,9 +46,10 @@ public class VolunteerProjectBean implements Parcelable{
         public String name;
         public int amount;
         public String rewards;
+        public boolean isChosen;
         public List<EnrolledBean> enrolled;
 
-        public static class EnrolledBean implements Parcelable{
+        public static class EnrolledBean implements Parcelable {
             /**
              * volunteer : samkunnbanb2
              * registered : 0
@@ -94,6 +95,7 @@ public class VolunteerProjectBean implements Parcelable{
             name = in.readString();
             amount = in.readInt();
             rewards = in.readString();
+            isChosen = in.readByte() != 0;
             enrolled = in.createTypedArrayList(EnrolledBean.CREATOR);
         }
 
@@ -102,6 +104,7 @@ public class VolunteerProjectBean implements Parcelable{
             dest.writeString(name);
             dest.writeInt(amount);
             dest.writeString(rewards);
+            dest.writeByte((byte) (isChosen ? 1 : 0));
             dest.writeTypedList(enrolled);
         }
 
@@ -122,7 +125,6 @@ public class VolunteerProjectBean implements Parcelable{
             }
         };
     }
-
 
     protected VolunteerProjectBean(Parcel in) {
         id = in.readInt();
