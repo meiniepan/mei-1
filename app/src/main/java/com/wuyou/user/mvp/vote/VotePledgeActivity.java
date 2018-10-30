@@ -94,6 +94,7 @@ public class VotePledgeActivity extends BaseActivity {
                         } else {
                             ToastUtils.ToastMessage(getCtx(), message.message);
                         }
+                        finish();
                     }
                 });
     }
