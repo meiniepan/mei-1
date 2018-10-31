@@ -105,7 +105,6 @@ public class VolunteerProListActivity extends BaseActivity {
                     ListRowResponse<VolunteerProjectBean> listBean = new Gson().fromJson(s, new TypeToken<ListRowResponse<VolunteerProjectBean>>() {
                     }.getType());
                     data = listBean.rows;
-
                     return data;
                 })
                 .compose(RxUtil.switchSchedulers()).subscribe(new BaseSubscriber<List<VolunteerProjectBean>>() {

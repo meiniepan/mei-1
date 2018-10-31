@@ -23,12 +23,6 @@ public class VolunteerPositionChooseAdapter extends BaseQuickAdapter<VolunteerPr
         holder.setText(R.id.tv_position_name, item.name);
         CheckBox checkBox = holder.getView(R.id.cb_position);
         checkBox.setChecked(item.isChosen);
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                item.isChosen = isChecked;
-            }
-        });
     }
 
 }

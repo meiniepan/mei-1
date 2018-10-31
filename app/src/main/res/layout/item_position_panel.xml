@@ -24,5 +24,6 @@
         android:layout_height="@dimen/radio_size"
         android:background="@drawable/btn_radio"
         android:button="@null"
+        android:clickable="false"
         />
 </LinearLayout>

@@ -7,20 +7,22 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.BaseSubscriber;
-import com.gs.buluo.common.network.ErrorBody;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.utils.TribeDateUtils;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.VolunteerPositionListAdapter;
-import com.wuyou.user.data.EoscDataManager;
+import com.wuyou.user.data.api.DetailFileBean;
 import com.wuyou.user.data.api.VolunteerProjectBean;
+import com.wuyou.user.network.IPFSRetrofit;
+import com.wuyou.user.network.apis.NodeosApi;
+import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.widget.panel.EnvironmentChoosePanel;
 import com.wuyou.user.view.widget.panel.PositionChoosePanel;
 
 import java.util.Date;
@@ -44,8 +46,8 @@ public class VolunteerProDetailActivity extends BaseActivity {
     TextView tvVolunteerDetailProServeTime;
     @BindView(R.id.tv_volunteer_detail_pro_serve_address)
     TextView tvVolunteerDetailProServeAddress;
-    @BindView(R.id.tv_volunteer_detail_pro_haha)
-    TextView tvVolunteerDetailProHaha;
+    @BindView(R.id.tv_volunteer_detail_pro_group)
+    TextView tvVolunteerDetailProGroup;
     @BindView(R.id.tv_volunteer_detail_pro_contact)
     TextView tvVolunteerDetailProContact;
     @BindView(R.id.tv_volunteer_detail_pro_phone)
@@ -58,6 +60,8 @@ public class VolunteerProDetailActivity extends BaseActivity {
     RecyclerView recyclerView;
     @BindView(R.id.tv_volunteer_detail_pro_intro)
     TextView tvVolunteerDetailProIntro;
+    @BindView(R.id.tv_volunteer_pro_detail_rewards)
+    TextView tvRewards;
     VolunteerPositionListAdapter adapter;
 
     @Override
@@ -70,15 +74,65 @@ public class VolunteerProDetailActivity extends BaseActivity {
         setTitleText(getString(R.string.project_detail));
         data = getIntent().getParcelableExtra(Constant.VOLUNTEER_PROJECT);
         initUI();
+        getDetailFile();
+    }
+
+    private void getDetailFile() {
+        IPFSRetrofit.getInstance().createApi(NodeosApi.class).getIPFSData("QmaKmgyobAUdT5Hxciymmd1QKur3b7xS6RrjeHPXMdw9ei")
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<JsonObject>() {
+                    @Override
+                    public void onSuccess(JsonObject jsonObject) {
+                        DetailFileBean detailFileBean = new Gson().fromJson(jsonObject,DetailFileBean.class);
+                        initDetailUI(detailFileBean);
+                    }
+                });
+
+        }
+
+    private void initDetailUI(DetailFileBean detailFileBean) {
+        tvVolunteerDetailProServeAddress.setText(detailFileBean.address);
+        tvVolunteerDetailProGroup.setText(detailFileBean.group);
+        tvVolunteerDetailProContact.setText(detailFileBean.contact);
+        tvVolunteerDetailProPhone.setText(detailFileBean.mobile);
+        tvVolunteerDetailProIntro.setText(detailFileBean.description);
+        tvVolunteerDetailProEmail.setText(detailFileBean.email);
     }
 
     private void initUI() {
         GlideUtils.loadRoundCornerImage(getCtx(), Constant.IPFS_URL + data.logofile, ivVolunteerDetailLogo);
         tvVolunteerDetailProName.setText(data.name);
-        tvVolunteerDetailProServeTime.setText(TribeDateUtils.dateFormat5(new Date(data.service_time*1000)) + " 至 " + TribeDateUtils.dateFormat5(new Date(data.service_end_time*1000)));
+        tvVolunteerDetailProServeTime.setText(TribeDateUtils.dateFormat5(new Date(data.service_time * 1000)) + " 至 " + TribeDateUtils.dateFormat5(new Date(data.service_end_time * 1000)));
         tvVolunteerDetailProServeAddress.setText(data.address);
-        tvVolunteerDetailProRecruitTime.setText(TribeDateUtils.dateFormat5(new Date(data.enroll_time*1000)) + " 至 " + TribeDateUtils.dateFormat5(new Date(data.enroll_end_time*1000)));
+        tvVolunteerDetailProRecruitTime.setText(TribeDateUtils.dateFormat5(new Date(data.enroll_time * 1000)) + " 至 " + TribeDateUtils.dateFormat5(new Date(data.enroll_end_time * 1000)));
+        tvRewards.setText("服务可获得"+getRewards());
         initRv();
+    }
+
+    private String getRewards() {
+        float rewardsMin = 0, rewardsMax = 0;
+        boolean isFirst = true;
+        for (VolunteerProjectBean.PositionsBean e : data.positions
+                ) {
+            float rew = Float.parseFloat(e.rewards.replaceAll("EOS", "").replaceAll(" ",""));
+            if (isFirst) {
+                isFirst = false;
+                rewardsMin = rewardsMax = rew;
+            } else {
+                if (rew < rewardsMin) {
+                    rewardsMin = rew;
+                } else if (rew > rewardsMax) {
+                    rewardsMax = rew;
+                }
+            }
+        }
+        String rewards;
+        if (rewardsMin == rewardsMax){
+            rewards = CommonUtil.formatPrice(rewardsMin);
+        }else {
+            rewards = CommonUtil.formatPrice(rewardsMin)+" - "+CommonUtil.formatPrice(rewardsMax);
+        }
+        return rewards;
     }
 
     private void initRv() {
@@ -89,9 +143,6 @@ public class VolunteerProDetailActivity extends BaseActivity {
     }
 
 
-
-
-
     @OnClick({R.id.btn_volunteer_detail_pro_left, R.id.btn_volunteer_detail_pro_right})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -99,7 +150,7 @@ public class VolunteerProDetailActivity extends BaseActivity {
                 ToastUtils.ToastMessage(getCtx(), R.string.no_function);
                 break;
             case R.id.btn_volunteer_detail_pro_right:
-                PositionChoosePanel choosePanel = new PositionChoosePanel(getCtx(),data);
+                PositionChoosePanel choosePanel = new PositionChoosePanel(getCtx(), data);
                 choosePanel.show();
                 break;
         }

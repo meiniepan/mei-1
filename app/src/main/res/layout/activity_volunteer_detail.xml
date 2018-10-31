@@ -34,16 +34,50 @@
                     android:layout_height="72dp"
                     android:src="@mipmap/default_pic" />
 
-                <TextView
-                    android:id="@+id/tv_volunteer_detail_pro_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_volunteer_detail_pro_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_volunteer_pro_rewards"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@mipmap/icon_salary" />
+
+                        <TextView
+                            android:id="@+id/tv_volunteer_pro_detail_rewards"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="小时币"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/activity_horizontal_margin">
 
                 <TextView
@@ -78,6 +112,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:layout_marginTop="@dimen/activity_horizontal_margin">
 
                 <TextView
@@ -90,6 +125,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="26dp" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@mipmap/icon_address"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -103,7 +144,7 @@
                     android:hint="志愿团体" />
 
                 <TextView
-                    android:id="@+id/tv_volunteer_detail_pro_haha"
+                    android:id="@+id/tv_volunteer_detail_pro_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="26dp" />
@@ -228,8 +269,7 @@
             android:layout_height="54dp"
             android:layout_marginTop="30dp"
             android:background="@color/white"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/btn_volunteer_detail_pro_left"

@@ -51,6 +51,10 @@ public class PositionChoosePanel extends Dialog {
     }
 
     private void initView() {
+        for (VolunteerProjectBean.PositionsBean e : data.positions
+                ) {
+            e.isChosen = false;
+        }
         View rootView = LayoutInflater.from(getContext()).inflate(R.layout.position_choose_board, null);
         setContentView(rootView);
         ButterKnife.bind(this);
@@ -85,7 +89,6 @@ public class PositionChoosePanel extends Dialog {
         });
         findViewById(R.id.tv_position_apply).setOnClickListener(v -> {
             participateVolunteerProject();
-            dismiss();
         });
     }
 
