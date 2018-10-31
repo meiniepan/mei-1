@@ -19,6 +19,7 @@ import com.wuyou.user.data.api.VolunteerProjectBean;
 import com.wuyou.user.mvp.trace.TraceAuthActivity;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.activity.CaptureActivity;
 import com.wuyou.user.view.widget.CarefreeRecyclerView;
 
 import java.util.List;
@@ -128,6 +129,7 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
             } else if (position == 1) {
                 finishAttendRecyclerView = new CarefreeRecyclerView(getCtx());
                 finishAttendRecyclerView.setEmptyIcon(R.mipmap.empty_score);
+                finishAttendRecyclerView.setRefreshAction(() -> mPresenter.getRecordData());
                 finishedAdapter = new TBVolunteerAdapter(position);
                 finishAttendRecyclerView.setAdapter(finishedAdapter);
                 finishedAdapter.setOnItemClickListener((baseQuickAdapter, view, i) -> navigateToDetail((VolunteerProjectBean) baseQuickAdapter.getData().get(i)));
@@ -137,6 +139,7 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
             } else {
                 attendingRecyclerView = new CarefreeRecyclerView(getCtx());
                 attendingRecyclerView.setEmptyIcon(R.mipmap.empty_score);
+                attendingRecyclerView.setRefreshAction(() -> mPresenter.getRecordData());
                 attendingAdapter = new TBVolunteerAdapter(position);
                 attendingRecyclerView.setAdapter(attendingAdapter);
                 attendingAdapter.setOnItemClickListener((baseQuickAdapter, view, i) -> navigateToDetail((VolunteerProjectBean) baseQuickAdapter.getData().get(i)));
@@ -191,8 +194,7 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
 
             actionView.setOnClickListener(v -> {
                 if (status == 0) {
-                    showLoadingDialog();
-                    mPresenter.registerProject(baseHolder.getAdapterPosition(), rowsBean);
+                    navigateToScan();
                 } else if (status == 1) {
                     navigateToTrace(rowsBean.name);
                 }
@@ -209,6 +211,19 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
             intent.putExtra(Constant.TRACE_KEY_WORD, name);
             startActivity(intent);
 
+        }
+    }
+
+    private void navigateToScan() {
+        Intent intent = new Intent(getCtx(), CaptureActivity.class);
+        startActivityForResult(intent, 201);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 201 && resultCode == RESULT_OK) {
+            registerSuccess(0);
         }
     }
 }

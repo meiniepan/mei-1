@@ -8,6 +8,8 @@ import com.google.gson.reflect.TypeToken;
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.ErrorBody;
+import com.gs.buluo.common.utils.ToastUtils;
+import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.data.EoscDataManager;
@@ -62,6 +64,20 @@ public class TimeBankPresenter extends TimeBankRecordContract.Presenter {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
                         mView.registerSuccess(position);
+                    }
+
+                    @Override
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        if (message.message.contains("in progress")) {
+                            ToastUtils.ToastMessage(CarefreeApplication.getInstance().getApplicationContext(), "活动结束后才可领取奖励");
+                        } else {
+                            ToastUtils.ToastMessage(CarefreeApplication.getInstance().getApplicationContext(), message.message);
+                        }
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        mView.showError(e.getDisplayMessage(), e.getCode());
                     }
                 });
     }

@@ -17,11 +17,14 @@ import android.os.Looper;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
@@ -31,18 +34,12 @@ import com.google.zxing.NotFoundException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
-import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
-import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
-import com.wuyou.user.CarefreeDaoSession;
-import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.data.remote.PointBean;
-import com.wuyou.user.mvp.score.SignInSuccessActivity;
-import com.wuyou.user.network.CarefreeRetrofit;
-import com.wuyou.user.network.apis.ScoreApis;
+import com.wuyou.user.data.EoscDataManager;
+import com.wuyou.user.data.local.SignInBean;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.zxing.camera.CameraManager;
 import com.wuyou.user.util.zxing.decoding.CaptureActivityHandler;
@@ -453,25 +450,25 @@ public class CaptureActivity extends BaseActivity implements Callback {
 
 
     private void handleQRResult(String result) {
-//        if (result.contains("signIn://")) {
-//            signIn();
-//        } else {
+        if (result.contains("signIn://")) {
+            signIn(result.split("signIn://")[1]);
+        } else {
             ToastUtils.ToastMessage(getCtx(), getString(R.string.wrong_qr_code));
             if (handler != null) previewView.postDelayed(() -> handler.restartDecode(), 3000);
-//        }
+        }
     }
 
-    private void signIn() {
+    private void signIn(String data) {
+        Log.e("Carefree", "signIn: " + data);
         showLoadingDialog();
-        CarefreeRetrofit.getInstance().createApi(ScoreApis.class)
-                .signIn(QueryMapBuilder.getIns().put("uid", CarefreeDaoSession.getInstance().getUserId()).buildPost())
+        SignInBean bean = new Gson().fromJson(data, SignInBean.class);
+        EoscDataManager.getIns().registerTimeBank(bean.id + "", bean.organizer, bean.name)
                 .compose(RxUtil.switchSchedulers())
-                .subscribe(new BaseSubscriber<BaseResponse<PointBean>>() {
+                .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override
-                    public void onSuccess(BaseResponse<PointBean> pointBeanBaseResponse) {
-                        Intent intent = new Intent(getCtx(), SignInSuccessActivity.class);
-                        intent.putExtra(Constant.SIGN_POINT, pointBeanBaseResponse.data.point);
-                        startActivity(intent);
+                    public void onSuccess(JsonObject jsonObject) {
+                        ToastUtils.ToastMessage(getCtx(), R.string.sign_success);
+                        setResult(RESULT_OK);
                         finish();
                     }
                 });

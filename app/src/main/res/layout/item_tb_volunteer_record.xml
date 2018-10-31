@@ -30,6 +30,7 @@
         android:layout_height="30dp"
         android:gravity="center"
         android:text="去签到"
+        android:textColor="@color/night_blue"
         android:background="@drawable/night_blue_border"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
