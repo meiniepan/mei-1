@@ -1,92 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/time_blank_mine_head"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@mipmap/default_head"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="60dp"/>
-
-    <LinearLayout
-        android:layout_marginTop="20dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="10dp"
+        android:layout_height="200dp"
         android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/time_blank_mine_head"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/default_head" />
+
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/time_bank_mine_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="0.00"/>
+            android:layout_below="@+id/time_blank_mine_head"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
+
         <TextView
-            android:layout_width="0dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/time_bank_mine_total_time"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="0.00"/>
+            android:layout_below="@+id/time_bank_mine_name"
+            android:layout_marginStart="53dp"
+            android:text="100分钟" />
+
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="0.00"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:background="@color/white">
+            android:layout_below="@+id/time_bank_mine_total_time"
+            android:layout_marginStart="53dp"
+            android:layout_marginTop="5dp"
+            android:text="服务时长"
+            android:textColor="@color/common_gray"
+            android:textSize="@dimen/dimens_12sp" />
+
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="服务时长"/>
+            android:layout_alignTop="@+id/time_bank_mine_total_time"
+            android:layout_centerHorizontal="true"
+            android:text="15" />
+
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="公益次数"/>
+            android:layout_below="@+id/textView12"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="公益次数"
+            android:textColor="@color/common_gray"
+            android:textSize="@dimen/dimens_12sp" />
+
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:text="服务态度"/>
-    </LinearLayout>
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/time_bank_mine_total_time"
+            android:layout_marginEnd="63dp"
+            android:text="5.0" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/textView10"
+            android:layout_marginEnd="50dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="5dp"
+            android:text="服务态度"
+            android:textColor="@color/common_gray"
+            android:textSize="@dimen/dimens_12sp" />
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/textView6"
+            android:layout_marginBottom="6dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/textView6"
+            android:background="@color/divide_gray" />
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/textView13"
+            android:layout_marginBottom="6dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/textView13"
+            android:background="@color/divide_gray" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/white"
         android:layout_marginTop="15dp"
-        android:orientation="horizontal">
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/time_bank_mine_wallet"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/mine_kyc"
+            android:drawableTop="@mipmap/tb_mine_wallet"
             android:gravity="center"
-            android:text="公益钱包"/>
+            android:text="公益钱包" />
+
         <TextView
             android:id="@+id/time_bank_mine_record"
             android:layout_width="0dp"
-            android:gravity="center"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/mine_kyc"
-            android:text="项目记录"/>
+            android:drawableTop="@mipmap/tb_mine_record"
+            android:gravity="center"
+            android:text="项目记录" />
 
 
     </LinearLayout>

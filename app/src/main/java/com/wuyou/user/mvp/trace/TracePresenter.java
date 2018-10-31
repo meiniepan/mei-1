@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.ErrorBody;
 import com.gs.buluo.common.utils.ToastUtils;
@@ -85,6 +86,11 @@ public class TracePresenter extends TraceContract.Presenter {
                     @Override
                     protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
                         mView.showError(message.message, code);
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        mView.showError(e.getDisplayMessage(),e.getCode());
                     }
                 });
     }

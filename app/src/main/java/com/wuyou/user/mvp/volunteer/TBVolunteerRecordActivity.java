@@ -1,5 +1,6 @@
 package com.wuyou.user.mvp.volunteer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,11 +9,15 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.api.VolunteerProjectBean;
+import com.wuyou.user.mvp.trace.TraceAuthActivity;
+import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.CarefreeRecyclerView;
 
@@ -35,7 +40,7 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
 
     CarefreeRecyclerView attendingRecyclerView;
     CarefreeRecyclerView finishAttendRecyclerView;
-    CarefreeRecyclerView CloseRecyclerView;
+    CarefreeRecyclerView closeRecyclerView;
 
     TBVolunteerAdapter attendingAdapter;
     TBVolunteerAdapter finishedAdapter;
@@ -59,19 +64,27 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
         mPresenter.getRecordData();
     }
 
+    private void navigateToDetail(VolunteerProjectBean bean) {
+        Intent intent = new Intent(getCtx(), VolunteerProDetailActivity.class);
+        intent.putExtra(Constant.VOLUNTEER_PROJECT, bean);
+        startActivity(intent);
+    }
+
     @Override
     public void registerSuccess(int position) {
-
-
+        attendingRecyclerView.showProgressView();
+        mPresenter.getRecordData();
     }
 
     @Override
     public void rewardSuccess(int position) {
-
+        finishAttendRecyclerView.showProgressView();
+        mPresenter.getRecordData();
     }
 
     @Override
     public void getAttendingDataSuccess(List<VolunteerProjectBean> data) {
+        attendingRecyclerView.showContentView();
         attendingAdapter.setNewData(data);
         if (attendingAdapter.getData().size() == 0) {
             attendingRecyclerView.showEmptyView(getString(R.string.no_project_record));
@@ -82,6 +95,7 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
 
     @Override
     public void getFinishAttendDataSuccess(List<VolunteerProjectBean> data) {
+        finishAttendRecyclerView.showContentView();
         finishedAdapter.setNewData(data);
         if (finishedAdapter.getData().size() == 0) {
             finishAttendRecyclerView.showEmptyView(getString(R.string.no_project_record));
@@ -106,16 +120,17 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             if (position == 2) {
-                CloseRecyclerView = new CarefreeRecyclerView(getCtx());
-                CloseRecyclerView.setEmptyIcon(R.mipmap.empty_score);
-                CloseRecyclerView.showEmptyView("暂无关闭项目");
-                container.addView(CloseRecyclerView);
-                return CloseRecyclerView;
+                closeRecyclerView = new CarefreeRecyclerView(getCtx());
+                closeRecyclerView.setEmptyIcon(R.mipmap.empty_score);
+                closeRecyclerView.showEmptyView("暂无关闭项目");
+                container.addView(closeRecyclerView);
+                return closeRecyclerView;
             } else if (position == 1) {
                 finishAttendRecyclerView = new CarefreeRecyclerView(getCtx());
                 finishAttendRecyclerView.setEmptyIcon(R.mipmap.empty_score);
                 finishedAdapter = new TBVolunteerAdapter(position);
                 finishAttendRecyclerView.setAdapter(finishedAdapter);
+                finishedAdapter.setOnItemClickListener((baseQuickAdapter, view, i) -> navigateToDetail((VolunteerProjectBean) baseQuickAdapter.getData().get(i)));
                 finishAttendRecyclerView.showProgressView();
                 container.addView(finishAttendRecyclerView);
                 return finishAttendRecyclerView;
@@ -124,6 +139,7 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
                 attendingRecyclerView.setEmptyIcon(R.mipmap.empty_score);
                 attendingAdapter = new TBVolunteerAdapter(position);
                 attendingRecyclerView.setAdapter(attendingAdapter);
+                attendingAdapter.setOnItemClickListener((baseQuickAdapter, view, i) -> navigateToDetail((VolunteerProjectBean) baseQuickAdapter.getData().get(i)));
                 attendingRecyclerView.showProgressView();
                 container.addView(attendingRecyclerView);
                 return attendingRecyclerView;
@@ -153,6 +169,46 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
         @Override
         protected void convert(BaseHolder baseHolder, VolunteerProjectBean rowsBean) {
             baseHolder.setText(R.id.item_tb_record_name, rowsBean.name);
+            GlideUtils.loadImage(getCtx(), Constant.IPFS_URL + rowsBean.logofile, baseHolder.getView(R.id.item_tb_record_logo));
+            TextView actionView = baseHolder.getView(R.id.item_tb_record_action);
+            TextView rewardsView = baseHolder.getView(R.id.item_tb_record_rewards);
+            if (status == 0) {
+                actionView.setText("去签到");
+            } else if (status == 1) {
+                rewardsView.setVisibility(View.VISIBLE);
+                actionView.setText("溯源认证");
+                if (rowsBean.rewardsStatus == 2) {
+                    rewardsView.setText(R.string.tb_wait_rewards);
+                    rewardsView.setEnabled(true);
+                } else {
+                    rewardsView.setText(R.string.tb_already_rewards);
+                    rewardsView.setEnabled(false);
+                }
+            } else {
+                rewardsView.setVisibility(View.GONE);
+                actionView.setVisibility(View.GONE);
+            }
+
+            actionView.setOnClickListener(v -> {
+                if (status == 0) {
+                    showLoadingDialog();
+                    mPresenter.registerProject(baseHolder.getAdapterPosition(), rowsBean);
+                } else if (status == 1) {
+                    navigateToTrace(rowsBean.name);
+                }
+            });
+
+            rewardsView.setOnClickListener(v -> {
+                showLoadingDialog();
+                mPresenter.rewardProject(baseHolder.getAdapterPosition(), rowsBean);
+            });
+        }
+
+        private void navigateToTrace(String name) {
+            Intent intent = new Intent(getCtx(), TraceAuthActivity.class);
+            intent.putExtra(Constant.TRACE_KEY_WORD, name);
+            startActivity(intent);
+
         }
     }
 }

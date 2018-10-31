@@ -43,6 +43,7 @@ public class Constant {
 
     public static final int TX_EXPIRATION_IN_MILSEC = 30000;
     public static final String BACKUP_FROM_CREATE = "backup_from_create";
+    public static final String TRACE_KEY_WORD = "trace_key_word";
     public static final int GET_CAPTCHA_FAIL = 600;
     public static final String CAPTCHA_NEW_ACCOUNT = "new_account";
     public static final String CAPTCHA_CHECK_NEW_ACCOUNT = "check_new_account";

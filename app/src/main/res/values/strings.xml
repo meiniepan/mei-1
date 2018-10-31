@@ -222,6 +222,9 @@
     <string name="no_project_record">暂无项目记录</string>
     <string name="volunteer_project">志愿项目</string>
     <string name="apply_success">报名成功</string>
+    <string name="tb_wait_rewards">时间币待领取</string>
+    <string name="tb_already_rewards">时间币已领取</string>
+    <string name="to_sign_up">去签到</string>
 
 
 </resources>

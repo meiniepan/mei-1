@@ -3,6 +3,7 @@ package com.wuyou.user;
 import com.wuyou.user.crypto.ec.EosPrivateKey;
 import com.wuyou.user.crypto.util.HexUtils;
 import com.wuyou.user.data.chain.PackedTransaction;
+import com.wuyou.user.util.EosUtil;
 
 import org.junit.Test;
 
@@ -82,15 +83,19 @@ public class ExampleUnitTest {
         String s1 = new String(bytes1);
         String s2 = new String(bytes2);
 
-        byte[] a2 = compress1(a1);
-        byte[] a3 = decompress1(a2);
-        System.out.println(new String(a3));
+//        byte[] a2 = compress1(a1);
+//        byte[] a3 = decompress1(a2);
+//        System.out.println(new String(a3));
+//
+//        byte[] bytes = HexUtils.toBytes("386bc95bfdeb669d239c00000000011032dd2ad3ad32dde0b3db2e23a332dd0160e712256ea79d3700000000a8ed32322a00000000000000000101000000000000000060e712256ea79d37102700000000000004454f530000000000");
+//        byte[] b2 = decompress(bytes);
+//
+//        String s = new String(b2);
+//        System.out.println(s);
 
-        byte[] bytes = HexUtils.toBytes("386bc95bfdeb669d239c00000000011032dd2ad3ad32dde0b3db2e23a332dd0160e712256ea79d3700000000a8ed32322a00000000000000000101000000000000000060e712256ea79d37102700000000000004454f530000000000");
-        byte[] b2 = decompress(bytes);
-
-        String s = new String(b2);
-        System.out.println(s);
+        long timemilis = System.currentTimeMillis();
+        long signTimePoint = EosUtil.getSignTimePoint(timemilis);
+        System.out.println(signTimePoint);
     }
 
     public static byte[] decompress1(byte[] zipByte) throws IOException {
@@ -99,6 +104,7 @@ public class ExampleUnitTest {
         inflater.setInput(zipByte);
         byte[] buff = new byte[1024];
         int byteNum = 0;
+
         while (!inflater.finished()) {
             try {
                 byteNum = inflater.inflate(buff);
@@ -107,6 +113,7 @@ public class ExampleUnitTest {
                 e.printStackTrace();
                 return zipByte;
             }
+
         }
         return aos.toByteArray();
     }

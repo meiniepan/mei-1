@@ -28,12 +28,16 @@ public class VolunteerActionBean {
     }
 
 
-    public String getReisterAction() {
+    public String getRegisterAction() {
         return "registration";
     }
 
     public String getParticipateAction() {
         return "participate";
+    }
+
+    public String getRewardsAction(){
+        return "rewards";
     }
 }
 

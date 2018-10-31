@@ -28,6 +28,17 @@ import io.reactivex.ObservableOnSubscribe;
 public class EosUtil {
     private static String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
+    public static long getSignTimePoint(long timemilis) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00.000", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String time = sdf.format(new Date(timemilis));
+        try {
+            return sdf.parse(time).getTime() / 1000;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return timemilis / 1000;
+    }
 
     public static String formatZeroTimePoint(long timemilis) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00.000", Locale.getDefault());
@@ -74,11 +85,11 @@ public class EosUtil {
     }
 
     public static boolean isOverdue(long time) {
-        return time*1000 < System.currentTimeMillis();
+        return time * 1000 < System.currentTimeMillis();
     }
 
     public static boolean isNotBegin(long time) {
-        return time*1000 > System.currentTimeMillis();
+        return time * 1000 > System.currentTimeMillis();
     }
 
 }

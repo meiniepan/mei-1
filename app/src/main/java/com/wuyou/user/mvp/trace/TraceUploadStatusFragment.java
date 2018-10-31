@@ -84,4 +84,9 @@ public class TraceUploadStatusFragment extends BaseFragment<TraceContract.View, 
         adapter.remove(position);
         recyclerView.showEmptyView();
     }
+
+    @Override
+    public void showError(String message, int res) {
+        recyclerView.showErrorView(message);
+    }
 }

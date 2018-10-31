@@ -286,7 +286,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/night_blue"
+                android:background="@drawable/blue_bottom_selector"
                 android:gravity="center"
                 android:text="立即报名"
                 android:textColor="@color/white"

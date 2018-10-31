@@ -48,7 +48,6 @@ import com.wuyou.user.data.api.GetRequiredKeys;
 import com.wuyou.user.data.api.GetTableRequest;
 import com.wuyou.user.data.api.JsonToBinRequest;
 import com.wuyou.user.data.api.VolunteerActionBean;
-import com.wuyou.user.data.api.VolunteerRegisterBean;
 import com.wuyou.user.data.api.VoteOption;
 import com.wuyou.user.data.chain.Action;
 import com.wuyou.user.data.chain.PackedTransaction;
@@ -102,7 +101,7 @@ public class EoscDataManager {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("create_time", System.currentTimeMillis() / 1000);
-        EosDailyRewards dailyRewards = new EosDailyRewards(currentOperateAccount.getName(), System.currentTimeMillis(), jsonObject.toString(), new TypeAsset(amount));
+        EosDailyRewards dailyRewards = new EosDailyRewards(currentOperateAccount.getName(), EosUtil.getSignTimePoint(System.currentTimeMillis()), jsonObject.toString(), new TypeAsset(amount));
         return pushActionRetJson(Constant.EOSIO_DAILAY_REWARDS, dailyRewards.getActionName(), CommonUtil.prettyPrintJson(dailyRewards), getActivePermission(currentOperateAccount.getName())); //transfer.getAsHex()
     }
 
@@ -144,17 +143,24 @@ public class EoscDataManager {
         return pushActionRetJson(Constant.EOSIO_TRACE_SCOPE, approveBean.getActionName(), CommonUtil.prettyPrintJson(approveBean), getActivePermission(currentOperateAccount.getName()));
     }
 
-    public Observable<JsonObject> registTimeBank(String id, String organizer, String projectName) {
+    public Observable<JsonObject> participateTimeBank(String id, String organizer, String projectName, String positionName) {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
-        VolunteerActionBean registerBean = new VolunteerActionBean(currentOperateAccount.getName(), id, organizer, projectName);
-        return pushActionRetJson(Constant.EOS_TIME_BANK, registerBean.getReisterAction(), CommonUtil.prettyPrintJson(registerBean), getActivePermission(currentOperateAccount.getName()));
-    }
-
-    public Observable<JsonObject> participateTimeBank(String id, String organizer, String projectName,String positionName) {
-        currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
-        VolunteerActionBean registerBean = new VolunteerActionBean(currentOperateAccount.getName(), id, organizer, projectName,positionName);
+        VolunteerActionBean registerBean = new VolunteerActionBean(currentOperateAccount.getName(), id, organizer, projectName, positionName);
         return pushActionRetJson(Constant.EOS_TIME_BANK, registerBean.getParticipateAction(), CommonUtil.prettyPrintJson(registerBean), getActivePermission(currentOperateAccount.getName()));
     }
+    public Observable<JsonObject> registerTimeBank(String id, String organizer, String projectName) {
+        currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
+        VolunteerActionBean registerBean = new VolunteerActionBean(currentOperateAccount.getName(), id, organizer, projectName);
+        return pushActionRetJson(Constant.EOS_TIME_BANK, registerBean.getRegisterAction(), CommonUtil.prettyPrintJson(registerBean), getActivePermission(currentOperateAccount.getName()));
+    }
+
+    public Observable<JsonObject> rewardsTimeBank(String id, String organizer, String projectName) {
+        currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
+        VolunteerActionBean registerBean = new VolunteerActionBean(currentOperateAccount.getName(), id, organizer, projectName);
+        return pushActionRetJson(Constant.EOS_TIME_BANK, registerBean.getRewardsAction(), CommonUtil.prettyPrintJson(registerBean), getActivePermission(currentOperateAccount.getName()));
+    }
+
+
 
     public Observable<EosChainInfo> getChainInfo() {
         return ChainRetrofit.getInstance().createApi(NodeosApi.class).readInfo("get_info");

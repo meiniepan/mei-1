@@ -2,7 +2,6 @@ package com.wuyou.user.mvp.volunteer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +9,9 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.ErrorBody;
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.Constant;
@@ -23,6 +24,7 @@ import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideBannerLoader;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.activity.HomeMapActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 import com.youth.banner.Banner;
 
@@ -53,6 +55,12 @@ public class TimeBankMainFragment extends BaseFragment {
         initList();
         initBanner();
         initData();
+        adapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
+            VolunteerProjectBean bean = adapter.getData().get(i);
+            Intent intent = new Intent(mCtx, VolunteerProDetailActivity.class);
+            intent.putExtra(Constant.VOLUNTEER_PROJECT, bean);
+            startActivity(intent);
+        });
     }
 
     private void initBanner() {
@@ -77,7 +85,7 @@ public class TimeBankMainFragment extends BaseFragment {
 
     private void initData() {
         ((BaseActivity) getActivity()).showLoadingView();
-        EoscDataManager.getIns().getTable("samkunnbanb1 ", Constant.EOS_TIME_BANK, "task")
+        EoscDataManager.getIns().getTable("samkunnbanb1 ", Constant.EOS_TIME_BANK, "task", "", "", "", 6)
                 .compose(RxUtil.switchSchedulers())
                 .map(s -> {
                     ListRowResponse<VolunteerProjectBean> rowResponse = new Gson().fromJson(s, new TypeToken<ListRowResponse<VolunteerProjectBean>>() {
@@ -98,6 +106,16 @@ public class TimeBankMainFragment extends BaseFragment {
                         tbMainBanner.setImages(bannerUrl);
                         tbMainBanner.start();
                     }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        ((BaseActivity) getActivity()).showError(e.getDisplayMessage(), e.getCode());
+                    }
+
+                    @Override
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        ((BaseActivity) getActivity()).showError(message.message, code);
+                    }
                 });
 
     }
@@ -112,7 +130,7 @@ public class TimeBankMainFragment extends BaseFragment {
                 startActivity(new Intent(mCtx, VolunteerProListActivity.class));
                 break;
             case R.id.time_bank_main_map:
-
+                startActivity(new Intent(mCtx, HomeMapActivity.class));
                 break;
         }
     }

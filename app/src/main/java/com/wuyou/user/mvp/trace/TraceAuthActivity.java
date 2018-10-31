@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.ErrorBody;
 import com.gs.buluo.common.utils.ToastUtils;
@@ -55,6 +54,8 @@ public class TraceAuthActivity extends BaseActivity {
     TextView tvTraceMinus;
     @BindView(R.id.et_trace_score_num)
     EditText etTraceScoreNum;
+    @BindView(R.id.tv_trace_keyword)
+    TextView tvTraceKeyword;
     @BindView(R.id.tv_trace_plus)
     TextView tvTracePlus;
     @BindView(R.id.tv_trace_hint)
@@ -72,6 +73,8 @@ public class TraceAuthActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
+        keyword = getIntent().getStringExtra(Constant.TRACE_KEY_WORD);
+        tvTraceKeyword.setText(keyword);
         setTitleIcon(R.mipmap.trace_list, v -> negativeTiList());
         data.add(addBtn);
         setTitleText(getString(R.string.trace_auth));
@@ -119,7 +122,7 @@ public class TraceAuthActivity extends BaseActivity {
                     ToastUtils.ToastMessage(getCtx(), "质押积分不能为0");
                     return;
                 }
-                uploadTrace(etTraceSpec.getText().toString().trim(), pictureCodeList, score, "溯源认证");
+                uploadTrace(etTraceSpec.getText().toString().trim(), pictureCodeList, score);
                 break;
             case R.id.tv_trace_plus:
                 etTraceScoreNum.setText(score + 1 + "");
@@ -209,7 +212,9 @@ public class TraceAuthActivity extends BaseActivity {
                 .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
     }
 
-    public void uploadTrace(String content, List<String> pictureHashList, int amount, String keyword) {
+    private String keyword = "溯源认证";
+
+    public void uploadTrace(String content, List<String> pictureHashList, int amount) {
         showLoadingDialog();
         TraceIPFSBean bean = new TraceIPFSBean();
         bean.account_name = CarefreeDaoSession.getInstance().getMainAccount().getName();

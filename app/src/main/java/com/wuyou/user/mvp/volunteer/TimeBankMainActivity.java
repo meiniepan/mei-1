@@ -2,6 +2,7 @@ package com.wuyou.user.mvp.volunteer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,7 +12,6 @@ import com.wuyou.user.adapter.MainPagerAdapter;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.CaptureActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
-import com.wuyou.user.view.widget.UnScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ import butterknife.OnClick;
 
 public class TimeBankMainActivity extends BaseActivity {
     @BindView(R.id.time_main_pager)
-    UnScrollViewPager timeMainPager;
+    ViewPager timeMainPager;
     @BindView(R.id.tb_main_icon)
     ImageView tbMainIcon;
     @BindView(R.id.tb_main_text)

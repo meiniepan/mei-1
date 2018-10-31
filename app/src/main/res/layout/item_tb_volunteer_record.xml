@@ -1,21 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="132dp"
     android:background="@color/white"
     android:paddingEnd="@dimen/activity_horizontal_margin_end"
-    android:paddingStart="@dimen/activity_horizontal_margin">
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:orientation="horizontal">
 
-    <TextView
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="项目名称" />
 
     <TextView
         android:id="@+id/item_tb_record_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/activity_horizontal_margin" />
-</LinearLayout>
+        android:layout_marginTop="15dp"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+    <ImageView
+        android:id="@+id/item_tb_record_logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/item_tb_record_name"
+        android:layout_marginTop="6dp"/>
+
+
+    <TextView
+        android:id="@+id/item_tb_record_action"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="去签到"
+        android:background="@drawable/night_blue_border"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:id="@+id/item_tb_record_rewards"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="@string/tb_wait_rewards"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_toStartOf="@+id/item_tb_record_action"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone"
+        android:background="@drawable/button_selector"/>
+</RelativeLayout>
 

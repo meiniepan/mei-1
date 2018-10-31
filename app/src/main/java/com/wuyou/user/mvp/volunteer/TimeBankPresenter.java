@@ -31,7 +31,7 @@ public class TimeBankPresenter extends TimeBankRecordContract.Presenter {
 
 
     public void attendVolunteerProject() {
-        EoscDataManager.getIns().registTimeBank("", "", "")
+        EoscDataManager.getIns().registerTimeBank("", "", "")
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override
@@ -44,12 +44,11 @@ public class TimeBankPresenter extends TimeBankRecordContract.Presenter {
 
     @Override
     void registerProject(int position, VolunteerProjectBean bean) {
-        EoscDataManager.getIns().registTimeBank(bean.id + "", bean.creator, bean.name)
+        EoscDataManager.getIns().registerTimeBank(bean.id + "", bean.creator, bean.name)
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
-                        Log.e("Carefree", "onSuccess: " + jsonObject);
                         mView.registerSuccess(position);
                     }
                 });
@@ -57,12 +56,11 @@ public class TimeBankPresenter extends TimeBankRecordContract.Presenter {
 
     @Override
     void rewardProject(int position, VolunteerProjectBean bean) {
-        EoscDataManager.getIns().registTimeBank(bean.id + "", bean.creator, bean.name)
+        EoscDataManager.getIns().rewardsTimeBank(bean.id + "", bean.creator, bean.name)
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
-                        Log.e("Carefree", "onSuccess: " + jsonObject);
                         mView.registerSuccess(position);
                     }
                 });
@@ -93,10 +91,16 @@ public class TimeBankPresenter extends TimeBankRecordContract.Presenter {
                         ArrayList<VolunteerProjectBean> attendingData = new ArrayList<>();
                         ArrayList<VolunteerProjectBean> attendedData = new ArrayList<>();
                         for (VolunteerRecordBean.Participated participated : recordResponse.rows.get(0).enrolled) {
+                            VolunteerProjectBean projectBean = projectResponse.rows.get(participated.id);
                             if (participated.registered == 0 && participated.rewards == 0) {
-                                attendingData.add(projectResponse.rows.get(participated.id));
+                                projectBean.rewardsStatus = 1;
+                                attendingData.add(projectBean);
                             } else if (participated.registered == 1 && participated.rewards == 0) {
-                                attendedData.add(projectResponse.rows.get(participated.id));
+                                projectBean.rewardsStatus = 2;
+                                attendedData.add(projectBean);
+                            } else if (participated.registered == 1 && participated.rewards == 1) {
+                                projectBean.rewardsStatus = 3;
+                                attendedData.add(projectBean);
                             }
                         }
                         mView.getAttendingDataSuccess(attendingData);

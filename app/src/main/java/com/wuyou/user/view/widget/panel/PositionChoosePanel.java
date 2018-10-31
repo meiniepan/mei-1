@@ -16,8 +16,6 @@ import android.view.WindowManager;
 import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.ErrorBody;
-import com.gs.buluo.common.network.TokenEvent;
-import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.Constant;
@@ -25,14 +23,9 @@ import com.wuyou.user.R;
 import com.wuyou.user.adapter.VolunteerPositionChooseAdapter;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.api.VolunteerProjectBean;
+import com.wuyou.user.mvp.trace.TraceAuthActivity;
 import com.wuyou.user.mvp.volunteer.ApplySuccessActivity;
 import com.wuyou.user.util.RxUtil;
-import com.wuyou.user.view.activity.MainActivity;
-import com.wuyou.user.view.widget.CustomNestRadioGroup;
-
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -84,12 +77,17 @@ public class PositionChoosePanel extends Dialog {
         });
 
         findViewById(R.id.tv_position_auth).setOnClickListener(v -> {
-            ToastUtils.ToastMessage(getContext(), R.string.no_function);
-            dismiss();
+            navigateToTrace(data.name);
         });
         findViewById(R.id.tv_position_apply).setOnClickListener(v -> {
             participateVolunteerProject();
         });
+    }
+
+    private void navigateToTrace(String name) {
+        Intent intent = new Intent(getContext(), TraceAuthActivity.class);
+        intent.putExtra(Constant.TRACE_KEY_WORD, name);
+        getContext().startActivity(intent);
     }
 
     public void participateVolunteerProject() {

@@ -1,8 +1,10 @@
 package com.wuyou.user.mvp.volunteer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.adapter.VolunteerPositionListAdapter;
 import com.wuyou.user.data.api.DetailFileBean;
 import com.wuyou.user.data.api.VolunteerProjectBean;
+import com.wuyou.user.mvp.trace.TraceAuthActivity;
 import com.wuyou.user.network.IPFSRetrofit;
 import com.wuyou.user.network.apis.NodeosApi;
 import com.wuyou.user.util.CommonUtil;
@@ -26,6 +29,7 @@ import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.panel.PositionChoosePanel;
 
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -34,7 +38,7 @@ import butterknife.OnClick;
  * Created by Solang on 2018/10/29.
  */
 
-public class VolunteerProDetailActivity extends BaseActivity {
+public class VolunteerProDetailActivity extends BaseActivity<TimeBankRecordContract.View, TimeBankRecordContract.Presenter> implements TimeBankRecordContract.View {
     VolunteerProjectBean data;
     @BindView(R.id.iv_volunteer_detail_logo)
     ImageView ivVolunteerDetailLogo;
@@ -62,6 +66,10 @@ public class VolunteerProDetailActivity extends BaseActivity {
     TextView tvVolunteerDetailProIntro;
     @BindView(R.id.tv_volunteer_pro_detail_rewards)
     TextView tvRewards;
+    @BindView(R.id.btn_volunteer_detail_pro_left)
+    TextView volunteerDetailLeft;
+    @BindView(R.id.btn_volunteer_detail_pro_right)
+    TextView volunteerDetailRight;
     VolunteerPositionListAdapter adapter;
 
     @Override
@@ -75,6 +83,30 @@ public class VolunteerProDetailActivity extends BaseActivity {
         data = getIntent().getParcelableExtra(Constant.VOLUNTEER_PROJECT);
         initUI();
         getDetailFile();
+        setUpStatus();
+    }
+
+    private void setUpStatus() {
+        long UTCTime = System.currentTimeMillis();
+        Log.e("Carefree", "setUpStatus: " + UTCTime);
+        if (UTCTime < data.enroll_time * 1000) {
+            volunteerDetailRight.setText("未开始");
+            volunteerDetailRight.setEnabled(false);
+        } else if (UTCTime > data.enroll_end_time * 1000) {
+            volunteerDetailRight.setText("已结束");
+            volunteerDetailRight.setEnabled(false);
+        }
+        if (data.rewardsStatus == 1) {
+            volunteerDetailLeft.setVisibility(View.GONE);
+            volunteerDetailRight.setText(R.string.to_sign_up);
+        } else if (data.rewardsStatus == 2) {
+            volunteerDetailLeft.setText(R.string.trace_auth);
+            volunteerDetailRight.setText(R.string.tb_wait_rewards);
+        } else if (data.rewardsStatus == 3) {
+            volunteerDetailLeft.setText(R.string.trace_auth);
+            volunteerDetailRight.setText(R.string.tb_already_rewards);
+            volunteerDetailRight.setEnabled(false);
+        }
     }
 
     private void getDetailFile() {
@@ -83,12 +115,17 @@ public class VolunteerProDetailActivity extends BaseActivity {
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
-                        DetailFileBean detailFileBean = new Gson().fromJson(jsonObject,DetailFileBean.class);
+                        DetailFileBean detailFileBean = new Gson().fromJson(jsonObject, DetailFileBean.class);
                         initDetailUI(detailFileBean);
                     }
                 });
 
-        }
+    }
+
+    @Override
+    protected TimeBankRecordContract.Presenter getPresenter() {
+        return new TimeBankPresenter();
+    }
 
     private void initDetailUI(DetailFileBean detailFileBean) {
         tvVolunteerDetailProServeAddress.setText(detailFileBean.address);
@@ -102,10 +139,10 @@ public class VolunteerProDetailActivity extends BaseActivity {
     private void initUI() {
         GlideUtils.loadRoundCornerImage(getCtx(), Constant.IPFS_URL + data.logofile, ivVolunteerDetailLogo);
         tvVolunteerDetailProName.setText(data.name);
-        tvVolunteerDetailProServeTime.setText(TribeDateUtils.dateFormat5(new Date(data.service_time * 1000)) + " 至 " + TribeDateUtils.dateFormat5(new Date(data.service_end_time * 1000)));
+        tvVolunteerDetailProServeTime.setText(TribeDateUtils.dateFormat(new Date(data.service_time * 1000)) + " 至 " + TribeDateUtils.dateFormat(new Date(data.service_end_time * 1000)));
         tvVolunteerDetailProServeAddress.setText(data.address);
-        tvVolunteerDetailProRecruitTime.setText(TribeDateUtils.dateFormat5(new Date(data.enroll_time * 1000)) + " 至 " + TribeDateUtils.dateFormat5(new Date(data.enroll_end_time * 1000)));
-        tvRewards.setText("服务可获得"+getRewards());
+        tvVolunteerDetailProRecruitTime.setText(TribeDateUtils.dateFormat(new Date(data.enroll_time * 1000)) + " 至 " + TribeDateUtils.dateFormat(new Date(data.enroll_end_time * 1000)));
+        tvRewards.setText("服务可获得" + getRewards());
         initRv();
     }
 
@@ -114,7 +151,7 @@ public class VolunteerProDetailActivity extends BaseActivity {
         boolean isFirst = true;
         for (VolunteerProjectBean.PositionsBean e : data.positions
                 ) {
-            float rew = Float.parseFloat(e.rewards.replaceAll("EOS", "").replaceAll(" ",""));
+            float rew = Float.parseFloat(e.rewards.replaceAll("EOS", "").replaceAll(" ", ""));
             if (isFirst) {
                 isFirst = false;
                 rewardsMin = rewardsMax = rew;
@@ -127,16 +164,20 @@ public class VolunteerProDetailActivity extends BaseActivity {
             }
         }
         String rewards;
-        if (rewardsMin == rewardsMax){
+        if (rewardsMin == rewardsMax) {
             rewards = CommonUtil.formatPrice(rewardsMin);
-        }else {
-            rewards = CommonUtil.formatPrice(rewardsMin)+" - "+CommonUtil.formatPrice(rewardsMax);
+        } else {
+            rewards = CommonUtil.formatPrice(rewardsMin) + " - " + CommonUtil.formatPrice(rewardsMax);
         }
         return rewards;
     }
 
     private void initRv() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getCtx()));
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getCtx());
+        mLinearLayoutManager.setAutoMeasureEnabled(true);
+        recyclerView.setLayoutManager(mLinearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
         adapter = new VolunteerPositionListAdapter(R.layout.item_volunteer_project_position);
         recyclerView.setAdapter(adapter);
         adapter.setNewData(data.positions);
@@ -147,12 +188,41 @@ public class VolunteerProDetailActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_volunteer_detail_pro_left:
-                ToastUtils.ToastMessage(getCtx(), R.string.no_function);
+                if (data.rewardsStatus == 0) {
+                    ToastUtils.ToastMessage(getCtx(), R.string.no_function);
+                } else {
+                    Intent intent = new Intent(getCtx(), TraceAuthActivity.class);
+                    intent.putExtra(Constant.TRACE_KEY_WORD, data.name);
+                    startActivity(intent);
+                }
                 break;
             case R.id.btn_volunteer_detail_pro_right:
+                if (data.rewardsStatus == 2) {
+                    mPresenter.registerProject(0, data);
+                } else if (data.rewardsStatus == 3) {
+                    mPresenter.rewardProject(0, data);
+                }
                 PositionChoosePanel choosePanel = new PositionChoosePanel(getCtx(), data);
                 choosePanel.show();
                 break;
         }
+    }
+
+    @Override
+    public void registerSuccess(int position) {
+
+    }
+
+    @Override
+    public void rewardSuccess(int position) {
+
+    }
+
+    @Override
+    public void getAttendingDataSuccess(List<VolunteerProjectBean> data) {
+    }
+
+    @Override
+    public void getFinishAttendDataSuccess(List<VolunteerProjectBean> data) {
     }
 }
