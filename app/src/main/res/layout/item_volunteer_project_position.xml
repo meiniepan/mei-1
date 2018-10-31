@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:hint="计划招募" />
+            android:hint="剩余招募" />
 
         <TextView
             android:id="@+id/tv_volunteer_detail_position_need"

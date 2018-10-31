@@ -79,8 +79,12 @@ public class VoteDetailActivity extends BaseActivity {
     }
 
     private void initRv() {
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getCtx());
+        mLinearLayoutManager.setAutoMeasureEnabled(true);
+        rvVoteDetail.setLayoutManager(mLinearLayoutManager);
+        rvVoteDetail.setHasFixedSize(true);
+        rvVoteDetail.setNestedScrollingEnabled(false);
         adapter = new VoteQuestionAdapter(R.layout.item_vote_detail_question, rowsBean.contents, hasVote, rowsBean.voters.size());
-        rvVoteDetail.setLayoutManager(new LinearLayoutManager(getCtx()));
         rvVoteDetail.setAdapter(adapter);
     }
 
