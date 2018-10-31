@@ -2,6 +2,7 @@ package com.wuyou.user.view.widget.panel;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -24,7 +25,9 @@ import com.wuyou.user.R;
 import com.wuyou.user.adapter.VolunteerPositionChooseAdapter;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.api.VolunteerProjectBean;
+import com.wuyou.user.mvp.volunteer.ApplySuccessActivity;
 import com.wuyou.user.util.RxUtil;
+import com.wuyou.user.view.activity.MainActivity;
 import com.wuyou.user.view.widget.CustomNestRadioGroup;
 
 import org.greenrobot.eventbus.EventBus;
@@ -81,7 +84,7 @@ public class PositionChoosePanel extends Dialog {
             dismiss();
         });
         findViewById(R.id.tv_position_apply).setOnClickListener(v -> {
-            ToastUtils.ToastMessage(getContext(), R.string.no_function);
+            participateVolunteerProject();
             dismiss();
         });
     }
@@ -99,7 +102,7 @@ public class PositionChoosePanel extends Dialog {
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
-                        ToastUtils.ToastMessage(getContext(), "报名成功！");
+                        getContext().startActivity(new Intent(getContext(), ApplySuccessActivity.class));
                         dismiss();
                     }
 

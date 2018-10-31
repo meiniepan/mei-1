@@ -60,7 +60,10 @@ public class VolunteerProListAdapter extends BaseQuickAdapter<VolunteerProjectBe
         if (EosUtil.isOverdue(item.enroll_end_time)) {
             isEnd.setBackgroundResource(R.drawable.bac_gray_left_4_round);
             isEnd.setText("已结束");
-        } else {
+        } else if (EosUtil.isNotBegin(item.enroll_time)) {
+            isEnd.setBackgroundResource(R.drawable.bac_gray_left_4_round);
+            isEnd.setText("未开始");
+        }else {
             isEnd.setBackgroundResource(R.drawable.bac_blue_left_4_round);
             isEnd.setText("招募中");
         }

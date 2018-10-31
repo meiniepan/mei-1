@@ -24,8 +24,8 @@ public class VolunteerPositionListAdapter extends BaseQuickAdapter<VolunteerProj
     @Override
     protected void convert(BaseHolder holder, VolunteerProjectBean.PositionsBean item) {
         holder.setText(R.id.tv_volunteer_detail_position_name, item.name)
-                .setText(R.id.tv_volunteer_detail_position_need, item.amount)
-                .setText(R.id.tv_volunteer_detail_position_reward, CommonUtil.formatPrice(Float.parseFloat(item.rewards)) + "小时币");
+                .setText(R.id.tv_volunteer_detail_position_need, item.amount+"")
+                .setText(R.id.tv_volunteer_detail_position_reward, CommonUtil.formatPrice(Float.parseFloat(item.rewards.split(" ")[0])) + "小时币");
     }
 
 }

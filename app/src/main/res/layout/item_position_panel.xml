@@ -20,8 +20,9 @@
         />
     <CheckBox
         android:id="@+id/cb_position"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="@dimen/radio_size"
+        android:layout_height="@dimen/radio_size"
         android:background="@drawable/btn_radio"
+        android:button="@null"
         />
 </LinearLayout>

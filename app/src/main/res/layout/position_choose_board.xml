@@ -3,57 +3,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/activity_horizontal_margin"
+        android:background="@drawable/bac_white_top_8_round"
         android:orientation="vertical"
-        android:background="@drawable/bac_white_top_8_round">
+        android:padding="@dimen/activity_horizontal_margin">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/dimens_18sp"
             android:text="选择岗位"
-            />
+            android:textSize="@dimen/dimens_18sp" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_position_panel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="为保证志愿服务质量，本项目需实名报名，请完成相关验证。"
-    android:textSize="@dimen/dimens_12sp"
-    android:textColor="@color/common_red"
-    android:layout_gravity="center_horizontal"
-    android:layout_marginTop="30dp"
-    />
-    <TextView
-        android:id="@+id/tv_position_auth"
-        style="@style/button_style"
-        android:text="去认证"
-        android:layout_height="48dp"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"/>
-    <TextView
-        android:id="@+id/tv_position_apply"
-        android:background="@drawable/bac_white_btn"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="@color/night_blue"
-        android:text="确认报名"
-        android:layout_height="48dp"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"/>
+        android:layout_height="wrap_content"
+        android:background="@color/tint_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:text="为保证志愿服务质量，本项目需实名报名，请完成相关验证。"
+            android:textColor="@color/common_red"
+            android:textSize="@dimen/dimens_12sp" />
+
+        <TextView
+            android:id="@+id/tv_position_auth"
+            style="@style/button_style"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="去认证" />
+
+        <TextView
+            android:id="@+id/tv_position_apply"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@drawable/bac_white_btn"
+            android:gravity="center"
+            android:text="确认报名"
+            android:textColor="@color/night_blue"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </LinearLayout>

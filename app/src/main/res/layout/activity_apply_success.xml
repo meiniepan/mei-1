@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="80dp"
+        android:background="@mipmap/icon_ok" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="恭喜您成功报名此项目" />
+
+    <TextView
+        android:id="@+id/tv_check_record"
+        style="@style/button_style"
+        android:layout_height="48dp"
+        android:layout_marginTop="95dp"
+        android:text="查看记录" />
+
+    <TextView
+        android:id="@+id/tv_return_home"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/bac_white_btn"
+        android:gravity="center"
+        android:text="返回首页"
+        android:textColor="@color/night_blue"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+</LinearLayout>

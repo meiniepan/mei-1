@@ -1,5 +1,8 @@
 package com.wuyou.user.adapter;
 
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.R;
@@ -17,7 +20,15 @@ public class VolunteerPositionChooseAdapter extends BaseQuickAdapter<VolunteerPr
 
     @Override
     protected void convert(BaseHolder holder, VolunteerProjectBean.PositionsBean item) {
-        holder.setText(R.id.tv_volunteer_detail_position_name, item.name);
+        holder.setText(R.id.tv_position_name, item.name);
+        CheckBox checkBox = holder.getView(R.id.cb_position);
+        checkBox.setChecked(item.isChosen);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                item.isChosen = isChecked;
+            }
+        });
     }
 
 }

@@ -221,6 +221,7 @@
         <activity android:name=".mvp.volunteer.TimeBankMainActivity"/>
         <activity android:name=".mvp.volunteer.VolunteerProDetailActivity" />
         <activity android:name=".mvp.volunteer.TBVolunteerRecordActivity" />
+        <activity android:name=".mvp.volunteer.ApplySuccessActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"

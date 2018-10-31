@@ -73,16 +73,12 @@ public class EosUtil {
 
     }
 
-    public static boolean isOverdue(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault());
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date date = new Date();
-        try {
-            date = sdf.parse(time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date.getTime() < System.currentTimeMillis();
+    public static boolean isOverdue(long time) {
+        return time*1000 < System.currentTimeMillis();
+    }
+
+    public static boolean isNotBegin(long time) {
+        return time*1000 > System.currentTimeMillis();
     }
 
 }

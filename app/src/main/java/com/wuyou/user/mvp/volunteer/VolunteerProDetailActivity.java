@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.ErrorBody;
 import com.gs.buluo.common.utils.ToastUtils;
+import com.gs.buluo.common.utils.TribeDateUtils;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.VolunteerPositionListAdapter;
@@ -21,6 +22,8 @@ import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.widget.panel.EnvironmentChoosePanel;
 import com.wuyou.user.view.widget.panel.PositionChoosePanel;
+
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -72,9 +75,9 @@ public class VolunteerProDetailActivity extends BaseActivity {
     private void initUI() {
         GlideUtils.loadRoundCornerImage(getCtx(), Constant.IPFS_URL + data.logofile, ivVolunteerDetailLogo);
         tvVolunteerDetailProName.setText(data.name);
-        tvVolunteerDetailProServeTime.setText(data.service_time.split("T")[0] + " 至 " + data.service_end_time.split("T")[0]);
+        tvVolunteerDetailProServeTime.setText(TribeDateUtils.dateFormat5(new Date(data.service_time*1000)) + " 至 " + TribeDateUtils.dateFormat5(new Date(data.service_end_time*1000)));
         tvVolunteerDetailProServeAddress.setText(data.address);
-        tvVolunteerDetailProRecruitTime.setText(data.enroll_time.split("T")[0] + " 至 " + data.enroll_end_time.split("T")[0]);
+        tvVolunteerDetailProRecruitTime.setText(TribeDateUtils.dateFormat5(new Date(data.enroll_time*1000)) + " 至 " + TribeDateUtils.dateFormat5(new Date(data.enroll_end_time*1000)));
         initRv();
     }
 
@@ -93,6 +96,7 @@ public class VolunteerProDetailActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_volunteer_detail_pro_left:
+                ToastUtils.ToastMessage(getCtx(), R.string.no_function);
                 break;
             case R.id.btn_volunteer_detail_pro_right:
                 PositionChoosePanel choosePanel = new PositionChoosePanel(getCtx(),data);
