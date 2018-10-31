@@ -102,7 +102,7 @@ public class EoscDataManager {
         currentOperateAccount = CarefreeDaoSession.getInstance().getMainAccount();
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("create_time", System.currentTimeMillis() / 1000);
-        EosDailyRewards dailyRewards = new EosDailyRewards(currentOperateAccount.getName(), EosUtil.formatZeroTimePoint(System.currentTimeMillis()), jsonObject.toString(), new TypeAsset(amount));
+        EosDailyRewards dailyRewards = new EosDailyRewards(currentOperateAccount.getName(), System.currentTimeMillis(), jsonObject.toString(), new TypeAsset(amount));
         return pushActionRetJson(Constant.EOSIO_DAILAY_REWARDS, dailyRewards.getActionName(), CommonUtil.prettyPrintJson(dailyRewards), getActivePermission(currentOperateAccount.getName())); //transfer.getAsHex()
     }
 

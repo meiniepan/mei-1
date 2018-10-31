@@ -10,13 +10,13 @@ public class EosDailyRewards implements EosType.Packer{
     @Expose
     private String checker;
     @Expose
-    private String localdate;
+    private long localdate;
     @Expose
     private String memo;
     @Expose
     private TypeAsset rewards;
 
-    public EosDailyRewards(String checker, String localdate, String memo, TypeAsset rewards) {
+    public EosDailyRewards(String checker, long localdate, String memo, TypeAsset rewards) {
         this.checker = checker;
         this.localdate = localdate;
         this.memo = memo;
@@ -26,7 +26,7 @@ public class EosDailyRewards implements EosType.Packer{
     @Override
     public void pack(EosType.Writer writer) {
         writer.putString(checker);
-        writer.putString(localdate);
+        writer.putLongLE(localdate);
         writer.putString(memo);
         writer.putLongLE(rewards.getAmount());
     }

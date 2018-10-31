@@ -26,11 +26,11 @@ public class VolunteerProjectBean implements Parcelable{
     public int id;
     public String creator;
     public String name;
-    public String service_time;
-    public String service_end_time;
+    public long service_time;
+    public long service_end_time;
     public String address;
-    public String enroll_time;
-    public String enroll_end_time;
+    public long enroll_time;
+    public long enroll_end_time;
     public String detailfile;
     public String logofile;
     public List<PositionsBean> positions;
@@ -124,44 +124,47 @@ public class VolunteerProjectBean implements Parcelable{
     }
 
 
-    protected VolunteerProjectBean(Parcel in) {
-        id = in.readInt();
-        creator = in.readString();
-        name = in.readString();
-        service_time = in.readString();
-        service_end_time = in.readString();
-        address = in.readString();
-        enroll_time = in.readString();
-        enroll_end_time = in.readString();
-        detailfile = in.readString();
-        logofile = in.readString();
-        positions = in.createTypedArrayList(PositionsBean.CREATOR);
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(creator);
-        dest.writeString(name);
-        dest.writeString(service_time);
-        dest.writeString(service_end_time);
-        dest.writeString(address);
-        dest.writeString(enroll_time);
-        dest.writeString(enroll_end_time);
-        dest.writeString(detailfile);
-        dest.writeString(logofile);
-        dest.writeTypedList(positions);
-    }
-
     @Override
     public int describeContents() {
         return 0;
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.creator);
+        dest.writeString(this.name);
+        dest.writeLong(this.service_time);
+        dest.writeLong(this.service_end_time);
+        dest.writeString(this.address);
+        dest.writeLong(this.enroll_time);
+        dest.writeLong(this.enroll_end_time);
+        dest.writeString(this.detailfile);
+        dest.writeString(this.logofile);
+        dest.writeTypedList(this.positions);
+    }
+
+    public VolunteerProjectBean() {
+    }
+
+    protected VolunteerProjectBean(Parcel in) {
+        this.id = in.readInt();
+        this.creator = in.readString();
+        this.name = in.readString();
+        this.service_time = in.readLong();
+        this.service_end_time = in.readLong();
+        this.address = in.readString();
+        this.enroll_time = in.readLong();
+        this.enroll_end_time = in.readLong();
+        this.detailfile = in.readString();
+        this.logofile = in.readString();
+        this.positions = in.createTypedArrayList(PositionsBean.CREATOR);
+    }
+
     public static final Creator<VolunteerProjectBean> CREATOR = new Creator<VolunteerProjectBean>() {
         @Override
-        public VolunteerProjectBean createFromParcel(Parcel in) {
-            return new VolunteerProjectBean(in);
+        public VolunteerProjectBean createFromParcel(Parcel source) {
+            return new VolunteerProjectBean(source);
         }
 
         @Override
