@@ -31,6 +31,7 @@ public class Constant {
     public static final String DEFAULT_DB_NAME = "carefree.db";
     public static final String FORM_NAME = "form_name";
 
+    public static final String TB_OWNER_ACCOUNT = "llnllnlln123";
     public static final String EOSIO_SYSTEM_ACCOUNT = "signupcoming";
     public static final String EOSIO_DAILAY_REWARDS = "dailyrewards";
     public static final String EOSIO_TRACE_SCOPE = "eosio.msig";
@@ -44,6 +45,7 @@ public class Constant {
     public static final int TX_EXPIRATION_IN_MILSEC = 30000;
     public static final String BACKUP_FROM_CREATE = "backup_from_create";
     public static final String TRACE_KEY_WORD = "trace_key_word";
+    public static final String SITE_LIST = "sites_list";
     public static final int GET_CAPTCHA_FAIL = 600;
     public static final String CAPTCHA_NEW_ACCOUNT = "new_account";
     public static final String CAPTCHA_CHECK_NEW_ACCOUNT = "check_new_account";

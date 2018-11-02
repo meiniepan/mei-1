@@ -89,22 +89,42 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
     }
 
     private void initData() {
+        ArrayList<ServeSites> serveSites = getIntent().getParcelableArrayListExtra(Constant.SITE_LIST);
+        if (serveSites == null) {
+            getServeData();
+        } else {
+            setTitleText(R.string.time_bank);
+            setSiteDistance(serveSites);
+            dismissDialog();
+            setData(serveSites);
+        }
+    }
+
+    private void setSiteDistance(List<ServeSites> serveSites) {
+        if (serveSites.size() == 1) {
+            ServeSites serveSites1 = serveSites.get(0);
+            serveSites1.distance = AMapUtils.calculateLineDistance(new LatLng(serveSites1.lat, serveSites1.lng), centerLatLng);
+        }
+        Collections.sort(serveSites, (o1, o2) -> {
+            LatLng latLng1 = new LatLng(o1.lat, o1.lng);
+            LatLng latLng2 = new LatLng(o2.lat, o2.lng);
+            o1.distance = AMapUtils.calculateLineDistance(latLng1, centerLatLng);
+            o2.distance = AMapUtils.calculateLineDistance(latLng2, centerLatLng);
+            if (o1.distance < o2.distance) {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
+    }
+
+    public void getServeData() {
         CarefreeRetrofit.getInstance().createApi(HomeApis.class)
                 .getServeSites(QueryMapBuilder.getIns().buildGet())
                 .subscribeOn(Schedulers.io())
                 .map(listResponseBaseResponse -> {
                     List<ServeSites> serveSites = listResponseBaseResponse.data.list;
-                    Collections.sort(serveSites, (o1, o2) -> {
-                        LatLng latLng1 = new LatLng(o1.lat, o1.lng);
-                        LatLng latLng2 = new LatLng(o2.lat, o2.lng);
-                        o1.distance = AMapUtils.calculateLineDistance(latLng1, centerLatLng);
-                        o2.distance = AMapUtils.calculateLineDistance(latLng2, centerLatLng);
-                        if (o1.distance < o2.distance) {
-                            return -1;
-                        } else {
-                            return 1;
-                        }
-                    });
+                    setSiteDistance(serveSites);
                     return serveSites;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -147,14 +167,11 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
         // 设置定位的类型为定位模式 ，可以由定位、跟随或地图根据面向方向旋转几种
         mAMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
 
-        mAMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                ServeSites serveSites = (ServeSites) marker.getObject();
-                serveSite = serveSites;
-                showSiteInfo(serveSites);
-                return true;
-            }
+        mAMap.setOnMarkerClickListener(marker -> {
+            ServeSites serveSites = (ServeSites) marker.getObject();
+            serveSite = serveSites;
+            showSiteInfo(serveSites);
+            return true;
         });
         mAMap.setOnMapClickListener(new AMap.OnMapClickListener() {
             @Override
@@ -170,7 +187,12 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
         ObjectAnimator.ofFloat(mapControlLayout, "translationY", DensityUtils.dip2px(this, 80)).setDuration(0).start();
         siteName.setText(serveSites.name);
         siteAddress.setText(serveSites.address);
-        siteTime.setText("营业时间 " + serveSites.open_all_day);
+        if (serveSites.open_all_day != null) {
+            siteTime.setText("营业时间 " + serveSites.open_all_day);
+            siteTime.setVisibility(View.VISIBLE);
+        } else {
+            siteTime.setVisibility(View.GONE);
+        }
         mapAround.setBackgroundResource(R.mipmap.map_around_normal);
     }
 
@@ -192,13 +214,11 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
             AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
             // 设置定位监听
             mLocationClient.setLocationListener(aMapLocation -> {
-                if (mListener != null && aMapLocation != null) {
-                    if (aMapLocation.getErrorCode() == 0) {
-                        mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
-                        centerLatLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
-                        mAMap.moveCamera(CameraUpdateFactory.changeLatLng(centerLatLng));
-                        initData();
-                    }
+                if (mListener != null && aMapLocation != null && aMapLocation.getErrorCode() == 0) {
+                    mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
+                    centerLatLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
+                    mAMap.moveCamera(CameraUpdateFactory.changeLatLng(centerLatLng));
+                    initData();
                 }
             });
             // 设置为高精度定位模式
@@ -378,4 +398,5 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
             mAMap.moveCamera(CameraUpdateFactory.zoomTo(15));
         });
     }
+
 }

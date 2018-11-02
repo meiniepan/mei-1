@@ -19,6 +19,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.adapter.VolunteerPositionListAdapter;
 import com.wuyou.user.data.api.DetailFileBean;
 import com.wuyou.user.data.api.VolunteerProjectBean;
+import com.wuyou.user.data.remote.ServeSites;
 import com.wuyou.user.mvp.trace.TraceAuthActivity;
 import com.wuyou.user.network.IPFSRetrofit;
 import com.wuyou.user.network.apis.NodeosApi;
@@ -26,8 +27,11 @@ import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
+import com.wuyou.user.view.activity.CaptureActivity;
+import com.wuyou.user.view.activity.HomeMapActivity;
 import com.wuyou.user.view.widget.panel.PositionChoosePanel;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -102,6 +106,7 @@ public class VolunteerProDetailActivity extends BaseActivity<TimeBankRecordContr
         } else if (data.rewardsStatus == 2) {
             volunteerDetailLeft.setText(R.string.trace_auth);
             volunteerDetailRight.setText(R.string.tb_wait_rewards);
+            volunteerDetailRight.setEnabled(true);
         } else if (data.rewardsStatus == 3) {
             volunteerDetailLeft.setText(R.string.trace_auth);
             volunteerDetailRight.setText(R.string.tb_already_rewards);
@@ -110,7 +115,7 @@ public class VolunteerProDetailActivity extends BaseActivity<TimeBankRecordContr
     }
 
     private void getDetailFile() {
-        IPFSRetrofit.getInstance().createApi(NodeosApi.class).getIPFSData("QmaKmgyobAUdT5Hxciymmd1QKur3b7xS6RrjeHPXMdw9ei")
+        IPFSRetrofit.getInstance().createApi(NodeosApi.class).getIPFSData(data.detailfile)
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override
@@ -184,7 +189,7 @@ public class VolunteerProDetailActivity extends BaseActivity<TimeBankRecordContr
     }
 
 
-    @OnClick({R.id.btn_volunteer_detail_pro_left, R.id.btn_volunteer_detail_pro_right})
+    @OnClick({R.id.btn_volunteer_detail_pro_left, R.id.btn_volunteer_detail_pro_right, R.id.volunteer_detail_location})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_volunteer_detail_pro_left:
@@ -197,14 +202,36 @@ public class VolunteerProDetailActivity extends BaseActivity<TimeBankRecordContr
                 }
                 break;
             case R.id.btn_volunteer_detail_pro_right:
-                if (data.rewardsStatus == 2) {
-                    mPresenter.registerProject(0, data);
-                } else if (data.rewardsStatus == 3) {
+                if (data.rewardsStatus == 1) {
+                    navigateToCapture();
+                } else if (data.rewardsStatus == 2) {
                     mPresenter.rewardProject(0, data);
+                } else if (data.rewardsStatus == 0) {
+                    PositionChoosePanel choosePanel = new PositionChoosePanel(getCtx(), data);
+                    choosePanel.show();
                 }
-                PositionChoosePanel choosePanel = new PositionChoosePanel(getCtx(), data);
-                choosePanel.show();
                 break;
+            case R.id.volunteer_detail_location:
+                Intent intent = new Intent(getCtx(), HomeMapActivity.class);
+                ArrayList<ServeSites> list = new ArrayList<>();
+                list.add(new ServeSites(data.name, data.address, data.latitude * 1.0f / 1000000, data.longitude * 1.0f / 1000000));
+                intent.putExtra(Constant.SITE_LIST, list);
+                startActivity(intent);
+                break;
+        }
+    }
+
+    private void navigateToCapture() {
+        Intent intent = new Intent(getCtx(), CaptureActivity.class);
+        startActivityForResult(intent, 201);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 201 && resultCode == RESULT_OK) {
+            this.data.rewardsStatus = 2;
+            setUpStatus();
         }
     }
 

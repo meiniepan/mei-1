@@ -19,6 +19,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.api.ListRowResponse;
 import com.wuyou.user.data.api.VolunteerProjectBean;
+import com.wuyou.user.data.remote.ServeSites;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideBannerLoader;
@@ -44,6 +45,7 @@ public class TimeBankMainFragment extends BaseFragment {
     @BindView(R.id.tb_main_banner)
     Banner tbMainBanner;
     private GridAdapter adapter;
+
 
     @Override
     protected int getContentLayout() {
@@ -82,10 +84,11 @@ public class TimeBankMainFragment extends BaseFragment {
     }
 
     ArrayList<String> bannerUrl = new ArrayList<>();
+    ArrayList<ServeSites> sites = new ArrayList<>();
 
     private void initData() {
         ((BaseActivity) getActivity()).showLoadingView();
-        EoscDataManager.getIns().getTable("samkunnbanb1 ", Constant.EOS_TIME_BANK, "task", "", "", "", 6)
+        EoscDataManager.getIns().getTable(Constant.TB_OWNER_ACCOUNT, Constant.EOS_TIME_BANK, "task", "", "", "", 6)
                 .compose(RxUtil.switchSchedulers())
                 .map(s -> {
                     ListRowResponse<VolunteerProjectBean> rowResponse = new Gson().fromJson(s, new TypeToken<ListRowResponse<VolunteerProjectBean>>() {
@@ -93,7 +96,10 @@ public class TimeBankMainFragment extends BaseFragment {
                     return rowResponse.rows;
                 })
                 .doOnNext(volunteerProjectBeans -> {
+                    ServeSites serveSites;
                     for (VolunteerProjectBean bean : volunteerProjectBeans) {
+                        serveSites = new ServeSites(bean.name, bean.address, bean.latitude*1.0d/1000000, bean.longitude*1.0d/1000000);
+                        sites.add(serveSites);
                         bannerUrl.add(bean.logofile);
                     }
                 })
@@ -120,7 +126,6 @@ public class TimeBankMainFragment extends BaseFragment {
 
     }
 
-
     @OnClick({R.id.time_bank_main_project, R.id.time_bank_main_map, R.id.time_bank_main_more, R.id.tb_main_search})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -129,14 +134,16 @@ public class TimeBankMainFragment extends BaseFragment {
             case R.id.time_bank_main_more:
                 startActivity(new Intent(mCtx, VolunteerProListActivity.class));
                 break;
+
             case R.id.time_bank_main_map:
-                startActivity(new Intent(mCtx, HomeMapActivity.class));
+                Intent intent = new Intent(mCtx, HomeMapActivity.class);
+                intent.putParcelableArrayListExtra(Constant.SITE_LIST, sites);
+                startActivity(intent);
                 break;
         }
     }
 
-
-    class GridAdapter extends BaseQuickAdapter<VolunteerProjectBean, BaseHolder> {
+    class GridAdapter extends BaseQuickAdapter<VolunteerProjectBean, BaseHolder> {  
         GridAdapter() {
             super(R.layout.item_tb_main_grid);
         }

@@ -100,7 +100,7 @@ public class VolunteerProListActivity extends BaseActivity {
 
     public void getVolunteerProList() {
         recyclerView.showProgressView();
-        EoscDataManager.getIns().getTable("samkunnbanb1", Constant.ACTIVITY_TIME_BANK, "task")
+        EoscDataManager.getIns().getTable(Constant.TB_OWNER_ACCOUNT, Constant.ACTIVITY_TIME_BANK, "task")
                 .map((String s) -> {
                     ListRowResponse<VolunteerProjectBean> listBean = new Gson().fromJson(s, new TypeToken<ListRowResponse<VolunteerProjectBean>>() {
                     }.getType());

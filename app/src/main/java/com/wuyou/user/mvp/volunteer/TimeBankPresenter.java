@@ -85,7 +85,7 @@ public class TimeBankPresenter extends TimeBankRecordContract.Presenter {
     @Override
     void getRecordData() {
         Observable.zip(EoscDataManager.getIns().getTable(CarefreeDaoSession.getInstance().getMainAccount().getName(), Constant.EOS_TIME_BANK, "infos"),
-                EoscDataManager.getIns().getTable("samkunnbanb1", Constant.EOS_TIME_BANK, "task"),
+                EoscDataManager.getIns().getTable(Constant.TB_OWNER_ACCOUNT, Constant.EOS_TIME_BANK, "task"),
                 (BiFunction<String, String, List<String>>) (recordData, all) -> {
                     ArrayList<String> list = new ArrayList<>();
                     list.add(recordData);

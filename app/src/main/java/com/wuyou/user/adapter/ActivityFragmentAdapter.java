@@ -1,5 +1,6 @@
 package com.wuyou.user.adapter;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,7 +25,7 @@ public class ActivityFragmentAdapter extends BaseQuickAdapter<ActivityListBean, 
         baseHolder.setText(R.id.activity_title, activityBean.title)
                 .setText(R.id.activity_address, activityBean.address)
                 .setText(R.id.activity_date, activityBean.date)
-                .setText(R.id.activity_left_person, "剩余" + activityBean.surplus + "位");
+                .setText(R.id.activity_left_person, TextUtils.equals("0",activityBean.user_limit)?"人数不限":"剩余" + activityBean.surplus + "位");
 
         GlideUtils.loadImage(mContext, activityBean.image[0], baseHolder.getView(R.id.activity_picture));
 

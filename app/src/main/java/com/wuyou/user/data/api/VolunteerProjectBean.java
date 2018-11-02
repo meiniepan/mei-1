@@ -36,6 +36,8 @@ public class VolunteerProjectBean implements Parcelable {
     public List<PositionsBean> positions;
     public int rewardsStatus; // 1 可签到  2 可领取 3 已领取
     public int kyc;
+    public int latitude;
+    public int longitude;
 
     public static class PositionsBean implements Parcelable {
         /**
@@ -93,32 +95,35 @@ public class VolunteerProjectBean implements Parcelable {
             };
         }
 
-        protected PositionsBean(Parcel in) {
-            name = in.readString();
-            amount = in.readInt();
-            rewards = in.readString();
-            isChosen = in.readByte() != 0;
-            enrolled = in.createTypedArrayList(EnrolledBean.CREATOR);
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(name);
-            dest.writeInt(amount);
-            dest.writeString(rewards);
-            dest.writeByte((byte) (isChosen ? 1 : 0));
-            dest.writeTypedList(enrolled);
-        }
-
         @Override
         public int describeContents() {
             return 0;
         }
 
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.name);
+            dest.writeInt(this.amount);
+            dest.writeString(this.rewards);
+            dest.writeByte(this.isChosen ? (byte) 1 : (byte) 0);
+            dest.writeTypedList(this.enrolled);
+        }
+
+        public PositionsBean() {
+        }
+
+        protected PositionsBean(Parcel in) {
+            this.name = in.readString();
+            this.amount = in.readInt();
+            this.rewards = in.readString();
+            this.isChosen = in.readByte() != 0;
+            this.enrolled = in.createTypedArrayList(EnrolledBean.CREATOR);
+        }
+
         public static final Creator<PositionsBean> CREATOR = new Creator<PositionsBean>() {
             @Override
-            public PositionsBean createFromParcel(Parcel in) {
-                return new PositionsBean(in);
+            public PositionsBean createFromParcel(Parcel source) {
+                return new PositionsBean(source);
             }
 
             @Override
@@ -152,6 +157,8 @@ public class VolunteerProjectBean implements Parcelable {
         dest.writeTypedList(this.positions);
         dest.writeInt(this.rewardsStatus);
         dest.writeInt(this.kyc);
+        dest.writeInt(this.latitude);
+        dest.writeInt(this.longitude);
     }
 
     protected VolunteerProjectBean(Parcel in) {
@@ -168,6 +175,8 @@ public class VolunteerProjectBean implements Parcelable {
         this.positions = in.createTypedArrayList(PositionsBean.CREATOR);
         this.rewardsStatus = in.readInt();
         this.kyc = in.readInt();
+        this.latitude = in.readInt();
+        this.longitude = in.readInt();
     }
 
     public static final Creator<VolunteerProjectBean> CREATOR = new Creator<VolunteerProjectBean>() {
