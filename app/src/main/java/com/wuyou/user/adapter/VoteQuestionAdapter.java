@@ -50,7 +50,6 @@ public class VoteQuestionAdapter extends BaseQuickAdapter<VoteQuestion, BaseHold
         adapter = new VoteQuestionOptAdapter(R.layout.item_vote_detail_question_opt, data.option, this, isSingle, hasVote);
         if (recyclerView.getAdapter() == null)
             recyclerView.setAdapter(adapter);
-
     }
 
     @Override
