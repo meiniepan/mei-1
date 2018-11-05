@@ -96,6 +96,11 @@ public class TimeBankPresenter extends TimeBankRecordContract.Presenter {
                 .subscribe(new BaseSubscriber<List<String>>() {
                     @Override
                     public void onSuccess(List<String> strings) {
+                        if (strings.size() == 0) {
+                            mView.getAttendingDataSuccess(Collections.emptyList());
+                            mView.getFinishAttendDataSuccess(Collections.emptyList());
+                            return;
+                        }
                         ListRowResponse<VolunteerRecordBean> recordResponse = new Gson().fromJson(strings.get(0), new TypeToken<ListRowResponse<VolunteerRecordBean>>() {
                         }.getType());
                         ListRowResponse<VolunteerProjectBean> projectResponse = new Gson().fromJson(strings.get(1), new TypeToken<ListRowResponse<VolunteerProjectBean>>() {

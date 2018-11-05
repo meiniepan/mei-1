@@ -36,6 +36,11 @@ public class VoteActivity extends BaseActivity {
     private MyVoteListFragment myVoteListFragment;
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        voteListFragment.getAllVoteList();
+    }
+
+    @Override
     protected void bindView(Bundle savedInstanceState) {
         setTitleText(R.string.vote);
         setTitleIcon(R.mipmap.vote_warn, v -> showWarnActivity());
@@ -54,7 +59,6 @@ public class VoteActivity extends BaseActivity {
 
     private void showWarnActivity() {
         startActivity(new Intent(getCtx(), VoteExplainActivity.class));
-
     }
 
     public void setBottomAlpha(boolean alpha) {

@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -13,7 +12,6 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.bumptech.glide.request.RequestFutureTarget;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
@@ -47,7 +45,7 @@ public class GlideUtils {
         Glide.with(context).asGif().load(url).into(imageView);
     }
 
-    public static void loadImageWithListener(Context context, String url, final ImageView imageView,OnLoadListener onLoadListener) {
+    public static void loadImageWithListener(Context context, String url, final ImageView imageView, OnLoadListener onLoadListener) {
         if (url == null) return;
         Glide.with(context).load(url).listener(new RequestListener<Drawable>() {
             @Override

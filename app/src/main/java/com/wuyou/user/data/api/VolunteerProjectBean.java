@@ -48,7 +48,7 @@ public class VolunteerProjectBean implements Parcelable {
          */
 
         public String name;
-        public int amount;
+        public long amount;
         public String rewards;
         public boolean isChosen;
         public List<EnrolledBean> enrolled;
@@ -95,6 +95,9 @@ public class VolunteerProjectBean implements Parcelable {
             };
         }
 
+        public PositionsBean() {
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -103,18 +106,15 @@ public class VolunteerProjectBean implements Parcelable {
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeString(this.name);
-            dest.writeInt(this.amount);
+            dest.writeLong(this.amount);
             dest.writeString(this.rewards);
             dest.writeByte(this.isChosen ? (byte) 1 : (byte) 0);
             dest.writeTypedList(this.enrolled);
         }
 
-        public PositionsBean() {
-        }
-
         protected PositionsBean(Parcel in) {
             this.name = in.readString();
-            this.amount = in.readInt();
+            this.amount = in.readLong();
             this.rewards = in.readString();
             this.isChosen = in.readByte() != 0;
             this.enrolled = in.createTypedArrayList(EnrolledBean.CREATOR);

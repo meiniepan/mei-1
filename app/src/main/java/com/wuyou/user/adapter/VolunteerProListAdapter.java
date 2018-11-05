@@ -1,6 +1,6 @@
 package com.wuyou.user.adapter;
 
-import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,9 +12,6 @@ import com.wuyou.user.data.api.VolunteerProjectBean;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.EosUtil;
 import com.wuyou.user.util.glide.GlideUtils;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by DELL on 2018/8/13.

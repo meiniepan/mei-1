@@ -1,5 +1,6 @@
 package com.wuyou.user.mvp.vote;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.EditText;
@@ -48,7 +49,7 @@ public class VotePledgeActivity extends BaseActivity {
 
     @OnClick(R.id.tv_vote_pledge_confirm)
     public void onViewClicked() {
-        if (TextUtils.isEmpty(etVotePledgeVoteNum.getText().toString())){
+        if (TextUtils.isEmpty(etVotePledgeVoteNum.getText().toString())) {
             ToastUtils.ToastMessage(getCtx(), "请检查输入！");
             return;
         }
@@ -88,7 +89,8 @@ public class VotePledgeActivity extends BaseActivity {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
                         ToastUtils.ToastMessage(getCtx(), "投票成功！");
-                        finish();
+                        Intent intent = new Intent(getCtx(), VoteActivity.class);
+                        startActivity(intent);
                     }
 
 

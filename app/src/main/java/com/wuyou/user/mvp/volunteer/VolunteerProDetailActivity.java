@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -115,6 +116,7 @@ public class VolunteerProDetailActivity extends BaseActivity<TimeBankRecordContr
     }
 
     private void getDetailFile() {
+        if (TextUtils.isEmpty(data.detailfile)) return;
         IPFSRetrofit.getInstance().createApi(NodeosApi.class).getIPFSData(data.detailfile)
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonObject>() {

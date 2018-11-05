@@ -24,12 +24,10 @@ public class VoteQuestionAdapter extends BaseQuickAdapter<VoteQuestion, BaseHold
     private final boolean hasVote;
     private boolean isSingle;
     private VoteQuestionOptAdapter adapter;
-    private int voteSum;
 
-    public VoteQuestionAdapter(int layoutResId, @Nullable List<VoteQuestion> data, boolean hasVote, int voteSum) {
+    public VoteQuestionAdapter(int layoutResId, @Nullable List<VoteQuestion> data, boolean hasVote) {
         super(layoutResId, data);
         this.hasVote = hasVote;
-        this.voteSum = voteSum;
     }
 
     @Override
@@ -49,7 +47,7 @@ public class VoteQuestionAdapter extends BaseQuickAdapter<VoteQuestion, BaseHold
         RecyclerView recyclerView = holder.getView(R.id.rv_vote_detail_opt);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new VoteQuestionOptAdapter(R.layout.item_vote_detail_question_opt, data.option, this, isSingle, hasVote, voteSum);
+        adapter = new VoteQuestionOptAdapter(R.layout.item_vote_detail_question_opt, data.option, this, isSingle, hasVote);
         if (recyclerView.getAdapter() == null)
             recyclerView.setAdapter(adapter);
 

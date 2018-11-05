@@ -44,7 +44,7 @@ public class MyVoteListFragment extends BaseFragment {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         voteMyRecord.getRecyclerView().addItemDecoration(CommonUtil.getRecyclerDivider(mCtx, 8));
-        voteMyRecord.setRefreshAction(() -> getVoteRecord());
+        voteMyRecord.setRefreshAction(this::getVoteRecord);
     }
 
     @Override

@@ -111,7 +111,9 @@ public class PositionChoosePanel extends Dialog {
                     protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
                         if (message.message.contains("You have enrolled")) {
                             ToastUtils.ToastMessage(getContext(), "您已经报过名了");
-                        } else {
+                        } else if (message.message.contains("enrolled complete")){
+                            ToastUtils.ToastMessage(getContext(),"报名人数已满");
+                        }else {
                             ToastUtils.ToastMessage(getContext(), message.message);
                         }
                         dismiss();

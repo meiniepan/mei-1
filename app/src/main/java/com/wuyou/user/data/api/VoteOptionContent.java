@@ -10,7 +10,7 @@ import android.os.Parcelable;
 public class VoteOptionContent implements Parcelable {
     public String optioncontent;
     public int id;
-    public int number;
+    public float number;
     public boolean isChecked;
 
     public VoteOptionContent(String content) {
@@ -18,30 +18,30 @@ public class VoteOptionContent implements Parcelable {
     }
 
 
-    protected VoteOptionContent(Parcel in) {
-        optioncontent = in.readString();
-        id = in.readInt();
-        number = in.readInt();
-        isChecked = in.readByte() != 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(optioncontent);
-        dest.writeInt(id);
-        dest.writeInt(number);
-        dest.writeByte((byte) (isChecked ? 1 : 0));
-    }
-
     @Override
     public int describeContents() {
         return 0;
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.optioncontent);
+        dest.writeInt(this.id);
+        dest.writeFloat(this.number);
+        dest.writeByte(this.isChecked ? (byte) 1 : (byte) 0);
+    }
+
+    protected VoteOptionContent(Parcel in) {
+        this.optioncontent = in.readString();
+        this.id = in.readInt();
+        this.number = in.readFloat();
+        this.isChecked = in.readByte() != 0;
+    }
+
     public static final Creator<VoteOptionContent> CREATOR = new Creator<VoteOptionContent>() {
         @Override
-        public VoteOptionContent createFromParcel(Parcel in) {
-            return new VoteOptionContent(in);
+        public VoteOptionContent createFromParcel(Parcel source) {
+            return new VoteOptionContent(source);
         }
 
         @Override

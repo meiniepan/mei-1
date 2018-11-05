@@ -84,7 +84,7 @@ public class VoteDetailActivity extends BaseActivity {
         rvVoteDetail.setLayoutManager(mLinearLayoutManager);
         rvVoteDetail.setHasFixedSize(true);
         rvVoteDetail.setNestedScrollingEnabled(false);
-        adapter = new VoteQuestionAdapter(R.layout.item_vote_detail_question, rowsBean.contents, hasVote, rowsBean.voters.size());
+        adapter = new VoteQuestionAdapter(R.layout.item_vote_detail_question, rowsBean.contents, hasVote);
         rvVoteDetail.setAdapter(adapter);
     }
 
@@ -115,7 +115,6 @@ public class VoteDetailActivity extends BaseActivity {
             intent.putExtras(bundle);
             intent.putExtra(Constant.VOTE_ID, rowsBean.id);
             startActivity(intent);
-            finish();
         }
     }
 }
