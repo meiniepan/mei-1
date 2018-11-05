@@ -10,6 +10,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.ErrorBody;
+import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
@@ -20,6 +21,7 @@ import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -84,6 +86,10 @@ public class VotePledgeActivity extends BaseActivity {
     private void doVote(ArrayList<VoteOption> list, String id, int scoreNum) {
         showLoadingDialog();
         EoscDataManager.getIns().doVote(id, list, scoreNum)
+                .doOnNext(jsonObject -> {
+                    Calendar calendar = Calendar.getInstance();
+                    SharePreferenceManager.getInstance(getCtx()).setValue("vote_id_" + id, calendar.get(Calendar.YEAR) + calendar.get(Calendar.MONTH) + calendar.get(Calendar.DAY_OF_MONTH) + CarefreeDaoSession.getInstance().getMainAccount().getName());
+                })
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override
@@ -101,7 +107,6 @@ public class VotePledgeActivity extends BaseActivity {
                         } else {
                             ToastUtils.ToastMessage(getCtx(), message.message);
                         }
-                        finish();
                     }
                 });
     }

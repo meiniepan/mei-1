@@ -21,6 +21,7 @@ import com.wuyou.user.view.fragment.BaseFragment;
 import com.wuyou.user.view.widget.CarefreeRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -72,6 +73,7 @@ public class MyVoteListFragment extends BaseFragment {
                             data.add(rowsBean);
                         }
                     }
+                    Collections.reverse(data);
                     return data;
                 })
                 .compose(RxUtil.switchSchedulers()).subscribe(new BaseSubscriber<ArrayList<EosVoteListBean.RowsBean>>() {

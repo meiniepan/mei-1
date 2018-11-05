@@ -23,7 +23,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.adapter.VolunteerPositionChooseAdapter;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.api.VolunteerProjectBean;
-import com.wuyou.user.mvp.trace.TraceAuthActivity;
+import com.wuyou.user.mvp.kyc.KycAuthActivity;
 import com.wuyou.user.mvp.volunteer.ApplySuccessActivity;
 import com.wuyou.user.util.RxUtil;
 
@@ -85,7 +85,7 @@ public class PositionChoosePanel extends Dialog {
     }
 
     private void navigateToTrace(String name) {
-        Intent intent = new Intent(getContext(), TraceAuthActivity.class);
+        Intent intent = new Intent(getContext(), KycAuthActivity.class);
         intent.putExtra(Constant.TRACE_KEY_WORD, name);
         getContext().startActivity(intent);
     }
@@ -111,9 +111,9 @@ public class PositionChoosePanel extends Dialog {
                     protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
                         if (message.message.contains("You have enrolled")) {
                             ToastUtils.ToastMessage(getContext(), "您已经报过名了");
-                        } else if (message.message.contains("enrolled complete")){
-                            ToastUtils.ToastMessage(getContext(),"报名人数已满");
-                        }else {
+                        } else if (message.message.contains("enrolled complete")) {
+                            ToastUtils.ToastMessage(getContext(), "报名人数已满");
+                        } else {
                             ToastUtils.ToastMessage(getContext(), message.message);
                         }
                         dismiss();

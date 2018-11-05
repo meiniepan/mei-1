@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.gs.buluo.common.utils.ToastUtils;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.VoteQuestionAdapter;
@@ -15,10 +18,12 @@ import com.wuyou.user.data.api.EosVoteListBean;
 import com.wuyou.user.data.api.VoteOption;
 import com.wuyou.user.data.api.VoteOptionContent;
 import com.wuyou.user.data.api.VoteQuestion;
+import com.wuyou.user.util.EosUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -63,9 +68,15 @@ public class VoteDetailActivity extends BaseActivity {
     private void initData() {
         rowsBean = getIntent().getParcelableExtra(Constant.VOTE_ROW_BEAN);
         hasVote = getIntent().getBooleanExtra(Constant.HAS_VOTE, false);
+        Calendar calendar = Calendar.getInstance();
+        String date = calendar.get(Calendar.YEAR) + calendar.get(Calendar.MONTH) + calendar.get(Calendar.DAY_OF_MONTH) + CarefreeDaoSession.getInstance().getMainAccount().getName();
+        String stringValue = SharePreferenceManager.getInstance(getCtx()).getStringValue("vote_id_" + rowsBean.id);
+        if (TextUtils.equals(date, stringValue)) {
+            hasVote = true;
+        }
         GlideUtils.loadImage(getCtx(), Constant.IPFS_URL + rowsBean.logo, ivVoteDetailBac);
         tvTitle.setText(rowsBean.title);
-        tvVoteDetailDeadline.setText(rowsBean.end_time);
+        tvVoteDetailDeadline.setText(EosUtil.UTCToCST(rowsBean.end_time));
         String peopleNum;
         if (rowsBean.voters.size() > 999) {
             peopleNum = "999+";

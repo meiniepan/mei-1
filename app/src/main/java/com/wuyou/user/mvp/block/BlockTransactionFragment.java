@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
@@ -95,7 +94,7 @@ public class BlockTransactionFragment extends BaseFragment {
                 .subscribe(new BaseSubscriber<ArrayList<TransactionBean>>() {
                     @Override
                     public void onSuccess(ArrayList<TransactionBean> transactionBeans) {
-                        statusLayout.showContentView();
+                        if (statusLayout != null) statusLayout.showContentView();
                         adapter.setNewData(transactionBeans);
                         firstDate = transactionBeans.get(0).time;
                         lastDate = transactionBeans.get(transactionBeans.size() - 1).time;
@@ -103,7 +102,7 @@ public class BlockTransactionFragment extends BaseFragment {
 
                     @Override
                     protected void onFail(ApiException e) {
-                        statusLayout.showErrorView(e.getDisplayMessage());
+                        if (statusLayout != null) statusLayout.showErrorView(e.getDisplayMessage());
                     }
                 });
     }
@@ -138,7 +137,6 @@ public class BlockTransactionFragment extends BaseFragment {
 
     public void getNewData() {
         Observable.create((ObservableOnSubscribe<ArrayList<TransactionBean>>) e -> {
-            Log.e("Carefree", "getNewData: ");
             MongoDatabase database = mongoClient.getDatabase("EOS");
             MongoCollection<Document> collection = database.getCollection("transaction_traces");
             FindIterable<Document> action_traces = collection.find().sort(Sorts.descending("action_traces.receipt.global_sequence")).filter(Filters.and(Filters.eq("action_traces.act.name", "transfer"), Filters.gt("action_traces.receipt.global_sequence", firstDate))).limit(20);
