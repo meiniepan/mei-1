@@ -128,4 +128,7 @@ dependencies {
     implementation 'com.github.wanglu1209:WPopup:0.21'
 
     implementation 'com.github.ipfs:java-ipfs-api:v1.2.2'
+    compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-android:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
 }

@@ -2,7 +2,6 @@ package com.wuyou.user.mvp.volunteer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
@@ -10,7 +9,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
-import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -18,7 +16,6 @@ import com.wuyou.user.adapter.VolunteerProListAdapter;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.api.ListRowResponse;
 import com.wuyou.user.data.api.VolunteerProjectBean;
-import com.wuyou.user.mvp.block.BlockDetailActivity;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 
@@ -107,20 +104,24 @@ public class VolunteerProListActivity extends BaseActivity {
                     data = listBean.rows;
                     return data;
                 })
-                .compose(RxUtil.switchSchedulers()).subscribe(new BaseSubscriber<List<VolunteerProjectBean>>() {
-            @Override
-            public void onSuccess(List<VolunteerProjectBean> data) {
-                recyclerView.showContentView();
-                adapter.setNewData(data);
-                if (data.size() == 0) {
-                    recyclerView.showEmptyView("当前暂无志愿项目");
-                }
-            }
+                .compose(bindToLifecycle())
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<List<VolunteerProjectBean>>() {
+                    @Override
+                    public void onSuccess(List<VolunteerProjectBean> data) {
 
-            @Override
-            protected void onFail(ApiException e) {
-                recyclerView.showErrorView(e.getDisplayMessage());
-            }
-        });
+                        recyclerView.showContentView();
+                        adapter.setNewData(data);
+                        if (data.size() == 0) {
+                            recyclerView.showEmptyView("当前暂无志愿项目");
+                        }
+
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        recyclerView.showErrorView(e.getDisplayMessage());
+                    }
+                });
     }
 }

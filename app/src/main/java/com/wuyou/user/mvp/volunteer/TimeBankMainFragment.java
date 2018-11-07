@@ -95,6 +95,7 @@ public class TimeBankMainFragment extends BaseFragment {
                     }.getType());
                     return rowResponse.rows;
                 })
+                .compose(bindToLifecycle())
                 .doOnNext(volunteerProjectBeans -> {
                     ServeSites serveSites;
                     for (VolunteerProjectBean bean : volunteerProjectBeans) {

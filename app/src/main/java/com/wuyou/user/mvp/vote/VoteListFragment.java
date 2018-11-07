@@ -100,6 +100,7 @@ public class VoteListFragment extends BaseFragment {
                     }
                     return list;
                 })
+                .compose(bindToLifecycle())
                 .compose(RxUtil.switchSchedulers()).subscribe(new BaseSubscriber<List<EosVoteListBean.RowsBean>>() {
             @Override
             public void onSuccess(List<EosVoteListBean.RowsBean> data) {

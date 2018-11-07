@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.transition.Explode;
 import android.view.View;
 import android.view.ViewStub;
@@ -25,6 +24,8 @@ import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.LoadingDialog;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.tendcloud.tenddata.TCAgent;
+import com.trello.rxlifecycle2.components.RxActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.mvp.BasePresenter;
@@ -40,7 +41,7 @@ import butterknife.ButterKnife;
 /**
  * Created by admin on 2016/11/1.
  */
-public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<V>> extends AppCompatActivity implements IBaseView {
+public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<V>> extends RxAppCompatActivity implements IBaseView {
     View mRoot;
     protected P mPresenter;
     private int color = R.color.white;

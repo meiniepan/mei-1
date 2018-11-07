@@ -90,7 +90,9 @@ public class BlockTransactionFragment extends BaseFragment {
             FindIterable<Document> action_traces = collection.find().sort(Sorts.descending("action_traces.receipt.global_sequence")).filter(Filters.eq("action_traces.act.name", "transfer")).limit(30);
             MongoCursor<Document> iterator = action_traces.iterator();
             e.onNext(getTransactionBeans(iterator));
-        }).compose(RxUtil.switchSchedulers())
+        })
+                .compose(bindToLifecycle())
+                .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<ArrayList<TransactionBean>>() {
                     @Override
                     public void onSuccess(ArrayList<TransactionBean> transactionBeans) {
@@ -142,7 +144,9 @@ public class BlockTransactionFragment extends BaseFragment {
             FindIterable<Document> action_traces = collection.find().sort(Sorts.descending("action_traces.receipt.global_sequence")).filter(Filters.and(Filters.eq("action_traces.act.name", "transfer"), Filters.gt("action_traces.receipt.global_sequence", firstDate))).limit(20);
             MongoCursor<Document> iterator = action_traces.iterator();
             e.onNext(getTransactionBeans(iterator));
-        }).compose(RxUtil.switchSchedulers())
+        })
+                .compose(bindToLifecycle())
+                .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<ArrayList<TransactionBean>>() {
                     @Override
                     public void onSuccess(ArrayList<TransactionBean> transactionBeans) {
@@ -173,7 +177,9 @@ public class BlockTransactionFragment extends BaseFragment {
             FindIterable<Document> action_traces = collection.find().sort(Sorts.descending("action_traces.receipt.global_sequence")).filter(Filters.and(Filters.eq("action_traces.act.name", "transfer"), Filters.lt("action_traces.receipt.global_sequence", lastDate))).limit(20);
             MongoCursor<Document> iterator = action_traces.iterator();
             e.onNext(getTransactionBeans(iterator));
-        }).compose(RxUtil.switchSchedulers())
+        })
+                .compose(bindToLifecycle())
+                .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<ArrayList<TransactionBean>>() {
                     @Override
                     public void onSuccess(ArrayList<TransactionBean> transactionBeans) {

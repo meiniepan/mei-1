@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.LoadingDialog;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.mvp.BasePresenter;
@@ -29,7 +29,7 @@ import butterknife.Unbinder;
 /**
  * Created by admin on 2016/11/1.
  */
-public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<V>> extends Fragment implements IBaseView {
+public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<V>> extends RxFragment implements IBaseView {
 
     protected View mRootView;
     protected Context mCtx;

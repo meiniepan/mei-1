@@ -2,6 +2,8 @@ package com.wuyou.user.mvp.vote;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.util.Log;
 
 import com.google.gson.GsonBuilder;
 import com.gs.buluo.common.network.ApiException;
@@ -76,6 +78,7 @@ public class MyVoteListFragment extends BaseFragment {
                     Collections.reverse(data);
                     return data;
                 })
+                .compose(bindToLifecycle())
                 .compose(RxUtil.switchSchedulers()).subscribe(new BaseSubscriber<ArrayList<EosVoteListBean.RowsBean>>() {
             @Override
             public void onSuccess(ArrayList<EosVoteListBean.RowsBean> data) {
