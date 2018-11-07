@@ -146,6 +146,10 @@ public class TracePresenter extends TraceContract.Presenter {
                     }
 
                     @Override
+                    protected void onFail(ApiException e) {
+                    }
+
+                    @Override
                     protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
                         if (message.message.contains("not on the list of requested approval")) {
                             exec(position, bean);

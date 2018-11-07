@@ -16,7 +16,9 @@ import android.view.WindowManager;
 import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.ErrorBody;
+import com.gs.buluo.common.utils.AppManager;
 import com.gs.buluo.common.utils.ToastUtils;
+import com.gs.buluo.common.widget.LoadingDialog;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -25,6 +27,7 @@ import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.data.api.VolunteerProjectBean;
 import com.wuyou.user.mvp.kyc.KycAuthActivity;
 import com.wuyou.user.mvp.volunteer.ApplySuccessActivity;
+import com.wuyou.user.mvp.volunteer.VolunteerProDetailActivity;
 import com.wuyou.user.util.RxUtil;
 
 import butterknife.ButterKnife;
@@ -95,6 +98,7 @@ public class PositionChoosePanel extends Dialog {
             ToastUtils.ToastMessage(getContext(), "请先选择岗位");
             return;
         }
+        LoadingDialog.getInstance().show(getContext(), "", false);
         String id = data.id + "";
         String org = data.creator;
         String proName = data.name;
@@ -104,6 +108,7 @@ public class PositionChoosePanel extends Dialog {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
                         getContext().startActivity(new Intent(getContext(), ApplySuccessActivity.class));
+                        AppManager.getAppManager().finishActivity(VolunteerProDetailActivity.class);
                         dismiss();
                     }
 

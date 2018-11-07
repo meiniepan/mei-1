@@ -82,7 +82,6 @@ public class TraceUploadStatusFragment extends BaseFragment<TraceContract.View, 
 
     @Override
     public void approveAndExecSuccess(int position) {
-        adapter.remove(position);
         recyclerView.showEmptyView();
         ToastUtils.ToastMessage(getContext(),R.string.upload_success);
     }

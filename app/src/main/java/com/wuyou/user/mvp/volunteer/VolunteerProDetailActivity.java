@@ -242,7 +242,7 @@ public class VolunteerProDetailActivity extends BaseActivity<TimeBankRecordContr
 
     @Override
     public void rewardSuccess(int position) {
-        setResult(RESULT_OK);
+        setResult(203);
     }
 
     @Override

@@ -6,9 +6,7 @@ import android.view.View;
 
 import com.wuyou.user.R;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.activity.MainActivity;
 
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -37,5 +35,6 @@ public class ApplySuccessActivity extends BaseActivity {
                 startActivity(new Intent(getCtx(), TimeBankMainActivity.class));
                 break;
         }
+        finish();
     }
 }
