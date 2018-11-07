@@ -45,25 +45,13 @@ public class TimeBankPresenter extends TimeBankRecordContract.Presenter {
 
 
     @Override
-    void registerProject(int position, VolunteerProjectBean bean) {
-        EoscDataManager.getIns().registerTimeBank(bean.id + "", bean.creator, bean.name)
-                .compose(RxUtil.switchSchedulers())
-                .subscribe(new BaseSubscriber<JsonObject>() {
-                    @Override
-                    public void onSuccess(JsonObject jsonObject) {
-                        mView.registerSuccess(position);
-                    }
-                });
-    }
-
-    @Override
     void rewardProject(int position, VolunteerProjectBean bean) {
         EoscDataManager.getIns().rewardsTimeBank(bean.id + "", bean.creator, bean.name)
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonObject>() {
                     @Override
                     public void onSuccess(JsonObject jsonObject) {
-                        mView.registerSuccess(position);
+                        mView.rewardSuccess(position);
                     }
 
                     @Override
@@ -108,10 +96,14 @@ public class TimeBankPresenter extends TimeBankRecordContract.Presenter {
                         if (recordResponse.rows.size() == 0) {
                             mView.getAttendingDataSuccess(Collections.emptyList());
                             mView.getFinishAttendDataSuccess(Collections.emptyList());
+                            return;
                         }
                         ArrayList<VolunteerProjectBean> attendingData = new ArrayList<>();
                         ArrayList<VolunteerProjectBean> attendedData = new ArrayList<>();
                         for (VolunteerRecordBean.Participated participated : recordResponse.rows.get(0).enrolled) {
+                            if (participated.id > projectResponse.rows.size()) {
+                                continue;
+                            }
                             VolunteerProjectBean projectBean = projectResponse.rows.get(participated.id);
                             if (participated.registered == 0 && participated.rewards == 0) {
                                 projectBean.rewardsStatus = 1;

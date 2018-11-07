@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.R;
 import com.wuyou.user.view.activity.BaseActivity;
 
@@ -32,5 +33,7 @@ public class KycAuthActivity extends BaseActivity {
 
     @OnClick(R.id.btn_kyc_cinfirm)
     public void onViewClicked() {
+        ToastUtils.ToastMessage(getCtx(),"认证成功");
+        finish();
     }
 }

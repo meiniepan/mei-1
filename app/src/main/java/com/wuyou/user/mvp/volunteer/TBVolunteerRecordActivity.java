@@ -68,14 +68,9 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
     private void navigateToDetail(VolunteerProjectBean bean) {
         Intent intent = new Intent(getCtx(), VolunteerProDetailActivity.class);
         intent.putExtra(Constant.VOLUNTEER_PROJECT, bean);
-        startActivity(intent);
+        startActivityForResult(intent, 202);
     }
 
-    @Override
-    public void registerSuccess(int position) {
-        attendingRecyclerView.showProgressView();
-        mPresenter.getRecordData();
-    }
 
     @Override
     public void rewardSuccess(int position) {
@@ -223,7 +218,10 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 201 && resultCode == RESULT_OK) {
-            registerSuccess(0);
+            attendingRecyclerView.showProgressView();
+            mPresenter.getRecordData();
+        } else if (requestCode == 202 && resultCode == RESULT_OK) {
+            mPresenter.getRecordData();
         }
     }
 }

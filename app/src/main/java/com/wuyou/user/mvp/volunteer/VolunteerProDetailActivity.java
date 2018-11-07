@@ -172,9 +172,9 @@ public class VolunteerProDetailActivity extends BaseActivity<TimeBankRecordContr
         }
         String rewards;
         if (rewardsMin == rewardsMax) {
-            rewards = CommonUtil.formatPrice(rewardsMin);
+            rewards = CommonUtil.formaEos(rewardsMin);
         } else {
-            rewards = CommonUtil.formatPrice(rewardsMin) + " - " + CommonUtil.formatPrice(rewardsMax);
+            rewards = CommonUtil.formaEos(rewardsMin) + " - " + CommonUtil.formaEos(rewardsMax);
         }
         return rewards;
     }
@@ -207,6 +207,7 @@ public class VolunteerProDetailActivity extends BaseActivity<TimeBankRecordContr
                 if (data.rewardsStatus == 1) {
                     navigateToCapture();
                 } else if (data.rewardsStatus == 2) {
+                    showLoadingDialog();
                     mPresenter.rewardProject(0, data);
                 } else if (data.rewardsStatus == 0) {
                     PositionChoosePanel choosePanel = new PositionChoosePanel(getCtx(), data);
@@ -234,17 +235,14 @@ public class VolunteerProDetailActivity extends BaseActivity<TimeBankRecordContr
         if (requestCode == 201 && resultCode == RESULT_OK) {
             this.data.rewardsStatus = 2;
             setUpStatus();
+            setResult(RESULT_OK);//扫码签到成功
         }
     }
 
-    @Override
-    public void registerSuccess(int position) {
-
-    }
 
     @Override
     public void rewardSuccess(int position) {
-
+        setResult(RESULT_OK);
     }
 
     @Override

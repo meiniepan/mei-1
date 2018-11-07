@@ -233,6 +233,11 @@ public class CommonUtil {
         NumberFormat nf = new DecimalFormat("0.00");
         return nf.format(price);
     }
+    public static String formaEos(float price) {
+        NumberFormat nf = new DecimalFormat("0.0000");
+        return nf.format(price);
+    }
+
 
     public static void setEdDecimal(EditText editText, int count) {
         if (count < 0) {

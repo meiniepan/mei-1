@@ -94,6 +94,7 @@ public class HomeMapActivity extends BaseActivity implements LocationSource, AMa
             getServeData();
         } else {
             setTitleText(R.string.time_bank);
+
             setSiteDistance(serveSites);
             dismissDialog();
             setData(serveSites);

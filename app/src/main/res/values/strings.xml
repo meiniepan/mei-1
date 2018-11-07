@@ -225,6 +225,7 @@
     <string name="tb_wait_rewards">时间币待领取</string>
     <string name="tb_already_rewards">时间币已领取</string>
     <string name="to_sign_up">去签到</string>
+    <string name="upload_success">上传成功</string>
 
 
 </resources>

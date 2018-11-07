@@ -12,8 +12,6 @@ import java.util.List;
 
 public interface TimeBankRecordContract {
     interface View extends IBaseView {
-        void registerSuccess(int position);
-
         void rewardSuccess(int position);
 
         void getAttendingDataSuccess(List<VolunteerProjectBean> data);
@@ -22,8 +20,6 @@ public interface TimeBankRecordContract {
     }
 
     abstract class Presenter extends BasePresenter<View> {
-        abstract void registerProject(int position ,VolunteerProjectBean bean);
-
         abstract void rewardProject(int position,VolunteerProjectBean bean);
 
         abstract void getRecordData();

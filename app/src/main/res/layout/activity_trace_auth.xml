@@ -67,7 +67,7 @@
                 android:layout_weight="1"
                 android:text="溯源关键词" />
 
-            <TextView
+            <EditText
                 android:id="@+id/tv_trace_keyword"
                 android:layout_width="220dp"
                 android:layout_height="30dp"

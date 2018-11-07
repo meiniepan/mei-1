@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -55,7 +56,7 @@ public class TraceAuthActivity extends BaseActivity {
     @BindView(R.id.et_trace_score_num)
     EditText etTraceScoreNum;
     @BindView(R.id.tv_trace_keyword)
-    TextView tvTraceKeyword;
+    EditText tvTraceKeyword;
     @BindView(R.id.tv_trace_plus)
     TextView tvTracePlus;
     @BindView(R.id.tv_trace_hint)
@@ -74,7 +75,7 @@ public class TraceAuthActivity extends BaseActivity {
     @Override
     protected void bindView(Bundle savedInstanceState) {
         keyword = getIntent().getStringExtra(Constant.TRACE_KEY_WORD);
-        tvTraceKeyword.setText(keyword);
+        if (!TextUtils.isEmpty(keyword)) tvTraceKeyword.setText(keyword);
         setTitleIcon(R.mipmap.trace_list, v -> negativeTiList());
         data.add(addBtn);
         setTitleText(getString(R.string.trace_auth));

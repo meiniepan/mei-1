@@ -45,9 +45,9 @@ public class VolunteerProListAdapter extends BaseQuickAdapter<VolunteerProjectBe
         }
         String rewards;
         if (rewardsMin == rewardsMax){
-            rewards = CommonUtil.formatPrice(rewardsMin);
+            rewards = CommonUtil.formaEos(rewardsMin);
         }else {
-            rewards = CommonUtil.formatPrice(rewardsMin)+" - "+CommonUtil.formatPrice(rewardsMax);
+            rewards = CommonUtil.formaEos(rewardsMin)+" - "+CommonUtil.formaEos(rewardsMax);
         }
         holder.setText(R.id.tv_volunteer_pro_name, item.name)
                 .setText(R.id.tv_volunteer_pro_need, need + "")

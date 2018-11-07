@@ -72,8 +72,9 @@ public class TracePresenter extends TraceContract.Presenter {
                         TraceIPFSBean traceBean = CarefreeDaoSession.getInstance().findTraceBean(bean);
                         if (traceBean != null) {
                             traceBean.setStatus(0);
+                            bean.setStatus(0);
+                            CarefreeDaoSession.getInstance().updateTraceBean(traceBean);
                         }
-                        CarefreeDaoSession.getInstance().updateTraceBean(traceBean);
                     }
                 })
                 .compose(RxUtil.switchSchedulers())
@@ -90,7 +91,7 @@ public class TracePresenter extends TraceContract.Presenter {
 
                     @Override
                     protected void onFail(ApiException e) {
-                        mView.showError(e.getDisplayMessage(),e.getCode());
+                        mView.showError(e.getDisplayMessage(), e.getCode());
                     }
                 });
     }
@@ -132,6 +133,31 @@ public class TracePresenter extends TraceContract.Presenter {
     void approveAndExec(int position, TraceIPFSBean bean) {
         EoscDataManager.getIns().doTraceApprove()
                 .flatMap(jsonObject -> EoscDataManager.getIns().doTraceExec())
+                .doOnNext(jsonObject -> {
+                    TraceIPFSBean traceBean = CarefreeDaoSession.getInstance().findTraceBean(bean);
+                    traceBean.setStatus(1);
+                    CarefreeDaoSession.getInstance().updateTraceBean(traceBean);
+                })
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<JsonObject>() {
+                    @Override
+                    public void onSuccess(JsonObject jsonObject) {
+                        mView.approveAndExecSuccess(position);
+                    }
+
+                    @Override
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        if (message.message.contains("not on the list of requested approval")) {
+                            exec(position, bean);
+                        } else {
+                            mView.showError(message.message, code);
+                        }
+                    }
+                });
+    }
+
+    private void exec(int position, TraceIPFSBean bean) {
+        EoscDataManager.getIns().doTraceExec()
                 .doOnNext(jsonObject -> {
                     TraceIPFSBean traceBean = CarefreeDaoSession.getInstance().findTraceBean(bean);
                     traceBean.setStatus(1);

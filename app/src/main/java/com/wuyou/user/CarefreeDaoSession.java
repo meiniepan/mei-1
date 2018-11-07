@@ -204,6 +204,11 @@ public class CarefreeDaoSession {
         return daoSession.getTraceIPFSBeanDao().queryBuilder().where(TraceIPFSBeanDao.Properties.Timestamp.like(bean.getTimestamp())).unique();
     }
 
+    public List<TraceIPFSBean> getAllTraceRecord(){
+        QueryBuilder<TraceIPFSBean> traceIPFSBeanQueryBuilder = daoSession.getTraceIPFSBeanDao().queryBuilder();
+        return traceIPFSBeanQueryBuilder.where(TraceIPFSBeanDao.Properties.Account_name.like(getMainAccount().getName())).list();
+    }
+
 
     public List<TraceIPFSBean> getAllFinishedTraceRecord() {
         QueryBuilder<TraceIPFSBean> traceIPFSBeanQueryBuilder = daoSession.getTraceIPFSBeanDao().queryBuilder();

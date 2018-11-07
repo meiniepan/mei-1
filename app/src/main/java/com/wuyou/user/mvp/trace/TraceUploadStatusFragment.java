@@ -2,6 +2,7 @@ package com.wuyou.user.mvp.trace;
 
 import android.os.Bundle;
 
+import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.recyclerHelper.RefreshRecyclerView;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
@@ -83,6 +84,7 @@ public class TraceUploadStatusFragment extends BaseFragment<TraceContract.View, 
     public void approveAndExecSuccess(int position) {
         adapter.remove(position);
         recyclerView.showEmptyView();
+        ToastUtils.ToastMessage(getContext(),R.string.upload_success);
     }
 
     @Override

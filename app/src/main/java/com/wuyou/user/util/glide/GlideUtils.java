@@ -110,7 +110,7 @@ public class GlideUtils {
     //图片是centerCrop 裁剪的加载方案 ,此处因为centerCrop会覆盖掉 GlideTransform的效果
     public static void loadRoundCornerImage(Context context, String url, ImageView imageView) {
         if (url == null) return;
-        RequestOptions options = new RequestOptions().optionalTransform(new GlideCenterCropRoundTransform(context, 4, GlideCenterCropRoundTransform.CornerType.ALL));
+        RequestOptions options = new RequestOptions().placeholder(R.mipmap.default_pic).optionalTransform(new GlideCenterCropRoundTransform(context, 4, GlideCenterCropRoundTransform.CornerType.ALL));
         Glide.with(context).load(url).apply(options).into(imageView);
     }
 
