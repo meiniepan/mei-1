@@ -44,7 +44,7 @@
             android:textColor="@color/common_red"
             android:textSize="@dimen/dimens_12sp" />
 
-        <TextView
+        <Button
             android:id="@+id/tv_position_auth"
             style="@style/button_style"
             android:layout_height="48dp"

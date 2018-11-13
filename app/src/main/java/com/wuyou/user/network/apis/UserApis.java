@@ -2,6 +2,7 @@ package com.wuyou.user.network.apis;
 
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.SortedTreeMap;
+import com.wuyou.user.data.api.AuthTokenResponse;
 import com.wuyou.user.data.local.db.UserInfo;
 import com.wuyou.user.data.remote.UpdateEntity;
 
@@ -28,7 +29,7 @@ public interface UserApis {
 
     @GET("v1/captcha/{type}")
     Observable<BaseResponse> getCaptchaForCheck(@Path("type") String type,
-                                                          @QueryMap SortedTreeMap<String, String> map);
+                                                @QueryMap SortedTreeMap<String, String> map);
 
     @FormUrlEncoded
     @PUT("v1/captcha/{type}")
@@ -72,9 +73,17 @@ public interface UserApis {
             @QueryMap SortedTreeMap<String, String> map);
 
     @GET("v1/client/update")
-    Observable<BaseResponse<UpdateEntity>> checkUpdate(
-            @QueryMap SortedTreeMap<String, String> map);
+    Observable<BaseResponse<UpdateEntity>> checkUpdate(@QueryMap SortedTreeMap<String, String> map);
 
+
+    @GET("v1/ali/cloud_auth/token/{uid}")
+    Observable<BaseResponse<AuthTokenResponse>> getAuthToken(@Path("uid") String uid, @QueryMap SortedTreeMap<String, String> map);
+
+    @GET("v1/ali/cloud_auth/info/{uid}")
+    Observable<BaseResponse<AuthTokenResponse>> getAuthInfo(@Path("uid") String uid, @QueryMap SortedTreeMap<String, String> map);
+
+    @GET("v1/ali/cloud_auth/status/{uid}")
+    Observable<BaseResponse<AuthTokenResponse>> getAuthStatus(@Path("uid") String uid, @QueryMap SortedTreeMap<String, String> map);
 }
 
 

@@ -36,7 +36,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
     //这个要在项目的build.gradle中引入jitpack仓库
     implementation 'com.github.chrisbanes:PhotoView:2.1.2'
-    implementation files('libs/aliyun-oss-sdk-android-2.3.0.jar')
+    implementation files('../app/libs/aliyun-oss-sdk-android-2.2.0.jar')
     compile files('libs/bangwo8-android-sdk_v1.0.jar')
 //    implementation files('libs/okhttp-3.4.1.jar')
 //    implementation files('libs/okio-1.10.0.jar')

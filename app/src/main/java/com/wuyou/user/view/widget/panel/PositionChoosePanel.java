@@ -12,22 +12,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
+import com.alibaba.security.rp.RPSDK;
 import com.google.gson.JsonObject;
+import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.ErrorBody;
+import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.AppManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.LoadingDialog;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
-import com.wuyou.user.Constant;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.VolunteerPositionChooseAdapter;
 import com.wuyou.user.data.EoscDataManager;
+import com.wuyou.user.data.api.AuthTokenResponse;
 import com.wuyou.user.data.api.VolunteerProjectBean;
-import com.wuyou.user.mvp.kyc.KycAuthActivity;
 import com.wuyou.user.mvp.volunteer.ApplySuccessActivity;
 import com.wuyou.user.mvp.volunteer.VolunteerProDetailActivity;
+import com.wuyou.user.network.CarefreeRetrofit;
+import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.RxUtil;
 
 import butterknife.ButterKnife;
@@ -39,6 +45,8 @@ import butterknife.ButterKnife;
 public class PositionChoosePanel extends Dialog {
     VolunteerProjectBean data;
     String posName;
+
+    Button kycButton;
 
     public PositionChoosePanel(Context context, VolunteerProjectBean data) {
         super(context, R.style.bottom_dialog);
@@ -78,22 +86,42 @@ public class PositionChoosePanel extends Dialog {
                 adapter.notifyDataSetChanged();
             }
         });
-
-        findViewById(R.id.tv_position_auth).setOnClickListener(v -> {
-            navigateToTrace(data.name);
-        });
-        findViewById(R.id.tv_position_apply).setOnClickListener(v -> {
-            participateVolunteerProject();
-        });
+        kycButton = findViewById(R.id.tv_position_auth);
+        kycButton.setOnClickListener(v -> navigateToTrace(data.name));
+        findViewById(R.id.tv_position_apply).setOnClickListener(v -> participateVolunteerProject());
     }
 
     private void navigateToTrace(String name) {
-        Intent intent = new Intent(getContext(), KycAuthActivity.class);
-        intent.putExtra(Constant.TRACE_KEY_WORD, name);
-        getContext().startActivity(intent);
+        LoadingDialog.getInstance().show(getContext(), "", false);
+        CarefreeRetrofit.getInstance().createApi(UserApis.class).getAuthToken(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<BaseResponse<AuthTokenResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<AuthTokenResponse> authTokenResponse) {
+                        RPSDK.start(authTokenResponse.data.token, getContext(), audit -> setAuthResult(audit));
+                    }
+                });
+    }
+
+    private boolean isKyc = false;
+
+    private void setAuthResult(RPSDK.AUDIT audit) {
+        if (audit == RPSDK.AUDIT.AUDIT_PASS) {//认证通过
+            isKyc = true;
+            kycButton.setEnabled(false);
+            kycButton.setText(R.string.already_auth);
+        } else if (audit == RPSDK.AUDIT.AUDIT_FAIL || audit == RPSDK.AUDIT.AUDIT_EXCEPTION) { //认证不通过
+            ToastUtils.ToastMessage(getContext(), getContext().getString(R.string.auth_fail));
+        } else if (audit == RPSDK.AUDIT.AUDIT_IN_AUDIT) { //认证中，通常不会出现，只有在认证审核系统内部出现超时，未在限定时间内返回认证结果时出现。此时提示用户系统处理中，稍后查看认证结果即可。
+            ToastUtils.ToastMessage(getContext(), getContext().getString(R.string.auth_ing));
+        }
     }
 
     public void participateVolunteerProject() {
+        if (!isKyc) {
+            ToastUtils.ToastMessage(getContext(), "请先认证");
+            return;
+        }
         if (TextUtils.isEmpty(posName)) {
             ToastUtils.ToastMessage(getContext(), "请先选择岗位");
             return;

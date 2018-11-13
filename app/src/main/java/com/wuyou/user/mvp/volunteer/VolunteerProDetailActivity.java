@@ -95,6 +95,8 @@ public class VolunteerProDetailActivity extends BaseActivity<TimeBankRecordContr
         long UTCTime = System.currentTimeMillis();
         Log.e("Carefree", "setUpStatus: " + UTCTime);
         if (UTCTime < data.enroll_time * 1000) {
+
+
             volunteerDetailRight.setText("未开始");
             volunteerDetailRight.setEnabled(false);
         } else if (UTCTime > data.enroll_end_time * 1000) {

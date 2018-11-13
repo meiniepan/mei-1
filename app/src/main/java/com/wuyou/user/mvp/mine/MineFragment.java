@@ -3,10 +3,12 @@ package com.wuyou.user.mvp.mine;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.security.rp.RPSDK;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
@@ -15,6 +17,7 @@ import com.gs.buluo.common.utils.ToastUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.data.api.AuthTokenResponse;
 import com.wuyou.user.data.local.db.UserInfo;
 import com.wuyou.user.event.LoginEvent;
 import com.wuyou.user.mvp.address.AddressManagerActivity;
@@ -31,6 +34,7 @@ import com.wuyou.user.mvp.wallet.CreateOrImportAccountActivity;
 import com.wuyou.user.mvp.wallet.ScoreAccountActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.UserApis;
+import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.HelpActivity;
 import com.wuyou.user.view.activity.InfoActivity;
@@ -171,7 +175,7 @@ public class MineFragment extends BaseFragment {
                 checkDbAndAccount(intent, VoteActivity.class);
                 break;
             case R.id.mine_kyc:
-                checkDbAndAccount(intent, KycAuthActivity.class);
+                navigateAuth();
                 break;
             case R.id.mine_trace:
                 checkDbAndAccount(intent, TraceAuthActivity.class);
@@ -195,6 +199,46 @@ public class MineFragment extends BaseFragment {
             intent.setClass(mCtx, activity);
             startActivity(intent);
         }
+    }
 
+    private void navigateAuth() {
+        showLoadingDialog();
+        CarefreeRetrofit.getInstance().createApi(UserApis.class).getAuthToken(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<BaseResponse<AuthTokenResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<AuthTokenResponse> authTokenResponse) {
+                        RPSDK.start(authTokenResponse.data.token, getContext(), audit -> setAuthResult(audit));
+                    }
+                });
+    }
+
+    private void setAuthResult(RPSDK.AUDIT audit) {
+        Log.e("Carefree", "setAuthResult: " + audit);
+        if (audit == RPSDK.AUDIT.AUDIT_PASS) {//认证通过
+            checkAuthStatus();
+        } else if (audit == RPSDK.AUDIT.AUDIT_FAIL || audit == RPSDK.AUDIT.AUDIT_EXCEPTION) { //认证不通过
+            ToastUtils.ToastMessage(mCtx, getString(R.string.auth_fail));
+        } else if (audit == RPSDK.AUDIT.AUDIT_IN_AUDIT) { //认证中，通常不会出现，只有在认证审核系统内部出现超时，未在限定时间内返回认证结果时出现。此时提示用户系统处理中，稍后查看认证结果即可。
+            ToastUtils.ToastMessage(mCtx, getString(R.string.auth_ing));
+        }
+    }
+
+    public void checkAuthStatus() {
+        showLoadingDialog();
+        CarefreeRetrofit.getInstance().createApi(UserApis.class).getAuthStatus(CarefreeDaoSession.getInstance().getUserId(), QueryMapBuilder.getIns().buildGet())
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<BaseResponse<AuthTokenResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<AuthTokenResponse> authTokenResponseBaseResponse) {
+                        int status = authTokenResponseBaseResponse.data.status;
+                        if (status == 1) {
+                            Intent intent = new Intent(mCtx, KycAuthActivity.class);
+                            startActivity(intent);
+                        } else {
+                            ToastUtils.ToastMessage(mCtx, getString(R.string.auth_fail));
+                        }
+                    }
+                });
     }
 }

@@ -33,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by DELL on 2018/9/26.
@@ -252,5 +251,10 @@ public class BlockMainFragment extends BaseFragment<BlockMainContract.View, Bloc
     @Override
     public void getLastFiveSecondsDataSuccess(LinePoint linePoint) {
         generateLineData(linePoint);
+    }
+
+    @Override
+    public void showError(String message, int res) {
+        statusLayout.showErrorView(message);
     }
 }

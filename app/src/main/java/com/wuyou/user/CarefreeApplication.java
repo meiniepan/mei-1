@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
+import com.alibaba.security.rp.RPSDK;
 import com.gs.buluo.common.BaseApplication;
 import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
@@ -39,6 +40,7 @@ public class CarefreeApplication extends BaseApplication {
         initTalkingData();
         initUrl();
         initBuglyUpgrade();
+        RPSDK.initialize(this);
     }
 
     private void initTalkingData() {

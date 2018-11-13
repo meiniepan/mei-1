@@ -208,7 +208,7 @@
     <string name="arrow_left"><![CDATA[<---]]></string>
     <string name="create_vote">创建投票</string>
     <string name="check_db_to_update">检测到区块链数据库升级，需要您重新登录</string>
-    <string name="real_name">实名信息</string>
+    <string name="real_name">认证信息</string>
     <string name="please_input_id">请输入身份证号码</string>
     <string name="face_recognition">人脸识别</string>
     <string name="auth_info">认证信息</string>
@@ -226,6 +226,10 @@
     <string name="tb_already_rewards">时间币已领取</string>
     <string name="to_sign_up">去签到</string>
     <string name="upload_success">上传成功</string>
+    <string name="auth_success">认证成功</string>
+    <string name="auth_ing">系统繁忙，认证中</string>
+    <string name="auth_fail">认证失败</string>
+    <string name="already_auth">已认证</string>
 
 
 </resources>

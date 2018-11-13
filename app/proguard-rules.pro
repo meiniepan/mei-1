@@ -114,3 +114,13 @@ public void *(***);
      public static void dropTable(org.greenrobot.greendao.database.Database, boolean);
      public static void createTable(org.greenrobot.greendao.database.Database, boolean);
  }
+
+-keep class com.taobao.securityjni.**{*;}
+ -keep class com.taobao.wireless.security.**{*;}
+ -keep class com.ut.secbody.**{*;}
+ -keep class com.taobao.dp.**{*;}
+ -keep class com.alibaba.wireless.security.**{*;}
+ -keep class com.alibaba.security.rp.**{*;}
+ -keep class com.alibaba.sdk.android.**{*;}
+ -keep class com.alibaba.security.biometrics.**{*;}
+ -keep class android.taobao.windvane.**{*;}

@@ -1,5 +1,6 @@
 package com.wuyou.user.mvp.block;
 
+import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -136,6 +137,10 @@ public class BlockPresenter extends BlockMainContract.Presenter {
                     if (isAttach()) mView.getOriginDataSuccess(linePoints);
                 }
             }
+            @Override
+            protected void onFail(ApiException e) {
+                mView.showError(e.getDisplayMessage(),e.getCode());
+            }
         });
     }
 
@@ -154,6 +159,11 @@ public class BlockPresenter extends BlockMainContract.Presenter {
             public void onSuccess(Long amount) {
                 if (isAttach())
                     mView.getLastFiveSecondsDataSuccess(new LinePoint(east8time, amount + ""));
+            }
+
+            @Override
+            protected void onFail(ApiException e) {
+                mView.showError(e.getDisplayMessage(),e.getCode());
             }
         }));
     }
