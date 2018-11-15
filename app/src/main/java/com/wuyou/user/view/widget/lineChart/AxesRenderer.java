@@ -601,19 +601,19 @@ public class AxesRenderer {
             } else {
                 labelX = rawValuesTab[position][valueToDrawIndex];
             }
-
-            if (!isAxisVertical) {
+//设置折线图横坐标标签旋转
+            if (isAxisVertical) {
                 canvas.drawText(labelBuffer, labelBuffer.length - charsNumber, charsNumber, labelX, labelY,
                         labelPaintTab[position]);
             } else {
-                canvas.drawText(labelBuffer, labelBuffer.length - charsNumber, charsNumber, labelX, labelY,
-                        labelPaintTab[position]);
-//                canvas.save();
-//                canvas.translate(tiltedLabelXTranslation[position], tiltedLabelYTranslation[position]);
-//                canvas.rotate(-AXES_MUL5, labelX, labelY);
 //                canvas.drawText(labelBuffer, labelBuffer.length - charsNumber, charsNumber, labelX, labelY,
 //                        labelPaintTab[position]);
-//                canvas.restore();
+                canvas.save();
+                canvas.translate(tiltedLabelXTranslation[position], tiltedLabelYTranslation[position]);
+                canvas.rotate(-45, labelX, labelY);
+                canvas.drawText(labelBuffer, labelBuffer.length - charsNumber, charsNumber, labelX, labelY,
+                        labelPaintTab[position]);
+                canvas.restore();
             }
         }
 
