@@ -87,6 +87,9 @@ public class PositionChoosePanel extends Dialog {
             }
         });
         kycButton = findViewById(R.id.tv_position_auth);
+        if (data.kyc==0){
+            kycButton.setVisibility(View.GONE);
+        }
         kycButton.setOnClickListener(v -> navigateToTrace(data.name));
         findViewById(R.id.tv_position_apply).setOnClickListener(v -> participateVolunteerProject());
     }

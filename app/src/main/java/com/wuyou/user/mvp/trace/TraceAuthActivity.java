@@ -145,20 +145,20 @@ public class TraceAuthActivity extends BaseActivity {
                 List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(datas);
                 String path = "";
                 if (selectList != null && selectList.size() > 0) {
-                    LocalMedia localMedia = selectList.get(0);
-                    if (localMedia.isCompressed()) {
-                        path = localMedia.getCompressPath();
-                    } else if (localMedia.isCut()) {
-                        path = localMedia.getCutPath();
-                    } else {
-                        path = localMedia.getPath();
+                    for (LocalMedia localMedia : selectList) {
+                        if (localMedia.isCompressed()) {
+                            path = localMedia.getCompressPath();
+                        } else if (localMedia.isCut()) {
+                            path = localMedia.getCutPath();
+                        } else {
+                            path = localMedia.getPath();
+                        }
+                        uploadPicture(path);
                     }
                 }
-                uploadPicture(path);
             }
         }
     }
-
 
     ArrayList<String> pictureCodeList = new ArrayList<>();
 
@@ -190,7 +190,7 @@ public class TraceAuthActivity extends BaseActivity {
     private void chosePhoto() {
         PictureSelector.create(this)
                 .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .maxSelectNum(1)// 最大图片选择数量 int
+                .maxSelectNum(6)// 最大图片选择数量 int
                 .imageSpanCount(4)// 每行显示个数 int
                 .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
                 .isCamera(true)// 是否显示拍照按钮 true or false

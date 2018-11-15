@@ -35,6 +35,7 @@ import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
 import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.ErrorBody;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.CustomAlertDialog;
 import com.wuyou.user.R;
@@ -470,6 +471,15 @@ public class CaptureActivity extends BaseActivity implements Callback {
                         ToastUtils.ToastMessage(getCtx(), R.string.sign_success);
                         setResult(RESULT_OK);
                         finish();
+                    }
+
+                    @Override
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        if (message.message.contains("you have registered")) {
+                            ToastUtils.ToastMessage(getCtx(), "您已经签到了");
+                        } else {
+                            ToastUtils.ToastMessage(getCtx(), message.message);
+                        }
                     }
                 });
     }

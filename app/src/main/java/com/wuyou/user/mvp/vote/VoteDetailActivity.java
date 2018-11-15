@@ -84,7 +84,7 @@ public class VoteDetailActivity extends BaseActivity {
             peopleNum = rowsBean.voters.size() + "";
         }
         tvVoteDetailPeopleNum.setText(peopleNum);
-        tvVoteDetailCommunityName.setText(rowsBean.creator);
+        tvVoteDetailCommunityName.setText(rowsBean.organization);
         tvVoteDetailIntro.setText(rowsBean.description);
         initRv();
     }
