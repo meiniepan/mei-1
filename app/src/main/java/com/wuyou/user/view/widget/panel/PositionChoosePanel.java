@@ -87,7 +87,7 @@ public class PositionChoosePanel extends Dialog {
             }
         });
         kycButton = findViewById(R.id.tv_position_auth);
-        if (data.kyc==0){
+        if (data.kyc == 0) {
             kycButton.setVisibility(View.GONE);
         }
         kycButton.setOnClickListener(v -> navigateToTrace(data.name));
@@ -121,7 +121,7 @@ public class PositionChoosePanel extends Dialog {
     }
 
     public void participateVolunteerProject() {
-        if (!isKyc) {
+        if (!isKyc && data.kyc == 1) {
             ToastUtils.ToastMessage(getContext(), "请先认证");
             return;
         }

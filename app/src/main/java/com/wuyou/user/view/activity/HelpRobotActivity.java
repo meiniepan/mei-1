@@ -33,7 +33,6 @@ public class HelpRobotActivity extends BaseActivity implements View.OnClickListe
         initHelpService();
         startService();
         mWebView = findViewById(R.id.robot_web_view);
-        findViewById(R.id.back).setOnClickListener(this);
         settingWebView();
         mWebView.loadUrl(url);
     }

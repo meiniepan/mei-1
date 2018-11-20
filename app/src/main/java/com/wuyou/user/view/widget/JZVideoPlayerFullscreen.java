@@ -89,7 +89,6 @@ public class JZVideoPlayerFullscreen extends JZVideoPlayerStandard {
         textLayout = findViewById(R.id.text_layout);
         soundView.setOnClickListener(this);
         shareView.setOnClickListener(this);
-        findViewById(R.id.back).setOnClickListener(this);
         setLikeState();
     }
 

@@ -63,8 +63,6 @@ public class NewOrderActivity extends BaseActivity {
     TextView createOrderFee;
     @BindView(R.id.create_order_other_fee)
     TextView createOrderDoorFee;
-    @BindView(R.id.back)
-    RelativeLayout back;
     @BindView(R.id.create_order_address_person)
     TextView createOrderAddressPerson;
     @BindView(R.id.create_order_address_detail)

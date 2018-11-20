@@ -30,10 +30,9 @@ public class EosUtil {
 
     public static long getSignTimePoint(long timemilis) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00.000", Locale.getDefault());
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         String time = sdf.format(new Date(timemilis));
         try {
-            return sdf.parse(time).getTime() / 1000;
+            return sdf.parse(time).getTime() / 1000 - 3600 * 8;
         } catch (ParseException e) {
             e.printStackTrace();
         }

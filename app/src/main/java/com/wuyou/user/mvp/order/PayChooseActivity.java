@@ -58,7 +58,6 @@ public class PayChooseActivity extends BaseActivity {
         orderId = intent.getStringExtra(Constant.ORDER_ID);
         secondPay = intent.getIntExtra(Constant.SECOND_PAY, 1) + "";
         chooseGroup.setOnCheckedChangeListener((group, checkedId) -> this.checkedId = checkedId);
-        findViewById(R.id.back).setOnClickListener((v -> back()));
     }
 
     @Override
