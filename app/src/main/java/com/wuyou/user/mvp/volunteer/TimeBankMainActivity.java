@@ -11,6 +11,7 @@ import com.wuyou.user.R;
 import com.wuyou.user.adapter.MainPagerAdapter;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.CaptureActivity;
+import com.wuyou.user.view.activity.ScanActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class TimeBankMainActivity extends BaseActivity {
                 timeMainPager.setCurrentItem(0);
                 break;
             case R.id.tb_sign_ll:
-                Intent intent = new Intent(getCtx(), CaptureActivity.class);
+                Intent intent = new Intent(getCtx(), ScanActivity.class);
                 startActivity(intent);
                 break;
             case R.id.tb_mine_ll:

@@ -143,4 +143,6 @@ dependencies {
     implementation (name:'SecurityGuardSDK-external-release-5.4.94',ext:'aar')
     implementation (name:'SecurityBodySDK-external-release-5.4.66',ext:'aar')
     implementation (name:'NoCaptchaSDK-external-release-5.4.26',ext:'aar')
+    implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.3.4'
+
 }

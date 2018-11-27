@@ -233,9 +233,9 @@ public class InfoActivity extends BaseActivity {
     private void uploadAvatar(String path) {
         CarefreeDaoSession.tempAvatar = path;
         File file = new File(path);
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("avatar", file.getName(), requestFile);
-        CarefreeRetrofit.getInstance().createApi(UserApis.class).updateAvatar(CarefreeDaoSession.getInstance().getUserId(), body, QueryMapBuilder.getIns().buildPost())
+        RequestBody requestFile = RequestBody.create(MediaType.parse("application/otcet-stream"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("filename", file.getName(), requestFile);
+        CarefreeRetrofit.getInstance().createApi(UserApis.class).updateAvatar( CarefreeDaoSession.getInstance().getUserId(),body, QueryMapBuilder.getIns().buildPost())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe(new BaseSubscriber<BaseResponse>() {

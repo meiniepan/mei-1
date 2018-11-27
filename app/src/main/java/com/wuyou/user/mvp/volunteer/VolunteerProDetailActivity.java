@@ -30,6 +30,7 @@ import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.CaptureActivity;
 import com.wuyou.user.view.activity.HomeMapActivity;
+import com.wuyou.user.view.activity.ScanActivity;
 import com.wuyou.user.view.widget.panel.PositionChoosePanel;
 
 import java.util.ArrayList;
@@ -227,7 +228,7 @@ public class VolunteerProDetailActivity extends BaseActivity<TimeBankRecordContr
     }
 
     private void navigateToCapture() {
-        Intent intent = new Intent(getCtx(), CaptureActivity.class);
+        Intent intent = new Intent(getCtx(), ScanActivity.class);
         startActivityForResult(intent, 201);
     }
 

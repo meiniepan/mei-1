@@ -20,6 +20,7 @@ import com.wuyou.user.mvp.trace.TraceAuthActivity;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.CaptureActivity;
+import com.wuyou.user.view.activity.ScanActivity;
 import com.wuyou.user.view.widget.CarefreeRecyclerView;
 
 import java.util.List;
@@ -210,7 +211,7 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
     }
 
     private void navigateToScan() {
-        Intent intent = new Intent(getCtx(), CaptureActivity.class);
+        Intent intent = new Intent(getCtx(), ScanActivity.class);
         startActivityForResult(intent, 201);
     }
 

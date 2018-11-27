@@ -22,6 +22,7 @@ import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.CaptureActivity;
 import com.wuyou.user.view.activity.MainActivity;
+import com.wuyou.user.view.activity.ScanActivity;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -157,7 +158,7 @@ public class ScoreMissionActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.score_action_2:
-                Intent intent1 = new Intent(getCtx(), CaptureActivity.class);
+                Intent intent1 = new Intent(getCtx(), ScanActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.score_action_3:

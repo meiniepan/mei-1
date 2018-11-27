@@ -208,7 +208,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawablePadding="2dp"
-                        android:drawableTop="@drawable/mine_kyc"
+                        android:drawableTop="@mipmap/mine_kyc"
                         android:gravity="center"
                         android:text="KYC认证" />
 
@@ -217,7 +217,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableTop="@drawable/mine_vote"
+                        android:drawableTop="@mipmap/mine_vote"
                         android:gravity="center"
                         android:text="投票工具" />
 
@@ -226,7 +226,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableTop="@drawable/mine_explore"
+                        android:drawableTop="@mipmap/mine_explore"
                         android:gravity="center"
                         android:text="区块浏览器" />
                 </LinearLayout>
@@ -242,7 +242,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawablePadding="2dp"
-                        android:drawableTop="@drawable/mine_kyc"
+                        android:drawableTop="@mipmap/mine_kyc"
                         android:gravity="center"
                         android:text="@string/trace_auth" />
                     <TextView
@@ -251,7 +251,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:drawablePadding="2dp"
-                        android:drawableTop="@drawable/mine_kyc"
+                        android:drawableTop="@mipmap/mine_time_bank"
                         android:gravity="center"
                         android:text="@string/time_bank" />
 
