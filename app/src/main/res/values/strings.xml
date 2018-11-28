@@ -230,6 +230,8 @@
     <string name="auth_ing">系统繁忙，认证中</string>
     <string name="auth_fail">认证失败</string>
     <string name="already_auth">已认证</string>
+    <string name="zfb_pfa">支付宝代付</string>
+    <string name="wx_pfa">微信代付</string>
 
 
 </resources>

@@ -7,6 +7,9 @@ package com.wuyou.user;
 public class Constant {
     public static final String BASE_CHAIN_URL = "mainnet.eosoasis.io";
     public static final String DEV_BASE_CHAIN_URL = "192.168.1.186";
+    public static final String CHOSEN_SERVICE_TOTAL = "chosen_service_total";
+    public static final String EXTRA_PAY_WAY = "extra_pay_way";
+    public static final String PROCEEDS_QR = "proceeds_qr";
     public static String EOS_MONGO_DB = "mongodb://mainnet.eosoasis.io:27017/";
     public static String BASE_URL = "https://api.iwantmei.com/customer/";
     public static String CHAIN_URL = "http://mainnet.eosoasis.io:8889/";

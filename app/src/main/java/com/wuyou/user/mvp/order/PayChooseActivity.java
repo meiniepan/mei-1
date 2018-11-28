@@ -16,11 +16,13 @@ import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.data.api.QrEntity;
 import com.wuyou.user.data.remote.response.WxPayResponse;
 import com.wuyou.user.event.OrderEvent;
 import com.wuyou.user.event.WXPayEvent;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
+import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.PayFinishActivity;
 import com.wuyou.user.view.widget.CustomNestRadioGroup;
@@ -125,7 +127,28 @@ public class PayChooseActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> doNext());
     }
-
+    private void pfaInAli() {
+        CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
+                .getAliPayOrderInfo(orderId, QueryMapBuilder.getIns().put("uid", CarefreeDaoSession.getInstance().getUserId()).put("stage", secondPay).buildGet())
+                .subscribeOn(Schedulers.io())
+                .map(simpleResponse -> {
+                    PayTask alipay = new PayTask(this);
+                    return alipay.payV2(simpleResponse.data.response, true);
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> doNext());
+    }
+    private void pfaInWX() {
+        CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
+                .getAliPayOrderInfo(orderId, QueryMapBuilder.getIns().put("uid", CarefreeDaoSession.getInstance().getUserId()).put("stage", secondPay).buildGet())
+                .subscribeOn(Schedulers.io())
+                .map(simpleResponse -> {
+                    PayTask alipay = new PayTask(this);
+                    return alipay.payV2(simpleResponse.data.response, true);
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> doNext());
+    }
     private void doNext() {
         EventBus.getDefault().post(new OrderEvent());
         Intent intent = new Intent(getCtx(), PayFinishActivity.class);
@@ -144,8 +167,37 @@ public class PayChooseActivity extends BaseActivity {
     public void doPay(View view) {
         if (checkedId == R.id.new_order_pay_wx) {
             payInWX();
-        } else {
+        } else if(checkedId == R.id.new_order_pay_ali) {
             payInAli();
+        } else if(checkedId == R.id.new_order_pay_zfb_df) {
+            goNext();
+        } else if(checkedId == R.id.new_order_pay_wx_df) {
+            goNext();
         }
+    }
+    private void goNext() {
+//        showLoadingDialog();
+//        CarefreeRetrofit.getInstance().createApi(OrderApis.class)
+//                .getExtraPayQr(orderId, QueryMapBuilder.getIns().put("worker_id", CarefreeDaoSession.getInstance().getUserInfo().getWorker_id()).put("payment_channel", payWay).buildGet())
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new BaseSubscriber<BaseResponse<QrEntity>>() {
+//                    @Override
+//                    public void onSuccess(BaseResponse<QrEntity> response) {
+//                        String qrString = response.data.qr_code;
+//                        Intent intent = new Intent(getCtx(), ProceedsQrActivity.class);
+//                        intent.putExtra(Constant.CHOSEN_SERVICE_TOTAL, total);
+//                        if (payWay.equals("1")) {
+//                            intent.putExtra(Constant.EXTRA_PAY_WAY, "支付宝");
+//                        } else {
+//                            intent.putExtra(Constant.EXTRA_PAY_WAY, "微信");
+//                        }
+//
+//                        intent.putExtra(Constant.PROCEEDS_QR, qrString);
+//                        intent.putExtra(Constant.ORDER_ID, orderId);
+//                        startActivity(intent);
+//                        finish();
+//                    }
+//                });
     }
 }
