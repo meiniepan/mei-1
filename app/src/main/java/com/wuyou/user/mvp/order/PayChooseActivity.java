@@ -3,7 +3,7 @@ package com.wuyou.user.mvp.order;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RadioButton;
+import android.widget.LinearLayout;
 
 import com.alipay.sdk.app.PayTask;
 import com.gs.buluo.common.network.BaseResponse;
@@ -16,22 +16,21 @@ import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
-import com.wuyou.user.data.api.QrEntity;
 import com.wuyou.user.data.remote.response.WxPayResponse;
 import com.wuyou.user.event.OrderEvent;
 import com.wuyou.user.event.WXPayEvent;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
-import com.wuyou.user.network.apis.OrderApis;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.PayFinishActivity;
-import com.wuyou.user.view.widget.CustomNestRadioGroup;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -40,26 +39,21 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class PayChooseActivity extends BaseActivity {
-    @BindView(R.id.new_order_pay_wx)
-    RadioButton newOrderPayWx;
-    @BindView(R.id.new_order_pay_ali)
-    RadioButton newOrderPayAli;
-    @BindView(R.id.pay_choose_group)
-    CustomNestRadioGroup chooseGroup;
+    @BindView(R.id.ll_ali)
+    //web跳转时按需隐藏
+            LinearLayout llAli;
     private String orderId;
     private String secondPay = "1";
-    private int checkedId = R.id.new_order_pay_ali;
     private int backFlag;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        setTitleText(R.string.confirm_order);
+        setTitleText(R.string.choose_pay_method);
         EventBus.getDefault().register(this);
         Intent intent = getIntent();
         backFlag = intent.getIntExtra(Constant.BACK_FLAG, 0);
         orderId = intent.getStringExtra(Constant.ORDER_ID);
         secondPay = intent.getIntExtra(Constant.SECOND_PAY, 1) + "";
-        chooseGroup.setOnCheckedChangeListener((group, checkedId) -> this.checkedId = checkedId);
     }
 
     @Override
@@ -127,28 +121,8 @@ public class PayChooseActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> doNext());
     }
-    private void pfaInAli() {
-        CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
-                .getAliPayOrderInfo(orderId, QueryMapBuilder.getIns().put("uid", CarefreeDaoSession.getInstance().getUserId()).put("stage", secondPay).buildGet())
-                .subscribeOn(Schedulers.io())
-                .map(simpleResponse -> {
-                    PayTask alipay = new PayTask(this);
-                    return alipay.payV2(simpleResponse.data.response, true);
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> doNext());
-    }
-    private void pfaInWX() {
-        CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
-                .getAliPayOrderInfo(orderId, QueryMapBuilder.getIns().put("uid", CarefreeDaoSession.getInstance().getUserId()).put("stage", secondPay).buildGet())
-                .subscribeOn(Schedulers.io())
-                .map(simpleResponse -> {
-                    PayTask alipay = new PayTask(this);
-                    return alipay.payV2(simpleResponse.data.response, true);
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> doNext());
-    }
+
+
     private void doNext() {
         EventBus.getDefault().post(new OrderEvent());
         Intent intent = new Intent(getCtx(), PayFinishActivity.class);
@@ -157,24 +131,12 @@ public class PayChooseActivity extends BaseActivity {
         finish();
     }
 
-    private int flag = 0;
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWXPayFinish(WXPayEvent event) {
         if (event.errCode == 0) doNext();
     }
 
-    public void doPay(View view) {
-        if (checkedId == R.id.new_order_pay_wx) {
-            payInWX();
-        } else if(checkedId == R.id.new_order_pay_ali) {
-            payInAli();
-        } else if(checkedId == R.id.new_order_pay_zfb_df) {
-            goNext();
-        } else if(checkedId == R.id.new_order_pay_wx_df) {
-            goNext();
-        }
-    }
+    //代付逻辑
     private void goNext() {
 //        showLoadingDialog();
 //        CarefreeRetrofit.getInstance().createApi(OrderApis.class)
@@ -199,5 +161,24 @@ public class PayChooseActivity extends BaseActivity {
 //                        finish();
 //                    }
 //                });
+    }
+
+
+    @OnClick({R.id.ll_ali, R.id.ll_wx, R.id.ll_zfb_df, R.id.ll_wx_df})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ll_ali:
+                payInWX();
+                break;
+            case R.id.ll_wx:
+                payInAli();
+                break;
+            case R.id.ll_zfb_df:
+                goNext();
+                break;
+            case R.id.ll_wx_df:
+                goNext();
+                break;
+        }
     }
 }

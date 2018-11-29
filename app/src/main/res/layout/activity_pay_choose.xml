@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <com.wuyou.user.view.widget.CustomNestRadioGroup
+    <LinearLayout
         android:id="@+id/pay_choose_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,44 +17,54 @@
         <LinearLayout
             android:id="@+id/ll_ali"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/icon1"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@mipmap/pay_ali" />
+            <LinearLayout
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:text="@string/pay_ali" />
+                android:gravity="center_vertical"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_horizontal_margin">
+
+                <ImageView
+                    android:id="@+id/icon1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/icon_zfb" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:text="@string/pay_ali" />
 
 
-            <RadioButton
-                android:id="@+id/new_order_pay_ali"
-                android:layout_width="@dimen/radio_size"
-                android:layout_height="@dimen/radio_size"
-                android:background="@drawable/btn_radio"
-                android:button="@null"
-                android:checked="true"/>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@mipmap/icon_next" />
+            </LinearLayout>
+
+            <include layout="@layout/split_line" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_wx"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_horizontal_margin">
 
             <ImageView
                 android:id="@+id/icon2"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@mipmap/pay_wechat" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/icon_wx" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -65,23 +75,26 @@
                 android:text="@string/pay_wechat" />
 
 
-            <RadioButton
-                android:id="@+id/new_order_pay_wx"
-                android:layout_width="@dimen/radio_size"
-                android:layout_height="@dimen/radio_size"
-                android:background="@drawable/btn_radio"
-                android:button="@null" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_next" />
         </LinearLayout>
+
+        <include layout="@layout/split_line" />
+
         <LinearLayout
             android:id="@+id/ll_zfb_df"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_horizontal_margin">
 
             <ImageView
                 android:id="@+id/icon3"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@mipmap/icon_zfb_df" />
 
             <TextView
@@ -93,23 +106,26 @@
                 android:text="@string/zfb_pfa" />
 
 
-            <RadioButton
-                android:id="@+id/new_order_pay_zfb_df"
-                android:layout_width="@dimen/radio_size"
-                android:layout_height="@dimen/radio_size"
-                android:background="@drawable/btn_radio"
-                android:button="@null" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_next" />
         </LinearLayout>
+
+        <include layout="@layout/split_line" />
+
         <LinearLayout
             android:id="@+id/ll_wx_df"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_horizontal_margin">
 
             <ImageView
                 android:id="@+id/icon4"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@mipmap/icon_wx_df" />
 
             <TextView
@@ -121,14 +137,12 @@
                 android:text="@string/wx_pfa" />
 
 
-            <RadioButton
-                android:id="@+id/new_order_pay_wx_df"
-                android:layout_width="@dimen/radio_size"
-                android:layout_height="@dimen/radio_size"
-                android:background="@drawable/btn_radio"
-                android:button="@null" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/icon_next" />
         </LinearLayout>
-    </com.wuyou.user.view.widget.CustomNestRadioGroup>
+    </LinearLayout>
 
     <Button
         style="@style/button_style"
