@@ -62,9 +62,6 @@ public interface NodeosApi {
     @POST("/v1/chain/get_account")
     Observable<EosAccountInfo> getAccountInfo(@Body AccountInfoRequest body);
 
-    @POST("/v1/chain/get_currency_balance")
-    Observable<EosAccountInfo> getAccountBalance(@Body AccountInfoRequest body);
-
     @POST("/v1/chain/get_table_rows")
     Observable<JsonObject> getTable(@Body GetTableRequest body);
 

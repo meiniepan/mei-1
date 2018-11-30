@@ -48,6 +48,7 @@ import com.wuyou.user.data.remote.ShareBean;
 import com.wuyou.user.data.remote.response.WxPayResponse;
 import com.wuyou.user.event.WXPayEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
+import com.wuyou.user.mvp.order.PayChooseActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.util.CommonUtil;
@@ -224,7 +225,7 @@ public class WebActivity extends BaseActivity {
             } else if (TextUtils.equals(jsBean.MethodName, "AppGoBack")) {
                 finish();
             } else if (TextUtils.equals(jsBean.MethodName, "GoApplyPage")) {
-                payInWx(jsBean.OrderId);
+                payChoose(jsBean.OrderId);
             } else if (TextUtils.equals(jsBean.MethodName, "ShareActivity")) {
                 webView.post(() -> doShare(jsBean.CallBackName, jsBean.ActivityUrl, jsBean.ActivityTitle));
             } else if (TextUtils.equals(jsBean.MethodName, "SaveQCode")) {
@@ -247,46 +248,12 @@ public class WebActivity extends BaseActivity {
         }
     }
 
-    private IWXAPI msgApi;
 
-    private void payInWx(String order_id) {
-        msgApi = WXAPIFactory.createWXAPI(CarefreeApplication.getInstance().getApplicationContext(), null);
-        msgApi.registerApp(Constant.WX_ID);
-        CarefreeRetrofit.getInstance().createApi(MoneyApis.class).getActivityWXPayOrderInfo(order_id, QueryMapBuilder.getIns()
-                .put("uid", CarefreeDaoSession.getInstance().getUserId())
-                .put("pay_type", "APP")
-                .put("is_mini_program", "0").buildGet())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<BaseResponse<WxPayResponse>>() {
-                    @Override
-                    public void onSuccess(BaseResponse<WxPayResponse> baseResponseBaseResponse) {
-                        doPay(baseResponseBaseResponse.data);
-                    }
-                });
-    }
-
-    private void doPay(WxPayResponse data) {
-        PayReq request = new PayReq();
-        request.appId = data.appid;
-        request.partnerId = data.mch_id;
-        request.prepayId = data.prepay_id;
-        request.packageValue = "Sign=WXPay";
-        request.nonceStr = data.nonce_str;
-        request.timeStamp = data.timestamp;
-        request.sign = data.sign;
-        msgApi.sendReq(request);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onWXPayFinish(WXPayEvent event) {
-        NativeToJsBean bean = new NativeToJsBean();
-        if (event.errCode == 0) {
-            bean.ApplyStatus = "1";
-        } else {
-            bean.ApplyStatus = "2";
-        }
-        webView.post(() -> loadJSMethod(jsBean.CallBackName, new Gson().toJson(bean)));
+    private void payChoose(String orderId){
+        Intent intent = new Intent(getCtx(), PayChooseActivity.class);
+        intent.putExtra(Constant.ORDER_ID, orderId);
+        intent.putExtra(Constant.FROM_WEB, true);
+        startActivityForResult(intent,202);
     }
 
     private void doShare(String callback, String activityUrl, String activityTitle) {
@@ -413,6 +380,14 @@ public class WebActivity extends BaseActivity {
             NativeToJsBean bean = new NativeToJsBean();
             bean.Authorization = CarefreeDaoSession.getInstance().getUserInfo().getToken();
             bean.UserId = CarefreeDaoSession.getInstance().getUserId();
+            webView.post(() -> loadJSMethod(jsBean.CallBackName, new Gson().toJson(bean)));
+        }else if (resultCode==RESULT_OK &&requestCode==202){
+            NativeToJsBean bean = new NativeToJsBean();
+            if (data.getIntExtra(Constant.STATUS_CODE,0) == 1) {
+                bean.ApplyStatus = "1";
+            } else {
+                bean.ApplyStatus = "2";
+            }
             webView.post(() -> loadJSMethod(jsBean.CallBackName, new Gson().toJson(bean)));
         }
     }

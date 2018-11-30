@@ -29,7 +29,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -40,8 +39,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class PayChooseActivity extends BaseActivity {
     @BindView(R.id.ll_ali)
-    //web跳转时按需隐藏
-            LinearLayout llAli;
+    LinearLayout llAli;
     private String orderId;
     private String secondPay = "1";
     private int backFlag;
@@ -54,6 +52,9 @@ public class PayChooseActivity extends BaseActivity {
         backFlag = intent.getIntExtra(Constant.BACK_FLAG, 0);
         orderId = intent.getStringExtra(Constant.ORDER_ID);
         secondPay = intent.getIntExtra(Constant.SECOND_PAY, 1) + "";
+        if (intent.getBooleanExtra(Constant.FROM_WEB, false)) {
+            llAli.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -133,7 +134,12 @@ public class PayChooseActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWXPayFinish(WXPayEvent event) {
-        if (event.errCode == 0) doNext();
+        if (event.errCode == 0){
+            Intent intent= new Intent();
+            intent.putExtra(Constant.STATUS_CODE,1);
+            setResult(RESULT_OK);
+            doNext();
+        }
     }
 
     //代付逻辑

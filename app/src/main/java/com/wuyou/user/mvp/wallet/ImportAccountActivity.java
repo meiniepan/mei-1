@@ -108,6 +108,12 @@ public class ImportAccountActivity extends BaseActivity {
                         tvPkError.setText("私钥或账户名称不正确");
                         tvPkError.setVisibility(View.VISIBLE);
                     }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                        tvPkError.setText("私钥或账户名称不正确");
+                        tvPkError.setVisibility(View.VISIBLE);
+                    }
                 });
     }
 

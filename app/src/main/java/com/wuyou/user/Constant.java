@@ -59,6 +59,7 @@ public class Constant {
     public static final String SIGN_UP_RECORD = "sign_up_record";
     public static final String LAST_SIGN_TIME = "last_sign_time";
     public static final int COUNT_DOWN = 119;
+    public static final String FROM_WEB = "from_web";
     public static final String IMPORT_ACCOUNT = "import_account";
     public static final String SP_CHAIN_URL = "sp_chain_url";
 
@@ -70,6 +71,7 @@ public class Constant {
     public static final String HELP_SERVE_AGENT_ID = "181385";
     public static final String SIGN_POINT = "sign_point";
     public static final String ACTIVITY_URL = "activity_url";
+    public static final String STATUS_CODE = "status_code";
 
     public static String SP_BASE_URL = "base_url";
     public static String SP_WEB_URL = "web_url";

@@ -65,14 +65,14 @@ public class ScanActivity extends BaseActivity implements QRCodeView.Delegate {
             signIn(result.split("signIn://")[1]);
         } else {
             ToastUtils.ToastMessage(getCtx(), getString(R.string.wrong_qr_code));
-            mZXingView.startSpotDelay(500); // 延迟0.1秒后开始识别
+            mZXingView.startSpotDelay(2000); // 延迟0.1秒后开始识别
         }
         vibrate();
     }
 
     private void signIn(String data) {
-        showLoadingDialog();
         SignInBean bean = new Gson().fromJson(data, SignInBean.class);
+        showLoadingDialog();
         EoscDataManager.getIns().registerTimeBank(bean.id + "", bean.organizer, bean.name)
                 .compose(RxUtil.switchSchedulers())
                 .subscribe(new BaseSubscriber<JsonObject>() {
@@ -85,7 +85,7 @@ public class ScanActivity extends BaseActivity implements QRCodeView.Delegate {
 
                     @Override
                     protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
-                        mZXingView.startSpotDelay(500); // 延迟0.1秒后开始识别
+                        mZXingView.startSpotDelay(2000); // 延迟0.1秒后开始识别
                         if (message.message.contains("you have registered")) {
                             ToastUtils.ToastMessage(getCtx(), "您已经签到了");
                         } else {
