@@ -10,8 +10,6 @@ public class JSBean {
     public String MethodName ;
     public String OrderId;
     public String ActivityUrl;
-    public String ActivityTitle;
-    public String Address;
 
     @Override
     public String toString() {
@@ -23,9 +21,14 @@ public class JSBean {
                 ", ActivityUrl='" + ActivityUrl + '\'' +
                 ", ActivityTitle='" + ActivityTitle + '\'' +
                 ", Address='" + Address + '\'' +
+                ", Amount='" + Amount + '\'' +
                 ", ImgUrl='" + ImgUrl + '\'' +
                 '}';
     }
+
+    public String ActivityTitle;
+    public String Address;
+    public String Amount;
 
     public String ImgUrl;
 //    public String UserLogin;

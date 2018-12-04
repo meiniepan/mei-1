@@ -53,6 +53,7 @@ public class Constant {
     public static final String CAPTCHA_NEW_ACCOUNT = "new_account";
     public static final String CAPTCHA_CHECK_NEW_ACCOUNT = "check_new_account";
     public static final String CAPTCHA_DELETE_ACCOUNT = "remove_account";
+    public static final String ORDER_AMOUNT = "order_amount";
     public static final String CAPTCHA_CHECK_DELETE_ACCOUNT = "check_remove_account";
     public static final String CAPTCHA_UNLOCK_ACCOUNT = "unlock_secret";
     public static final String CAPTCHA_CHECK_UNLOCK_ACCOUNT = "check_unlock_secret";

@@ -29,15 +29,8 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.google.gson.Gson;
 import com.gs.buluo.common.BaseApplication;
-import com.gs.buluo.common.network.BaseResponse;
-import com.gs.buluo.common.network.BaseSubscriber;
-import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.utils.Utils;
-import com.tencent.mm.opensdk.modelpay.PayReq;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -45,12 +38,8 @@ import com.wuyou.user.data.local.JSBean;
 import com.wuyou.user.data.local.NativeToJsBean;
 import com.wuyou.user.data.remote.ServeSites;
 import com.wuyou.user.data.remote.ShareBean;
-import com.wuyou.user.data.remote.response.WxPayResponse;
-import com.wuyou.user.event.WXPayEvent;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.mvp.order.PayChooseActivity;
-import com.wuyou.user.network.CarefreeRetrofit;
-import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.GpsUtils;
 import com.wuyou.user.util.NetTool;
@@ -58,15 +47,11 @@ import com.wuyou.user.view.widget.panel.ShareBottomBoard;
 import com.wuyou.user.view.widget.panel.SingleBottomChoosePanel;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import me.shaohui.shareutil.share.ShareListener;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
@@ -83,7 +68,6 @@ public class WebActivity extends BaseActivity {
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
         setUpWebView();
         String url = getIntent().getStringExtra(Constant.WEB_INTENT);
         int type = getIntent().getIntExtra(Constant.WEB_TYPE, 0);
@@ -225,7 +209,7 @@ public class WebActivity extends BaseActivity {
             } else if (TextUtils.equals(jsBean.MethodName, "AppGoBack")) {
                 finish();
             } else if (TextUtils.equals(jsBean.MethodName, "GoApplyPage")) {
-                payChoose(jsBean.OrderId);
+                payChoose(jsBean.OrderId, jsBean.Amount);
             } else if (TextUtils.equals(jsBean.MethodName, "ShareActivity")) {
                 webView.post(() -> doShare(jsBean.CallBackName, jsBean.ActivityUrl, jsBean.ActivityTitle));
             } else if (TextUtils.equals(jsBean.MethodName, "SaveQCode")) {
@@ -249,11 +233,13 @@ public class WebActivity extends BaseActivity {
     }
 
 
-    private void payChoose(String orderId){
+    private void payChoose(String orderId, String amount) {
+        Log.e("Carefree", "payChoose: !!!!!!!!!!!!!!!!!!"+amount);
         Intent intent = new Intent(getCtx(), PayChooseActivity.class);
         intent.putExtra(Constant.ORDER_ID, orderId);
         intent.putExtra(Constant.FROM_WEB, true);
-        startActivityForResult(intent,202);
+        intent.putExtra(Constant.ORDER_AMOUNT, amount);
+        startActivityForResult(intent, 202);
     }
 
     private void doShare(String callback, String activityUrl, String activityTitle) {
@@ -274,6 +260,7 @@ public class WebActivity extends BaseActivity {
                 nativeToJsBean.ShareStatus = "1";
                 loadJSMethod(callback, new Gson().toJson(nativeToJsBean));
             }
+
 
             @Override
             public void shareFailure(Exception e) {
@@ -381,9 +368,9 @@ public class WebActivity extends BaseActivity {
             bean.Authorization = CarefreeDaoSession.getInstance().getUserInfo().getToken();
             bean.UserId = CarefreeDaoSession.getInstance().getUserId();
             webView.post(() -> loadJSMethod(jsBean.CallBackName, new Gson().toJson(bean)));
-        }else if (resultCode==RESULT_OK &&requestCode==202){
+        } else if (resultCode == RESULT_OK && requestCode == 202) {
             NativeToJsBean bean = new NativeToJsBean();
-            if (data.getIntExtra(Constant.STATUS_CODE,0) == 1) {
+            if (data.getIntExtra(Constant.STATUS_CODE, 0) == 1) {
                 bean.ApplyStatus = "1";
             } else {
                 bean.ApplyStatus = "2";
