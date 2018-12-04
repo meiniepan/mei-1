@@ -29,6 +29,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -43,6 +44,7 @@ public class PayChooseActivity extends BaseActivity {
     private String orderId;
     private String secondPay = "1";
     private int backFlag;
+    private float totalPrice;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class PayChooseActivity extends BaseActivity {
         if (intent.getBooleanExtra(Constant.FROM_WEB, false)) {
             llAli.setVisibility(View.GONE);
         }
+        totalPrice = intent.getFloatExtra(Constant.CHOSEN_SERVICE_TOTAL, 0);
     }
 
     @Override
@@ -123,6 +126,40 @@ public class PayChooseActivity extends BaseActivity {
                 .subscribe(response -> doNext());
     }
 
+    private void pfaInAli() {
+        CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
+                .getAliPayOrderInfo(orderId, QueryMapBuilder.getIns().put("uid", CarefreeDaoSession.getInstance().getUserId()).put("stage", secondPay)
+                        .put("trade_type", "NATIVE").buildGet())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> fpaNext(response.data.response, 0));
+    }
+
+    private void pfaInWX() {
+        CarefreeRetrofit.getInstance().createApi(MoneyApis.class).getWXPayOrderInfo(orderId, QueryMapBuilder.getIns()
+                .put("uid", CarefreeDaoSession.getInstance().getUserId())
+                .put("is_mini_program", "0")
+                .put("stage", secondPay)
+                .put("pay_type", "NATIVE").buildGet())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> fpaNext(response.data.code_url, 1));
+    }
+
+    private void fpaNext(String response, int isWX) {
+        Intent intent = new Intent(getCtx(), ProceedsQrActivity.class);
+        intent.putExtra(Constant.CHOSEN_SERVICE_TOTAL, totalPrice);
+        if (isWX == 0) {
+            intent.putExtra(Constant.EXTRA_PAY_WAY, "支付宝");
+        } else {
+            intent.putExtra(Constant.EXTRA_PAY_WAY, "微信");
+        }
+        intent.putExtra(Constant.PROCEEDS_QR, response);
+        intent.putExtra(Constant.ORDER_ID, orderId);
+        startActivity(intent);
+        finish();
+    }
+
 
     private void doNext() {
         EventBus.getDefault().post(new OrderEvent());
@@ -134,9 +171,9 @@ public class PayChooseActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWXPayFinish(WXPayEvent event) {
-        if (event.errCode == 0){
-            Intent intent= new Intent();
-            intent.putExtra(Constant.STATUS_CODE,1);
+        if (event.errCode == 0) {
+            Intent intent = new Intent();
+            intent.putExtra(Constant.STATUS_CODE, 1);
             setResult(RESULT_OK);
             doNext();
         }
@@ -174,16 +211,16 @@ public class PayChooseActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_ali:
-                payInWX();
-                break;
-            case R.id.ll_wx:
                 payInAli();
                 break;
+            case R.id.ll_wx:
+                payInWX();
+                break;
             case R.id.ll_zfb_df:
-                goNext();
+                pfaInAli();
                 break;
             case R.id.ll_wx_df:
-                goNext();
+                pfaInWX();
                 break;
         }
     }

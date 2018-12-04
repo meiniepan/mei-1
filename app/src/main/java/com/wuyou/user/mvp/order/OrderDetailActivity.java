@@ -257,6 +257,7 @@ public class OrderDetailActivity extends BaseActivity<OrderContract.View, OrderC
         Intent intent = new Intent(getCtx(), PayChooseActivity.class);
         intent.putExtra(Constant.ORDER_ID, beanDetail.order_id);
         intent.putExtra(Constant.SECOND_PAY, 1);
+        intent.putExtra(Constant.CHOSEN_SERVICE_TOTAL, serveAmount);
         startActivity(intent);
     }
 

@@ -91,6 +91,7 @@ public class NewOrderActivity extends BaseActivity {
     private String specId;
     private ArrayList<ServeMode> serveModes = new ArrayList<>();
     private String serveModeId;
+    private float totalPrice;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -112,7 +113,6 @@ public class NewOrderActivity extends BaseActivity {
         if (bean != null) {
             createOrderGoodsName.setText(bean.title);
             createOrderGoodsNumber.setText(bean.number + "");
-            float totalPrice;
             if (bean.spec != null) {
                 totalPrice = bean.spec.price * bean.number;
                 createOrderGoodsSpecification.setText(bean.spec.name);
@@ -182,6 +182,7 @@ public class NewOrderActivity extends BaseActivity {
         Intent intent = new Intent(getCtx(), PayChooseActivity.class);
         intent.putExtra(Constant.ORDER_ID, orderId);
         intent.putExtra(Constant.BACK_FLAG, 1);
+        intent.putExtra(Constant.CHOSEN_SERVICE_TOTAL, totalPrice);
         startActivity(intent);
         finishStack();
     }

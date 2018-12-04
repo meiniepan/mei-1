@@ -12,5 +12,6 @@ public class WxPayResponse {
     public String packageValue;
     public String nonce_str;
     public String timestamp;
+    public String code_url;
     public String sign;
 }

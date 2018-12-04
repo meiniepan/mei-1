@@ -187,6 +187,7 @@ public class OrderStatusFragment extends BaseFragment<OrderContract.View, OrderC
             case 1:
                 Intent intent = new Intent(mCtx, PayChooseActivity.class);
                 intent.putExtra(Constant.ORDER_ID, orderBean.order_id);
+                intent.putExtra(Constant.CHOSEN_SERVICE_TOTAL, orderBean.amount);
                 startActivity(intent);
                 break;
             case 2:

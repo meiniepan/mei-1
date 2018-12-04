@@ -9,11 +9,11 @@ import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
-import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.data.remote.response.SimpleResponse;
 import com.wuyou.user.network.CarefreeRetrofit;
-import com.wuyou.user.network.apis.OrderApis;
+import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.zxing.encoding.QRCode;
 import com.wuyou.user.view.activity.BaseActivity;
@@ -64,33 +64,30 @@ public class ProceedsQrActivity extends BaseActivity {
     }
 
     private void queryTimer() {
-//        Observable.interval(2, TimeUnit.SECONDS)
-//                .observeOn(Schedulers.io())
-//                .flatMap(aLong ->
-//                        CarefreeRetrofit.getInstance().createApi(OrderApis.class)
-//                                .getIsPayed(orderId, QueryMapBuilder.getIns().put("worker_id", CarefreeDaoSession.getInstance().getUserInfo().getWorker_id()).put("payment_channel", payWay).buildGet()))
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new BaseSubscriber<BaseResponse<IsPayedEntity>>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//                        mDisposable = d;
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(BaseResponse<IsPayedEntity> response) {
-//                        if (response.data.is_paid.equals("1")) {
-//                            Intent intent = new Intent(getCtx(), PayFinishActivity.class);
-//                            intent.putExtra(Constant.ORDER_ID, orderId);
-//                            startActivity(intent);
-//                            finish();
-//                        }
-//                    }
-//
-//                    @Override
-//                    protected void onFail(ApiException e) {
-//
-//                    }
-//                });
+        mDisposable = Observable.interval(2, TimeUnit.SECONDS)
+                .observeOn(Schedulers.io())
+                .flatMap(aLong ->
+                        CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
+                                .getPayStatus(orderId, QueryMapBuilder.getIns().buildGet()))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new BaseSubscriber<BaseResponse<SimpleResponse>>() {
+
+
+                    @Override
+                    public void onSuccess(BaseResponse<SimpleResponse> response) {
+                        if (response.data.is_paid==1) {
+                            Intent intent = new Intent(getCtx(), PayFinishActivity.class);
+                            intent.putExtra(Constant.ORDER_ID, orderId);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+
+                    }
+                });
     }
 
     @Override

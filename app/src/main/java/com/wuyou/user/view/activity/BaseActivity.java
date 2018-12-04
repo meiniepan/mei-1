@@ -131,7 +131,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
     }
 
     protected void setBackVisiable(int type) {
-        findViewById(R.id.back).setVisibility(type);
+        findViewById(R.id.back_base).setVisibility(type);
     }
 
     public StatusLayout baseStatusLayout;
