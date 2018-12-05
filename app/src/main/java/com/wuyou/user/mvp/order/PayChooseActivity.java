@@ -22,6 +22,7 @@ import com.wuyou.user.event.OrderEvent;
 import com.wuyou.user.event.WXPayEvent;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
+import com.wuyou.user.util.QMUIDeviceHelper;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.PayFinishActivity;
 
@@ -62,6 +63,11 @@ public class PayChooseActivity extends BaseActivity {
             llAli.setVisibility(View.GONE);
         }
         totalPrice = intent.getFloatExtra(Constant.CHOSEN_SERVICE_TOTAL, 0);
+
+        if (!QMUIDeviceHelper.isTablet(this)) {
+            findViewById(R.id.ll_zfb_df).setVisibility(View.GONE);
+            findViewById(R.id.ll_wx_df).setVisibility(View.GONE);
+        }
     }
 
     @Override
