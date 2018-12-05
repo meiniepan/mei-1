@@ -143,8 +143,4 @@
                 android:src="@mipmap/icon_next" />
         </LinearLayout>
     </LinearLayout>
-
-    <Button
-        style="@style/button_style"
-        android:onClick="doPay" />
 </LinearLayout>

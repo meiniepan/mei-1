@@ -37,7 +37,6 @@ public interface MoneyApis {
     Observable<BaseResponse<WxPayResponse>> getActivityWXPayOrderInfo(
             @Path("order_id") String orderId, @QueryMap SortedTreeMap<String, String> map);
 
-
     @FormUrlEncoded
     @POST("v1/login")
     Observable<BaseResponse<UserInfo>> doLogin(
@@ -52,4 +51,11 @@ public interface MoneyApis {
     Observable<BaseResponse<SimpleResponse>> getPayStatus(
             @Path("order_id") String orderId, @QueryMap SortedTreeMap<String, String> map);
 
+    @GET("v1/activity_order/is_paid/{order_id}")
+    Observable<BaseResponse<SimpleResponse>> getActivityPayStatus(
+            @Path("order_id") String orderId, @QueryMap SortedTreeMap<String, String> map);
+
+    @GET("v1/alipay/activity_order/{order_id}")
+    Observable<BaseResponse<SimpleResponse>> getActivityAliPayOrderInfo(
+            @Path("order_id") String orderId, @QueryMap SortedTreeMap<String, String> map);
 }

@@ -16,6 +16,7 @@ import com.wuyou.user.CarefreeApplication;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.data.remote.response.SimpleResponse;
 import com.wuyou.user.data.remote.response.WxPayResponse;
 import com.wuyou.user.event.OrderEvent;
 import com.wuyou.user.event.WXPayEvent;
@@ -28,8 +29,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Map;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -45,6 +47,7 @@ public class PayChooseActivity extends BaseActivity {
     private String secondPay = "1";
     private int backFlag;
     private float totalPrice;
+    private boolean fromWeb;
 
     @Override
     protected void bindView(Bundle savedInstanceState) {
@@ -54,7 +57,8 @@ public class PayChooseActivity extends BaseActivity {
         backFlag = intent.getIntExtra(Constant.BACK_FLAG, 0);
         orderId = intent.getStringExtra(Constant.ORDER_ID);
         secondPay = intent.getIntExtra(Constant.SECOND_PAY, 1) + "";
-        if (intent.getBooleanExtra(Constant.FROM_WEB, false)) {
+        fromWeb = intent.getBooleanExtra(Constant.FROM_WEB, false);
+        if (fromWeb) {
             llAli.setVisibility(View.GONE);
         }
         totalPrice = intent.getFloatExtra(Constant.CHOSEN_SERVICE_TOTAL, 0);
@@ -83,6 +87,7 @@ public class PayChooseActivity extends BaseActivity {
     private IWXAPI msgApi;
 
     private void payInWX() {
+        showLoadingDialog();
         msgApi = WXAPIFactory.createWXAPI(CarefreeApplication.getInstance().getApplicationContext(), null);
         msgApi.registerApp(Constant.WX_ID);
         CarefreeRetrofit.getInstance().createApi(MoneyApis.class).getWXPayOrderInfo(orderId, QueryMapBuilder.getIns()
@@ -110,11 +115,12 @@ public class PayChooseActivity extends BaseActivity {
         request.nonceStr = data.nonce_str;
         request.timeStamp = data.timestamp;
         request.sign = data.sign;
-        msgApi.sendReq(request);
+        if (msgApi != null) msgApi.sendReq(request);
     }
 
 
     private void payInAli() {
+        showLoadingDialog();
         CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
                 .getAliPayOrderInfo(orderId, QueryMapBuilder.getIns().put("uid", CarefreeDaoSession.getInstance().getUserId()).put("stage", secondPay).buildGet())
                 .subscribeOn(Schedulers.io())
@@ -123,19 +129,46 @@ public class PayChooseActivity extends BaseActivity {
                     return alipay.payV2(simpleResponse.data.response, true);
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> doNext());
+                .subscribe(new BaseSubscriber<Map<String, String>>() {
+                    @Override
+                    public void onSuccess(Map<String, String> stringStringMap) {
+                        doNext();
+                    }
+                });
     }
 
     private void pfaInAli() {
+        showLoadingDialog();
         CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
                 .getAliPayOrderInfo(orderId, QueryMapBuilder.getIns().put("uid", CarefreeDaoSession.getInstance().getUserId()).put("stage", secondPay)
                         .put("trade_type", "NATIVE").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> fpaNext(response.data.response, 0));
+                .subscribe(new BaseSubscriber<BaseResponse<SimpleResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<SimpleResponse> simpleResponseBaseResponse) {
+                        fpaNext(simpleResponseBaseResponse.data.response, 0);
+                    }
+                });
+    }
+
+    private void pfaActivityInAli() {
+        showLoadingDialog();
+        CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
+                .getActivityAliPayOrderInfo(orderId, QueryMapBuilder.getIns().put("uid", CarefreeDaoSession.getInstance().getUserId()).put("stage", secondPay)
+                        .put("trade_type", "NATIVE").buildGet())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse<SimpleResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<SimpleResponse> simpleResponseBaseResponse) {
+                        fpaNext(simpleResponseBaseResponse.data.response, 0);
+                    }
+                });
     }
 
     private void pfaInWX() {
+        showLoadingDialog();
         CarefreeRetrofit.getInstance().createApi(MoneyApis.class).getWXPayOrderInfo(orderId, QueryMapBuilder.getIns()
                 .put("uid", CarefreeDaoSession.getInstance().getUserId())
                 .put("is_mini_program", "0")
@@ -143,7 +176,47 @@ public class PayChooseActivity extends BaseActivity {
                 .put("pay_type", "NATIVE").buildGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> fpaNext(response.data.code_url, 1));
+                .subscribe(new BaseSubscriber<BaseResponse<WxPayResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<WxPayResponse> wxPayResponseBaseResponse) {
+                        fpaNext(wxPayResponseBaseResponse.data.code_url, 1);
+                    }
+                });
+    }
+
+    private void pfaActivityInWX() {
+        CarefreeRetrofit.getInstance().createApi(MoneyApis.class).getActivityWXPayOrderInfo(orderId, QueryMapBuilder.getIns()
+                .put("uid", CarefreeDaoSession.getInstance().getUserId())
+                .put("is_mini_program", "0")
+                .put("stage", secondPay)
+                .put("pay_type", "NATIVE").buildGet())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse<WxPayResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<WxPayResponse> wxPayResponseBaseResponse) {
+                        fpaNext(wxPayResponseBaseResponse.data.code_url, 1);
+                    }
+                });
+    }
+
+    private void payActivityInWX() {
+        showLoadingDialog();
+        msgApi = WXAPIFactory.createWXAPI(CarefreeApplication.getInstance().getApplicationContext(), null);
+        msgApi.registerApp(Constant.WX_ID);
+        CarefreeRetrofit.getInstance().createApi(MoneyApis.class).getActivityWXPayOrderInfo(orderId, QueryMapBuilder.getIns()
+                .put("uid", CarefreeDaoSession.getInstance().getUserId())
+                .put("is_mini_program", "0")
+                .put("stage", secondPay)
+                .put("pay_type", "APP").buildGet())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse<WxPayResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<WxPayResponse> wxPayResponseBaseResponse) {
+                        doPay(wxPayResponseBaseResponse.data);
+                    }
+                });
     }
 
     private void fpaNext(String response, int isWX) {
@@ -156,10 +229,20 @@ public class PayChooseActivity extends BaseActivity {
         }
         intent.putExtra(Constant.PROCEEDS_QR, response);
         intent.putExtra(Constant.ORDER_ID, orderId);
-        startActivity(intent);
-        finish();
+        intent.putExtra(Constant.FROM_WEB, fromWeb);
+        startActivityForResult(intent, 201);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 201 && resultCode == RESULT_OK) {
+            Intent intent = new Intent();
+            intent.putExtra(Constant.STATUS_CODE, 1);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+    }
 
     private void doNext() {
         EventBus.getDefault().post(new OrderEvent());
@@ -174,8 +257,12 @@ public class PayChooseActivity extends BaseActivity {
         if (event.errCode == 0) {
             Intent intent = new Intent();
             intent.putExtra(Constant.STATUS_CODE, 1);
-            setResult(RESULT_OK);
-            doNext();
+            setResult(RESULT_OK, intent);
+            if (fromWeb) {
+                finish();
+            } else {
+                doNext();
+            }
         }
     }
 
@@ -214,13 +301,25 @@ public class PayChooseActivity extends BaseActivity {
                 payInAli();
                 break;
             case R.id.ll_wx:
-                payInWX();
+                if (fromWeb) {
+                    payActivityInWX();
+                } else {
+                    payInWX();
+                }
                 break;
             case R.id.ll_zfb_df:
-                pfaInAli();
+                if (fromWeb) {
+                    pfaActivityInAli();
+                } else {
+                    pfaInAli();
+                }
                 break;
             case R.id.ll_wx_df:
-                pfaInWX();
+                if (fromWeb) {
+                    pfaActivityInWX();
+                } else {
+                    pfaInWX();
+                }
                 break;
         }
     }

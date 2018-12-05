@@ -9,6 +9,7 @@ import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
+import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.remote.response.SimpleResponse;
@@ -18,7 +19,6 @@ import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.zxing.encoding.QRCode;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.PayFinishActivity;
-
 
 import java.util.concurrent.TimeUnit;
 
@@ -44,6 +44,7 @@ public class ProceedsQrActivity extends BaseActivity {
     String payWay;
     String orderId;
     private Disposable mDisposable;
+    private boolean fromActivity;
 
     @Override
     protected int getContentLayout() {
@@ -56,38 +57,66 @@ public class ProceedsQrActivity extends BaseActivity {
         orderId = getIntent().getStringExtra(Constant.ORDER_ID);
         total = getIntent().getFloatExtra(Constant.CHOSEN_SERVICE_TOTAL, 0F);
         payWay = getIntent().getStringExtra(Constant.EXTRA_PAY_WAY);
+        fromActivity = getIntent().getBooleanExtra(Constant.FROM_WEB, false);
         setTitleText("收款二维码");
         tvPayType.setText(payWay);
         tvProceedsSum.setText(CommonUtil.formatPrice(total));
         ivProceedsQr.setImageBitmap(QRCode.createQRCode(qrString));
-        queryTimer();
+        if (fromActivity) {
+            queryActivityPayResult();
+        } else {
+            queryPayResult();
+        }
     }
 
-    private void queryTimer() {
+    private void queryActivityPayResult() {
         mDisposable = Observable.interval(2, TimeUnit.SECONDS)
                 .observeOn(Schedulers.io())
-                .flatMap(aLong ->
-                        CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
-                                .getPayStatus(orderId, QueryMapBuilder.getIns().buildGet()))
+                .flatMap(aLong -> CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
+                        .getActivityPayStatus(orderId, QueryMapBuilder.getIns().put("user_id", CarefreeDaoSession.getInstance().getUserId()).buildGet()))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new BaseSubscriber<BaseResponse<SimpleResponse>>() {
-
-
                     @Override
                     public void onSuccess(BaseResponse<SimpleResponse> response) {
-                        if (response.data.is_paid==1) {
-                            Intent intent = new Intent(getCtx(), PayFinishActivity.class);
-                            intent.putExtra(Constant.ORDER_ID, orderId);
-                            startActivity(intent);
-                            finish();
+                        if (response.data.is_paid == 1) {
+                            setResult();
                         }
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
-
                     }
                 });
+    }
+
+    private void queryPayResult() {
+        mDisposable = Observable.interval(2, TimeUnit.SECONDS)
+                .observeOn(Schedulers.io())
+                .flatMap(aLong -> CarefreeRetrofit.getInstance().createApi(MoneyApis.class)
+                        .getPayStatus(orderId, QueryMapBuilder.getIns().buildGet()))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new BaseSubscriber<BaseResponse<SimpleResponse>>() {
+                    @Override
+                    public void onSuccess(BaseResponse<SimpleResponse> response) {
+                        if (response.data.is_paid == 1) {
+                            setResult();
+                        }
+                    }
+
+                    @Override
+                    protected void onFail(ApiException e) {
+                    }
+                });
+    }
+
+    private void setResult() {
+        if (!fromActivity) {
+            Intent intent = new Intent(getCtx(), PayFinishActivity.class);
+            intent.putExtra(Constant.ORDER_ID, orderId);
+            startActivity(intent);
+        }
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override

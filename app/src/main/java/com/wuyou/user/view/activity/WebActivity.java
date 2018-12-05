@@ -234,11 +234,10 @@ public class WebActivity extends BaseActivity {
 
 
     private void payChoose(String orderId, String amount) {
-        Log.e("Carefree", "payChoose: !!!!!!!!!!!!!!!!!!"+amount);
         Intent intent = new Intent(getCtx(), PayChooseActivity.class);
         intent.putExtra(Constant.ORDER_ID, orderId);
         intent.putExtra(Constant.FROM_WEB, true);
-        intent.putExtra(Constant.ORDER_AMOUNT, amount);
+        intent.putExtra(Constant.CHOSEN_SERVICE_TOTAL, Float.parseFloat(amount));
         startActivityForResult(intent, 202);
     }
 
