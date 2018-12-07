@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
 public class TypeAsset implements EosType.Packer {
 
     // 
-    private static final long EOS_SYMBOL = 0x00000000534F4504L; // (int64_t(4) | (uint64_t('E') << 8) | (uint64_t('O') << 16) | (uint64_t('S') << 24))
+    private static final long EOS_SYMBOL = 0x00000000534F4504L; // (int64_t(4) | (uint64_t('E') << 8) | (uint64_t('O') << 16) | (uint64_t('SignInActivity') << 24))
 
     // 아래 table 은, eos/libraries/types/Asset.cpp 에서 가져옴.
     private static final long[] PRECISION_TABLE = {

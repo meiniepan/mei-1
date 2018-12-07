@@ -65,7 +65,7 @@ public class EcPoint {
    }
 
    /**
-    * return the field element encoded with point compression. (S 4.3.6)
+    * return the field element encoded with point compression. (SignInActivity 4.3.6)
     */
    public byte[] getEncoded() {
       if (this.isInfinity()) {

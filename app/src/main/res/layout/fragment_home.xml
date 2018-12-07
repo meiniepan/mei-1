@@ -115,7 +115,8 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="30dp"
                         android:gravity="center_vertical"
-                        android:background="@color/white">
+                        android:background="@color/white"
+                        android:visibility="gone">
                         <TextView
                             android:id="@+id/home_score_account"
                             android:layout_width="0dp"

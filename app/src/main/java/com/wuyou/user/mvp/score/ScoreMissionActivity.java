@@ -36,25 +36,25 @@ import butterknife.OnClick;
 
 public class ScoreMissionActivity extends BaseActivity {
 
-    @BindView(R.id.text_day_1)
+//    @BindView(R.id.text_day_1)
     TextView textDay1;
-    @BindView(R.id.text_day_2)
+//    @BindView(R.id.text_day_2)
     TextView textDay2;
-    @BindView(R.id.text_day_3)
+//    @BindView(R.id.text_day_3)
     TextView textDay3;
-    @BindView(R.id.text_day_4)
+//    @BindView(R.id.text_day_4)
     TextView textDay4;
-    @BindView(R.id.text_day_5)
+//    @BindView(R.id.text_day_5)
     TextView textDay5;
-    @BindView(R.id.text_day_6)
+//    @BindView(R.id.text_day_6)
     TextView textDay6;
-    @BindView(R.id.text_day_7)
+//    @BindView(R.id.text_day_7)
     TextView textDay7;
-    @BindView(R.id.score_sign_up)
+//    @BindView(R.id.score_sign_up)
     TextView scoreSignUp;
-    @BindView(R.id.sign_record_layout)
+//    @BindView(R.id.sign_record_layout)
     ConstraintLayout constraintLayout;
-    @BindView(R.id.score_sign_success)
+//    @BindView(R.id.score_sign_success)
     TextView scoreSignSuccess;
 
     private int signRecord;
@@ -149,23 +149,23 @@ public class ScoreMissionActivity extends BaseActivity {
         animationSet.start();
     }
 
-    @OnClick({R.id.score_action_1, R.id.score_action_2, R.id.score_action_3, R.id.score_sign_up})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.score_action_1:
-                Intent intent = new Intent(getCtx(), MainActivity.class);
-                intent.putExtra(Constant.MAIN_FLAG, 2);
-                startActivity(intent);
-                break;
-            case R.id.score_action_2:
-                Intent intent1 = new Intent(getCtx(), ScanActivity.class);
-                startActivity(intent1);
-                break;
-            case R.id.score_action_3:
-                break;
-            case R.id.score_sign_up:
-                signUp(signRecord == 5 ? 40 : 10);
-                break;
-        }
-    }
+//    @OnClick({R.id.score_action_1, R.id.score_action_2, R.id.score_action_3, R.id.score_sign_up})
+//    public void onViewClicked(View view) {
+//        switch (view.getId()) {
+//            case R.id.score_action_1:
+//                Intent intent = new Intent(getCtx(), MainActivity.class);
+//                intent.putExtra(Constant.MAIN_FLAG, 2);
+//                startActivity(intent);
+//                break;
+//            case R.id.score_action_2:
+//                Intent intent1 = new Intent(getCtx(), ScanActivity.class);
+//                startActivity(intent1);
+//                break;
+//            case R.id.score_action_3:
+//                break;
+//            case R.id.score_sign_up:
+//                signUp(signRecord == 5 ? 40 : 10);
+//                break;
+//        }
+//    }
 }
