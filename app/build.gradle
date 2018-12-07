@@ -18,8 +18,8 @@ android {
         applicationId "com.wuyou.user"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 15
-        versionName "1.6.3"
+        versionCode 16
+        versionName "1.6.4"
         multiDexEnabled true
         ndk { abiFilters 'armeabi', 'armeabi-v7a' ,'x86'}
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
