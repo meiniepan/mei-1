@@ -1,1 +1,1 @@
-include ':app', ':bangwo8Ui', ':shareutil', ':banner'
+include ':app', ':bangwo8Ui', ':shareutil', ':banner', ':lib-zxing'

@@ -13,14 +13,13 @@ import android.widget.TextView;
 
 import com.gs.buluo.common.widget.recyclerHelper.BaseHolder;
 import com.gs.buluo.common.widget.recyclerHelper.BaseQuickAdapter;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.api.VolunteerProjectBean;
 import com.wuyou.user.mvp.trace.TraceAuthActivity;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.activity.CaptureActivity;
-import com.wuyou.user.view.activity.ScanActivity;
 import com.wuyou.user.view.widget.CarefreeRecyclerView;
 
 import java.util.List;
@@ -211,8 +210,8 @@ public class TBVolunteerRecordActivity extends BaseActivity<TimeBankRecordContra
     }
 
     private void navigateToScan() {
-        Intent intent = new Intent(getCtx(), ScanActivity.class);
-        startActivityForResult(intent, 201);
+        Intent intent = new Intent(getCtx(), CaptureActivity.class);
+        startActivityForResult(intent, Constant.QR_REQUEST_CODE);
     }
 
     @Override

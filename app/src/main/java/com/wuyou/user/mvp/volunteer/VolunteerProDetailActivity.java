@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.utils.TribeDateUtils;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.VolunteerPositionListAdapter;
@@ -28,9 +29,7 @@ import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.util.glide.GlideUtils;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.activity.CaptureActivity;
 import com.wuyou.user.view.activity.HomeMapActivity;
-import com.wuyou.user.view.activity.ScanActivity;
 import com.wuyou.user.view.widget.panel.PositionChoosePanel;
 
 import java.util.ArrayList;
@@ -228,8 +227,8 @@ public class VolunteerProDetailActivity extends BaseActivity<TimeBankRecordContr
     }
 
     private void navigateToCapture() {
-        Intent intent = new Intent(getCtx(), ScanActivity.class);
-        startActivityForResult(intent, 201);
+        Intent intent = new Intent(getCtx(), CaptureActivity.class);
+        startActivityForResult(intent, Constant.QR_REQUEST_CODE);
     }
 
     @Override

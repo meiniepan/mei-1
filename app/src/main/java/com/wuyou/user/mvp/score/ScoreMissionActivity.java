@@ -15,14 +15,13 @@ import com.gs.buluo.common.network.ErrorBody;
 import com.gs.buluo.common.utils.DensityUtils;
 import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.gs.buluo.common.utils.ToastUtils;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.activity.CaptureActivity;
 import com.wuyou.user.view.activity.MainActivity;
-import com.wuyou.user.view.activity.ScanActivity;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -158,8 +157,8 @@ public class ScoreMissionActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.score_action_2:
-                Intent intent1 = new Intent(getCtx(), ScanActivity.class);
-                startActivity(intent1);
+                Intent intent1 = new Intent(getCtx(), CaptureActivity.class);
+                startActivityForResult(intent1,Constant.QR_REQUEST_CODE);
                 break;
             case R.id.score_action_3:
                 break;

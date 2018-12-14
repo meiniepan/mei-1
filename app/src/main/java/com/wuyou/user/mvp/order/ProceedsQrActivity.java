@@ -1,6 +1,7 @@
 package com.wuyou.user.mvp.order;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +10,8 @@ import com.gs.buluo.common.network.ApiException;
 import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
+import com.gs.buluo.common.utils.DensityUtils;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -16,7 +19,6 @@ import com.wuyou.user.data.remote.response.SimpleResponse;
 import com.wuyou.user.network.CarefreeRetrofit;
 import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.util.CommonUtil;
-import com.wuyou.user.util.zxing.encoding.QRCode;
 import com.wuyou.user.view.activity.BaseActivity;
 import com.wuyou.user.view.activity.PayFinishActivity;
 
@@ -61,7 +63,7 @@ public class ProceedsQrActivity extends BaseActivity {
         setTitleText("收款二维码");
         tvPayType.setText(payWay);
         tvProceedsSum.setText(CommonUtil.formatPrice(total));
-        ivProceedsQr.setImageBitmap(QRCode.createQRCode(qrString));
+        ivProceedsQr.setImageBitmap( CodeUtils.createImage(qrString, DensityUtils.dip2px(getCtx(),200),  DensityUtils.dip2px(getCtx(),200),null));
         if (fromActivity) {
             queryActivityPayResult();
         } else {

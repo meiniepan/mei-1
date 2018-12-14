@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/bangwo8Ui" />
             <option value="$PROJECT_DIR$/banner" />
+            <option value="$PROJECT_DIR$/lib-zxing" />
             <option value="$PROJECT_DIR$/shareutil" />
           </set>
         </option>

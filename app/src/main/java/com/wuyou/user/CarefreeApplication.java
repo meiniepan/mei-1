@@ -16,6 +16,7 @@ import com.gs.buluo.common.utils.SharePreferenceManager;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tendcloud.tenddata.TCAgent;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.wuyou.user.data.remote.UpdateEntity;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.network.CarefreeRetrofit;
@@ -41,6 +42,7 @@ public class CarefreeApplication extends BaseApplication {
         initUrl();
         initBuglyUpgrade();
         RPSDK.initialize(this);
+        ZXingLibrary.initDisplayOpinion(this);
     }
 
     private void initTalkingData() {

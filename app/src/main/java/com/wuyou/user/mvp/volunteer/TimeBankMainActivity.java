@@ -7,11 +7,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
 import com.wuyou.user.adapter.MainPagerAdapter;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.activity.CaptureActivity;
-import com.wuyou.user.view.activity.ScanActivity;
 import com.wuyou.user.view.fragment.BaseFragment;
 
 import java.util.ArrayList;
@@ -65,8 +65,8 @@ public class TimeBankMainActivity extends BaseActivity {
                 timeMainPager.setCurrentItem(0);
                 break;
             case R.id.tb_sign_ll:
-                Intent intent = new Intent(getCtx(), ScanActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(getCtx(), CaptureActivity.class);
+                startActivityForResult(intent, Constant.QR_REQUEST_CODE);
                 break;
             case R.id.tb_mine_ll:
                 setTabStatus(1);

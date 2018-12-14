@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.transition.Explode;
 import android.view.View;
 import android.view.ViewStub;
@@ -18,20 +19,28 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.gs.buluo.common.network.BaseSubscriber;
+import com.gs.buluo.common.network.ErrorBody;
 import com.gs.buluo.common.utils.AppManager;
 import com.gs.buluo.common.utils.SystemBarTintManager;
 import com.gs.buluo.common.utils.ToastUtils;
 import com.gs.buluo.common.widget.LoadingDialog;
 import com.gs.buluo.common.widget.StatusLayout;
 import com.tendcloud.tenddata.TCAgent;
-import com.trello.rxlifecycle2.components.RxActivity;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.wuyou.user.CarefreeDaoSession;
+import com.wuyou.user.Constant;
 import com.wuyou.user.R;
+import com.wuyou.user.data.EoscDataManager;
+import com.wuyou.user.data.local.SignInBean;
 import com.wuyou.user.mvp.BasePresenter;
 import com.wuyou.user.mvp.IBaseView;
 import com.wuyou.user.mvp.login.LoginActivity;
 import com.wuyou.user.util.QMUIStatusBarHelper;
+import com.wuyou.user.util.RxUtil;
 
 import java.util.ArrayList;
 
@@ -91,7 +100,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         baseStatusLayout.showProgressView();
     }
 
-    protected void enableErrorAction(){
+    protected void enableErrorAction() {
         baseStatusLayout.setErrorAction(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,7 +148,8 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
     protected void showErrMessage(String message) {
         baseStatusLayout.showErrorView(message);
     }
-    protected void  showEmpty(String message){
+
+    protected void showEmpty(String message) {
         baseStatusLayout.showEmptyView(message);
     }
 
@@ -317,6 +327,57 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
     }
 
     protected void permissionGranted() {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constant.QR_REQUEST_CODE) {
+            Bundle bundle = data.getExtras();
+            if (bundle == null) {
+                return;
+            }
+            if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                String result = bundle.getString(CodeUtils.RESULT_STRING);
+                if (TextUtils.isEmpty(result)) return;
+                if (result.contains("signIn://")) {
+                    signIn(result.split("signIn://")[1]);
+                } else {
+                    ToastUtils.ToastMessage(getCtx(), getString(R.string.wrong_qr_code));
+                }
+            }
+            if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                ToastUtils.ToastMessage(getCtx(), "二维码识别失败");
+            }
+        }
+    }
+
+    private void signIn(String data) {
+        SignInBean bean = new Gson().fromJson(data, SignInBean.class);
+        if (CarefreeDaoSession.getInstance().getMainAccount() == null) {
+            ToastUtils.ToastMessage(getCtx(), "请先创建账号");
+            return;
+        }
+        showLoadingDialog();
+        EoscDataManager.getIns().registerTimeBank(bean.id + "", bean.organizer, bean.name)
+                .compose(RxUtil.switchSchedulers())
+                .subscribe(new BaseSubscriber<JsonObject>() {
+                    @Override
+                    public void onSuccess(JsonObject jsonObject) {
+                        ToastUtils.ToastMessage(getCtx(), R.string.sign_success);
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+
+                    @Override
+                    protected void onNodeFail(int code, ErrorBody.DetailErrorBean message) {
+                        if (message.message.contains("you have registered")) {
+                            ToastUtils.ToastMessage(getCtx(), "您已经签到了");
+                        } else {
+                            ToastUtils.ToastMessage(getCtx(), message.message);
+                        }
+                    }
+                });
     }
 }
 

@@ -45,6 +45,7 @@ public class Constant {
     public static final String EOSIO_TOKEN_CONTRACT = "eosio.token";
     public static final String EOS_TIME_BANK = "timebanktime";
 
+    public static final int QR_REQUEST_CODE = 666;
     public static final int TX_EXPIRATION_IN_MILSEC = 30000;
     public static final String BACKUP_FROM_CREATE = "backup_from_create";
     public static final String TRACE_KEY_WORD = "trace_key_word";

@@ -177,9 +177,6 @@
         <activity
             android:name=".mvp.score.ScoreRecordActivity"
              />
-        <activity
-            android:name=".view.activity.CaptureActivity"
-             />
         <activity android:name=".mvp.score.SignInSuccessActivity" />
         <activity
             android:name=".view.activity.HelpActivity"
@@ -225,7 +222,6 @@
         <activity android:name=".mvp.volunteer.VolunteerProDetailActivity" />
         <activity android:name=".mvp.volunteer.TBVolunteerRecordActivity" />
         <activity android:name=".mvp.volunteer.ApplySuccessActivity" />
-        <activity android:name=".view.activity.ScanActivity" />
         <activity android:name=".mvp.order.ProceedsQrActivity" />
 
         <meta-data
