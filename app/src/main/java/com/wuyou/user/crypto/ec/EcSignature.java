@@ -90,7 +90,7 @@ public class EcSignature {
 
 
     /**
-     * Returns true if the S component is "low", that means it is below HALF_CURVE_ORDER. See <a
+     * Returns true if the SignInActivity component is "low", that means it is below HALF_CURVE_ORDER. See <a
      * href="https://github.com/bitcoin/bips/blob/master/bip-0062.mediawiki#Low_S_values_in_signatures">BIP62</a>.
      */
 
@@ -99,7 +99,7 @@ public class EcSignature {
     }
 
     /**
-     * Will automatically adjust the S component to be less than or equal to half the curve order, if necessary.
+     * Will automatically adjust the SignInActivity component to be less than or equal to half the curve order, if necessary.
      * This is required because for every signature (r,s) the signature (r, -s (mod N)) is a valid signature of
      * the same message. However, we dislike the ability to modify the bits of a Bitcoin transaction after it's
      * been signed, as that violates various assumed invariants. Thus in future only one of those forms will be
@@ -107,7 +107,7 @@ public class EcSignature {
      */
     public EcSignature toCanonicalised() {
         if (!isCanonical()) {
-            // The order of the curve is the number of valid points that exist on that curve. If S is in the upper
+            // The order of the curve is the number of valid points that exist on that curve. If SignInActivity is in the upper
             // half of the number of valid points, then bring it back to the lower half. Otherwise, imagine that
             //    N = 10
             //    s = 8, so (-8 % 10 == 2) thus both (r, 8) and (r, 2) are valid solutions.
@@ -141,7 +141,7 @@ public class EcSignature {
         }
 
         int headerByte = recId + 27 + (compressed ? 4 : 0);
-        byte[] sigData = new byte[65]; // 1 header + 32 bytes for R + 32 bytes for S
+        byte[] sigData = new byte[65]; // 1 header + 32 bytes for R + 32 bytes for SignInActivity
         sigData[0] = (byte) headerByte;
         System.arraycopy(EcTools.integerToBytes( this.r, 32), 0, sigData, 1, 32);
         System.arraycopy(EcTools.integerToBytes( this.s, 32), 0, sigData, 33, 32);

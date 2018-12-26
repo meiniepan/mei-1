@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gs.buluo.common.network.ApiException;
@@ -200,7 +199,7 @@ public class NewOrderActivity extends BaseActivity {
         AppManager.getAppManager().finishActivity(ServeCategoryListActivity.class);
     }
 
-    @OnClick({R.id.create_order_address_add, R.id.create_order_address_area, R.id.create_order_time_choose, R.id.create_order_serve_way_choose})
+    @OnClick({R.id.create_order_address_add, R.id.create_order_address_area, R.id.create_order_time_choose, R.id.create_order_serve_way_choose, R.id.create_order_spot_choose})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -220,11 +219,14 @@ public class NewOrderActivity extends BaseActivity {
                 intent.putParcelableArrayListExtra(Constant.SERVE_MODES, serveModes);
                 startActivityForResult(intent, 202);
                 break;
+            case R.id.create_order_spot_choose:
+
+                break;
         }
     }
 
-    private String serveTime="";
-    private String serveDate="";
+    private String serveTime = "";
+    private String serveDate = "";
 
     private void chooseServeTime() {
         if (timeMap == null) {
@@ -283,7 +285,7 @@ public class NewOrderActivity extends BaseActivity {
         picker.setOnStringPickListener(new LinkagePicker.OnStringPickListener() {
             @Override
             public void onPicked(String first, String second, String third) {
-                if (second.contains("无可预约时间")){
+                if (second.contains("无可预约时间")) {
                     return;
                 }
                 createOrderServeTime.setText(first + "  " + second);

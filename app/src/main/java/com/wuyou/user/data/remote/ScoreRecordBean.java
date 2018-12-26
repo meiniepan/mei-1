@@ -10,5 +10,4 @@ public class ScoreRecordBean extends BaseItemBean{
     public String points ="1";
     public String source="app签到";
     public long created_at;
-    public String id;
 }

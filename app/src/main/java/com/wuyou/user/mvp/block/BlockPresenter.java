@@ -139,7 +139,7 @@ public class BlockPresenter extends BlockMainContract.Presenter {
             }
             @Override
             protected void onFail(ApiException e) {
-                mView.showError(e.getDisplayMessage(),e.getCode());
+                if (isAttach()) mView.showError(e.getDisplayMessage(),e.getCode());
             }
         });
     }
@@ -163,7 +163,7 @@ public class BlockPresenter extends BlockMainContract.Presenter {
 
             @Override
             protected void onFail(ApiException e) {
-                mView.showError(e.getDisplayMessage(),e.getCode());
+                if (isAttach()) mView.showError(e.getDisplayMessage(),e.getCode());
             }
         }));
     }

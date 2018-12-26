@@ -223,6 +223,8 @@
         <activity android:name=".mvp.volunteer.TBVolunteerRecordActivity" />
         <activity android:name=".mvp.volunteer.ApplySuccessActivity" />
         <activity android:name=".mvp.order.ProceedsQrActivity" />
+        <activity android:name=".mvp.score.SignInActivity" />
+        <activity android:name=".mvp.score.ScoreActivity" />
 
         <meta-data
             android:name="WEIXIN_APP_ID"

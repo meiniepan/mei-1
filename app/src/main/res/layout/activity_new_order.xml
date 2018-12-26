@@ -20,6 +20,29 @@
 
             <include layout="@layout/split_area" />
 
+            <LinearLayout
+                android:id="@+id/create_order_spot_choose"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/activity_horizontal_margin_end"
+                android:background="@color/white"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/location"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tool:text="新科祥园"
+                    android:textColor="@color/common_gray"
+                    />
+                <include layout="@layout/next_layout"/>
+            </LinearLayout>
             <RelativeLayout
                 android:id="@+id/create_order_address_area"
                 android:layout_width="match_parent"
