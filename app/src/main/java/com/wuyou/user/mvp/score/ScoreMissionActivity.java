@@ -20,15 +20,9 @@ import com.wuyou.user.R;
 import com.wuyou.user.data.EoscDataManager;
 import com.wuyou.user.util.RxUtil;
 import com.wuyou.user.view.activity.BaseActivity;
-import com.wuyou.user.view.activity.CaptureActivity;
-import com.wuyou.user.view.activity.MainActivity;
-import com.wuyou.user.view.activity.ScanActivity;
 
 import java.util.Calendar;
 import java.util.Date;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by DELL on 2018/6/1.

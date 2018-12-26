@@ -12,6 +12,7 @@ import com.gs.buluo.common.network.BaseResponse;
 import com.gs.buluo.common.network.BaseSubscriber;
 import com.gs.buluo.common.network.QueryMapBuilder;
 import com.gs.buluo.common.widget.CustomAlertDialog;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.wuyou.user.CarefreeDaoSession;
 import com.wuyou.user.Constant;
 import com.wuyou.user.R;
@@ -27,7 +28,6 @@ import com.wuyou.user.network.apis.MoneyApis;
 import com.wuyou.user.network.apis.UserApis;
 import com.wuyou.user.util.CommonUtil;
 import com.wuyou.user.util.glide.GlideUtils;
-import com.wuyou.user.view.activity.CaptureActivity;
 import com.wuyou.user.view.activity.HelpActivity;
 import com.wuyou.user.view.activity.InfoActivity;
 import com.wuyou.user.view.activity.SettingActivity;
@@ -137,7 +137,7 @@ public class MineFragment extends BaseFragment {
                 });
     }
 
-    @OnClick({R.id.mine_setting,R.id.mine_scan, R.id.mine_login, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_sign_in, R.id.mine_help})
+    @OnClick({R.id.mine_setting, R.id.mine_scan, R.id.mine_login, R.id.mine_address, R.id.mine_activity, R.id.mine_info, R.id.mine_score, R.id.mine_sign_in, R.id.mine_help})
     public void onViewClicked(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
