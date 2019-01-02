@@ -15,7 +15,7 @@ public class ActivityRecordBean extends BaseItemBean {
      * price : 10000
      * fee_type : [1,2,3]
      * status : 0
-     * activity : {"activity_id":1,"title":"活动 - test","start_at":1526545800,"end_at":1526592600,"image":["http://image.iwantmei.com/171445_bMIZ_1428332.jpg"],"fee":[{"id":1,"name":"午餐","price":0},{"id":2,"name":"停车","price":0},{"id":3,"name":"座位","price":0}]}
+     * activity : {"activity_id":1,"title":"活动 - test","start_at":1526545800,"end_at":1526592600,"image":["http://image.ulaidao.cn/171445_bMIZ_1428332.jpg"],"fee":[{"id":1,"name":"午餐","price":0},{"id":2,"name":"停车","price":0},{"id":3,"name":"座位","price":0}]}
      */
 
     public float price;
@@ -30,7 +30,7 @@ public class ActivityRecordBean extends BaseItemBean {
          * title : 活动 - test
          * start_at : 1526545800
          * end_at : 1526592600
-         * image : ["http://image.iwantmei.com/171445_bMIZ_1428332.jpg"]
+         * image : ["http://image.ulaidao.cn/171445_bMIZ_1428332.jpg"]
          * fee : [{"id":1,"name":"午餐","price":0},{"id":2,"name":"停车","price":0},{"id":3,"name":"座位","price":0}]
          */
 
