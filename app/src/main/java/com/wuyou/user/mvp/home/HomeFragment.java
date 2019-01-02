@@ -90,15 +90,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     RecyclerView mainServeList;
     @BindView(R.id.home_address)
     TextView homeAddress;
-    @BindView(R.id.home_activity)
-    Banner homeActivityBanner;
-
-    @BindView(R.id.home_refresh)
-    HomeRefreshLayout refreshLayout;
-    @BindView(R.id.home_scroll_view)
-    NestedScrollView homeScrollView;
-    @BindView(R.id.home_video)
-    JZVideoPlayerFullscreen video;
 
     private String communityId = "0";
     private CommunityBean cacheCommunityBean;
@@ -120,26 +111,10 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
         if (askForPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             initLocationAndGetData();
         }
-        initBanner();
         getActivityData();
         getServeList(); //先取社区ID为0 的数据 填充界面
         getVideo();
-        refreshLayout.setOnRefreshListener(() -> {
-            getActivityData();
-            if (askForPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                getServeList();
-            }
-        });
-    }
 
-    private void initBanner() {
-        homeActivityBanner.setImageLoader(new GlideBannerLoader(true));
-        homeActivityBanner.setOffscreenPageLimit(4);
-        homeActivityBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        homeActivityBanner.setIndicatorGravity(BannerConfig.CENTER);
-        homeActivityBanner.setDelayTime(3000);
-        homeActivityBanner.isAutoPlay(true);
-//        homeActivityBanner.setPageTransformer(true, new GalleryTransformer());
     }
 
     private void initServeList() {
@@ -154,7 +129,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
 
     @Override
     protected void permissionGranted() {
-        refreshLayout.completeRefresh();
         if (mLocationClient == null) {
             initLocationAndGetData();
         }
@@ -238,12 +212,10 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
                     @Override
                     public void onSuccess(BaseResponse<CategoryListResponse> orderListResponseBaseResponse) {
                         setData(orderListResponseBaseResponse.data.list);
-                        refreshLayout.completeRefresh();
                     }
 
                     @Override
                     protected void onFail(ApiException e) {
-                        refreshLayout.completeRefresh();
                     }
                 });
     }
@@ -294,11 +266,7 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
     }
 
     public void setVideoData(HomeVideoBean videoData) {
-        homeVideoBean = videoData;
-        video.setUp(homeVideoBean.video, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, homeVideoBean.title);
-        GlideUtils.loadImage(getContext(), homeVideoBean.preview, video.thumbImageView);
-        video.addShareListener(this);
-        video.setCustomData(homeVideoBean);
+
     }
 
     private String getCurrentCommunityId(List<CommunityBean> list) {
@@ -430,9 +398,6 @@ public class HomeFragment extends BaseFragment implements JZVideoPlayerFullscree
             for (ActivityBean activityBean : activityData) {
                 images.add(activityBean.image);
             }
-            homeActivityBanner.setOnBannerListener(position -> startWebActivity(activityData.get(position).link));
-            homeActivityBanner.setImages(images);
-            homeActivityBanner.start();
         }
     }
 
