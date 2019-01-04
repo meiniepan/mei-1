@@ -11,14 +11,14 @@ public class Constant {
     public static final String EXTRA_PAY_WAY = "extra_pay_way";
     public static final String PROCEEDS_QR = "proceeds_qr";
     public static String EOS_MONGO_DB = "mongodb://mainnet.eosoasis.io:27017/";
-    public static String BASE_URL = "https://api.ulaidao.cn/customer/";
+    public static String BASE_URL = "http://api.ulaidao.cn/customer/";
     public static String CHAIN_URL = "http://mainnet.eosoasis.io:8889/";
     public static String IPFS_URL = "http://mainnet.eosoasis.io:5001/api/v0/cat?arg=";
     public static String WEB_URL = "https://activities.ulaidao.cn/";
 
     public static String ONLINE_CHAIN_URL = "http://mainnet.eosoasis.io:8889/";
-    public static String ONLINE_BASE_URL = "https://api.ulaidao.cn/customer/";
-    public static String ONLINE_WEB_URL = "https://activities.ulaidao.cn/";
+    public static String ONLINE_BASE_URL = "http://api.ulaidao.cn/customer/";
+    public static String ONLINE_WEB_URL = "http://activities.ulaidao.cn/";
     public static String ONLINE_MONGO_URL = "mongodb://mainnet.eosoasis.io:27017/";
     public static String ONLINE_IPFS_URL = "http://mainnet.eosoasis.io:5001/api/v0/cat?arg=";
     public static String DEV_BASE_URL = "https://develop.api.ulaidao.cn/customer/";
@@ -85,7 +85,7 @@ public class Constant {
     public final static String TENCENT_MAP = "腾讯地图";
 
     //    public static final String WEB_URL = "http://192.168.0.102/";
-    public static final String ABOUT_US_URL = "https://ulaidao.ulaidao.cn/apphtml/about-us.html";
+    public static final String ABOUT_US_URL = "https://app.you.ulaidao.cn/apphtml/about-us.html";
     public static final String INPUT_PHONE_FLAG = "input_phone_sign";
     public static final String PHONE = "phone";
     public static final String CAPTCHA = "captcha";
